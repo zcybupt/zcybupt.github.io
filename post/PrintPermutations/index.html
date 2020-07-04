@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1593856240116">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1593864272380">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1593856240116" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1593864272380" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -48,7 +48,13 @@
 <li>
 <ul>
 <li><a href="#%E9%A2%98%E7%9B%AE">题目</a></li>
-<li><a href="#%E9%A2%98%E8%A7%A3">题解</a></li>
+<li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
+<ul>
+<li><a href="#java">Java</a></li>
+<li><a href="#python">Python</a></li>
+<li><a href="#go">Go</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -101,7 +107,7 @@
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
         <h1 class="text-3xl font-bold lg:mt-16">字符串的全排列</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-07-02 / 1 min read
+          2020-07-02 / 2 min read
         </div>
         
           <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200702204105.png" alt="">
@@ -110,6 +116,65 @@
           <h3 id="题目">题目</h3>
 <p>打印一个字符串的全部排列, 要求不出现重复的排列</p>
 <h3 id="题解">题解</h3>
+<p>每次递归都将后续字符与当前字符交换, 如第 <code>i</code> 次递归, 将 <code>i</code> 位置之后的字符分别与 <code>i</code> 处字符交换, 将</p>
+<h4 id="java">Java</h4>
+<pre><code class="language-java">public class PrintPermutations {
+    public static void printPermutations(String str) {
+        char[] chars = str.toCharArray();
+        process(chars, 0);
+    }
+
+    public static void process(char[] chars, int i) {
+        if (i == chars.length) {
+            System.out.println(String.valueOf(chars));
+        }
+
+        for (int j = i; j &lt; chars.length; j++) {
+            swap(chars, i, j);
+            process1(chars, i + 1);
+        }
+    }
+
+    public static void swap(char[] chars, int i, int j) {
+        char tmp = chars[i];
+        chars[i] = chars[j];
+        chars[j] = tmp;
+    }
+}
+</code></pre>
+<h4 id="python">Python</h4>
+<pre><code class="language-python">def print_permutations(str_input):
+    char_arr = [i for i in str_input]
+    process(char_arr, 0)
+
+
+def process(char_arr, i):
+    arr_len = len(char_arr)
+    if i == arr_len:
+        print(''.join(char_arr))
+
+    for j in range(i, arr_len):
+        char_arr[i], char_arr[j] = char_arr[j], char_arr[i]
+        process(char_arr, i + 1)
+</code></pre>
+<h4 id="go">Go</h4>
+<pre><code class="language-go">func printPermutations(input string) {
+	charArr := []byte(input)
+	process(charArr, 0)
+}
+
+func process(charArr []byte, i int) {
+	arrLen := len(charArr)
+	if i == arrLen {
+		fmt.Println(string(charArr))
+	}
+
+	for j := i; j &lt; arrLen; j++ {
+		charArr[i], charArr[j] = charArr[j], charArr[i]
+		process(charArr, i+1)
+	}
+}
+</code></pre>
 
         </div>
 
