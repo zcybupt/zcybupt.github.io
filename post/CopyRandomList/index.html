@@ -1,0 +1,472 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CODEFANCIER</title>
+<meta name="description" content="" />
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1593855908774">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://zcybupt.github.io/styles/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-170272843-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-170272843-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://zcybupt.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1593855908774" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E9%A2%98%E7%9B%AE-leetcode-138">题目 LeetCode # 138</a></li>
+<li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
+<ul>
+<li><a href="#%E6%96%B9%E6%B3%95%E4%B8%80-%E4%BD%BF%E7%94%A8-hashmap">方法一: 使用 <code>HashMap</code></a><br>
+*
+<ul>
+<li><a href="#java">Java</a></li>
+<li><a href="#python">Python</a></li>
+</ul>
+</li>
+<li><a href="#%E6%96%B9%E6%B3%95%E4%BA%8C-%E5%A4%8D%E5%88%B6%E7%BB%93%E7%82%B9">方法二: 复制结点</a><br>
+*
+<ul>
+<li><a href="#java-2">Java</a></li>
+<li><a href="#python-2">Python</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://github.com/zcybupt" class="menu" style="animation-delay: 0.6000000000000001s" target="_blank">
+          GitHub
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://zcybupt.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">复制带随机指针的链表</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2020-03-07 / 4 min read
+        </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/2.png" alt="">
+        
+        <div class="post-content yue">
+          <h2 id="题目-leetcode-138">题目 <a href="https://leetcode-cn.com/problems/copy-list-with-random-pointer/">LeetCode # 138</a></h2>
+<p>给定一个链表，每个节点包含一个额外增加的随机指针，该指针可以指向链表中的任何节点或空节点。</p>
+<p>要求返回这个链表的 深拷贝。</p>
+<p>我们用一个由 n 个节点组成的链表来表示输入/输出中的链表。每个节点用一个 [val, random_index] 表示：</p>
+<ul>
+<li><code>val</code> ：一个表示 <code>Node.val</code> 的整数。</li>
+<li><code>random_index</code>：随机指针指向的节点索引（范围从 0 到 n-1）；如果不指向任何节点，则为  null 。</li>
+</ul>
+<p>示例 1：</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200307094114.png" alt="" loading="lazy"></figure>
+<pre><code class="language-python">输入：head = [[7,null],[13,0],[11,4],[10,2],[1,0]]
+输出：[[7,null],[13,0],[11,4],[10,2],[1,0]]
+</code></pre>
+<p>示例 2：</p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200307094124.png" alt="" loading="lazy"></figure>
+<pre><code class="language-python">输入：head = [[1,1],[2,1]]
+输出：[[1,1],[2,1]]
+</code></pre>
+<p>示例 3：</p>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200307094133.png" alt="" loading="lazy"></figure>
+<pre><code class="language-python">输入：head = [[3,null],[3,0],[3,null]]
+输出：[[3,null],[3,0],[3,null]]
+</code></pre>
+<p>示例 4：</p>
+<pre><code class="language-python">输入：head = []
+输出：[]
+解释：给定的链表为空（空指针），因此返回 null。
+</code></pre>
+<p>提示：</p>
+<ul>
+<li>-10000 &lt;= Node.val &lt;= 10000</li>
+<li>Node.random 为空（null）或指向链表中的节点。</li>
+<li>节点数目不超过 1000 。</li>
+</ul>
+<h2 id="题解">题解</h2>
+<h3 id="方法一-使用-hashmap">方法一: 使用 <code>HashMap</code></h3>
+<p>通过使用 <code>HashMap</code> 来建立原结点与复制后结点之间的对应关系, 再遍历原链表建立新结点 <code>random</code> 指针的指向关系</p>
+<h5 id="java">Java</h5>
+<pre><code class="language-java">class Node {
+    int val;
+    Node next;
+    Node random;
+
+    public Node(int val) {
+        this.val = val;
+        this.next = null;
+        this.random = null;
+    }
+}
+
+public class CopyList {
+    public static Node copyRandomList(Node head) {
+        HashMap&lt;Node, Node&gt; map = new HashMap&lt;&gt;();
+        Node tmp1 = head;
+        while (tmp1 != null) {
+            map.put(tmp1, new Node(tmp1.val));
+            tmp1 = tmp1.next;
+        }
+
+        Node tmp2 = head;
+        while (tmp2 != null) {
+            map.get(tmp2).next = map.get(tmp2.next);
+            map.get(tmp2).random = map.get(tmp2.random);
+            tmp2 = tmp2.next;
+        }
+
+        return map.get(head);
+    }
+}
+</code></pre>
+<h5 id="python">Python</h5>
+<pre><code class="language-python">class Node:
+    def __init__(self, x, next=None, random=None):
+        self.val = int(x)
+        self.next = next
+        self.random = random
+
+class CopyList:
+    def copy_random_list(self, head):
+        list_map = {}
+        tmp1 = head
+        while tmp1:
+            list_map[tmp1] = Node(tmp1.val)
+            tmp1 = tmp1.next
+        
+        tmp2 = head
+        while tmp2:
+            list_map.get(tmp2).next = list_map.get(tmp2.next)
+            list_map.get(tmp2).random = list_map.get(tmp2.random)
+            tmp2 = tmp2.next
+        
+        return list_map.get(head)
+</code></pre>
+<h3 id="方法二-复制结点">方法二: 复制结点</h3>
+<p>复制原链表结点 ( 如 <code>1-&gt;2-&gt;3</code> 复制为 <code>1-&gt;1-&gt;2-&gt;2-&gt;3-&gt;3</code> ), 再复制 <code>random</code> 指针的指向, 最后将新链表分离.</p>
+<h5 id="java-2">Java</h5>
+<pre><code class="language-Java">public class Code_13_CopyList {
+    public static Node copyRandomList(Node head) {
+        if (head == null)
+            return null;
+
+        Node tmp = head;
+        Node newNode = null;
+		
+        // 复制结点
+        while (tmp != null) {
+            newNode = new Node(tmp.val);
+            newNode.next = tmp.next;
+            tmp.next = newNode;
+            tmp = newNode.next;
+        }
+
+        tmp = head;
+        // 复制 random 指针
+        while (tmp != null) {
+            newNode = tmp.next;
+            newNode.random = tmp.random != null ? tmp.random.next : null;
+            tmp = newNode.next;
+        }
+
+        tmp = head;
+        Node next = null;
+        Node result = head.next;
+        // 分离新链表, 复原原链表
+        while (tmp != null) {
+            next = tmp.next.next;
+            newNode = tmp.next;
+            tmp.next = next;
+            newNode.next = next != null ? next.next : null;
+            tmp = next;
+        }
+
+        return result;
+    }
+}
+</code></pre>
+<h5 id="python-2">Python</h5>
+<pre><code class="language-Python">class Node:
+    def __init__(self, x, next=None, random=None):
+        self.val = int(x)
+        self.next = next
+        self.random = random
+
+class CopyList:
+    def copy_random_list(self, head):
+        if head is None:
+            return None
+        
+        tmp = head
+        
+        while tmp:
+            new_node = Node(tmp.val)
+            new_node.next = tmp.next
+            tmp.next = new_node
+            tmp = new_node.next
+            
+        tmp = head
+        while tmp:
+            new_node = tmp.next
+            new_node.random = tmp.random.next if tmp.random else None
+            tmp = new_node.next
+        
+        tmp = head
+        result = head.next
+        while tmp:
+            next = tmp.next.next
+            new_node = tmp.next
+            tmp.next = next
+            new_node.next = next.next if next else None
+            tmp = next
+        
+        return result
+</code></pre>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/zjyfY7MTi/">
+            <span class="flex-auto">Medium</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/oSB8FUkUZ/">
+            <span class="flex-auto">链表</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/sygsU_q1s/">
+            <span class="flex-auto">算法</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/uIoWQi2bzm/">
+            <span class="flex-auto">LeetCode</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://zcybupt.github.io/post/LinkedListCycle/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  环形链表
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://zcybupt.github.io/post/PartitionList/">
+                <h3 class="post-title">
+                  分隔链表
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: 'f69e1255342d00cd7bd4',
+    clientSecret: '3b9c344a90d850d00b99b0c0c7716b8f71a2f1bc',
+    repo: 'zcybupt.github.io',
+    owner: 'zcybupt',
+    admin: ['zcybupt'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+      </div>
+    </div>
+
+    <script src="https://zcybupt.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

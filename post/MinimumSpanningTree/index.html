@@ -1,0 +1,494 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CODEFANCIER</title>
+<meta name="description" content="" />
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1593855908774">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://zcybupt.github.io/styles/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-170272843-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-170272843-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://zcybupt.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1593855908774" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#kruskal-%E7%AE%97%E6%B3%95">Kruskal 算法</a>
+<ul>
+<li><a href="#java">Java</a></li>
+<li><a href="#python">Python</a></li>
+</ul>
+</li>
+<li><a href="#prim-%E7%AE%97%E6%B3%95">Prim 算法</a>
+<ul>
+<li><a href="#java-2">Java</a></li>
+<li><a href="#python-2">Python</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://github.com/zcybupt" class="menu" style="animation-delay: 0.6000000000000001s" target="_blank">
+          GitHub
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://zcybupt.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">最小生成树</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2020-06-22 / 6 min read
+        </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200622180012.png" alt="">
+        
+        <div class="post-content yue">
+          <p>最小生成树是一副连通加权无向图中一棵权值最小的生成树。一个连通图可能有多个生成树。当图中的边具有权值时，总会有一个生成树的边的权值之和小于或者等于其它生成树的边的权值之和 (<a href="%5Bhttps://zh.wikipedia.org/wiki/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91%5D(https://zh.wikipedia.org/wiki/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91)">Wikipedia</a>)。</p>
+<p>常见算法有 Kruskal 算法和 Prim 算法</p>
+<h4 id="kruskal-算法">Kruskal 算法</h4>
+<p>按照边的权重顺序（从小到大）将边加入生成树中，但是若加入该边会与生成树形成环则不加入该边。直到树中含有顶点数减一条边为止。这些边组成的就是该图的最小生成树。</p>
+<p>实现过程中, 可利用小根堆来依次返回权重最小的边, 利用<a href="https://zcybupt.github.io/post/UnionFind/">并查集</a>来避免生成树形成回路.</p>
+<h5 id="java">Java</h5>
+<p><strong>UnionFind</strong> 定义如下</p>
+<pre><code class="language-java">class UnionFind {
+    public HashMap&lt;GraphNode, GraphNode&gt; parentMap;
+    public HashMap&lt;GraphNode, Integer&gt; sizeMap;
+
+    public UnionFind(Collection&lt;GraphNode&gt; nodes) {
+        parentMap = new HashMap&lt;&gt;();
+        sizeMap = new HashMap&lt;&gt;();
+
+        // 初始化并查集, 此时每个结点自成一个集合, 指针指向它本身
+        for (GraphNode node : nodes) {
+            parentMap.put(node, node);
+            sizeMap.put(node, 1);
+        }
+    }
+
+    /**
+     * 找到代表结点并整理结点
+     *
+     * @param node 当前节点
+     * @return 代表结点
+     */
+    private GraphNode findHead(GraphNode node) {
+        GraphNode parent = parentMap.get(node);
+        if (parent != node) {
+            parent = findHead(parent);
+        }
+
+        parentMap.put(node, parent);    // 整理结点
+        return parent;
+    }
+
+    public boolean isSameSet(GraphNode node1, GraphNode node2) {
+        return findHead(node1) == findHead(node2);
+    }
+
+    public void union(GraphNode a, GraphNode b) {
+        if (a == null || b == null)
+            return;
+        GraphNode aHead = findHead(a);
+        GraphNode bHead = findHead(b);
+
+        if (aHead == bHead)
+            return;
+
+        int aSetSize = sizeMap.get(aHead);
+        int bSetSize = sizeMap.get(bHead);
+
+        if (aSetSize &lt;= bSetSize) {
+            parentMap.put(aHead, bHead);
+            sizeMap.put(bHead, aSetSize + bSetSize);
+        } else {
+            parentMap.put(bHead, aHead);
+            sizeMap.put(aHead, aSetSize + bSetSize);
+        }
+    }
+}
+</code></pre>
+<p><strong>Kruskal</strong> 实现</p>
+<pre><code class="language-java">public class KruskalMST {
+    public static Set&lt;Edge&gt; kruskalMST(Graph graph) {
+        UnionFind unionFind = new UnionFind(graph.nodes.values());
+        PriorityQueue&lt;Edge&gt; priorityQueue = new PriorityQueue&lt;&gt;((a, b)-&gt;{
+            return a.weight - b.weight;
+        });
+
+        priorityQueue.addAll(graph.edges);
+
+        Set&lt;Edge&gt; result = new HashSet&lt;&gt;();
+        while (!priorityQueue.isEmpty()) {
+            Edge edge = priorityQueue.poll();
+            if (!unionFind.isSameSet(edge.from, edge.to)) {
+                result.add(edge);
+                unionFind.union(edge.from, edge.to);
+            }
+        }
+
+        return result;
+    }
+}
+</code></pre>
+<h5 id="python">Python</h5>
+<p><code>UnionFindSet</code> 定义见<a href="https://zcybupt.github.io/post/UnionFind/#python">并查集</a></p>
+<p>由于 <code>Edge</code> 对象不能够直接比较大小, 需重写 <code>Edge</code> 的比较函数, <code>__lt__</code> 对应 <code>&lt;</code> , <code>__gt__</code> 对应 <code>&gt;</code> , 只重写其中一个, 另一个会自动取反. 比较相等时结果相同.</p>
+<pre><code class="language-python">class Edge:
+    def __init__(self, weight, from_node, to_node):
+        self.weight = weight
+        self.from_node = from_node
+        self.to_node = to_node
+
+    def __lt__(self, other):
+        # 重写 &lt; 比较函数
+        return True if self.weight &lt; other.weight else False
+</code></pre>
+<p><strong>Kruskal 实现</strong></p>
+<pre><code class="language-python">from heapq import *
+
+def kruskal_mst(graph):
+    union_find_set = UnionFindSet(graph.nodes.values())
+    heap = []
+
+    for edge in graph.edges:
+        heappush(heap, edge)
+
+    result = set()
+
+    while heap:
+        edge = heappop(heap)
+        if not union_find_set.is_same_set(edge.from_node, edge.to_node):
+            result.add(edge)
+            union_find_set.union(edge.from_node, edge.to_node)
+
+    return result
+</code></pre>
+<h4 id="prim-算法">Prim 算法</h4>
+<p>从任意一个节点开始, 将与其相连的几条边全部放入一个小根堆中, 每次弹出小根堆中权重最小的边, 获取该边的另一端节点放入集合中, 并将另一端节点的所有直接相连的边放入小根堆中, 迭代直到小根堆中的边全部取出为止.</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200623110909.png" alt="" loading="lazy"></figure>
+<h5 id="java-2">Java</h5>
+<pre><code class="language-java">public class PrimMST {
+    public static Set&lt;Edge&gt; primMST(Graph graph) {
+        PriorityQueue&lt;Edge&gt; priorityQueue = new PriorityQueue&lt;&gt;((a, b) -&gt; {
+            return a.weight - b.weight;
+        });
+        HashSet&lt;GraphNode&gt; set = new HashSet&lt;&gt;();
+        Set&lt;Edge&gt; result = new HashSet&lt;&gt;();
+		
+        // 遍历所有节点, 考虑到可能有多棵生成树不相连的情况
+        for (GraphNode node : graph.nodes.values()) {
+            if (!set.contains(node)) {
+                set.add(node);
+                priorityQueue.addAll(node.edges);
+
+                while (!priorityQueue.isEmpty()) {
+                    Edge edge = priorityQueue.poll();
+                    GraphNode toNode = edge.to;
+                    if (!set.contains(toNode)) {
+                        set.add(toNode);
+                        result.add(edge);
+                        priorityQueue.addAll(toNode.edges);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        // Prim 算法需沿着边迭代加入点, 故建立无向图时需建立双向指针
+        Integer[][] nodes = {
+                {6, 1, 2}, {6, 2, 1},
+                {1, 1, 3}, {1, 3, 1},
+                {5, 1, 4}, {5, 4, 1},
+                {5, 2, 3}, {5, 3, 2},
+                {3, 2, 5}, {3, 5, 2},
+                {5, 3, 4}, {5, 4, 3},
+                {4, 3, 6}, {4, 6, 3},
+                {6, 3, 5}, {6, 5, 3},
+                {2, 4, 6}, {2, 6, 4},
+                {6, 5, 6}, {6, 6, 5}
+        };
+        Graph graph = Code_26_GraphBuilder.createGraph(nodes);
+        Set&lt;Edge&gt; result = primMST(graph);
+        for (Edge edge : result) {
+            System.out.println(edge.weight);
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-java">1 3 2 4 5
+</code></pre>
+<h5 id="python-2">Python</h5>
+<pre><code class="language-python">def prim_mst(graph):
+    edge_heap = []
+    node_set = set()
+    result = set()
+
+    for node in graph.nodes.values():
+        if node not in node_set:
+            node_set.add(node)
+            for edge in node.edges:
+                heappush(edge_heap, edge)
+
+            while edge_heap:
+                edge = heappop(edge_heap)
+                to_node = edge.to_node
+                if to_node not in node_set:
+                    node_set.add(to_node)
+                    result.add(edge)
+                    for next_edge in to_node.edges:
+                        heappush(edge_heap, next_edge)
+    return result
+</code></pre>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/oX_1wl8kW/">
+            <span class="flex-auto">图</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/9dXlaFtSe/">
+            <span class="flex-auto">并查集</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/sygsU_q1s/">
+            <span class="flex-auto">算法</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://zcybupt.github.io/post/MinimalPathSum/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  二维数组最小路径和
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://zcybupt.github.io/post/TopologySort/">
+                <h3 class="post-title">
+                  拓扑排序算法
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: 'f69e1255342d00cd7bd4',
+    clientSecret: '3b9c344a90d850d00b99b0c0c7716b8f71a2f1bc',
+    repo: 'zcybupt.github.io',
+    owner: 'zcybupt',
+    admin: ['zcybupt'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+      </div>
+    </div>
+
+    <script src="https://zcybupt.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

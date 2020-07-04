@@ -1,0 +1,653 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CODEFANCIER</title>
+<meta name="description" content="" />
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1593855908774">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://zcybupt.github.io/styles/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-170272843-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-170272843-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://zcybupt.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1593855908774" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E9%A2%98%E7%9B%AE">题目</a>
+<ul>
+<li><a href="#%E8%A6%81%E6%B1%82">要求</a></li>
+<li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
+<ul>
+<li><a href="#%E5%AE%9E%E7%8E%B0">实现</a>
+<ul>
+<li><a href="#java">Java</a></li>
+<li><a href="#python">Python</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E4%BE%8B%E9%A2%98-leetcode-160">例题 LeetCode # 160</a><br>
+*<br>
+*<br>
+* <a href="#java-2">Java</a><br>
+* <a href="#python-2">Python</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://github.com/zcybupt" class="menu" style="animation-delay: 0.6000000000000001s" target="_blank">
+          GitHub
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://zcybupt.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">链表相交问题</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2020-03-09 / 9 min read
+        </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/2.png" alt="">
+        
+        <div class="post-content yue">
+          <h2 id="题目">题目</h2>
+<p>给定两个<strong>单链表</strong>的头结点 <code>head1</code> 和 <code>head2</code> , 这两个链表<strong>可能有环也可能无环</strong>, 请判断这两个链表是否相交, 若相交则返回第一个相交结点</p>
+<h3 id="要求">要求</h3>
+<p>如果链表的长度分别为 <code>M</code> 和 <code>N</code> , 时间复杂度为 <code>O(M+N)</code> , 额外空间复杂度为 <code>O(1)</code></p>
+<h3 id="题解">题解</h3>
+<p>可采用先将一个链表中的结点放入 <code>HashSet</code> 中, 再遍历另一个链表判断结点是否已在该 <code>HashSet</code> 中的方法, 但额外空间复杂度不符合条件.</p>
+<p>不使用 <code>HashSet</code> 的解法:</p>
+<p>先<a href="https://zcybupt.github.io/post/LinkedListCycle/">判断链表是否有环</a></p>
+<ol>
+<li>
+<p>若链表无环</p>
+<p>此时若两链表相交则至少共用两链表的最后一个结点, 只需判断两链表的最后一个结点是否相同即可. 若要找到第一个相交结点需先统计链表长度 <code>L1</code> 和 <code>L2</code> , 较长的链表的指针先移动 <code>abs(L1-L2)</code> 步, 剩余的部分即与较短的链表长度相同, 再同时移动相同步数后即可找到第一个相交结点.</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200309152208.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>若一个链表有环一个无环</p>
+<p>此时对两个单链表来说二者不可能相交</p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200309152026.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>若两个链表都有环</p>
+<p>此时有三种情况</p>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200309151404.png" alt="" loading="lazy"></figure>
+<ul>
+<li>若两个链表的入环结点相同, 则为图2</li>
+<li>若另两个链表的入环结点不同, 则可能有图 1 和图 3 两种可能. 可从一个入环结点开始继续遍历, 若再次遍历回该结点之前经过了另一个入环结点则为图 3 情况, 否则为图 1 情况, 即二者不相交.</li>
+</ul>
+</li>
+</ol>
+<h4 id="实现">实现</h4>
+<h5 id="java">Java</h5>
+<pre><code class="language-java">class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
+    }
+}
+
+public class IntersectionList {
+    public static ListNode getEntrance(ListNode head) {
+        if (head == null || head.next == null || head.next.next == null)
+            return null;
+
+        ListNode slow = head.next;
+        ListNode fast = head.next.next;
+
+        while (slow != fast) {
+            if (fast.next == null || fast.next.next == null)
+                return null;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        fast = head;
+
+        while (fast != slow) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+
+        return slow;
+    }
+
+    /**
+     * 当 entranceA 和 entranceB 设为 null 时, 为求两个无环链表的交点,
+     * 当 entranceA 和 entranceB 不为 null 时, 为求交点在入环结点前的两个链表的交点
+     *
+     * @param headA     链表 1 的头结点
+     * @param entranceA 链表 1 的入环结点, 若无环则为 null
+     * @param headB     链表 2 的头结点
+     * @param entranceB 链表 2 的入环结点, 若无环则为 null
+     * @return 两链表的交点
+     */
+    public ListNode getNodeHelper1(ListNode headA, ListNode entranceA, ListNode headB, ListNode entranceB) {
+        ListNode tmpA = headA;
+        ListNode tmpB = headB;
+        int count = 0;
+
+        while (tmpA != entranceA) {
+            count++;
+            tmpA = tmpA.next;
+        }
+
+        while (tmpB != entranceB) {
+            count--;
+            tmpB = tmpB.next;
+        }
+
+        if (tmpA != tmpB)
+            return null;
+
+        // 无论 A 和 B 谁长都能保证 tmpA 始终指向长的, tmpB 指向短的
+        tmpA = count &gt; 0 ? headA : headB;
+        tmpB = tmpA == headA ? headB : headA;
+        count = count &gt; 0 ? count : -count;
+
+        // 将长的链表指针拨到与另一条链表等长处
+        while (count != 0) {
+            count--;
+            tmpA = tmpA.next;
+        }
+
+        while (tmpA != tmpB) {
+            tmpA = tmpA.next;
+            tmpB = tmpB.next;
+        }
+
+        return tmpA;
+    }
+
+    /**
+     * 当两链表均有环且入环结点不同, 即两链表交点在环上时
+     *
+     * @param entranceA 链表 1 入环结点
+     * @param entranceB 链表 2 入环结点
+     * @return 两链表交点
+     */
+    public ListNode getNodeHelper2(ListNode entranceA, ListNode entranceB) {
+        ListNode tmpA = entranceA.next;
+
+        while (tmpA != entranceA) {
+            if (tmpA == entranceB)
+                return tmpA;
+            tmpA = tmpA.next;
+        }
+
+        return null;
+    }
+
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null)
+            return null;
+
+        ListNode entranceA = getEntrance(headA);
+        ListNode entranceB = getEntrance(headB);
+
+        // 两链表均无环
+        if (entranceA == null &amp;&amp; entranceB == null) {
+            return getNodeHelper1(headA, null, headB, null);
+        }
+
+        // 两链表均有环
+        if (entranceA != null &amp;&amp; entranceB != null) {
+            // 两链表入环结点相同, 交点在入环结点前或与入环结点重合
+            if (entranceA == entranceB) {
+                return getNodeHelper1(headA, entranceA, headB, entranceB);
+            }
+
+            // 两链表交点在环上(此时两个入环结点均可为交点, 情况 3), 或两个带环链表无交点(情况 1)
+            return getNodeHelper2(entranceA, entranceB);
+        }
+
+        // 一个链表有环, 一个链表无环, 不可能相交, 直接返回
+        return null;
+    }
+}
+</code></pre>
+<h5 id="python">Python</h5>
+<pre><code class="language-python">class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+
+class IntersectionList:
+    def get_entrance(self, head):
+        if head and head.next and head.next.next:
+            slow = head.next
+            fast = head.next.next
+
+            while slow != fast:
+                if fast.next and fast.next.next:
+                    slow = slow.next
+                    fast = fast.next.next
+                else:
+                    return None
+
+            fast = head
+            while slow != fast:
+                slow = slow.next
+                fast = fast.next
+
+            return fast
+        else:
+            return None
+
+    def get_length(self, head, entrance):
+        count = 0
+        while head and head != entrance:
+            count += 1
+            head = head.next
+
+        return count, head
+
+    def get_node_helper1(self, head_a, head_b, entrance_a=None, entrance_b=None):
+        length_a, tail_a = self.get_length(head_a, entrance_a)
+        length_b, tail_b = self.get_length(head_b, entrance_b)
+
+        tmp_a = head_a if length_a &gt; length_b else head_b
+        tmp_b = head_b if tmp_a == head_a else head_a
+        steps = abs(length_a - length_b)
+
+        while steps != 0:
+            steps -= 1
+            tmp_a = tmp_a.next
+
+        while tmp_a != tmp_b:
+            tmp_a = tmp_a.next
+            tmp_b = tmp_b.next
+
+        return tmp_a
+
+    def get_node_helper2(self, entrance_a, entrace_b):
+        tmp_a = entrance_a.next
+
+        while tmp_a != entrance_a:
+            if tmp_a == entrace_b:
+                return tmp_a
+            tmp_a = tmp_a.next
+
+        return None
+
+    def get_intersection_node(self, head_a, head_b):
+        if head_a and head_b:
+            entrance_a = self.get_entrance(head_a)
+            entrance_b = self.get_entrance(head_b)
+
+            if not entrance_a and not entrance_b:
+                return self.get_node_helper1(head_a, head_b)
+
+            if entrance_a and entrance_b:
+                if entrance_a == entrance_b:
+                    return self.get_node_helper1(head_a, head_b, entrance_a, entrance_b)
+
+                return self.get_node_helper2(entrance_a, entrance_b)
+        else:
+            return None
+</code></pre>
+<h2 id="例题-leetcode-160">例题 <a href="https://leetcode-cn.com/problems/intersection-of-two-linked-lists">LeetCode # 160</a></h2>
+<p>编写一个程序，找到两个单链表相交的起始节点。</p>
+<p>如下面的两个链表：</p>
+<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200309201612.png" alt="" loading="lazy"></figure>
+<p>在节点 c1 开始相交。</p>
+<p>示例 1：</p>
+<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200309201627.png" alt="" loading="lazy"></figure>
+<pre><code class="language-pyt">输入：intersectVal = 8, listA = [4,1,8,4,5], listB = [5,0,1,8,4,5], skipA = 2, skipB = 3
+输出：Reference of the node with value = 8
+输入解释：相交节点的值为 8 （注意，如果两个列表相交则不能为 0）。从各自的表头开始算起，链表 A 为 [4,1,8,4,5]，链表 B 为 [5,0,1,8,4,5]。在 A 中，相交节点前有 2 个节点；在 B 中，相交节点前有 3 个节点。
+</code></pre>
+<p>示例 2：</p>
+<figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200309201657.png" alt="" loading="lazy"></figure>
+<pre><code class="language-python">输入：intersectVal = 2, listA = [0,9,1,2,4], listB = [3,2,4], skipA = 3, skipB = 1
+输出：Reference of the node with value = 2
+输入解释：相交节点的值为 2 （注意，如果两个列表相交则不能为 0）。从各自的表头开始算起，链表 A 为 [0,9,1,2,4]，链表 B 为 [3,2,4]。在 A 中，相交节点前有 3 个节点；在 B 中，相交节点前有 1 个节点。
+</code></pre>
+<p>示例 3：</p>
+<figure data-type="image" tabindex="7"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200309201731.png" alt="" loading="lazy"></figure>
+<pre><code class="language-python">输入：intersectVal = 0, listA = [2,6,4], listB = [1,5], skipA = 3, skipB = 2
+输出：null
+输入解释：从各自的表头开始算起，链表 A 为 [2,6,4]，链表 B 为 [1,5]。由于这两个链表不相交，所以 intersectVal 必须为 0，而 skipA 和 skipB 可以是任意值。
+解释：这两个链表不相交，因此返回 null。
+</code></pre>
+<p>注意：</p>
+<ul>
+<li>如果两个链表没有交点，返回 null.</li>
+<li>在返回结果后，两个链表仍须保持原有的结构。</li>
+<li>可假定整个链表结构中<strong>没有循环</strong>。</li>
+<li>程序尽量满足 O(n) 时间复杂度，且仅用 O(1) 内存。</li>
+</ul>
+<h5 id="java-2">Java</h5>
+<pre><code class="language-java">class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
+    }
+}
+
+public class IntersectionList {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode tmpA = headA;
+        ListNode tmpB = headB;
+        int count = 0;
+
+        while (tmpA != null) {
+            count++;
+            tmpA = tmpA.next;
+        }
+
+        while (tmpB != null) {
+            count--;
+            tmpB = tmpB.next;
+        }
+
+        if (tmpA != tmpB)
+            return null;
+
+        // 无论 A 和 B 谁长都能保证 tmpA 始终指向长的, tmpB 指向短的
+        tmpA = count &gt; 0 ? headA : headB;
+        tmpB = tmpA == headA ? headB : headA;
+        count = count &gt; 0 ? count : -count;
+
+        // 将长的链表指针拨到与另一条链表等长处
+        while (count != 0) {
+            count--;
+            tmpA = tmpA.next;
+        }
+
+        while (tmpA != tmpB) {
+            tmpA = tmpA.next;
+            tmpB = tmpB.next;
+        }
+
+        return tmpA;
+    }
+}
+</code></pre>
+<h5 id="python-2">Python</h5>
+<pre><code class="language-python">class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+class IntersectionList:
+    def get_length(self, head):
+        count = 0
+        while head:
+            count += 1
+            head = head.next
+
+        return count, head
+
+    def getIntersectionNode(self, head_a, head_b):
+        length_a, tail_a = self.get_length(head_a)
+        length_b, tail_b = self.get_length(head_b)
+
+        tmp_a = head_a if length_a &gt; length_b else head_b
+        tmp_b = head_b if tmp_a == head_a else head_a
+        steps = abs(length_a - length_b)
+
+        while steps != 0:
+            steps -= 1
+            tmp_a = tmp_a.next
+
+        while tmp_a != tmp_b:
+            tmp_a = tmp_a.next
+            tmp_b = tmp_b.next
+
+        return tmp_a
+</code></pre>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/Dg_uXOhX3/">
+            <span class="flex-auto">Easy</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/oSB8FUkUZ/">
+            <span class="flex-auto">链表</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/sygsU_q1s/">
+            <span class="flex-auto">算法</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/uIoWQi2bzm/">
+            <span class="flex-auto">LeetCode</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://zcybupt.github.io/post/MedianFinder/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  随时找到数据流的中位数
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://zcybupt.github.io/post/LinkedListCycle/">
+                <h3 class="post-title">
+                  环形链表
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: 'f69e1255342d00cd7bd4',
+    clientSecret: '3b9c344a90d850d00b99b0c0c7716b8f71a2f1bc',
+    repo: 'zcybupt.github.io',
+    owner: 'zcybupt',
+    admin: ['zcybupt'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+      </div>
+    </div>
+
+    <script src="https://zcybupt.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

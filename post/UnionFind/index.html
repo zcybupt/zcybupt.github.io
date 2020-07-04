@@ -1,0 +1,404 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CODEFANCIER</title>
+<meta name="description" content="" />
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1593855908774">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://zcybupt.github.io/styles/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-170272843-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-170272843-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://zcybupt.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1593855908774" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E5%AE%9E%E7%8E%B0">实现</a>
+<ul>
+<li><a href="#java">Java</a></li>
+<li><a href="#python">Python</a></li>
+</ul>
+</li>
+<li><a href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6">时间复杂度</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://github.com/zcybupt" class="menu" style="animation-delay: 0.6000000000000001s" target="_blank">
+          GitHub
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://zcybupt.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">并查集</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2020-06-17 / 4 min read
+        </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200617163238.png" alt="">
+        
+        <div class="post-content yue">
+          <p><a href="https://en.wikipedia.org/wiki/Disjoint-set_data_structure"><strong>并查集</strong></a>是一种树型的数据结构，用于处理一些不交集（Disjoint Sets）的合并及查询问题。有一个<strong>联合-查找算法</strong>（<strong>union-find algorithm</strong>）定义了两个用于此数据结构的操作：</p>
+<ul>
+<li><code>Union</code>：将两个子集合并成同一个集合</li>
+<li><code>isSameSet</code>：判断两元素是否属于同一集合</li>
+</ul>
+<p>并查集中的元素类似单链表中的结点, 其指针指向该节点的父结点, 集合的代表结点的指针指向它本身.</p>
+<p>在合并两个两个集合的过程中, 一般将小的集合挂载大集合的代表结点之后. 如头图中的两个集合合并, <code>4</code> 将挂在 <code>2</code> 下, 新集合的代表结点即为 <code>2</code>.</p>
+<p>在查询 (执行 <code>isSameSet</code> 方法) 的过程中, 只需判断两结点所在集合的代表结点是否相同即可判断是否为同一集合.</p>
+<p>查询或合并集合时, 若集合未经整理, 即包含多层结点 ( 如<code>3-&gt;1-&gt;5-&gt;2</code> ), 需整理为如图中的仅有两层的形式, 以减少下次查询的操作数.</p>
+<h4 id="实现">实现</h4>
+<h5 id="java">Java</h5>
+<p>使用 HashMap 来表示结点之间的关系, (key, value) 即表示 key 的父节点是 value. 用另一个 HashMap 来存各储代表结点和集合大小, 若某结点不是代表结点, 则该节点的 size 信息无效.</p>
+<pre><code class="language-java">class Data {
+    // 自定义数据类型
+}
+
+public class UnionFindSet {
+    public HashMap&lt;Data, Data&gt; parentMap;
+    public HashMap&lt;Data, Integer&gt; sizeMap;
+
+    public UnionFindSet(List&lt;Data&gt; nodes) {
+        parentMap = new HashMap&lt;&gt;();
+        sizeMap = new HashMap&lt;&gt;();
+
+        // 初始化并查集, 此时每个结点自成一个集合, 指针指向它本身
+        for (Data node : nodes) {
+            parentMap.put(node, node);
+            sizeMap.put(node, 1);
+        }
+    }
+
+    /**
+     * 找到代表结点并整理结点
+     *
+     * @param node 当前节点
+     * @return 代表结点
+     */
+    private Data findHead(Data node) {
+        Data parent = parentMap.get(node);
+        if (parent != node) {
+            parent = findHead(parent);
+        }
+
+        parentMap.put(node, parent);    // 整理结点
+        return parent;
+    }
+
+    public boolean isSameSet(Data node1, Data node2) {
+        return findHead(node1) == findHead(node2);
+    }
+
+    public void union(Data a, Data b) {
+        if (a == null || b == null)
+            return;
+        Data aHead = findHead(a);
+        Data bHead = findHead(b);
+
+        if (aHead == bHead)
+            return;
+
+        int aSetSize = sizeMap.get(aHead);
+        int bSetSize = sizeMap.get(bHead);
+
+        if (aSetSize &lt;= bSetSize) {
+            parentMap.put(bHead, aHead);
+            sizeMap.put(bHead, aSetSize + bSetSize);
+        } else {
+            parentMap.put(aHead, bHead);
+            sizeMap.put(aHead, aSetSize + bSetSize);
+        }
+    }
+}
+</code></pre>
+<h5 id="python">Python</h5>
+<pre><code class="language-python">class Data:
+    pass
+       
+class UnionFindSet:
+    parent_dict = dict()
+    size_dict = dict()
+
+    def __init__(self, nodes):
+        for node in nodes:
+            self.parent_dict[node] = node
+            self.size_dict[node] = 1
+
+    def find_head(self, node):
+        parent = self.parent_dict.get(node)
+        if parent != node:
+            self.find_head(parent)
+
+        self.parent_dict[node] = parent
+        return parent
+
+    def is_same_set(self, node1, node2):
+        return self.find_head(node1) == self.find_head(node2)
+
+    def union(self, node1, node2):
+        if node1 and node2:
+            head1 = self.find_head(node1)
+            head2 = self.find_head(node2)
+
+            if head1 == head2:
+                return
+
+            size1 = self.size_dict.get(head1)
+            size2 = self.size_dict.get(head2)
+
+            if size1 &lt;= size2:
+                self.parent_dict[head1] = head2
+                self.size_dict[head2] = size1 + size2
+            else:
+                self.parent_dict[head2] = head1
+                self.size_dict[head1] = size1 + size2
+</code></pre>
+<h4 id="时间复杂度">时间复杂度</h4>
+<p>当查询次数和合并次数达到 <code>O(N)</code> 或以上时, 单次查询和单次合并的时间复杂度平均为 <code>O(1)</code></p>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/9dXlaFtSe/">
+            <span class="flex-auto">并查集</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/sygsU_q1s/">
+            <span class="flex-auto">算法</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://zcybupt.github.io/post/Trie/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  前缀树 🌲
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://zcybupt.github.io/post/FindPeakElement/">
+                <h3 class="post-title">
+                  寻找峰值
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: 'f69e1255342d00cd7bd4',
+    clientSecret: '3b9c344a90d850d00b99b0c0c7716b8f71a2f1bc',
+    repo: 'zcybupt.github.io',
+    owner: 'zcybupt',
+    admin: ['zcybupt'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+      </div>
+    </div>
+
+    <script src="https://zcybupt.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

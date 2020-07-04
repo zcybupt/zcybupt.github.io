@@ -1,0 +1,1042 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CODEFANCIER</title>
+<meta name="description" content="" />
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1593855908774">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://zcybupt.github.io/styles/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-170272843-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-170272843-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://zcybupt.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1593855908774" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E6%AF%94%E8%BE%83%E6%8E%92%E5%BA%8F">比较排序</a>
+<ul>
+<li><a href="#00-%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F">00. 冒泡排序</a>
+<ul>
+<li><a href="#%E7%AE%97%E6%B3%95%E6%8F%8F%E8%BF%B0">算法描述</a></li>
+<li><a href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0">算法实现</a></li>
+</ul>
+</li>
+<li><a href="#01-%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F">01. 插入排序</a>
+<ul>
+<li><a href="#%E7%AE%97%E6%B3%95%E6%8F%8F%E8%BF%B0-2">算法描述</a></li>
+<li><a href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0-2">算法实现</a></li>
+</ul>
+</li>
+<li><a href="#02-%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F">02. 希尔排序</a>
+<ul>
+<li><a href="#%E7%AE%97%E6%B3%95%E6%8F%8F%E8%BF%B0-3">算法描述</a></li>
+<li><a href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0-3">算法实现</a></li>
+</ul>
+</li>
+<li><a href="#03-%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F">03. 选择排序</a>
+<ul>
+<li><a href="#%E7%AE%97%E6%B3%95%E6%8F%8F%E8%BF%B0-4">算法描述</a></li>
+<li><a href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0-4">算法实现</a></li>
+</ul>
+</li>
+<li><a href="#04-%E5%A0%86%E6%8E%92%E5%BA%8F">04. 堆排序</a>
+<ul>
+<li><a href="#%E5%A0%86">堆</a></li>
+<li><a href="#%E7%AE%97%E6%B3%95%E6%8F%8F%E8%BF%B0-5">算法描述</a></li>
+<li><a href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0-5">算法实现</a></li>
+</ul>
+</li>
+<li><a href="#05-%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F">05. 归并排序</a>
+<ul>
+<li><a href="#%E7%AE%97%E6%B3%95%E6%8F%8F%E8%BF%B0-6">算法描述</a></li>
+<li><a href="#%E9%80%92%E5%BD%92%E7%A4%BA%E4%BE%8B">递归示例</a></li>
+<li><a href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0-6">算法实现</a></li>
+<li><a href="#%E5%B0%8F%E5%92%8C%E9%97%AE%E9%A2%98">小和问题</a>
+<ul>
+<li><a href="#%E6%8F%8F%E8%BF%B0">描述</a></li>
+<li><a href="#%E5%9F%BA%E4%BA%8E%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F%E7%9A%84%E5%AE%9E%E7%8E%B0">基于归并排序的实现</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#06-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F">06. 快速排序</a>
+<ul>
+<li><a href="#%E7%AE%97%E6%B3%95%E6%8F%8F%E8%BF%B0-7">算法描述</a></li>
+<li><a href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0-7">算法实现</a>
+<ul>
+<li><a href="#%E5%8E%9F%E5%A7%8B%E5%AE%9E%E7%8E%B0">原始实现</a></li>
+<li><a href="#%E6%94%B9%E8%BF%9B%E5%AE%9E%E7%8E%B0">改进实现</a></li>
+</ul>
+</li>
+<li><a href="#%E9%9A%8F%E6%9C%BA%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F">随机快速排序</a>
+<ul>
+<li><a href="#%E9%9A%8F%E6%9C%BA%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0">随机快速排序算法实现</a></li>
+</ul>
+</li>
+<li><a href="#%E8%A1%8D%E7%94%9F%E9%97%AE%E9%A2%98">衍生问题</a>
+<ul>
+<li><a href="#%E8%8D%B7%E5%85%B0%E5%9B%BD%E6%97%97%E9%97%AE%E9%A2%98">荷兰国旗问题</a></li>
+<li><a href="#%E5%A5%87%E5%81%B6%E5%88%92%E5%88%86">奇偶划分</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E9%9D%9E%E6%AF%94%E8%BE%83%E6%8E%92%E5%BA%8F">非比较排序</a>
+<ul>
+<li><a href="#01-%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F">01. 计数排序</a>
+<ul>
+<li><a href="#%E7%AE%97%E6%B3%95%E6%8F%8F%E8%BF%B0-8">算法描述</a></li>
+<li><a href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0-8">算法实现</a></li>
+</ul>
+</li>
+<li><a href="#02-%E6%A1%B6%E6%8E%92%E5%BA%8F">02. 桶排序</a>
+<ul>
+<li><a href="#%E7%AE%97%E6%B3%95%E6%8F%8F%E8%BF%B0-9">算法描述</a></li>
+<li><a href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0-9">算法实现</a></li>
+<li><a href="#%E8%A1%8D%E7%94%9F%E9%97%AE%E9%A2%98-2">衍生问题</a>
+<ul>
+<li><a href="#%E6%9C%80%E5%A4%A7%E9%97%B4%E9%9A%94%E9%97%AE%E9%A2%98-leetcode-164">最大间隔问题 (leetcode 164)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#03-%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8Fradix-sort">03. 基数排序(Radix Sort)</a>
+<ul>
+<li><a href="#%E7%AE%97%E6%B3%95%E6%8F%8F%E8%BF%B0-10">算法描述</a></li>
+<li><a href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0-10">算法实现</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%90%8E%E8%AE%B0">后记</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://github.com/zcybupt" class="menu" style="animation-delay: 0.6000000000000001s" target="_blank">
+          GitHub
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://zcybupt.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">排序算法汇总</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2020-01-08 / 22 min read
+        </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20190823090305.png" alt="">
+        
+        <div class="post-content yue">
+          <p>参考资料: https://www.cnblogs.com/onepixel/p/7674659.html</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20190823090305.png" alt="" loading="lazy"></figure>
+<h2 id="比较排序">比较排序</h2>
+<h3 id="00-冒泡排序">00. 冒泡排序</h3>
+<h4 id="算法描述">算法描述</h4>
+<ol>
+<li>比较相邻的元素。如果第一个比第二个大，就交换它们两个；</li>
+<li>对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对，这样在最后的元素应该会是最大的数；</li>
+<li>针对所有的元素重复以上的步骤，除了最后一个；</li>
+<li>重复步骤1~3，直到排序完成。</li>
+</ol>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/849589-20171015223238449-2146169197.gif" alt="" loading="lazy"></figure>
+<p>时间复杂度计算</p>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20190822223140.png" alt="" loading="lazy"></figure>
+<h4 id="算法实现">算法实现</h4>
+<pre><code class="language-python">def bubble_sort(arr):
+    length = len(arr)
+    for i in range(length):
+        for j in range(length - i - 1):
+            if arr[j] &gt; arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+    return arr
+
+
+input_arr = [9, 10, 2, 44, 33, 5, 6, 0, 11]
+bubble_sort(input_arr)
+</code></pre>
+<pre><code>[0, 2, 5, 6, 9, 10, 11, 33, 44]
+</code></pre>
+<h3 id="01-插入排序">01. 插入排序</h3>
+<h4 id="算法描述-2">算法描述</h4>
+<p>插入排序都采用in-place在数组上实现。具体算法描述如下：</p>
+<ol>
+<li>从第一个元素开始，该元素可以认为已经被排序；</li>
+<li>取出下一个元素，在已经排序的元素序列中从后向前扫描；</li>
+<li>如果该元素（已排序）大于新元素，将该元素移到下一位置；</li>
+<li>重复步骤 3，直到找到已排序的元素小于或者等于新元素的位置；</li>
+<li>将新元素插入到该位置后；</li>
+<li>重复步骤 2~5。</li>
+</ol>
+<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/849589-20171015225645277-1151100000.gif" alt="" loading="lazy"></figure>
+<h4 id="算法实现-2">算法实现</h4>
+<pre><code class="language-python">def insertion_sort(arr):
+    for i in range(len(arr)):
+        for j in range(i - 1, -1, -1):
+            if arr[j] &gt; arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+
+    return arr
+
+
+input_arr = [9, 10, 2, 44, 33, 5, 6, 0, 11]
+insertion_sort(input_arr)
+</code></pre>
+<pre><code>[0, 2, 5, 6, 9, 10, 11, 33, 44]
+</code></pre>
+<h3 id="02-希尔排序">02. 希尔排序</h3>
+<h4 id="算法描述-3">算法描述</h4>
+<p>希尔排序也是一种插入排序, 它是简单插入排序经过改进之后的一个更高效的版本, 也称为缩小增量排序</p>
+<p>简单插入排序很循规蹈矩, 不管数组分布是怎么样的, 依然一步一步的对元素进行比较, 移动, 插入, 如 <code>[5,4,3,2,1,0]</code> 这种倒序序列, 数组末端的 <code>0</code> 要回到首位置很是费劲, 比较和移动元素均需 <code>n-1</code> 次. 而希尔排序在数组中采用跳跃式分组的策略, 通过某个增量将数组元素划分为若干组, 然后分组进行插入排序, 随后逐步缩小增量, 继续按组进行插入排序操作, 直至增量为1. 希尔排序通过这种策略使得整个数组在初始阶段达到从宏观上看基本有序, 小的基本在前, 大的基本在后, 微调即可.</p>
+<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20191030173958.png" alt="" loading="lazy"></figure>
+<p>参考: https://www.cnblogs.com/chengxiao/p/6104371.html</p>
+<h4 id="算法实现-3">算法实现</h4>
+<pre><code class="language-python">def shell_sort(arr):
+    length = len(arr)
+    gap = int(length / 2)
+
+    while gap &gt; 0:
+        for i in range(gap, length):
+            for j in range(i, -1, -gap):  # 相当于将插入排序的遍历的间隔由 1 改为 -gap, 即完成了分组
+                if arr[j] &lt; arr[j - gap] and j - gap &gt;= 0:
+                    arr[j], arr[j - gap] = arr[j - gap], arr[j]
+        gap = int(gap / 2)
+
+
+input_arr = [9, 10, 2, 44, 33, 5, 6, 0, 11]
+shell_sort(input_arr)
+print(input_arr)
+</code></pre>
+<pre><code>[0, 2, 5, 6, 9, 10, 11, 33, 44]
+</code></pre>
+<h3 id="03-选择排序">03. 选择排序</h3>
+<h4 id="算法描述-4">算法描述</h4>
+<p><code>n</code> 个记录的直接选择排序可经过 <code>n-1</code> 趟直接选择排序得到有序结果。具体算法描述如下：</p>
+<ol>
+<li>
+<p>初始状态: 无序区为 <code>R[1..n]</code>，有序区为空</p>
+</li>
+<li>
+<p>第 <code>i</code> 趟排序 <code>(i=1,2,3…n-1)</code> 开始时, 当前有序区和无序区分别为 <code>R[1..i-1]</code> 和 <code>R(i..n)</code>. 该趟排序从当前无序区中-选出关键字最小的记录 <code>R[k]</code>, 将它与无序区的第 <code>1</code> 个记录 <code>R</code> 交换, 使 <code>R[1..i]</code> 和<code>R[i+1..n]</code> 分别变为记录个数增加 1 个的新有序区和记录个数减少 1 个的新无序区</p>
+</li>
+<li>
+<p><code>n-1</code> 趟结束，数组有序化了。</p>
+</li>
+</ol>
+<figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/849589-20171015224719590-1433219824.gif" alt="" loading="lazy"></figure>
+<h4 id="算法实现-4">算法实现</h4>
+<pre><code class="language-python">def selection_sort(arr):
+    length = len(arr)
+    for i in range(length):
+        min_index = i
+        for j in range(i, length):
+            min_index = j if arr[j] &lt; arr[min_index] else min_index
+        arr[i], arr[min_index] = arr[min_index], arr[i]
+    return arr
+
+
+input_arr = [9, 10, 2, 44, 33, 5, 6, 0, 11]
+selection_sort(input_arr)
+</code></pre>
+<pre><code>[0, 2, 5, 6, 9, 10, 11, 33, 44]
+</code></pre>
+<h3 id="04-堆排序">04. 堆排序</h3>
+<h4 id="堆">堆</h4>
+<p>堆需满足:</p>
+<ol>
+<li>堆中某个节点的值总是不大于或不小于其父节点的值</li>
+<li>堆总是一棵完全二叉树</li>
+</ol>
+<p>将根节点最大的堆叫做最大堆或大根堆，根节点最小的堆叫做最小堆或小根堆。</p>
+<figure data-type="image" tabindex="7"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20191101222843.png" alt="" loading="lazy"></figure>
+<h4 id="算法描述-5">算法描述</h4>
+<ol>
+<li>
+<p>将初始待排序关键字序列 <code>(R1,R2…Rn)</code> 构建成大顶堆，此堆为初始的无序区</p>
+</li>
+<li>
+<p>将堆顶元素 <code>R[1]</code> 与最后一个元素 <code>R[n]</code> 交换, 此时得到新的无序区 <code>(R1,R2,…Rn-1)</code> 和新的有序区 <code>(Rn)</code>, 且满足 <code>R[1,2…n-1] &lt;= R[n]</code></p>
+</li>
+<li>
+<p>由于交换后新的堆顶 <code>R[1]</code> 可能违反堆的性质, 因此需要对当前无序区 <code>(R1,R2,…Rn-1)</code> 调整为新堆, 然后再次将 <code>R[1]</code> 与无序区最后一个元素交换, 得到新的无序区 <code>(R1,R2…Rn-2)</code> 和新的有序区 <code>(Rn-1,Rn)</code>. 不断重复此过程直到有序区的元素个数为 <code>n-1</code>，则整个排序过程完成。</p>
+</li>
+</ol>
+<figure data-type="image" tabindex="8"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/849589-20171015231308699-356134237.gif" alt="" loading="lazy"></figure>
+<h4 id="算法实现-5">算法实现</h4>
+<pre><code class="language-python">def heap_sort(arr):
+    heap_size = len(arr)
+    for i in range(heap_size):
+        heapify(arr, i)
+
+    while heap_size &gt; 0:
+        heap_size -= 1
+        arr[0], arr[heap_size] = arr[heap_size], arr[0]
+        heap_adjust(arr, 0, heap_size)
+
+
+# 将数组转化为堆, 若 index 处的节点大于父节点则交换, 循环直至满足堆条件
+def heapify(arr, index):
+    while (arr[index] &gt; arr[int((index - 1) / 2)]):
+        arr[index], arr[int((index - 1) / 2)] = arr[int(
+            (index - 1) / 2)], arr[index]
+        index = int((index - 1) / 2)
+
+
+# 数组调整为最大堆
+def heap_adjust(arr, index, heap_size):
+
+    left = 2 * index + 1  # 当前节点的左孩子
+
+    while left &lt; heap_size:
+        # 求出左右子中较大的一个
+        largest = left + 1 if left + 1 &lt; heap_size and arr[
+            left + 1] &gt; arr[left] else left
+        # 求孩子与父节点中较大的一个
+        largest = largest if arr[largest] &gt; arr[index] else index
+
+        if largest == index:
+            break
+
+        arr[index], arr[largest] = arr[largest], arr[index]
+        index = largest
+        left = 2 * index + 1
+
+
+input_arr = [9, 10, 2, 44, 33, 5, 6, 0, 11]
+heap_sort(input_arr)
+print(input_arr)
+</code></pre>
+<pre><code>[0, 2, 5, 6, 9, 10, 11, 33, 44]
+</code></pre>
+<h3 id="05-归并排序">05. 归并排序</h3>
+<h4 id="算法描述-6">算法描述</h4>
+<ol>
+<li>把长度为n的输入序列分成两个长度为 <code>n/2</code> 的子序列；</li>
+<li>对这两个子序列分别采用归并排序；</li>
+<li>将两个排序好的子序列合并成一个最终的排序序列。</li>
+</ol>
+<figure data-type="image" tabindex="9"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/849589-20171015230557043-37375010.gif" alt="" loading="lazy"></figure>
+<h4 id="递归示例">递归示例</h4>
+<pre><code class="language-python"># 递归查找最大值
+def get_max(arr, L, R):  # L 和 R 为索引
+    if (L == R):  # base case 问题划分到 base case 时停止划分
+        return arr[L]
+    mid = int((L + R) / 2)  # 写成 L + int((R - L) / 2) 可以防止溢出
+    max_left = get_max(arr, L, mid)
+    max_right = get_max(arr, mid + 1, R)
+    return max(max_left, max_right)
+
+
+input_arr = [9, 10, 2, 44, 33, 5, 6, 0, 11]
+get_max(input_arr, 0, len(input_arr) - 1)
+</code></pre>
+<pre><code>44
+</code></pre>
+<h4 id="算法实现-6">算法实现</h4>
+<pre><code class="language-python"># 递归过程
+def sort_process(arr, L, R):
+    if (L == R):
+        return
+    mid = L + int((R - L) / 2)
+    sort_process(arr, L, mid)
+    sort_process(arr, mid + 1, R)
+    merge(arr, L, mid, R)
+
+
+# 合并过程, 非递归
+def merge(arr, L, mid, R):
+    tmp = []
+    p1 = L
+    p2 = mid + 1
+
+    while p1 &lt;= mid and p2 &lt;= R:  # p1 p2 均不越界时
+        if arr[p1] &lt; arr[p2]:
+            tmp.append(arr[p1])
+            p1 += 1
+        else:
+            tmp.append(arr[p2])
+            p2 += 1
+
+    while (p1 &lt;= mid):
+        tmp.append(arr[p1])
+        p1 += 1
+
+    while (p2 &lt;= R):
+        tmp.append(arr[p2])
+        p2 += 1
+
+    for i in range(len(tmp)):
+        arr[L + i] = tmp[i]
+
+
+input_arr = [9, 10, 2, 44, 33, 5, 6, 0, 11]
+sort_process(input_arr, 0, len(input_arr) - 1)
+print(input_arr)
+</code></pre>
+<pre><code>[0, 2, 5, 6, 9, 10, 11, 33, 44]
+</code></pre>
+<h4 id="小和问题">小和问题</h4>
+<h5 id="描述">描述</h5>
+<p>在一个数组中, 每一个数左边比当前数小的数累加起来, 叫做这个数组的小和. 求数组 <code>[1, 3, 4, 2, 5]</code> 的小和.</p>
+<ul>
+<li>1左边比1小的数，没有</li>
+<li>3左边比3小的数, 1</li>
+<li>4左边比4小的数, 1, 3</li>
+<li>2左边比2小的数, 1</li>
+<li>5左边比5小的数, 1, 3, 4, 2</li>
+</ul>
+<p>所以小和为 1+1+3+1+1+3+4+2=16</p>
+<h5 id="基于归并排序的实现">基于归并排序的实现</h5>
+<pre><code class="language-python">def sort_process(arr, L, R):
+    if (arr[L] == arr[R]):
+        return 0
+    mid = L + int((R - L) / 2)
+    return sort_process(arr, L, mid) +\
+            sort_process(arr, mid + 1, R) + \
+            merge(arr, L, mid, R)
+
+
+def merge(arr, L, mid, R):
+    tmp = []
+    p1 = L
+    p2 = mid + 1
+    result = 0
+
+    while p1 &lt;= mid and p2 &lt;= R:
+        if arr[p1] &lt; arr[p2]:
+            result += (R - p2 + 1) * arr[p1] if arr[p1] &lt; arr[p2] else 0
+            tmp.append(arr[p1])
+
+            p1 += 1
+        else:
+            tmp.append(arr[p2])
+            p2 += 1
+
+    while p1 &lt;= mid:
+        tmp.append(arr[p1])
+        p1 += 1
+
+    while p2 &lt;= R:
+        tmp.append(arr[p2])
+        p2 += 1
+
+    for i in range(len(tmp)):
+        arr[L + i] = tmp[i]
+
+    return result
+
+
+def cal_small_sum(arr):
+    if arr is None or len(arr) &lt; 2:
+        return 0
+    print('小和为: %d' % sort_process(arr, 0, len(arr) - 1))
+
+
+input_arr = [1, 3, 4, 2, 5]
+cal_small_sum(input_arr)
+</code></pre>
+<pre><code>小和为: 16
+</code></pre>
+<h3 id="06-快速排序">06. 快速排序</h3>
+<h4 id="算法描述-7">算法描述</h4>
+<p>快速排序使用分治法来把一个串（list）分为两个子串（sub-lists）。具体算法描述如下：</p>
+<ol>
+<li>从数列中挑出一个元素，称为 “基准”（pivot）</li>
+<li>重新排序数列，所有元素比基准值小的摆放在基准前面，所有元素比基准值大的摆在基准的后面（相同的数可以到任一边）。在这个分区退出之后，该基准就处于数列的中间位置。这个称为分区（partition）操作</li>
+<li>递归地（recursive）把小于基准值元素的子数列和大于基准值元素的子数列排序。</li>
+</ol>
+<p>参考</p>
+<ul>
+<li>http://data.biancheng.net/view/117.html</li>
+<li>https://www.jianshu.com/p/2b2f1f79984e</li>
+</ul>
+<figure data-type="image" tabindex="10"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/849589-20171015230936371-1413523412.gif" alt="" loading="lazy"></figure>
+<h4 id="算法实现-7">算法实现</h4>
+<h5 id="原始实现">原始实现</h5>
+<p>单侧扫描, 将小于 p 的数字放到 p 的左边, 大于 p 的不动</p>
+<pre><code class="language-python">def partition(arr, L, R):
+    less = L - 1
+
+    for i in range(L, R + 1):
+        if arr[i] &lt;= arr[R]:  # arr[R] 即为 p
+            less += 1
+            arr[less], arr[i] = arr[i], arr[less]
+
+
+def quick_sort(arr, L, R):
+    for i in range(R, L - 1, -1):
+        partition(arr, L, i)
+
+
+input_arr = [9, 8, 7, 4, 8, 3, 5, 2, 4, 1]
+quick_sort(input_arr, 0, len(input_arr) - 1)
+print(input_arr)
+</code></pre>
+<pre><code>[1, 2, 3, 4, 4, 5, 7, 8, 8, 9]
+</code></pre>
+<pre><code class="language-python"># 递归实现
+def partition(arr, L, R):
+    less = L - 1
+
+    for i in range(L, R + 1):
+        if arr[i] &lt;= arr[R]:  # arr[R] 即为 p
+            less += 1
+            arr[less], arr[i] = arr[i], arr[less]
+
+
+def quick_sort(arr, L, R):
+    if (L &lt; R):
+        partition(arr, L, R)
+        quick_sort(arr, L, R - 1)
+
+
+input_arr = [9, 8, 7, 4, 8, 3, 5, 2, 4, 1]
+quick_sort(input_arr, 0, len(input_arr) - 1)
+print(input_arr)
+</code></pre>
+<pre><code>[1, 2, 3, 4, 4, 5, 7, 8, 8, 9]
+</code></pre>
+<h5 id="改进实现">改进实现</h5>
+<p>两端扫描</p>
+<ol>
+<li>使用两个变量 less 和 more, less 指向首元素的元素下一个元素(最左边的首元素为中轴元素), more 指向最后一个元素</li>
+<li>从前往后找, 直到找到一个比中轴元素大的, 然后从后往前找, 直到找到一个比中轴元素小的, 然后交换这两个元素, 直到这两个变量交错 ( less &gt; more ) (注意不是相遇 less == more，因为相遇的元素还未和中轴元素比较)</li>
+<li>对左半数组和右半数组重复上述操作.</li>
+</ol>
+<pre><code class="language-python"># 改进实现, 双侧移动, 取最左侧为中轴元素
+def partition(arr, L, R):
+    &quot;&quot;&quot;
+    R(在右侧找到比中轴小的元素) =&gt; L(中轴)
+    L(在左侧找到比中轴大的元素) =&gt; R(在右侧找到比中轴小的元素)
+                      中轴值 =&gt; L/R(此时 L = R, 即 L 和 R 均指向左右部分的交界)
+    &quot;&quot;&quot;
+    p = arr[L]
+    while L &lt; R:
+        while L &lt; R and arr[R] &gt;= p:
+            R -= 1
+        arr[L] = arr[R]  # 在右侧找到比中轴小的元素
+
+        while L &lt; R and arr[L] &lt;= p:
+            L += 1
+        arr[R] = arr[L]  # 在左侧找到比中轴大的元素
+
+    arr[L] = p  # 此时 L = R, 即把中轴值赋给左右部分的交界位置
+    return L  # 返回中轴索引
+
+
+def quick_sort(arr, L, R):
+    if L &lt; R:
+        p_index = partition(arr, L, R)
+
+        # 中轴已经排好, 递归时可去除中轴
+        quick_sort(arr, L, p_index - 1)
+        quick_sort(arr, p_index + 1, R)
+
+    return arr
+
+
+input_arr = [5, 3, 8, 5, 6, 7, 4, 9, 2]
+quick_sort(input_arr, 0, len(input_arr) - 1)
+print(input_arr)
+</code></pre>
+<pre><code>[2, 3, 4, 5, 5, 6, 7, 8, 9]
+</code></pre>
+<h4 id="随机快速排序">随机快速排序</h4>
+<p>以上为经典快速排序, 在中轴值两侧数分布不均匀时, 时间复杂度很高, 所以一般使用随机快速排序</p>
+<h5 id="随机快速排序算法实现">随机快速排序算法实现</h5>
+<pre><code class="language-python">import random
+
+
+def partition(arr, L, R):
+    # 随机选取一个数与中轴值上的数交换
+    rand_index = random.randint(L, R)
+    arr[rand_index], arr[L] = arr[L], arr[rand_index]
+
+    p = arr[L]
+    while L &lt; R:
+        while L &lt; R and arr[R] &gt;= p:
+            R -= 1
+        arr[L] = arr[R]  # 在右侧找到比中轴小的元素
+
+        while L &lt; R and arr[L] &lt;= p:
+            L += 1
+        arr[R] = arr[L]  # 在左侧找到比中轴大的元素
+
+    arr[L] = p  # 此时 L = R, 即把中轴值赋给左右部分的交界位置
+    return L  # 返回中轴索引
+
+
+def quick_sort(arr, L, R):
+    if L &lt; R:
+        p_index = partition(arr, L, R)
+
+        # 中轴已经排好, 递归时可去除中轴
+        quick_sort(arr, L, p_index - 1)
+        quick_sort(arr, p_index + 1, R)
+
+    return arr
+
+
+input_arr = [5, 3, 8, 5, 6, 7, 4, 9, 2]
+quick_sort(input_arr, 0, len(input_arr) - 1)
+print(input_arr)
+</code></pre>
+<pre><code>[2, 3, 4, 5, 5, 6, 7, 8, 9]
+</code></pre>
+<h4 id="衍生问题">衍生问题</h4>
+<h5 id="荷兰国旗问题">荷兰国旗问题</h5>
+<p>现有红白蓝三种不同颜色的小球，乱序排列在一起，请重新排列这些小球，使得红白蓝三色的同颜色的球在一起。这个问题之所以叫荷兰国旗问题，是因为我们可以将红白蓝三色小球想象成条状物，有序排列后正好组成荷兰国旗。</p>
+<pre><code class="language-python">def partition(arr, L, R):
+    p = arr[L]
+    while L &lt; R:
+        while L &lt; R and arr[R] &gt;= p:
+            R -= 1
+        arr[L] = arr[R]
+
+        while L &lt; R and arr[L] &lt;= p:
+            L += 1
+        arr[R] = arr[L]
+
+    arr[L] = p
+    return L
+
+
+def netherland_flag(arr, L, R):
+    if L &lt; R:
+        p = partition(arr, L, R)
+
+        netherland_flag(arr, L, p - 1)
+        netherland_flag(arr, p + 1, R)
+
+
+input_arr = [0, 2, 1, 0, 2, 1, 2, 2, 1, 0]
+netherland_flag(input_arr, 0, len(input_arr) - 1)
+print(input_arr)
+</code></pre>
+<pre><code>[0, 0, 0, 1, 1, 1, 2, 2, 2, 2]
+</code></pre>
+<h5 id="奇偶划分">奇偶划分</h5>
+<p>给出一列数, 按奇偶划分, 左侧为奇数, 右侧为偶数, 要求不额外创建数组, 划分后奇数与奇数, 偶数与偶数之间顺序与划分前相同.</p>
+<p>采用快排类似的算法, 需保证 partition 部分为稳定排序, 难以实现</p>
+<h2 id="非比较排序">非比较排序</h2>
+<h3 id="01-计数排序">01. 计数排序</h3>
+<h4 id="算法描述-8">算法描述</h4>
+<ol>
+<li>找出待排序的数组中最大和最小的元素</li>
+<li>统计数组中每个值为 <code>i</code> 的元素出现的次数, 存入数组 <code>C</code> 的第 <code>i</code> 项</li>
+<li>对所有的计数累加(从 <code>C</code> 中的第一个元素开始, 每一项和前一项相加)</li>
+<li>反向填充目标数组: 将每个元素i放在新数组的第 <code>C(i)</code> 项, 每放一个元素就将 <code>C(i)</code> 减去 1</li>
+</ol>
+<figure data-type="image" tabindex="11"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/849589-20171015231740840-6968181.gif" alt="" loading="lazy"></figure>
+<h4 id="算法实现-8">算法实现</h4>
+<pre><code class="language-python">def counting_sort(arr):
+    &quot;&quot;&quot;
+    原算法使用数组保存数据, 因使用下标所以有序
+    本实现使用字典, 保存时无序, 输出时按序取出, 可减小一定的空间复杂度
+    &quot;&quot;&quot;
+    bucket = dict()
+    max_value = max(arr)
+    min_value = min(arr)
+
+    for i in arr:
+        if bucket.get(i) is not None:
+            bucket[i] += 1
+        else:
+            bucket[i] = 1
+
+    index = 0
+
+    for i in range(min_value, max_value + 1):
+        if bucket.get(i) is not None:
+            for j in range(bucket[i]):
+                arr[index] = i  # 放回原数组, 减小空间复杂度
+                index += 1
+
+
+input_arr = [5, 3, 8, 5, 6, 7, 4, 9, 2]
+counting_sort(input_arr)
+print(input_arr)
+</code></pre>
+<pre><code>[2, 3, 4, 5, 5, 6, 7, 8, 9]
+</code></pre>
+<h3 id="02-桶排序">02. 桶排序</h3>
+<h4 id="算法描述-9">算法描述</h4>
+<ol>
+<li>设置一个定量的数组当作空桶</li>
+<li>遍历输入数据，并且把数据一个一个放到对应的桶里去</li>
+<li>对每个不是空的桶进行排序</li>
+<li>从不是空的桶里把排好序的数据拼接起来</li>
+</ol>
+<figure data-type="image" tabindex="12"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/demo_js_algorithmSort_bucketSort_1.png" alt="" loading="lazy"></figure>
+<h4 id="算法实现-9">算法实现</h4>
+<pre><code class="language-python">def bucket_sort(arr, bucket_size):
+    max_value = max(arr)
+    min_value = min(arr)
+
+    # 桶的初始化
+    buckets = []
+    bucket_num = int((max_value - min_value) / bucket_size) + 1
+    for i in range(bucket_num + 1):
+        buckets.append([])
+
+    for ele in arr:
+        buckets[int((ele - min_value) / bucket_size)].append(ele)
+
+    # 对桶内元素进行插入排序
+    for bucket in buckets:
+        for i in range(len(bucket)):
+            for j in range(i - 1, -1, -1):
+                if bucket[j] &gt; bucket[j + 1]:
+                    bucket[j], bucket[j + 1] = bucket[j + 1], bucket[j]
+
+    index = 0
+    # 将结果填回原数组
+    for bucket in buckets:
+        for i in bucket:
+            arr[index] = i
+            index += 1
+
+
+input_arr = [5, 3, 8, 5, 6, 7, 4, 9, 2]
+bucket_sort(input_arr, 5)
+print(input_arr)
+</code></pre>
+<pre><code>[2, 3, 4, 5, 5, 6, 7, 8, 9]
+</code></pre>
+<h4 id="衍生问题-2">衍生问题</h4>
+<h5 id="最大间隔问题-leetcode-164">最大间隔问题 (leetcode 164)</h5>
+<p>给定 <code>n</code> 个实数 <code>x1, x2, ..., xn</code>, 求这 <code>n</code> 个实数在实轴上相邻两个数之间的最大差值, 要求设计线性的时间算法</p>
+<p>时间线性, 故不能采用排序算法, 可采用抽屉原理, 即为桶排序, 在输入过程中找出数据的最大值 <code>max_</code> 与最小值 <code>min_</code>, 在 <code>(min_, max_)</code> 区间内, 将最大值与最小值之间进行均分成 <code>n-1</code> 份, 每个区间的大小为 <code>len = (max_ - min_)/(n-1)</code> 即此时为 <code>n-1</code> 个桶, 将最大值最小值人为放置于第一个桶和最后一个桶中, 分别代表了各自桶的上限和下限. 根据这个判断剩余的 <code>n-2</code> 个元素放置的桶的位置, 因为有 <code>n-1</code> 个桶需要放置 <code>n-2</code> 个元素所以根据抽屉原理必定有一个桶是空的, 所以，最大间隙一定产生在两个不同区间之间(即两个桶之间, 就是跨区间的数才可能产生最大的间隙), 故最大的间隙一定是一个桶所放数据的最小值与另一个桶所放数据的最大值之间的差值.</p>
+<pre><code class="language-python">def max_gap(arr):
+    if len(arr) &lt;= 1:
+        return 0
+    max_value = max(arr)
+    min_value = min(arr)
+
+    if max_value == min_value:
+        return 0
+
+    length = len(arr)
+
+    # 创建 N + 1 个桶
+    maxs = [0] * (length + 1)
+    mins = [0] * (length + 1)
+    has_num = [False] * (length + 1)
+
+    for ele in arr:
+        index = int((ele - min_value) * length / (max_value - min_value))
+        mins[index] = ele if not has_num[index] else min(ele, mins[index])
+        maxs[index] = ele if not has_num[index] else max(ele, maxs[index])
+        has_num[index] = True
+
+    max_gap = 0
+
+    tmp_max = maxs[0]
+    for i in range(1, length + 1):
+        if has_num[i]:
+            max_gap = max(mins[i] - tmp_max, max_gap)
+            tmp_max = maxs[i]
+
+    return max_gap
+
+
+input_arr = [3, 1, 12, 111, 123, 44, 54, 66]
+max_gap(input_arr)
+</code></pre>
+<pre><code>45
+</code></pre>
+<h3 id="03-基数排序radix-sort">03. 基数排序(Radix Sort)</h3>
+<h4 id="算法描述-10">算法描述</h4>
+<ol>
+<li>取得数组中的最大数，并取得位数</li>
+<li>arr 为原始数组, 从最低位开始取每个位组成 radix 数组</li>
+<li>对 radix 进行计数排序(利用计数排序适用于小范围数的特点)</li>
+</ol>
+<figure data-type="image" tabindex="13"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/849589-20171015232453668-1397662527.gif" alt="" loading="lazy"></figure>
+<h4 id="算法实现-10">算法实现</h4>
+<pre><code class="language-python"># 获取指定位上的数字, 索引从 0 开始
+def get_digit(x, digit):
+    return x // 10**digit % 10
+
+
+# 获取最大数的位数
+def max_digit_length(arr):
+    max_value = max(arr)
+    length = 0
+
+    while max_value != 0:
+        length += 1
+        max_value //= 10
+
+    return length
+
+
+def radix_sort(arr):
+    max_length = max_digit_length(arr)
+
+    for i in range(max_length):
+        bucket_dict = dict()
+        for ele in arr:
+            digit = get_digit(ele, i)
+            if bucket_dict.get(digit):
+                bucket_dict[digit].append(ele)
+            else:
+                bucket_dict[digit] = [ele]
+
+        index = 0
+        for j in range(10):
+            if bucket_dict.get(j):
+                for ele in bucket_dict[j]:
+                    arr[index] = ele
+                    index += 1
+
+
+input_arr = [999, 101, 22, 32, 45, 5, 14, 90, 1, 1, 2, 3, 44]
+radix_sort(input_arr)
+print(input_arr)
+</code></pre>
+<pre><code>[1, 1, 2, 3, 5, 14, 22, 32, 44, 45, 90, 101, 999]
+</code></pre>
+<h2 id="后记">后记</h2>
+<p>在 Java, C++ 中使用的综合排序, 当输入数组的长度小于某值时采用的是插入排序, 当大于某长度时采用的是归并排序或快速排序.</p>
+<p>当数组中要排序的元素是自定义类型时, 通常采用归并排序; 当元素为基本类型(如 int, double, char 等)时, 采用的是快速排序. 差别在于排序算法的稳定性, 归并排序可保证排序后的数组保留部分原有数组的顺序, 对基本类型来说相等元素的顺序并不重要, 但对自定义类型来说可能有一定的意义.</p>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/sygsU_q1s/">
+            <span class="flex-auto">算法</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/uIoWQi2bzm/">
+            <span class="flex-auto">LeetCode</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://zcybupt.github.io/post/ArrayQueue/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  固定长度的数组实现队列
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://zcybupt.github.io/post/YoloDeployment/">
+                <h3 class="post-title">
+                  YOLO v3 环境搭建及训练入门指南
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: 'f69e1255342d00cd7bd4',
+    clientSecret: '3b9c344a90d850d00b99b0c0c7716b8f71a2f1bc',
+    repo: 'zcybupt.github.io',
+    owner: 'zcybupt',
+    admin: ['zcybupt'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+      </div>
+    </div>
+
+    <script src="https://zcybupt.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

@@ -1,0 +1,599 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CODEFANCIER</title>
+<meta name="description" content="" />
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1593855908774">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://zcybupt.github.io/styles/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-170272843-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-170272843-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://zcybupt.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1593855908774" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#darknet">Darknet</a></li>
+<li><a href="#%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2">环境部署</a>
+<ul>
+<li><a href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E4%BF%A1%E6%81%AF">服务器环境信息</a></li>
+<li><a href="#cuda-%E5%8F%8A-cudnn-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE">CUDA 及 cuDNN 环境配置</a></li>
+<li><a href="#%E7%BC%96%E8%AF%91">编译</a></li>
+<li><a href="#%E9%AA%8C%E8%AF%81%E6%98%AF%E5%90%A6%E9%85%8D%E7%BD%AE%E6%88%90%E5%8A%9F">验证是否配置成功</a></li>
+</ul>
+</li>
+<li><a href="#%E8%AE%AD%E7%BB%83">训练</a>
+<ul>
+<li><a href="#%E6%95%B0%E6%8D%AE%E9%9B%86%E6%A0%87%E6%B3%A8%E8%BD%AC%E6%8D%A2">数据集标注转换</a></li>
+<li><a href="#%E5%87%86%E5%A4%87%E8%AE%AD%E7%BB%83%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">准备训练配置文件</a></li>
+<li><a href="#%E8%AE%AD%E7%BB%83-2">训练</a></li>
+</ul>
+</li>
+<li><a href="#%E8%AF%84%E4%BC%B0">评估</a>
+<ul>
+<li><a href="#%E7%94%9F%E6%88%90%E6%A3%80%E6%B5%8B%E7%BB%93%E6%9E%9C">生成检测结果</a></li>
+<li><a href="#%E8%AE%A1%E7%AE%97-map">计算 mAP</a></li>
+</ul>
+</li>
+<li><a href="#%E5%85%B6%E5%AE%83%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">其它参考资料</a></li>
+<li><a href="#%E5%90%8E%E8%AE%B0">后记</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://github.com/zcybupt" class="menu" style="animation-delay: 0.6000000000000001s" target="_blank">
+          GitHub
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://zcybupt.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">YOLO v3 环境搭建及训练入门指南</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2019-11-22 / 10 min read
+        </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/001.png" alt="">
+        
+        <div class="post-content yue">
+          <figure data-type="image" tabindex="1"><img src="http://pjreddie.com/media/files/darknet-black-small.png" alt="" loading="lazy"></figure>
+<h2 id="darknet">Darknet</h2>
+<p>Darknet is an open source neural network framework written in C and CUDA. It is fast, easy to install, and supports CPU and GPU computation.</p>
+<p>For more information see the <a href="http://pjreddie.com/darknet">Darknet project website</a>.</p>
+<h2 id="环境部署">环境部署</h2>
+<h3 id="服务器环境信息">服务器环境信息</h3>
+<pre><code>OS: Ubuntu 16.04
+Kernel: x86_64 Linux 4.13.0-38-generic
+CPU: Intel Xeon CPU E5-2620 v3 @ 3.2GHz
+GPU: 双路 GeForce GTX 1080
+RAM: 32 GB
+CUDA: 8.0.61
+cuDNN: 7.0.5
+GCC: 4.9.4
+Python: 3.5
+</code></pre>
+<h3 id="cuda-及-cudnn-环境配置">CUDA 及 cuDNN 环境配置</h3>
+<pre><code class="language-shell">vi ~/.bashrc
+</code></pre>
+<p>追加以下内容:</p>
+<pre><code class="language-shell">export PATH=/usr/local/cuda-8.0/bin:$PATH
+# 服务器环境 cuDNN 配置可能存在问题, 故自行配置如下路径
+export LD_LIBRARY_PATH=/path/to/your/cudnn-lib-files:$LD_LIBRARY_PATH
+# 例: export LD_LIBRARY_PATH=/server_space/zhaoym/cuda/tmp:$LD_LIBRARY_PATH
+</code></pre>
+<p>使配置生效:</p>
+<pre><code class="language-shell">source ~/.bashrc
+</code></pre>
+<h3 id="编译">编译</h3>
+<p>克隆官方代码</p>
+<pre><code class="language-shell">git clone https://github.com/pjreddie/darknet
+</code></pre>
+<p>切换到 darknet 目录, 修改 Makefile</p>
+<pre><code class="language-shell">cd darknet
+vi Makefile
+</code></pre>
+<pre><code class="language-shell">GPU=1  
+CUDNN=1  
+OPENCV=0 # 若需检测视频等, 则修改为 1, OpenCV 配置方法略
+. . . . . . .
+COMMON+= -DGPU -I/usr/local/cuda/include/ # 需根据服务器 CUDA 安装路径修改  
+CFLAGS+= -DGPU  
+LDFLAGS+= -L/usr/local/cuda/lib64 -lcuda -lcudart -lcublas -lcurand   # 需根据 cuDNN 路径修改
+
+例:   
+COMMON+= -DGPU -I/usr/local/cuda-8.0/include/  
+LDFLAGS+= -L/server_space/zhaoym/cuda/tmp -lcuda -lcudart -lcublas -lcurand
+</code></pre>
+<pre><code class="language-shell">make    # 编译
+</code></pre>
+<p>若编译失败需执行 make clean, 修改后重新 make 即可</p>
+<h3 id="验证是否配置成功">验证是否配置成功</h3>
+<p>下载官方预训练权重</p>
+<pre><code class="language-shell">wget https://pjreddie.com/media/files/yolov3.weights
+</code></pre>
+<p>修改配置文件</p>
+<pre><code class="language-shell">vi cfg/yolov3.cfg
+</code></pre>
+<p>进行如下修改后保存退出</p>
+<pre><code class="language-shell">[net]
+# Testing
+batch=1             # 取消注释
+subdivisions=1      # 取消注释
+# Training      
+# batch=64          # 注释掉
+# subdivisions=16   # 注释掉
+</code></pre>
+<p>检测测试</p>
+<pre><code class="language-shell">./darknet detect cfg/yolov3.cfg yolov3.weights data/dog.jpg
+</code></pre>
+<p>输出如下</p>
+<pre><code class="language-shell">layer     filters    size              input                output
+    0 conv     32  3 x 3 / 1   416 x 416 x   3   -&gt;   416 x 416 x  32  0.299 BFLOPs
+    1 conv     64  3 x 3 / 2   416 x 416 x  32   -&gt;   208 x 208 x  64  1.595 BFLOPs
+    .......
+  105 conv    255  1 x 1 / 1    52 x  52 x 256   -&gt;    52 x  52 x 255  0.353 BFLOPs
+  106 detection
+truth_thresh: Using default '1.000000'
+Loading weights from yolov3.weights...Done!
+data/dog.jpg: Predicted in 0.029329 seconds.
+dog: 99%
+truck: 93%
+bicycle: 99%
+</code></pre>
+<p>标注图片在项目根目录下, 名为 <code>predictions.png</code></p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/001.png" alt="" loading="lazy"></figure>
+<h2 id="训练">训练</h2>
+<p>下面以在<a href="http://jiong.tea.ac.cn/people/JunweiHan/NWPUVHR10dataset.html">西工大遥感数据集</a>上训练模型为例演示如何训练自己的数据</p>
+<h3 id="数据集标注转换">数据集标注转换</h3>
+<p>下载数据集并放到 darknet 目录下, 解压并将文件夹中的空格替换</p>
+<pre><code class="language-shell">unrar x NWPU\ VHR-10\ dataset.rar
+mv NWPU\ VHR-10\ dataset NWPU_VHR-10_dataset
+cd NWPU_VHR-10_dataset
+mv ground\ truth ground_truth
+mv positive\ image\ set positive_image_set
+</code></pre>
+<p>转换标注, 代码见 <a href="https://github.com/zcybupt/rawfiles/blob/master/codes/nwpu_vhr_label.py">Github</a></p>
+<pre><code class="language-shell">pip install numpy opencv-python scikit-image pillow    # 安装所需 Python 库
+mkdir labels
+python nwpu_vhr_label.py
+</code></pre>
+<p>输出如下</p>
+<pre><code>492     # 训练集数量
+
+
+158     # 测试集数量
+
+
+650     # 图片总数
+</code></pre>
+<p>输出文件有 <code>tran.txt</code>, <code>val.txt</code> 以及 <code>labels</code> 文件夹下的 650 个转换后的标注</p>
+<p>darknet 默认标注文件与图片在同一目录, 故需将 <code>labels</code>文件夹下的 txt 复制到 <code>positive_image_set</code> 中</p>
+<pre><code class="language-shell">cp labels/*.txt positive_image_set
+</code></pre>
+<h3 id="准备训练配置文件">准备训练配置文件</h3>
+<pre><code class="language-shell">cd ..
+mkdir 0913_NWPU_v3
+cd 0913_NWPU_v3
+mkdir backup
+cp ../cfg/yolov3-voc.cfg ./
+cp ../NWPU_VHR-10_dataset/*.txt ./
+</code></pre>
+<p>创建 <code>NWPU.data</code> 文件并写入以下内容</p>
+<pre><code>classes= 10
+train  = 0913_NWPU_v3/train.txt
+valid  = 0913_NWPU_v3/val.txt
+names  = 0913_NWPU_v3/NWPU.names
+backup = 0913_NWPU_v3/backup/
+</code></pre>
+<blockquote>
+<p>classes                类别数量<br>
+train                    训练集文件列表<br>
+valid                    验证集文件列表<br>
+names                类别名称文件<br>
+backup               权重存放目录</p>
+</blockquote>
+<p>创建 <code>NWPU.names</code> 文件并写入以下内容</p>
+<pre><code>aeroplane
+ship
+storage_tank
+baseball_diamond
+tennis_court
+basketball_court
+ground_track_field
+harbor
+bridge
+vehicle
+</code></pre>
+<p>修改 <code>yolov3-voc.cfg</code></p>
+<pre><code>[net]
+# Testing
+# batch=1           # 注释掉
+# subdivisions=1    # 注释掉
+#Training
+batch=64            # 取消注释
+subdivisions=16     # 取消注释
+......
+# 605, 689, 773 行的 filters
+filters=45          # (4个位置 + 1个objectness + C个类别) * 3, 只改 [yolo] 层上一层中的filters
+# 611, 695, 779 行的 classes
+classes=10          # 类别数
+</code></pre>
+<h3 id="训练-2">训练</h3>
+<p>下载预训练文件</p>
+<pre><code class="language-shell">cd ..
+wget https://pjreddie.com/media/files/darknet53.conv.74
+</code></pre>
+<p>开始训练</p>
+<pre><code class="language-shell">./darknet detector train 0913_NWPU_v3/voc.data 0913_NWPU_v3/yolov3-voc.cfg darknet53.conv.74 -gpus 0,1
+</code></pre>
+<blockquote>
+<p>-gpus 指定训练使用的 GPU, 这里使用了第 0 块和第 1 块显卡</p>
+</blockquote>
+<p>输出</p>
+<pre><code class="language-shell">layer     filters    size              input                output
+    0 conv     32  3 x 3 / 1   416 x 416 x   3   -&gt;   416 x 416 x  32  0.299 BFLOPs
+    1 conv     64  3 x 3 / 2   416 x 416 x  32   -&gt;   208 x 208 x  64  1.595 BFLOPs
+    2 conv     32  1 x 1 / 1   208 x 208 x  64   -&gt;   208 x 208 x  32  0.177 BFLOPs
+    ......
+  105 conv     45  1 x 1 / 1    52 x  52 x 256   -&gt;    52 x  52 x  45  0.062 BFLOPs
+  106 yolo
+Loading weights from darknet53.conv.74...Done!
+Learning Rate: 0.001, Momentum: 0.9, Decay: 0.0005
+Resizing
+320
+Loaded: 0.000029 seconds
+Region 82 Avg IOU: -nan, Class: -nan, Obj: -nan, No Obj: 0.539972, .5R: -nan, .75R: -nan,  count: 0
+Region 94 Avg IOU: 0.527418, Class: 0.748367, Obj: 0.665674, No Obj: 0.590720, .5R: 1.000000, .75R: 0.000000,  count: 1
+Region 106 Avg IOU: 0.204739, Class: 0.530762, Obj: 0.475587, No Obj: 0.427459, .5R: 0.142857, .75R: 0.000000,  count: 42
+Region 82 Avg IOU: 0.334140, Class: 0.682158, Obj: 0.326366, No Obj: 0.540248, .5R: 0.000000, .75R: 0.000000,  count: 1
+Region 94 Avg IOU: 0.279358, Class: 0.548496, Obj: 0.595618, No Obj: 0.589648, .5R: 0.333333, .75R: 0.166667,  count: 6
+Region 106 Avg IOU: 0.175368, Class: 0.478585, Obj: 0.391913, No Obj: 0.430448, .5R: 0.000000, .75R: 0.000000,  count: 9
+......
+</code></pre>
+<p><strong>注:</strong></p>
+<ol>
+<li>
+<p><code>yolov3-voc.cfg</code> 配置文件中的 <code>batch</code> 和 <code>subdivisions</code> 需根据 GPU 显存大小修改, 若显存较小, 应相应地减小 <code>batch</code> 增大 <code>subdivisions</code></p>
+</li>
+<li>
+<p>查看显存占用可用 <code>nvidia-smi</code>, 输出如下</p>
+<pre><code>Wed Mar 13 15:36:29 2019       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 384.111                Driver Version: 384.111                   |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  GeForce GTX 1080    Off  | 00000000:02:00.0 Off |                  N/A |
+| 59%   83C    P2   104W / 180W |   2729MiB /  8112MiB |     93%      Default |
++-------------------------------+----------------------+----------------------+
+|   1  GeForce GTX 1080    Off  | 00000000:03:00.0 Off |                  N/A |
+| 54%   81C    P2   133W / 180W |   6861MiB /  8114MiB |     18%      Default |
++-------------------------------+----------------------+----------------------+                                                                            
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
+|    0     28529      C   python                                      2719MiB |
+|    1      2040      C   python3                                     6851MiB |
++-----------------------------------------------------------------------------+
+</code></pre>
+</li>
+<li>
+<p>如果输出中全都是 <code>-nan</code>, <code>count</code> 全为 <code>0</code> 问题很有可能在数据集上</p>
+</li>
+<li>
+<p>官方代码默认前 <code>1000</code>次, 每 <code>100</code> 次保存一次权重；<code>1000</code> 次之后每 <code>10000</code> 次保存一次权重, 可在 <code>examples/detector.c</code> 的 <code>130</code> 及 <code>138</code> 行自行修改, 重新编译即可生效</p>
+</li>
+<li>
+<p>若训练中途停止, 将训练命令中的 <code>darknet53.conv.74</code> 改为已得到的最新的权重的路径即可继续训练</p>
+</li>
+<li>
+<p>训练输出日志含义见<a href="https://blog.csdn.net/gzj2013/article/details/82285511">此文</a></p>
+</li>
+<li>
+<p>保存训练日志到文件追加 <code>tee</code> 命令, 例如</p>
+<pre><code class="language-shell">./darknet detector train 0913_NWPU_v3/voc.data 0913_NWPU_v3/yolov3-voc.cfg darknet53.conv.74 -gpus 0,1 | tee -a 0913_train.log
+</code></pre>
+</li>
+</ol>
+<h2 id="评估">评估</h2>
+<h3 id="生成检测结果">生成检测结果</h3>
+<p>修改 <code>yolov3-voc.cfg</code></p>
+<pre><code class="language-shell">[net]
+# Testing
+batch=1             # 取消注释
+subdivisions=1      # 取消注释
+# Training      
+# batch=64          # 注释掉
+# subdivisions=16   # 注释掉
+</code></pre>
+<p>使用 valid 命令，将验证集结果批量生成</p>
+<pre><code class="language-shell">./darknet detector valid 0913_NWPU_v3/NWPU.data 0913_NWPU_v3/yolov3-voc.cfg 0913_NWPU_v3/backup/yolov3-voc_10500.weights
+</code></pre>
+<p>输出如下</p>
+<pre><code class="language-shell">results: Using default 'results'
+layer     filters    size              input                output
+    0 conv     32  3 x 3 / 1   416 x 416 x   3   -&gt;   416 x 416 x  32  0.299 BFLOPs
+    1 conv     64  3 x 3 / 2   416 x 416 x  32   -&gt;   208 x 208 x  64  1.595 BFLOPs
+    2 conv     32  1 x 1 / 1   208 x 208 x  64   -&gt;   208 x 208 x  32  0.177 BFLOPs
+    ......
+  105 conv     45  1 x 1 / 1    52 x  52 x 256   -&gt;    52 x  52 x  45  0.062 BFLOPs
+  106 yolo
+Loading weights from 0913_NWPU_v3/backup/yolov3-voc_10500.weights...Done!
+Learning Rate: 0.001, Momentum: 0.9, Decay: 0.0005
+eval: Using default 'voc'
+4
+8
+12
+......
+160
+Total Detection Time: 14.854030 Seconds
+</code></pre>
+<p>输出文件均保存在 <code>results</code> 目录下</p>
+<h3 id="计算-map">计算 mAP</h3>
+<p>将西工大数据集转换为 VOC 格式, 代码: <a href="https://github.com/zcybupt/rawfiles/blob/master/codes/nwpu2voc/nwpu2voc.py">nwpu2voc.py</a></p>
+<pre><code class="language-shell">cd NWPU_VHR-10_dataset
+python nwpu2voc.py  # 将 nwpu2voc.py 放到 NWPU_VHR-10_dataset 目录下
+</code></pre>
+<p>下载 <a href="https://github.com/zcybupt/rawfiles/blob/master/codes/voc%E8%AF%84%E4%BC%B0/reval_voc.py">reval_voc.py</a> 和 <a href="https://github.com/zcybupt/rawfiles/blob/master/codes/voc%E8%AF%84%E4%BC%B0/voc_eval.py">voc_eval.py</a>, 以下代码需在 <code>Python2</code> 环境下运行并预先装好 <code>numpy</code>, 推荐用 <code>Miniconda</code> 管理 Python 环境</p>
+<pre><code class="language-shell">cd ..
+python reval_voc.py --voc_dir NWPU_VHR-10_dataset/VOCdevkit --year 2007 --image_set test --class ./0913_NWPU_v3/NWPU.names ./valid_results
+</code></pre>
+<p>输出如下</p>
+<pre><code>Evaluating detections
+VOC07 metric? Yes
+AP for aeroplane = 0.9949
+AP for ship = 0.8182
+AP for storage_tank = 0.8013
+AP for baseball_diamond = 0.9827
+AP for tennis_court = 0.8040
+AP for basketball_court = 0.8182
+AP for ground_track_field = 0.9947
+AP for harbor = 0.7442
+AP for bridge = 0.8961
+AP for vehicle = 0.8689
+Mean AP = 0.8723
+
+--------------------------------------------------------------
+Results computed with the **unofficial** Python eval code.
+Results should be very close to the official MATLAB eval code.
+-- Thanks, The Management
+--------------------------------------------------------------
+</code></pre>
+<p>更多信息参见 <a href="https://www.jianshu.com/p/7ae10c8f7d77">Darknet 评估训练好的网络的性能</a></p>
+<h2 id="其它参考资料">其它参考资料</h2>
+<p><a href="https://zhuanlan.zhihu.com/p/35490655">DarkNet-YOLOv3 训练自己的数据集 Ubuntu16.04+cuda8.0</a></p>
+<p><a href="https://blog.csdn.net/mieleizhi0522/article/details/79989754">YOLOv3批量测试图片并保存在自定义文件夹下</a></p>
+<p><a href="https://blog.csdn.net/sinat_30071459/article/details/53100791">YOLO(v1)用自己的数据集训练模型</a></p>
+<h2 id="后记">后记</h2>
+<p><a href="https://github.com/zcybupt/rawfiles/tree/master/IGARSS_codes">IGARSS 代码及配置文件打包</a></p>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/tbBtxfvXe/">
+            <span class="flex-auto">深度学习</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/7o2QMzgrFg/">
+            <span class="flex-auto">计算机视觉</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://zcybupt.github.io/post/SortAlgorithms/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  排序算法汇总
+                </h3>
+              </a>
+            </div>
+          
+
+          
+        </div>
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: 'f69e1255342d00cd7bd4',
+    clientSecret: '3b9c344a90d850d00b99b0c0c7716b8f71a2f1bc',
+    repo: 'zcybupt.github.io',
+    owner: 'zcybupt',
+    admin: ['zcybupt'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+      </div>
+    </div>
+
+    <script src="https://zcybupt.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>
