@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-05T01:26:40.789Z</updated>
+    <updated>2020-07-05T08:38:17.082Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
@@ -18,12 +18,14 @@
         <content type="html"><![CDATA[<h3 id="题目">题目</h3>
 <p>母牛每年生一头母牛, 新出生的母牛成长三年后也能每年生一头母牛, 假设牛不会死. 求 <code>N</code> 年后母牛的数量</p>
 <h3 id="题解">题解</h3>
+<h4 id="递归">递归</h4>
 <p>归纳得 <code>F(N) = F(N-1) + F(N-3)</code></p>
-<p>该式实际上可解释为每年牛的总数等于前一年牛的总数 <code>F(N-1)</code> 加上三年前牛的总数 <code>F(N-3)</code> , 因为三年后这些牛也可产生后代</p>
-<h4 id="java">Java</h4>
+<p>该式实际上可解释为每年牛的总数等于前一年牛的总数 <code>F(N-1)</code> 加上三年前牛的总数 <code>F(N-3)</code> , 其中 <code>F(N-3)</code> 即为每年新增的牛的数量.</p>
+<p>若规定牛的寿命为 10 年, 减去 <code>F(N-10)</code> 即可</p>
+<h5 id="java">Java</h5>
 <pre><code class="language-java">public class CowNumber {
     public static int getCowNum(int N) {
-        if (N &lt;= 3) return N;
+        if (N &lt;= 2) return N + 1;
         return getCowNum(N - 1) + getCowNum(N - 3);
     }
 
@@ -32,23 +34,51 @@
     }
 }
 </code></pre>
-<pre><code class="language-java">19
+<pre><code class="language-java">28
 </code></pre>
-<h4 id="python">Python</h4>
+<h5 id="python">Python</h5>
 <pre><code class="language-python">def get_cow_number(n):
-    if n &lt;= 3:
-        return n
+    if n &lt;= 2:
+        return n + 1
 
-    return get_cow_number2(n - 1) + get_cow_number2(n - 3)
+    return get_cow_number(n - 1) + get_cow_number(n - 3)
 </code></pre>
-<h4 id="go">Go</h4>
+<h5 id="go">Go</h5>
 <pre><code class="language-go">func getCowNum(n int) int {
-	if n &lt;= 3 {
-		return n
+	if n &lt;= 2 {
+		return n + 1
 	}
 
 	return getCowNum(n-1) + getCowNum(n-3)
 }
+
+func main() {
+	n := 8
+	fmt.Println(getCowNum(n + 1))
+}
+</code></pre>
+<h4 id="斐波那契数列的矩阵求法">斐波那契数列的矩阵求法</h4>
+<p>以上算法的时间复杂度为 <code>O(N²)</code> 本题可参考<a href="https://www.geeksforgeeks.org/matrix-exponentiation/">斐波那契数列的矩阵求法</a>, 该算法时间复杂度仅为 <code>O(logN)</code></p>
+<p>推导如下:</p>
+<pre><code>F(n) = a*F(n-1) + b*F(n-2) + c*F(n-3)
+F(n-1) = F(n-1)
+F(n-2) = F(n-2)
+</code></pre>
+<p>本题中 a = 1, b = 0, c = 1</p>
+<p>故可得</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200705153235.png" alt="" loading="lazy"></figure>
+<h5 id="python-2">Python</h5>
+<pre><code class="language-python">import numpy as np
+
+def fib_matrix(n):
+    if n &lt;= 2:
+        return n + 1
+    result = np.mat([
+        [1, 0, 1],
+        [1, 0, 0],
+        [0, 1, 0]
+    ], dtype='float64') ** (n - 2) * np.mat([3, 2, 1]).T
+    return int(result[0, 0])
 </code></pre>
 ]]></content>
     </entry>

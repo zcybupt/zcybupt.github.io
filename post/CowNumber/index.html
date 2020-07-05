@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1593912396510">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1593938292801">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1593912396510" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1593938292801" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -50,9 +50,18 @@
 <li><a href="#%E9%A2%98%E7%9B%AE">题目</a></li>
 <li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
 <ul>
+<li><a href="#%E9%80%92%E5%BD%92">递归</a>
+<ul>
 <li><a href="#java">Java</a></li>
 <li><a href="#python">Python</a></li>
 <li><a href="#go">Go</a></li>
+</ul>
+</li>
+<li><a href="#%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97%E7%9A%84%E7%9F%A9%E9%98%B5%E6%B1%82%E6%B3%95">斐波那契数列的矩阵求法</a>
+<ul>
+<li><a href="#python-2">Python</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -107,7 +116,7 @@
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
         <h1 class="text-3xl font-bold lg:mt-16">母牛数量问题</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-07-04 / 1 min read
+          2020-07-04 / 2 min read
         </div>
         
           <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200705091722.png" alt="">
@@ -116,12 +125,14 @@
           <h3 id="题目">题目</h3>
 <p>母牛每年生一头母牛, 新出生的母牛成长三年后也能每年生一头母牛, 假设牛不会死. 求 <code>N</code> 年后母牛的数量</p>
 <h3 id="题解">题解</h3>
+<h4 id="递归">递归</h4>
 <p>归纳得 <code>F(N) = F(N-1) + F(N-3)</code></p>
-<p>该式实际上可解释为每年牛的总数等于前一年牛的总数 <code>F(N-1)</code> 加上三年前牛的总数 <code>F(N-3)</code> , 因为三年后这些牛也可产生后代</p>
-<h4 id="java">Java</h4>
+<p>该式实际上可解释为每年牛的总数等于前一年牛的总数 <code>F(N-1)</code> 加上三年前牛的总数 <code>F(N-3)</code> , 其中 <code>F(N-3)</code> 即为每年新增的牛的数量.</p>
+<p>若规定牛的寿命为 10 年, 减去 <code>F(N-10)</code> 即可</p>
+<h5 id="java">Java</h5>
 <pre><code class="language-java">public class CowNumber {
     public static int getCowNum(int N) {
-        if (N &lt;= 3) return N;
+        if (N &lt;= 2) return N + 1;
         return getCowNum(N - 1) + getCowNum(N - 3);
     }
 
@@ -130,23 +141,51 @@
     }
 }
 </code></pre>
-<pre><code class="language-java">19
+<pre><code class="language-java">28
 </code></pre>
-<h4 id="python">Python</h4>
+<h5 id="python">Python</h5>
 <pre><code class="language-python">def get_cow_number(n):
-    if n &lt;= 3:
-        return n
+    if n &lt;= 2:
+        return n + 1
 
-    return get_cow_number2(n - 1) + get_cow_number2(n - 3)
+    return get_cow_number(n - 1) + get_cow_number(n - 3)
 </code></pre>
-<h4 id="go">Go</h4>
+<h5 id="go">Go</h5>
 <pre><code class="language-go">func getCowNum(n int) int {
-	if n &lt;= 3 {
-		return n
+	if n &lt;= 2 {
+		return n + 1
 	}
 
 	return getCowNum(n-1) + getCowNum(n-3)
 }
+
+func main() {
+	n := 8
+	fmt.Println(getCowNum(n + 1))
+}
+</code></pre>
+<h4 id="斐波那契数列的矩阵求法">斐波那契数列的矩阵求法</h4>
+<p>以上算法的时间复杂度为 <code>O(N²)</code> 本题可参考<a href="https://www.geeksforgeeks.org/matrix-exponentiation/">斐波那契数列的矩阵求法</a>, 该算法时间复杂度仅为 <code>O(logN)</code></p>
+<p>推导如下:</p>
+<pre><code>F(n) = a*F(n-1) + b*F(n-2) + c*F(n-3)
+F(n-1) = F(n-1)
+F(n-2) = F(n-2)
+</code></pre>
+<p>本题中 a = 1, b = 0, c = 1</p>
+<p>故可得</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200705153235.png" alt="" loading="lazy"></figure>
+<h5 id="python-2">Python</h5>
+<pre><code class="language-python">import numpy as np
+
+def fib_matrix(n):
+    if n &lt;= 2:
+        return n + 1
+    result = np.mat([
+        [1, 0, 1],
+        [1, 0, 0],
+        [0, 1, 0]
+    ], dtype='float64') ** (n - 2) * np.mat([3, 2, 1]).T
+    return int(result[0, 0])
 </code></pre>
 
         </div>
