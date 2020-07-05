@@ -39,30 +39,28 @@
       
         <div class="animated fadeInLeft" style="animation-delay: 0.4s">
           <p class="my-4 text-gray-600 font-light hidden lg:block">
-            
+            文章目录
           </p>
-          <div class="animated fadeInLeft social-container hidden lg:block" style="animation-delay: 0.6s">
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E9%A2%98%E7%9B%AE">题目</a></li>
+<li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
+<ul>
+<li><a href="#java">Java</a></li>
+<li><a href="#python">Python</a></li>
+<li><a href="#go">Go</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
           </div>
         </div>
       
@@ -106,69 +104,106 @@
 </div>
 <div class="mask" onclick="closeMenu()">
 </div>
-      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4">
-        <h2 class="text-lg text-gray-700 mb-8">
-          <i class="ri-bookmark-line"></i> 动态规划
-        </h2>
-        
-  <section class="post-item md:flex pb-12 animated fadeIn" :style="{ 'animation-delay': `${0 * 0.2}s` }">
-    
-      <a href="https://zcybupt.github.io/post/Knapsack/" class="feature-image-wrapper bg-gray-100 rounded-lg flex-shrink-0 mr-8 w-full h-56 h-32 md:w-56 md:h-40">
-        <div class="post-feature-image lazy w-full h-56 h-32 md:w-56 md:h-40" data-bg="'https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200626194245.png'">
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">母牛数量问题</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2020-07-04 / 1 min read
         </div>
-      </a>
-    
-    <div class="content">
-      <a href="https://zcybupt.github.io/post/Knapsack/">
-        <h2 class="post-title text-xl font-extrabold mt-5 md:mt-0">限重最大值问题</h2>
-      </a>
-      <div class="post-abstract text-gray-700 font-light my-4">
         
-      </div>
-      <div class="text-gray-400 text-sm font-light">2020-06-26 / 3 min read</div>
-    </div>
-  </section>
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200705091722.png" alt="">
+        
+        <div class="post-content yue">
+          <h3 id="题目">题目</h3>
+<p>母牛每年生一头母牛, 新出生的母牛成长三年后也能每年生一头母牛, 假设牛不会死. 求 <code>N</code> 年后母牛的数量</p>
+<h3 id="题解">题解</h3>
+<p>归纳得 <code>F(N) = F(N-1) + F(N-3)</code></p>
+<p>该式实际上可解释为每年牛的总数等于前一年牛的总数 <code>F(N-1)</code> 加上三年前牛的总数 <code>F(N-3)</code> , 因为三年后这些牛也可产生后代</p>
+<h4 id="java">Java</h4>
+<pre><code class="language-java">public class CowNumber {
+    public static int getCowNum(int N) {
+        if (N &lt;= 3) return N;
+        return getCowNum(N - 1) + getCowNum(N - 3);
+    }
 
-  <section class="post-item md:flex pb-12 animated fadeIn" :style="{ 'animation-delay': `${1 * 0.2}s` }">
-    
-      <a href="https://zcybupt.github.io/post/SumToTarget/" class="feature-image-wrapper bg-gray-100 rounded-lg flex-shrink-0 mr-8 w-full h-56 h-32 md:w-56 md:h-40">
-        <div class="post-feature-image lazy w-full h-56 h-32 md:w-56 md:h-40" data-bg="'https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200624203108.png'">
+    public static void main(String[] args) {
+        System.out.println(getCowNum(8));
+    }
+}
+</code></pre>
+<pre><code class="language-java">19
+</code></pre>
+<h4 id="python">Python</h4>
+<pre><code class="language-python">def get_cow_number(n):
+    if n &lt;= 3:
+        return n
+
+    return get_cow_number2(n - 1) + get_cow_number2(n - 3)
+</code></pre>
+<h4 id="go">Go</h4>
+<pre><code class="language-go">func getCowNum(n int) int {
+	if n &lt;= 3 {
+		return n
+	}
+
+	return getCowNum(n-1) + getCowNum(n-3)
+}
+</code></pre>
+
         </div>
-      </a>
-    
-    <div class="content">
-      <a href="https://zcybupt.github.io/post/SumToTarget/">
-        <h2 class="post-title text-xl font-extrabold mt-5 md:mt-0">数组累加得到目标值</h2>
-      </a>
-      <div class="post-abstract text-gray-700 font-light my-4">
-        
-      </div>
-      <div class="text-gray-400 text-sm font-light">2020-06-24 / 4 min read</div>
-    </div>
-  </section>
 
-  <section class="post-item md:flex pb-12 animated fadeIn" :style="{ 'animation-delay': `${2 * 0.2}s` }">
-    
-      <a href="https://zcybupt.github.io/post/MinimalPathSum/" class="feature-image-wrapper bg-gray-100 rounded-lg flex-shrink-0 mr-8 w-full h-56 h-32 md:w-56 md:h-40">
-        <div class="post-feature-image lazy w-full h-56 h-32 md:w-56 md:h-40" data-bg="'https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200624084314.png'">
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/mmw_7R7O7/">
+            <span class="flex-auto">递归</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/sygsU_q1s/">
+            <span class="flex-auto">算法</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+
+          
+            <div class="next-post">
+              <a href="https://zcybupt.github.io/post/PrintPermutations/">
+                <h3 class="post-title">
+                  字符串的全排列
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
         </div>
-      </a>
-    
-    <div class="content">
-      <a href="https://zcybupt.github.io/post/MinimalPathSum/">
-        <h2 class="post-title text-xl font-extrabold mt-5 md:mt-0">二维数组最小路径和</h2>
-      </a>
-      <div class="post-abstract text-gray-700 font-light my-4">
-        
-      </div>
-      <div class="text-gray-400 text-sm font-light">2020-06-24 / 10 min read</div>
-    </div>
-  </section>
 
-        <div class="pagination-container animated fadeIn">
-  
-  
-</div>
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: 'f69e1255342d00cd7bd4',
+    clientSecret: '3b9c344a90d850d00b99b0c0c7716b8f71a2f1bc',
+    repo: 'zcybupt.github.io',
+    owner: 'zcybupt',
+    admin: ['zcybupt'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
 
       </div>
     </div>
