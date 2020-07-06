@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-05T08:38:17.082Z</updated>
+    <updated>2020-07-06T01:13:09.717Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
@@ -50,11 +50,6 @@
 	}
 
 	return getCowNum(n-1) + getCowNum(n-3)
-}
-
-func main() {
-	n := 8
-	fmt.Println(getCowNum(n + 1))
 }
 </code></pre>
 <h4 id="斐波那契数列的矩阵求法">斐波那契数列的矩阵求法</h4>
