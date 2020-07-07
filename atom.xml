@@ -2,13 +2,46 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-06T01:13:09.717Z</updated>
+    <updated>2020-07-07T12:17:10.900Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
     <logo>https://zcybupt.github.io/images/avatar.png</logo>
     <icon>https://zcybupt.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, CODEFANCIER</rights>
+    <entry>
+        <title type="html"><![CDATA[递归逆序栈]]></title>
+        <id>https://zcybupt.github.io/post/ReverseStackUsingRecursive/</id>
+        <link href="https://zcybupt.github.io/post/ReverseStackUsingRecursive/">
+        </link>
+        <updated>2020-07-07T09:05:33.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="题目">题目</h3>
+<p>逆序一个栈, 且不能使用额外的数据结构, 只可使用递归函数</p>
+<h3 id="题解">题解</h3>
+<h4 id="java">Java</h4>
+<pre><code class="language-java">public class ReverseStackUsingRecursive {
+    public static void reverse(Stack&lt;Integer&gt; stack) {
+        if (stack.isEmpty()) return;
+
+        int ele = getAndRemoveLastElement(stack);
+        reverse(stack);
+        stack.push(ele);
+    }
+
+    public static int getAndRemoveLastElement(Stack&lt;Integer&gt; stack) {
+        int result = stack.pop();
+        if (stack.isEmpty()) {
+            return result;
+        } else {
+            int last = getAndRemoveLastElement(stack);
+            stack.push(result);
+            return last;
+        }
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[母牛数量问题]]></title>
         <id>https://zcybupt.github.io/post/CowNumber/</id>
@@ -965,80 +998,6 @@ def kruskal_mst(graph):
                 zero_in_list.append(next)
 
     return result
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[深度优先遍历]]></title>
-        <id>https://zcybupt.github.io/post/DFS/</id>
-        <link href="https://zcybupt.github.io/post/DFS/">
-        </link>
-        <updated>2020-06-21T08:07:49.000Z</updated>
-        <content type="html"><![CDATA[<p>借助栈和集合实现树和图的深度优先遍历, 每次从栈中取出一个节点 <code>A</code> , 遍历与节点 <code>A</code> 相邻的后续节点 <code>Bn</code> , 若集合中没有该后续 <code>Bn</code> 则将节点 <code>A</code> 放回栈中, 并将后续节点 <code>Bn</code> 放入栈和集合中, 输出后续节点 <code>Bn</code> . 每遍历完一个后续节点就跳出当前循环, 避免出现横向遍历 ( 如下图, 可能会产生 2, 3, 4 的错误输出 ).</p>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200620202932.png" alt="" loading="lazy"></figure>
-<p>以上图为例, 图的节点定义及整体结构见<a href="https://zcybupt.github.io/post/Graph/">上一篇博客</a></p>
-<h5 id="java">Java</h5>
-<pre><code class="language-java">public class DFS {
-    public static void dfs(GraphNode node) {
-        if (node == null) return;
-
-        Stack&lt;GraphNode&gt; stack = new Stack&lt;&gt;();
-        HashSet&lt;GraphNode&gt; set = new HashSet&lt;&gt;();
-        stack.push(node);
-        set.add(node);
-        System.out.print(node.value + &quot; &quot;);
-        while (!stack.isEmpty()) {
-            GraphNode cur = stack.pop();
-            for (GraphNode next : cur.nexts) {
-                if (!set.contains(next)) {
-                    stack.push(cur);
-                    stack.push(next);
-                    set.add(next);
-                    System.out.print(next.value + &quot; &quot;);
-                    break;
-                }
-            }
-        }
-    }
-
-    public static void main(String[] args) {
-        Integer[][] nodes = {
-                {1, 1, 2},
-                {1, 1, 3},
-                {1, 1, 4},
-                {1, 2, 3},
-                {1, 2, 7},
-                {1, 3, 5},
-                {1, 4, 6},
-                {1, 7, 3}
-        };
-        Graph graph = GraphBuilder.createGraph(nodes);
-        dfs(graph.nodes.get(1));
-    }
-}
-</code></pre>
-<pre><code class="language-java">1 2 3 5 7 4 6
-</code></pre>
-<h5 id="python">Python</h5>
-<pre><code class="language-python">def dfs(node):
-    if not node: return
-
-    ele_stack = []
-    ele_set = set()
-
-    ele_stack.append(node)
-    ele_set.add(node)
-
-    print(node.value, end=' ')
-    while ele_stack:
-        current_node = ele_stack.pop()
-        for next_node in current_node.nexts:
-            if next_node not in ele_set:
-                ele_stack.append(current_node)
-                ele_stack.append(next_node)
-                ele_set.add(next_node)
-                print(next_node.value, end=' ')
-                break
 </code></pre>
 ]]></content>
     </entry>
