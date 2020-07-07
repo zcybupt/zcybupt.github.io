@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-07T12:17:10.900Z</updated>
+    <updated>2020-07-07T13:14:54.937Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
@@ -40,6 +40,25 @@
     }
 }
 </code></pre>
+<h4 id="python">Python</h4>
+<pre><code class="language-python">def reverse(stack):
+    if not stack or len(stack) == 0:
+        return
+    ele = get_and_remove_last_element(stack)
+    reverse(stack)
+    stack.append(ele)
+
+
+def get_and_remove_last_element(stack):
+    result = stack.pop()
+    if len(stack) == 0:
+        return result
+    else:
+        last = get_and_remove_last_element(stack)
+        stack.append(result)
+        return last
+</code></pre>
+<h4 id="go">Go</h4>
 ]]></content>
     </entry>
     <entry>

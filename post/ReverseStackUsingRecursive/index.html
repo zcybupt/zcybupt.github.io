@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1594124227535">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1594127692304">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1594124227535" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1594127692304" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -51,6 +51,8 @@
 <li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
 <ul>
 <li><a href="#java">Java</a></li>
+<li><a href="#python">Python</a></li>
+<li><a href="#go">Go</a></li>
 </ul>
 </li>
 </ul>
@@ -134,6 +136,25 @@
     }
 }
 </code></pre>
+<h4 id="python">Python</h4>
+<pre><code class="language-python">def reverse(stack):
+    if not stack or len(stack) == 0:
+        return
+    ele = get_and_remove_last_element(stack)
+    reverse(stack)
+    stack.append(ele)
+
+
+def get_and_remove_last_element(stack):
+    result = stack.pop()
+    if len(stack) == 0:
+        return result
+    else:
+        last = get_and_remove_last_element(stack)
+        stack.append(result)
+        return last
+</code></pre>
+<h4 id="go">Go</h4>
 
         </div>
 
