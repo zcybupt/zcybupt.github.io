@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-08T23:53:03.140Z</updated>
+    <updated>2020-07-08T23:54:18.808Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
@@ -118,7 +118,7 @@ endif
 <pre><code class="language-shell">$ ./darknet detector test ./cfg/coco.data ./cfg/yolov4.cfg ./yolov4.weights
 </code></pre>
 <figure data-type="image" tabindex="7"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200708211444.png" alt="" loading="lazy"></figure>
-<p>Yolo v4 的训练与 v3 相同, 可参考之前的文章: <a href="https://zcybupt.github.io/post/YoloDeployment">YOLO v3 环境搭建及训练入门指南</a></p>
+<p>Yolo v4 的训练配置方式与 v3 相同, 可参考之前的文章: <a href="https://zcybupt.github.io/post/YoloDeployment">YOLO v3 环境搭建及训练入门指南</a></p>
 ]]></content>
     </entry>
     <entry>
