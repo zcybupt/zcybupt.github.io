@@ -42,27 +42,7 @@
             文章目录
           </p>
           <div class="toc-container hidden lg:block">
-            <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#java">Java</a></li>
-<li><a href="#python">Python</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
+            
           </div>
         </div>
       
@@ -107,112 +87,27 @@
 <div class="mask" onclick="closeMenu()">
 </div>
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-bold lg:mt-16">广度优先遍历</h1>
+        <h1 class="text-3xl font-bold lg:mt-16">无 root 配置 CUDA 10 及 cuDNN 运行 Yolo v4</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-06-20 / 2 min read
+          2020-07-08 / 1 min read
         </div>
-        
-          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200620201951.png" alt="">
         
         <div class="post-content yue">
-          <p>树和图的广度优先遍历可借助一个队列和一个集合实现. 先将当前节点分别放入队列和集合中, 再依次出队, 出队元素将其下一个节点进队, 迭代即可实现广度优先遍历.</p>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200620202932.png" alt="" loading="lazy"></figure>
-<p>以上图为例, 图的节点定义及整体结构见<a href="https://zcybupt.github.io/post/Graph/">上一篇博客</a></p>
-<h5 id="java">Java</h5>
-<pre><code class="language-java">public class BFS {
-    public static void bfs(GraphNode node) {
-        if (node == null) return;
-
-        Queue&lt;GraphNode&gt; queue = new LinkedList&lt;&gt;();
-        HashSet&lt;GraphNode&gt; set = new HashSet&lt;&gt;();
-        queue.add(node);
-        set.add(node);
-        while (!queue.isEmpty()) {
-            GraphNode curNode = queue.poll();
-            System.out.print(curNode.value + &quot; &quot;);
-            for (GraphNode next : curNode.nexts) {
-                if (!set.contains(next)) {
-                    set.add(next);
-                    queue.add(next);
-                }
-            }
-        }
-    }
-
-    public static void main(String[] args) {
-        // 无权重, 假定都为 1
-        Integer[][] nodes = {
-                {1, 1, 2},
-                {1, 1, 3},
-                {1, 1, 4},
-                {1, 2, 3},
-                {1, 2, 7},
-                {1, 3, 5},
-                {1, 4, 6},
-                {1, 7, 3}
-        };
-        Graph graph = GraphBuilder.createGraph(nodes);
-        bfs(graph.nodes.get(1));
-    }
-}
-</code></pre>
-<pre><code>1 2 3 4 7 5 6
-</code></pre>
-<h5 id="python">Python</h5>
-<pre><code class="language-python">from queue import Queue
-
-def bfs(node):
-    if not node: return
-
-    ele_queue = Queue()
-    ele_set = set()
-
-    ele_queue.put(node)
-    ele_set.add(node)
-
-    while ele_queue.qsize() != 0:
-        current_node = ele_queue.get()
-        print(current_node.value, end=' ')
-        for next_node in current_node.nexts:
-            if next_node not in ele_set:
-                ele_set.add(next_node)
-                ele_queue.put(next_node)
-</code></pre>
+          <p>aaaa</p>
 
         </div>
 
-        
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/ZoMe8PIBC/">
-            <span class="flex-auto">树</span>
-          </a>
-        
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/oX_1wl8kW/">
-            <span class="flex-auto">图</span>
-          </a>
-        
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/sygsU_q1s/">
-            <span class="flex-auto">算法</span>
-          </a>
         
 
 
         <div class="flex justify-between py-8">
           
-            <div class="prev-post">
-              <a href="https://zcybupt.github.io/post/DFS/">
-                <h3 class="post-title">
-                  <i class="ri-arrow-left-line"></i>
-                  深度优先遍历
-                </h3>
-              </a>
-            </div>
-          
 
           
             <div class="next-post">
-              <a href="https://zcybupt.github.io/post/Graph/">
+              <a href="https://zcybupt.github.io/post/ReverseStackUsingRecursive/">
                 <h3 class="post-title">
-                  图
+                  递归逆序栈
                   <i class="ri-arrow-right-line"></i>
                 </h3>
               </a>

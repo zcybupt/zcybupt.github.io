@@ -2,13 +2,22 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-08T03:02:45.160Z</updated>
+    <updated>2020-07-08T11:48:00.985Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
     <logo>https://zcybupt.github.io/images/avatar.png</logo>
     <icon>https://zcybupt.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, CODEFANCIER</rights>
+    <entry>
+        <title type="html"><![CDATA[无 root 配置 CUDA 10 及 cuDNN 运行 Yolo v4]]></title>
+        <id>https://zcybupt.github.io/post/Yolov4Deployment/</id>
+        <link href="https://zcybupt.github.io/post/Yolov4Deployment/">
+        </link>
+        <updated>2020-07-08T11:26:50.000Z</updated>
+        <content type="html"><![CDATA[<p>aaaa</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[递归逆序栈]]></title>
         <id>https://zcybupt.github.io/post/ReverseStackUsingRecursive/</id>
@@ -971,79 +980,6 @@ def kruskal_mst(graph):
                     result.add(edge)
                     for next_edge in to_node.edges:
                         heappush(edge_heap, next_edge)
-    return result
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[拓扑排序算法]]></title>
-        <id>https://zcybupt.github.io/post/TopologySort/</id>
-        <link href="https://zcybupt.github.io/post/TopologySort/">
-        </link>
-        <updated>2020-06-21T10:45:38.000Z</updated>
-        <content type="html"><![CDATA[<p>在图论中，由一个有向无环图的顶点组成的序列，当且仅当满足下列条件时，才能称为该图的一个<a href="https://zh.wikipedia.org/wiki/%E6%8B%93%E6%92%B2%E6%8E%92%E5%BA%8F">拓扑排序</a>（Topological sorting）：</p>
-<ol>
-<li>序列中包含每个顶点，且每个顶点只出现一次；</li>
-<li>若A在序列中排在B的前面，则在图中不存在从B到A的路径。</li>
-</ol>
-<p>适用范围:</p>
-<ul>
-<li>有向图</li>
-<li>有入度为 0 的节点</li>
-<li>图中没有环</li>
-</ul>
-<p>拓扑排序常应用于有依赖关系的一组事务之间的排序. 例如有依赖关系的多个模块的编译次序问题等. 假定头图中的 <code>A</code> , <code>B</code> , <code>C</code> , <code>D</code> , <code>K</code> 为待编译的几个模块, 箭头表示依赖关系(如 <code>B</code> , <code>D</code> 依赖于 <code>K</code> ), 经拓扑排序后应输出模块编译顺序, 即 <code>K</code> -&gt; <code>C</code> -&gt; <code>B</code> -&gt; <code>D</code> -&gt; <code>A</code> 或 <code>C</code> -&gt; <code>K</code> -&gt; <code>B</code> -&gt; <code>D</code> -&gt; <code>A</code> ( <code>K</code> 和 <code>C</code> , <code>B</code> 和 <code>D</code> 顺序可互换)</p>
-<h4 id="思路">思路</h4>
-<p>先找到所有入度为 0 的节点并输出, 删除这些节点. 在下一次迭代中, 找到剩余节点中入度为 0 的节点并输出, 直到图中节点全部输出为止.</p>
-<h5 id="java">Java</h5>
-<p>图的结构定义及实现见<a href="https://zcybupt.github.io/post/Graph/">另一篇博客</a></p>
-<pre><code class="language-java">public class TopologySort {
-    public static List&lt;GraphNode&gt; topologySort(Graph graph) {
-        HashMap&lt;GraphNode, Integer&gt; inMap = new HashMap&lt;&gt;();
-        Queue&lt;GraphNode&gt; zeroInQueue = new LinkedList&lt;&gt;();
-        // 取出所有节
-        for (GraphNode node : graph.nodes.values()) {
-            inMap.put(node, node.in);   // 建立节点和其入度的对应关系
-            if (node.in == 0)
-                zeroInQueue.add(node);
-        }
-
-        List&lt;GraphNode&gt; result = new ArrayList&lt;&gt;();
-        while (!zeroInQueue.isEmpty()) {
-            GraphNode cur = zeroInQueue.poll();
-            result.add(cur);
-            // 将入度为 0 的节点的下一层节点的入度减一, 若为 0 则放入 zeroInQueue 中
-            for (GraphNode next : cur.nexts) {
-                inMap.put(next, inMap.get(next) - 1);
-                if (inMap.get(next) == 0) {
-                    zeroInQueue.add(next);
-                }
-            }
-        }
-        return result;
-    }
-}
-</code></pre>
-<h5 id="python">Python</h5>
-<pre><code class="language-python">def topology_sort(graph):
-    in_dict = dict()
-    zero_in_list = []
-
-    for node in graph.nodes.values():
-        in_dict[node] = node.in_degree
-        if node.in_degree == 0:
-            zero_in_list.append(node)
-
-    result = []
-    while zero_in_list:
-        cur = zero_in_list.pop()
-        result.append(cur)
-
-        for next in cur.nexts:
-            in_dict[next] = in_dict[next] - 1
-            if in_dict[next] == 0:
-                zero_in_list.append(next)
-
     return result
 </code></pre>
 ]]></content>
