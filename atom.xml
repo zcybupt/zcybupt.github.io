@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-08T23:44:44.945Z</updated>
+    <updated>2020-07-08T23:46:59.320Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
@@ -107,7 +107,9 @@ CC=gcc-5
 endif
 </code></pre>
 <p>全局查找并替换 <code>/usr/local/cuda</code> 为 <code>/server_space/zhaoym/cuda-10.0</code></p>
-<p>按 ESC 进入命令模式, 输入 <code>:%s/\/usr\/local\/cuda/\/server_space\/zhaoym\/cuda-10.0/g</code> , 回车完成替换</p>
+<p>按 ESC 进入命令模式, 输入以下内容 , 回车完成替换</p>
+<pre><code class="language-shell">:%s/\/usr\/local\/cuda/\/server_space\/zhaoym\/cuda-10.0/g
+</code></pre>
 <p>编译</p>
 <pre><code class="language-shell">$ make -j8
 </code></pre>
