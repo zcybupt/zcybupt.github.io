@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-08T23:46:59.320Z</updated>
+    <updated>2020-07-08T23:49:59.677Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
@@ -27,7 +27,7 @@ RAM: 128 GB<br>
 GCC: 5.4.1</p>
 </blockquote>
 <h3 id="cuda-10-安装">CUDA 10 安装</h3>
-<p>到英伟达官网下载<a href="https://developer.nvidia.com/cuda-downloads">CUDA toolkit</a>的 runfile, 本位以 10.0 版本为例</p>
+<p>到英伟达官网下载<a href="https://developer.nvidia.com/cuda-downloads">CUDA toolkit</a>的 runfile, 本文以 10.0 版本为例</p>
 <figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200708201529.png" alt="" loading="lazy"></figure>
 <pre><code class="language-shell">$ wget https://developer.nvidia.com/compute/cuda/10.0/Prod/local_installers/cuda_10.0.130_410.48_linux
 </code></pre>
