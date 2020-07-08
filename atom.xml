@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-08T23:49:59.677Z</updated>
+    <updated>2020-07-08T23:52:11.680Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
@@ -63,7 +63,7 @@ GCC: 5.4.1</p>
     ├── libcudnn.so.7.6.5
     └── libcudnn_static.a
 </code></pre>
-<p>将该文件夹下的文件分别复制到之前安装 CUDA 的路径中, 本例为 <code>/server_space/zhaoym/cuda-10.0</code></p>
+<p>将该文件夹下的文件分别复制到之前安装 CUDA 的<strong>对应</strong>路径中, 本例为 <code>/server_space/zhaoym/cuda-10.0</code></p>
 <h3 id="配置环境变量">配置环境变量</h3>
 <p>打开 <code>~/.bashrc</code></p>
 <pre><code class="language-shell">$ vi ~/.bashrc
