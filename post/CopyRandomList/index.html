@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1594209054421">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1594209601281">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1594209054421" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1594209601281" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -48,15 +48,13 @@
 <li><a href="#%E9%A2%98%E7%9B%AE-leetcode-138">题目 LeetCode # 138</a></li>
 <li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
 <ul>
-<li><a href="#%E6%96%B9%E6%B3%95%E4%B8%80-%E4%BD%BF%E7%94%A8-hashmap">方法一: 使用 <code>HashMap</code></a><br>
-*
+<li><a href="#%E6%96%B9%E6%B3%95%E4%B8%80-%E4%BD%BF%E7%94%A8-hashmap">方法一: 使用 <code>HashMap</code></a>
 <ul>
 <li><a href="#java">Java</a></li>
 <li><a href="#python">Python</a></li>
 </ul>
 </li>
-<li><a href="#%E6%96%B9%E6%B3%95%E4%BA%8C-%E5%A4%8D%E5%88%B6%E7%BB%93%E7%82%B9">方法二: 复制结点</a><br>
-*
+<li><a href="#%E6%96%B9%E6%B3%95%E4%BA%8C-%E5%A4%8D%E5%88%B6%E7%BB%93%E7%82%B9">方法二: 复制结点</a>
 <ul>
 <li><a href="#java-2">Java</a></li>
 <li><a href="#python-2">Python</a></li>
@@ -157,7 +155,7 @@
 <h2 id="题解">题解</h2>
 <h3 id="方法一-使用-hashmap">方法一: 使用 <code>HashMap</code></h3>
 <p>通过使用 <code>HashMap</code> 来建立原结点与复制后结点之间的对应关系, 再遍历原链表建立新结点 <code>random</code> 指针的指向关系</p>
-<h5 id="java">Java</h5>
+<h4 id="java">Java</h4>
 <pre><code class="language-java">class Node {
     int val;
     Node next;
@@ -190,7 +188,7 @@ public class CopyList {
     }
 }
 </code></pre>
-<h5 id="python">Python</h5>
+<h4 id="python">Python</h4>
 <pre><code class="language-python">class Node:
     def __init__(self, x, next=None, random=None):
         self.val = int(x)
@@ -215,7 +213,7 @@ class CopyList:
 </code></pre>
 <h3 id="方法二-复制结点">方法二: 复制结点</h3>
 <p>复制原链表结点 ( 如 <code>1-&gt;2-&gt;3</code> 复制为 <code>1-&gt;1-&gt;2-&gt;2-&gt;3-&gt;3</code> ), 再复制 <code>random</code> 指针的指向, 最后将新链表分离.</p>
-<h5 id="java-2">Java</h5>
+<h4 id="java-2">Java</h4>
 <pre><code class="language-Java">public class Code_13_CopyList {
     public static Node copyRandomList(Node head) {
         if (head == null)
@@ -256,7 +254,7 @@ class CopyList:
     }
 }
 </code></pre>
-<h5 id="python-2">Python</h5>
+<h4 id="python-2">Python</h4>
 <pre><code class="language-Python">class Node:
     def __init__(self, x, next=None, random=None):
         self.val = int(x)

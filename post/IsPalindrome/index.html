@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1594209054421">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1594209601281">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1594209054421" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1594209601281" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -48,8 +48,7 @@
 <li><a href="#%E9%A2%98%E7%9B%AE-leetcode-234">题目 LeetCode # 234</a>
 <ul>
 <li><a href="#%E8%A6%81%E6%B1%82">要求</a></li>
-<li><a href="#%E9%A2%98%E8%A7%A3">题解</a><br>
-*
+<li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
 <ul>
 <li><a href="#java">Java</a></li>
 <li><a href="#python">Python</a></li>
@@ -126,7 +125,7 @@
 <p>时间复杂度 <code>O(N)</code> , <strong>空间复杂度 <code>O(1)</code></strong></p>
 <h3 id="题解">题解</h3>
 <p>若不考虑空间复杂度, 可将所有元素存入栈中, 边出栈边比较即可, 此时空间复杂度为 <code>O(N)</code> ; 也可先 <a href="https://zcybupt.github.io/post/MiddleNode/">利用快慢指针找到中间指针</a> , 再将中间指针后的部分存入栈中, 出栈时与链表前半部分比较, 此时空间占用为 <code>N/2</code> , 空间复杂度仍为 <code>O(N)</code> . 若要实现空间复杂度 <code>O(1)</code> , 可考虑先利用快慢指针找到中间结点, 后将中间结点后的结点的指针方向反向, 即可实现由链表尾向中间结点的遍历, 之后还原链表结构即可. 链表逆序过程中需注意边界, 前半部分最后一个元素和逆序后的后半部分的最后一个元素的 <code>next</code> 均需置空, 否则遍历时很容易死循环.</p>
-<h5 id="java">Java</h5>
+<h4 id="java">Java</h4>
 <pre><code class="language-Java">class ListNode {
     int val;
     ListNode next;
@@ -193,7 +192,7 @@ public class IsPalindrome {
     }
 }
 </code></pre>
-<h5 id="python">Python</h5>
+<h4 id="python">Python</h4>
 <pre><code class="language-python">class IsPalindrome:
     def middle_node(self, head):
         slow = fast = head

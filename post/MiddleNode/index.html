@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1594209054421">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1594209601281">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1594209054421" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1594209601281" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -47,8 +47,7 @@
 <ul>
 <li><a href="#%E9%A2%98%E7%9B%AE-leetcode-876">题目 LeetCode # 876</a>
 <ul>
-<li><a href="#%E9%A2%98%E8%A7%A3">题解</a><br>
-*
+<li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
 <ul>
 <li><a href="#java">Java</a></li>
 <li><a href="#python">Python</a></li>
@@ -129,7 +128,7 @@ ans.val = 3, ans.next.val = 4, ans.next.next.val = 5, 以及 ans.next.next.next 
 </code></pre>
 <h3 id="题解">题解</h3>
 <p>使用快慢指针, 快指针步长为 2, 慢指针步长为 1, 当快指针走到末尾时, 慢指针恰好走到中点. 循环的终止条件应为快指针的下个或下下个结点为空.</p>
-<h5 id="java">Java</h5>
+<h4 id="java">Java</h4>
 <pre><code class="language-java">class ListNode {
     int val;
     ListNode next;
@@ -160,7 +159,7 @@ public class MiddleNode {
     }
 }
 </code></pre>
-<h5 id="python">Python</h5>
+<h4 id="python">Python</h4>
 <pre><code class="language-python">class ListNode:
     def __init__(self, x):
         self.val = x

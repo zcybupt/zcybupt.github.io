@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1594209054421">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1594209601281">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1594209054421" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1594209601281" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -48,8 +48,7 @@
 <li><a href="#%E9%A2%98%E7%9B%AE-leetcode-189">题目 (LeetCode #189)</a>
 <ul>
 <li><a href="#%E8%A6%81%E6%B1%82">要求</a></li>
-<li><a href="#%E9%A2%98%E8%A7%A3">题解</a><br>
-*
+<li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
 <ul>
 <li><a href="#java">Java</a></li>
 <li><a href="#python">Python</a></li>
@@ -123,7 +122,7 @@
 <h3 id="题解">题解</h3>
 <p>创建一个大根堆和一个小根堆, 尽量保证两个堆中元素数量均为 <code>n/2</code> , 在添加元素时, 新元素若大于大根堆堆顶元素则放入小根堆, 若小于小根堆堆顶则放入大根堆, 这样即可保证前 <code>n/2</code> 个数都在大根堆中, 后 <code>n/2</code> 个数都在小根堆中, 中位数即为两堆的堆顶元素. 添加元素的同时确保小根堆的长度不小于大根堆, 若最后数据总数为奇数, 中位数即为小根堆堆顶元素; 若为偶数则为两堆堆顶元素和的一半.</p>
 <p>添加新数的时间复杂度即为堆调整的时间复杂度, 即 <code>O(logN)</code> , 取得中位数的时间复杂度为 <code>O(1)</code></p>
-<h5 id="java">Java</h5>
+<h4 id="java">Java</h4>
 <pre><code class="language-java">class MedianHolder {
     private PriorityQueue&lt;Integer&gt; maxHeap = new PriorityQueue&lt;&gt;((a, b) -&gt; b - a);
     private PriorityQueue&lt;Integer&gt; minHeap = new PriorityQueue&lt;&gt;();
@@ -144,7 +143,7 @@
     }
 }
 </code></pre>
-<h5 id="python">Python</h5>
+<h4 id="python">Python</h4>
 <p>heapq 中默认定义为小根堆, 通过保存相反数实现大根堆.</p>
 <pre><code class="language-python">from heapq import *
 class MedianFinder:

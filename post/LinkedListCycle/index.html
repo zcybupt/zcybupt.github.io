@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1594209054421">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1594209601281">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1594209054421" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1594209601281" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -47,15 +47,13 @@
 <ul>
 <li><a href="#%E9%A2%98%E7%9B%AE">题目</a>
 <ul>
-<li><a href="#%E8%A7%A3%E6%B3%95%E4%B8%80">解法一</a><br>
-*
+<li><a href="#%E8%A7%A3%E6%B3%95%E4%B8%80">解法一</a>
 <ul>
 <li><a href="#java">Java</a></li>
 <li><a href="#python">Python</a></li>
 </ul>
 </li>
-<li><a href="#%E8%A7%A3%E6%B3%95%E4%BA%8C">解法二</a><br>
-*
+<li><a href="#%E8%A7%A3%E6%B3%95%E4%BA%8C">解法二</a>
 <ul>
 <li><a href="#java-2">Java</a></li>
 <li><a href="#python-2">Python</a></li>
@@ -65,8 +63,7 @@
 </li>
 <li><a href="#%E4%BE%8B%E9%A2%98-leetcode-141">例题 LeetCode # 141</a>
 <ul>
-<li><a href="#%E8%A6%81%E6%B1%82">要求：</a><br>
-*
+<li><a href="#%E8%A6%81%E6%B1%82">要求：</a>
 <ul>
 <li><a href="#java-3">Java</a></li>
 <li><a href="#python-3">Python</a></li>
@@ -134,7 +131,7 @@
 <p>给定一个链表, 判断链表中是否有环, 若有则返回链表尾指向的结点.</p>
 <h3 id="解法一">解法一</h3>
 <p>遍历时使用 <code>HashSet</code> 保存所有节点, 若遍历到重复节点则返回该节点</p>
-<h5 id="java">Java</h5>
+<h4 id="java">Java</h4>
 <pre><code class="language-java">class ListNode {
     int val;
     ListNode next;
@@ -160,7 +157,7 @@ public class CycleList {
     }
 }
 </code></pre>
-<h5 id="python">Python</h5>
+<h4 id="python">Python</h4>
 <pre><code class="language-python">class ListNode:
     def __init__(self, x):
         self.val = x
@@ -183,7 +180,7 @@ class CycleList:
 <li>若链表中有环, 则两指针必相遇</li>
 <li>两指针相遇后, 快指针放回头结点, 从此快慢指针都每次移动一个位置, <strong><u>两指针必在第一个入环节点处相遇</u></strong></li>
 </ul>
-<h5 id="java-2">Java</h5>
+<h4 id="java-2">Java</h4>
 <pre><code class="language-java">class ListNode {
     int val;
     ListNode next;
@@ -220,7 +217,7 @@ public class CycleList {
     }
 }
 </code></pre>
-<h5 id="python-2">Python</h5>
+<h4 id="python-2">Python</h4>
 <pre><code class="language-python">class ListNode:
     def __init__(self, x):
         self.val = x
@@ -271,7 +268,7 @@ class CycleList:
 <figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200308190316.png" alt="" loading="lazy"></figure>
 <h3 id="要求">要求：</h3>
 <p>空间复杂度为 <code>O(1)</code></p>
-<h5 id="java-3">Java</h5>
+<h4 id="java-3">Java</h4>
 <pre><code class="language-java">class ListNode {
     int val;
     ListNode next;
@@ -301,7 +298,7 @@ public class CycleList {
     }
 }
 </code></pre>
-<h5 id="python-3">Python</h5>
+<h4 id="python-3">Python</h4>
 <pre><code class="language-Python">class ListNode:
     def __init__(self, x):
         self.val = x
