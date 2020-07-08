@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1594208877776">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1594209054421">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1594208877776" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1594209054421" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -45,11 +45,16 @@
             <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E4%BE%8B%E9%A2%98-leetcode-232">例题: LeetCode #232</a><br>
-*<br>
-*<br>
-* <a href="#java">Java</a><br>
-* <a href="#python">Python</a></li>
+<li>
+<ul>
+<li><a href="#%E4%BE%8B%E9%A2%98-leetcode-232">例题: LeetCode #232</a>
+<ul>
+<li><a href="#java">Java</a></li>
+<li><a href="#python">Python</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -156,7 +161,7 @@ public class StackQueue {
     }
 }
 </code></pre>
-<h2 id="例题-leetcode-232">例题: <a href="https://leetcode-cn.com/problems/implement-queue-using-stacks">LeetCode #232</a></h2>
+<h3 id="例题-leetcode-232">例题: <a href="https://leetcode-cn.com/problems/implement-queue-using-stacks">LeetCode #232</a></h3>
 <p>使用栈实现队列的下列操作：</p>
 <ul>
 <li>
@@ -187,7 +192,7 @@ queue.empty(); // 返回 false
 <li>你所使用的语言也许不支持栈。你可以使用 list 或者 deque（双端队列）来模拟一个栈，只要是标准的栈操作即可。</li>
 <li>假设所有操作都是有效的 （例如，一个空的队列不会调用 pop 或者 peek 操作）。</li>
 </ul>
-<h5 id="java">Java</h5>
+<h4 id="java">Java</h4>
 <pre><code class="language-java">class MyQueue {
     private Stack&lt;Integer&gt; pushStack;
     private Stack&lt;Integer&gt; popStack;
@@ -235,7 +240,7 @@ queue.empty(); // 返回 false
     }
 }
 </code></pre>
-<h5 id="python">Python</h5>
+<h4 id="python">Python</h4>
 <pre><code class="language-python">class MyQueue:
 
     def __init__(self):
