@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-08T23:58:40.004Z</updated>
+    <updated>2020-07-09T00:01:53.944Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
@@ -23,6 +23,7 @@
 Kernel: x86_64 Linux 4.13.0-38-generic<br>
 CPU: Intel Xeon CPU E5-2620 v3 @ 3.2GHz<br>
 GPU: 双路 GeForce RTX 2080Ti<br>
+GPU驱动版本: 430.50<br>
 RAM: 128 GB<br>
 GCC: 5.4.1</p>
 </blockquote>
