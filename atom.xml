@@ -2,13 +2,134 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-09T01:03:25.397Z</updated>
+    <updated>2020-07-10T10:24:03.273Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
     <logo>https://zcybupt.github.io/images/avatar.png</logo>
     <icon>https://zcybupt.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, CODEFANCIER</rights>
+    <entry>
+        <title type="html"><![CDATA[接雨水问题]]></title>
+        <id>https://zcybupt.github.io/post/TrappingRainWater/</id>
+        <link href="https://zcybupt.github.io/post/TrappingRainWater/">
+        </link>
+        <updated>2020-07-10T02:44:54.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="题目">题目</h2>
+<p>给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。</p>
+<p>上面是由数组 [0,1,0,2,1,0,1,3,2,1,2,1] 表示的高度图，在这种情况下，可以接 6 个单位的雨水（蓝色部分表示雨水）。</p>
+<h2 id="题解">题解</h2>
+<p>本题可转化为求每根柱子上可接到的水量的和, 而每根柱子上可留住的水量又取决于其左右两侧最高的柱子的高度, 假设一根柱子高度为 1, 其左右两侧最高的柱子高度为 3 和 5, 则这根柱子上方可留住的水量为 3 - 1 = 2.</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200710111108.png" alt="" loading="lazy"></figure>
+<h3 id="预处理数组法">预处理数组法</h3>
+<p>若每次迭代均遍历查找左右两侧的最大值将增加时间复杂度. 故可采用预处理数组的方式, 将数组中每个元素左右两侧的最大值保存起来. 本例中使用两个辅助数组, 分别保存每位置上的左侧最大值和右侧最大值. 如下例所示:</p>
+<pre><code class="language-python">[3, 2, 4, 5, 4, 3, 1] # 原数组
+[3, 3, 4, 5, 5, 5, 5] # 每个元素左侧最大值构成的辅助数组
+[5, 5, 5, 5, 4, 3, 1] # 每个元素右侧最大值构成的辅助数组
+</code></pre>
+<h4 id="java">Java</h4>
+<pre><code class="language-java">public class TrapRainWater {
+    public static int trap(int[] heightArr) {
+        if (heightArr == null || heightArr.length == 0)
+            return 0;
+
+        int arrLen = heightArr.length;
+        int[] help1 = new int[arrLen];
+        int[] help2 = new int[arrLen];
+        int result = 0;
+
+        help1[0] = heightArr[0];
+        help2[arrLen - 1] = heightArr[arrLen - 1];
+
+        for (int i = 1; i &lt; arrLen; i++) {
+            help1[i] = Math.max(help1[i - 1], heightArr[i]);
+            help2[arrLen - i - 1] = Math.max(help2[arrLen - i], heightArr[arrLen - i - 1]);
+        }
+
+        for (int i = 1; i &lt; arrLen - 1; i++) {
+            int tmp = Math.min(help1[i - 1], help2[i + 1]) - heightArr[i];
+            result += Math.max(tmp, 0);
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        int[] heightArr = {0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1};
+        System.out.println(trap(heightArr));
+    }
+}
+</code></pre>
+<pre><code class="language-java">6
+</code></pre>
+<h4 id="python">Python</h4>
+<pre><code class="language-python">class TrapRainWater:
+    def trap(self, height_arr):
+        if not height_arr or len(height_arr) == 0:
+            return 0
+        arr_len = len(height_arr)
+        help1 = [0] * arr_len
+        help2 = [0] * arr_len
+        result = 0
+
+        help1[0] = height_arr[0]
+        help2[arr_len - 1] = height_arr[arr_len - 1]
+
+        for i in range(1, arr_len):
+            help1[i] = max(help1[i - 1], height_arr[i])
+            help2[arr_len - i - 1] = max(help2[arr_len - i], height_arr[arr_len - i - 1])
+
+        for i in range(1, arr_len - 1):
+            tmp = min(help1[i - 1], help2[i + 1]) - height_arr[i]
+            result += max(0, tmp)
+
+        return result
+</code></pre>
+<h4 id="go">Go</h4>
+<p>Go 为啥没有 min/max, 也没有三目运算符...</p>
+<pre><code class="language-go">func trap(heightArr []int) int {
+	if heightArr == nil || len(heightArr) == 0 {
+		return 0
+	}
+
+	arrLen := len(heightArr)
+	help1 := make([]int, arrLen)
+	help2 := make([]int, arrLen)
+	result := 0
+
+	help1[0] = heightArr[0]
+	help2[arrLen-1] = heightArr[arrLen-1]
+	for i := 1; i &lt; arrLen; i++ {
+		help1[i] = max(help1[i-1], heightArr[i])
+		help2[arrLen-i-1] = max(help2[arrLen-i], heightArr[arrLen-i-1])
+	}
+
+	for i := 1; i &lt; arrLen-1; i++ {
+		tmp := min(help1[i-1], help2[i+1])
+		result += max(0, tmp-heightArr[i])
+	}
+
+	return result
+}
+
+func max(a, b int) int {
+	if a &gt; b {
+		return a
+	} else {
+		return b
+	}
+}
+
+func min(a, b int) int {
+	if a &lt; b {
+		return a
+	} else {
+		return b
+	}
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[无 root 配置 CUDA 10 及 cuDNN 运行 Yolo v4]]></title>
         <id>https://zcybupt.github.io/post/Yolov4Deployment/</id>
@@ -879,212 +1000,6 @@ def process(grid, i, j):
                 dp[i][j] = min(dp[i - 1][j], dp[i][j - 1]) + grid[i][j]
 
         return dp[row - 1][column - 1]
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[最小生成树]]></title>
-        <id>https://zcybupt.github.io/post/MinimumSpanningTree/</id>
-        <link href="https://zcybupt.github.io/post/MinimumSpanningTree/">
-        </link>
-        <updated>2020-06-22T00:28:28.000Z</updated>
-        <content type="html"><![CDATA[<p>最小生成树是一副连通加权无向图中一棵权值最小的生成树。一个连通图可能有多个生成树。当图中的边具有权值时，总会有一个生成树的边的权值之和小于或者等于其它生成树的边的权值之和 (<a href="%5Bhttps://zh.wikipedia.org/wiki/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91%5D(https://zh.wikipedia.org/wiki/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91)">Wikipedia</a>)。</p>
-<p>常见算法有 Kruskal 算法和 Prim 算法</p>
-<h4 id="kruskal-算法">Kruskal 算法</h4>
-<p>按照边的权重顺序（从小到大）将边加入生成树中，但是若加入该边会与生成树形成环则不加入该边。直到树中含有顶点数减一条边为止。这些边组成的就是该图的最小生成树。</p>
-<p>实现过程中, 可利用小根堆来依次返回权重最小的边, 利用<a href="https://zcybupt.github.io/post/UnionFind/">并查集</a>来避免生成树形成回路.</p>
-<h5 id="java">Java</h5>
-<p><strong>UnionFind</strong> 定义如下</p>
-<pre><code class="language-java">class UnionFind {
-    public HashMap&lt;GraphNode, GraphNode&gt; parentMap;
-    public HashMap&lt;GraphNode, Integer&gt; sizeMap;
-
-    public UnionFind(Collection&lt;GraphNode&gt; nodes) {
-        parentMap = new HashMap&lt;&gt;();
-        sizeMap = new HashMap&lt;&gt;();
-
-        // 初始化并查集, 此时每个结点自成一个集合, 指针指向它本身
-        for (GraphNode node : nodes) {
-            parentMap.put(node, node);
-            sizeMap.put(node, 1);
-        }
-    }
-
-    /**
-     * 找到代表结点并整理结点
-     *
-     * @param node 当前节点
-     * @return 代表结点
-     */
-    private GraphNode findHead(GraphNode node) {
-        GraphNode parent = parentMap.get(node);
-        if (parent != node) {
-            parent = findHead(parent);
-        }
-
-        parentMap.put(node, parent);    // 整理结点
-        return parent;
-    }
-
-    public boolean isSameSet(GraphNode node1, GraphNode node2) {
-        return findHead(node1) == findHead(node2);
-    }
-
-    public void union(GraphNode a, GraphNode b) {
-        if (a == null || b == null)
-            return;
-        GraphNode aHead = findHead(a);
-        GraphNode bHead = findHead(b);
-
-        if (aHead == bHead)
-            return;
-
-        int aSetSize = sizeMap.get(aHead);
-        int bSetSize = sizeMap.get(bHead);
-
-        if (aSetSize &lt;= bSetSize) {
-            parentMap.put(aHead, bHead);
-            sizeMap.put(bHead, aSetSize + bSetSize);
-        } else {
-            parentMap.put(bHead, aHead);
-            sizeMap.put(aHead, aSetSize + bSetSize);
-        }
-    }
-}
-</code></pre>
-<p><strong>Kruskal</strong> 实现</p>
-<pre><code class="language-java">public class KruskalMST {
-    public static Set&lt;Edge&gt; kruskalMST(Graph graph) {
-        UnionFind unionFind = new UnionFind(graph.nodes.values());
-        PriorityQueue&lt;Edge&gt; priorityQueue = new PriorityQueue&lt;&gt;((a, b)-&gt;{
-            return a.weight - b.weight;
-        });
-
-        priorityQueue.addAll(graph.edges);
-
-        Set&lt;Edge&gt; result = new HashSet&lt;&gt;();
-        while (!priorityQueue.isEmpty()) {
-            Edge edge = priorityQueue.poll();
-            if (!unionFind.isSameSet(edge.from, edge.to)) {
-                result.add(edge);
-                unionFind.union(edge.from, edge.to);
-            }
-        }
-
-        return result;
-    }
-}
-</code></pre>
-<h5 id="python">Python</h5>
-<p><code>UnionFindSet</code> 定义见<a href="https://zcybupt.github.io/post/UnionFind/#python">并查集</a></p>
-<p>由于 <code>Edge</code> 对象不能够直接比较大小, 需重写 <code>Edge</code> 的比较函数, <code>__lt__</code> 对应 <code>&lt;</code> , <code>__gt__</code> 对应 <code>&gt;</code> , 只重写其中一个, 另一个会自动取反. 比较相等时结果相同.</p>
-<pre><code class="language-python">class Edge:
-    def __init__(self, weight, from_node, to_node):
-        self.weight = weight
-        self.from_node = from_node
-        self.to_node = to_node
-
-    def __lt__(self, other):
-        # 重写 &lt; 比较函数
-        return True if self.weight &lt; other.weight else False
-</code></pre>
-<p><strong>Kruskal 实现</strong></p>
-<pre><code class="language-python">from heapq import *
-
-def kruskal_mst(graph):
-    union_find_set = UnionFindSet(graph.nodes.values())
-    heap = []
-
-    for edge in graph.edges:
-        heappush(heap, edge)
-
-    result = set()
-
-    while heap:
-        edge = heappop(heap)
-        if not union_find_set.is_same_set(edge.from_node, edge.to_node):
-            result.add(edge)
-            union_find_set.union(edge.from_node, edge.to_node)
-
-    return result
-</code></pre>
-<h4 id="prim-算法">Prim 算法</h4>
-<p>从任意一个节点开始, 将与其相连的几条边全部放入一个小根堆中, 每次弹出小根堆中权重最小的边, 获取该边的另一端节点放入集合中, 并将另一端节点的所有直接相连的边放入小根堆中, 迭代直到小根堆中的边全部取出为止.</p>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200623110909.png" alt="" loading="lazy"></figure>
-<h5 id="java-2">Java</h5>
-<pre><code class="language-java">public class PrimMST {
-    public static Set&lt;Edge&gt; primMST(Graph graph) {
-        PriorityQueue&lt;Edge&gt; priorityQueue = new PriorityQueue&lt;&gt;((a, b) -&gt; {
-            return a.weight - b.weight;
-        });
-        HashSet&lt;GraphNode&gt; set = new HashSet&lt;&gt;();
-        Set&lt;Edge&gt; result = new HashSet&lt;&gt;();
-		
-        // 遍历所有节点, 考虑到可能有多棵生成树不相连的情况
-        for (GraphNode node : graph.nodes.values()) {
-            if (!set.contains(node)) {
-                set.add(node);
-                priorityQueue.addAll(node.edges);
-
-                while (!priorityQueue.isEmpty()) {
-                    Edge edge = priorityQueue.poll();
-                    GraphNode toNode = edge.to;
-                    if (!set.contains(toNode)) {
-                        set.add(toNode);
-                        result.add(edge);
-                        priorityQueue.addAll(toNode.edges);
-                    }
-                }
-            }
-        }
-        return result;
-    }
-
-    public static void main(String[] args) {
-        // Prim 算法需沿着边迭代加入点, 故建立无向图时需建立双向指针
-        Integer[][] nodes = {
-                {6, 1, 2}, {6, 2, 1},
-                {1, 1, 3}, {1, 3, 1},
-                {5, 1, 4}, {5, 4, 1},
-                {5, 2, 3}, {5, 3, 2},
-                {3, 2, 5}, {3, 5, 2},
-                {5, 3, 4}, {5, 4, 3},
-                {4, 3, 6}, {4, 6, 3},
-                {6, 3, 5}, {6, 5, 3},
-                {2, 4, 6}, {2, 6, 4},
-                {6, 5, 6}, {6, 6, 5}
-        };
-        Graph graph = Code_26_GraphBuilder.createGraph(nodes);
-        Set&lt;Edge&gt; result = primMST(graph);
-        for (Edge edge : result) {
-            System.out.println(edge.weight);
-        }
-    }
-}
-</code></pre>
-<pre><code class="language-java">1 3 2 4 5
-</code></pre>
-<h5 id="python-2">Python</h5>
-<pre><code class="language-python">def prim_mst(graph):
-    edge_heap = []
-    node_set = set()
-    result = set()
-
-    for node in graph.nodes.values():
-        if node not in node_set:
-            node_set.add(node)
-            for edge in node.edges:
-                heappush(edge_heap, edge)
-
-            while edge_heap:
-                edge = heappop(edge_heap)
-                to_node = edge.to_node
-                if to_node not in node_set:
-                    node_set.add(to_node)
-                    result.add(edge)
-                    for next_edge in to_node.edges:
-                        heappush(edge_heap, next_edge)
-    return result
 </code></pre>
 ]]></content>
     </entry>
