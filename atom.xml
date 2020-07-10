@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-10T10:24:03.273Z</updated>
+    <updated>2020-07-10T10:29:42.796Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
@@ -131,7 +131,7 @@ func min(a, b int) int {
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[无 root 配置 CUDA 10 及 cuDNN 运行 Yolo v4]]></title>
+        <title type="html"><![CDATA[无 root 配置 CUDA 10 运行 Yolo v4]]></title>
         <id>https://zcybupt.github.io/post/Yolov4Deployment/</id>
         <link href="https://zcybupt.github.io/post/Yolov4Deployment/">
         </link>
