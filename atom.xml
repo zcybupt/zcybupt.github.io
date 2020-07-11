@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-11T03:45:46.415Z</updated>
+    <updated>2020-07-11T10:12:22.155Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
@@ -109,7 +109,7 @@ func min(a, b int) int {
         <link href="https://zcybupt.github.io/post/TrappingRainWater/">
         </link>
         <updated>2020-07-10T02:44:54.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="题目">题目</h2>
+        <content type="html"><![CDATA[<h2 id="题目leetcode-42">题目(<a href="https://leetcode-cn.com/problems/trapping-rain-water/">LeetCode #42</a>)</h2>
 <p>给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。</p>
 <p>上面是由数组 [0,1,0,2,1,0,1,3,2,1,2,1] 表示的高度图，在这种情况下，可以接 6 个单位的雨水（蓝色部分表示雨水）。</p>
 <h2 id="题解">题解</h2>
