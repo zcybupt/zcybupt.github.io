@@ -2,13 +2,144 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-11T10:13:22.942Z</updated>
+    <updated>2020-07-12T10:35:59.975Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
     <logo>https://zcybupt.github.io/images/avatar.png</logo>
     <icon>https://zcybupt.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, CODEFANCIER</rights>
+    <entry>
+        <title type="html"><![CDATA[滑动窗口最大值]]></title>
+        <id>https://zcybupt.github.io/post/SlidingWindowMaximum/</id>
+        <link href="https://zcybupt.github.io/post/SlidingWindowMaximum/">
+        </link>
+        <updated>2020-07-12T02:19:20.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="题目leetcode-239">题目(<a href="https://leetcode-cn.com/problems/sliding-window-maximum/">LeetCode #239</a>)</h2>
+<p>给定一个数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。</p>
+<p>返回滑动窗口中的最大值。</p>
+<p>示例:</p>
+<pre><code class="language-java">输入: nums = [1,3,-1,-3,5,3,6,7], 和 k = 3
+输出: [3,3,5,5,6,7] 
+解释: 
+             滑动窗口的位置              最大值
+[ 1   3   -1 ] -3   5   3   6   7        3
+  1 [ 3   -1   -3 ] 5   3   6   7        3
+  1   3 [ -1   -3   5 ] 3   6   7        5
+  1   3   -1 [ -3   5   3 ] 6   7        5
+  1   3   -1   -3 [ 5   3   6 ] 7        6
+  1   3   -1   -3   5 [ 3   6   7 ]      7
+</code></pre>
+<p>提示:</p>
+<ul>
+<li>1 &lt;= nums.length &lt;= 10^5</li>
+<li>-10^4 &lt;= nums[i] &lt;= 10^4</li>
+<li>1 &lt;= k &lt;= nums.length</li>
+</ul>
+<h2 id="题解">题解</h2>
+<h3 id="窗口内最值的更新结构">窗口内最值的更新结构</h3>
+<p>借助单调双端队列实现, 队列由头到尾单调递减, 头指针始终指向窗口内的最大值. 定义两个指针 <code>L</code> 与 <code>R</code> , 初始值为 -1, <code>L</code> 与 <code>R</code> 之间即为窗口范围. 在窗口移动的过程中, 需满足:</p>
+<ol>
+<li><code>L</code> 和 <code>R</code> 不向左移动</li>
+<li><code>L</code> 不能移动到 <code>R</code> 的右侧</li>
+</ol>
+<p>定义一个双端队列, 其中保存输入数组中元素的索引.</p>
+<ul>
+<li>
+<p>当窗口增加元素, 即 <code>R</code> 增加时, 需保持队列的单调性. 若新元素比原有元素都小, 则将其索引追加在最后; 若队列中有小于等于新元素的, 则先将所有小于等于新元素的索引弹出, 再加入新元素的索引. 以此实现队列的头指针始终指向最大元素</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200712162837.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>当窗口减少元素, 即 <code>L</code> 增加时, 依次弹出头结点即可.</p>
+</li>
+</ul>
+<h3 id="java">java</h3>
+<p>本题窗口宽度固定, 可用相对位置表示 <code>L</code> 与 <code>R</code></p>
+<pre><code class="language-java">public class SlidingWindowMaximum {
+    public static int[] maxSlidingWindow(int[] nums, int k) {
+        if (nums == null || k &lt; 1 || nums.length &lt; k) {
+            return null;
+        }
+
+        LinkedList&lt;Integer&gt; maxQueue = new LinkedList&lt;&gt;();
+        // 共有 arr.length - k + 1 个窗口, 即共有arr.length - win + 1个最大值
+        int[] result = new int[nums.length - k + 1];
+        int index = 0;
+
+        // 用 i 表示 R
+        for (int i = 0; i &lt; nums.length; i++) {
+            while (!maxQueue.isEmpty() &amp;&amp; nums[maxQueue.peekLast()] &lt;= nums[i]) {
+                maxQueue.pollLast();
+            }
+            maxQueue.addLast(i);
+
+            // i - k 为过期的索引, 即窗口的 L 已越过该位置, 需弹出头结点维持窗口大小为 k
+            if (maxQueue.peekFirst() == i - k) {
+                System.out.println(i + &quot; &quot; + k);
+                maxQueue.pollFirst();
+            }
+            if (i &gt;= k - 1) {
+                result[index++] = nums[maxQueue.peekFirst()];
+            }
+        }
+
+        return result;
+    }
+}
+</code></pre>
+<h3 id="python">Python</h3>
+<pre><code class="language-python">class SlidingWindowMaximum:
+    def maxSlidingWindow(self, nums, k):
+        if not nums or k &lt; 1 or len(nums) &lt; k:
+            return
+
+        max_queue = []
+        result = []
+
+        for i in range(len(nums)):
+            while max_queue and nums[max_queue[-1]] &lt;= nums[i]:
+                max_queue.pop()
+            max_queue.append(i)
+
+            if max_queue[0] == i - k:
+                max_queue = max_queue[1:]
+
+            if i &gt;= k - 1:
+                result.append(nums[max_queue[0]])
+
+        return result
+</code></pre>
+<h3 id="go">Go</h3>
+<pre><code class="language-go">func maxSlidingWindow(nums []int, k int) []int {
+	if nums == nil || k &lt; 0 || len(nums) &lt; k {
+		return nil
+	}
+
+	maxQueue := make([]int, len(nums))
+	result := make([]int, len(nums)-k+1)
+	index := 0
+
+	for i := 0; i &lt; len(nums); i++ {
+		for len(maxQueue) &gt; 0 &amp;&amp; nums[maxQueue[len(maxQueue)-1]] &lt;= nums[i] {
+			maxQueue = maxQueue[:len(maxQueue)-1]
+		}
+		maxQueue = append(maxQueue, i)
+
+		if maxQueue[0] == i-k {
+			maxQueue = maxQueue[1:]
+		}
+
+		if i &gt;= k-1 {
+			result[index] =nums[maxQueue[0]]
+			index++
+		}
+	}
+
+	return result
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[子数组最大累加和]]></title>
         <id>https://zcybupt.github.io/post/MaxSumOfSubarray/</id>
@@ -842,101 +973,6 @@ def process(str_arr, i, pre):
                     dp[i + 1][j + w[i]] + v[i]
                 )
                 
-    return dp[0][0]
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[数组累加得到目标值]]></title>
-        <id>https://zcybupt.github.io/post/SumToTarget/</id>
-        <link href="https://zcybupt.github.io/post/SumToTarget/">
-        </link>
-        <updated>2020-06-24T12:25:25.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="题目">题目</h3>
-<p>给定一个<strong>正整数</strong>数组 <code>arr</code> 和一个整数 <code>target</code> , 如果可以任意选择 <code>arr</code> 中的数字, 求能否累加得到 <code>target</code> .</p>
-<h3 id="题解">题解</h3>
-<h4 id="暴力解法">暴力解法</h4>
-<p>穷举所有可能的和, 判断是否含有 <code>target</code> , 穷举过程如下, 其中中间变量格式为 <code>(i, sum)</code> , <code>i</code> 为索引, <code>sum</code> 为当前的累加和, 左支表示累加 <code>arr[i]</code> , 右支表示跳过该值.</p>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200624204631.png" alt="" loading="lazy"></figure>
-<h5 id="java">Java</h5>
-<pre><code class="language-java">public class SumToTarget {
-    public static boolean isSum(int[] arr, int i, int sum, int target) {
-        if (i == arr.length)
-            return sum == target;
-
-        // 左分支 || 右分支
-        return isSum(arr, i + 1, sum + arr[i], target) || isSum(arr, i + 1, sum, target);
-    }
-
-    public static void main(String[] args) {
-        int[] arr = {3, 2, 7};
-        int target = 10;
-        System.out.println(isSum(arr, 0, 0, target));
-    }
-}
-</code></pre>
-<h5 id="python">Python</h5>
-<pre><code class="language-python">def sum_to_target(arr, i, cur_sum, target):
-    if i == len(arr):
-        return cur_sum == target
-
-    return sum_to_target(arr, i + 1, cur_sum + arr[i], target) or \
-		   sum_to_target(arr, i + 1, cur_sum, target)
-
-
-if __name__ == '__main__':
-    arr = [2, 3, 7]
-    target = 10
-    print(sum_to_target(arr, 0, 0, target))
-</code></pre>
-<h4 id="动态规划">动态规划</h4>
-<p>将暴力递归改进为动态规划时, 无需考虑原题目的含义, 只需找到迭代时各变量之间的依赖关系即可. 递归到动态规划的转化方法:</p>
-<ol>
-<li>递归函数有 <code>n</code> 个参数, 就定义一个 <code>n</code> 维的数组</li>
-<li>数组的下标是递归函数参数的取值范围</li>
-<li>数组元素的值是递归函数的返回值, 这样就可以从边界值开始， 逐步填充数组，相当于计算递归函数值的逆过程。</li>
-</ol>
-<pre><code class="language-java">return isSum(arr, i + 1, sum + arr[i], target) || isSum(arr, i + 1, sum, target);
-</code></pre>
-<p>由上述代码知递归函数第 <code>i</code> 次递归的结果只依赖于 <code>i+1</code> 和 <code>sum</code> , 故需定义一个 <code>i+1</code> 和 <code>sum</code> 状态关系的数组. 递归函数参数 <code>i</code> 的取值范围为 <code>0~arr.length</code> , <code>sum</code> 的范围为全部元素都不取到全部元素的和, 以 <code>[3, 2, 7]</code> 为例即为 <code>0~12</code> . 构成的数组如下:</p>
-<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200625180738.png" alt="" loading="lazy"></figure>
-<p>任意一格 <code>(i, sum)</code> 的值仅由 <code>(i+1, sum)</code> 和 <code>(i+1, sum+arr[i])</code> 决定. 如上表所示, <code>(1, 3)</code> 的值取决于 <code>(1+1, 3)</code> 和 <code>(1+1, 3+arr[1])</code> , 其中 <code>arr[1]</code> 为 2, 故 <code>(1, 3)</code> 的真值取决于 <code>(2, 3)</code> 和 <code>(2, 5)</code> 的真值.</p>
-<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200625181137.png" alt="" loading="lazy"></figure>
-<p>最终结果返回表中 <code>(0, 0)</code> 位置即可.</p>
-<h5 id="java-2">Java</h5>
-<pre><code class="language-java">public class SumToTarget {
-    public static boolean isSum(int[] arr, int target) {
-        // 本题只要有一列达到 target 即可, 故 target + 1 列即可
-        boolean[][] dp = new boolean[arr.length + 1][target + 1];
-        // target 列必为 True
-        dp[i][target] = true;
-
-        for (int i = arr.length - 1; i &gt;= 0; i--) {
-            for (int j = target; j &gt;= 0; j--) {
-                dp[i][j] = dp[i + 1][j];
-                if (j + arr[i] &lt;= target) {
-                    dp[i][j] = dp[i][j] || dp[i + 1][j + arr[i]];
-                }
-            }
-        }
-        return dp[0][0];
-    }
-}
-</code></pre>
-<h5 id="python-2">Python</h5>
-<pre><code class="language-python">def sum_to_target(arr, target):
-    row = len(arr)
-    dp = [[False] * (target + 1) for _ in range(row + 1)]
-
-    dp[row][target] = True
-
-    for i in range(row - 1, -1, -1):
-        for j in range(target, -1, -1):
-            if j + arr[i] &lt;= target:
-                dp[i][j] = dp[i + 1][j] or dp[i + 1][j + arr[i]]
-            else:
-                dp[i][j] = dp[i + 1][j]
-
     return dp[0][0]
 </code></pre>
 ]]></content>
