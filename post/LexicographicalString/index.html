@@ -45,18 +45,12 @@
             <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#%E6%80%9D%E8%B7%AF">思路</a>
+<li><a href="#%E9%A2%98%E7%9B%AE">题目</a></li>
+<li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
 <ul>
 <li><a href="#java">Java</a></li>
 <li><a href="#python">Python</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a href="#go">Go</a></li>
 </ul>
 </li>
 </ul>
@@ -107,85 +101,66 @@
 <div class="mask" onclick="closeMenu()">
 </div>
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-bold lg:mt-16">拓扑排序算法</h1>
+        <h1 class="text-3xl font-bold lg:mt-16">最低字典序排列字符串</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-06-21 / 3 min read
+          2020-07-13 / 2 min read
         </div>
         
-          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200621184847.png" alt="">
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200714160444.png" alt="">
         
         <div class="post-content yue">
-          <p>在图论中，由一个有向无环图的顶点组成的序列，当且仅当满足下列条件时，才能称为该图的一个<a href="https://zh.wikipedia.org/wiki/%E6%8B%93%E6%92%B2%E6%8E%92%E5%BA%8F">拓扑排序</a>（Topological sorting）：</p>
-<ol>
-<li>序列中包含每个顶点，且每个顶点只出现一次；</li>
-<li>若A在序列中排在B的前面，则在图中不存在从B到A的路径。</li>
-</ol>
-<p>适用范围:</p>
-<ul>
-<li>有向图</li>
-<li>有入度为 0 的节点</li>
-<li>图中没有环</li>
-</ul>
-<p>拓扑排序常应用于有依赖关系的一组事务之间的排序. 例如有依赖关系的多个模块的编译次序问题等. 假定头图中的 <code>A</code> , <code>B</code> , <code>C</code> , <code>D</code> , <code>K</code> 为待编译的几个模块, 箭头表示依赖关系(如 <code>B</code> , <code>D</code> 依赖于 <code>K</code> ), 经拓扑排序后应输出模块编译顺序, 即 <code>K</code> -&gt; <code>C</code> -&gt; <code>B</code> -&gt; <code>D</code> -&gt; <code>A</code> 或 <code>C</code> -&gt; <code>K</code> -&gt; <code>B</code> -&gt; <code>D</code> -&gt; <code>A</code> ( <code>K</code> 和 <code>C</code> , <code>B</code> 和 <code>D</code> 顺序可互换)</p>
-<h4 id="思路">思路</h4>
-<p>先找到所有入度为 0 的节点并输出, 删除这些节点. 在下一次迭代中, 找到剩余节点中入度为 0 的节点并输出, 直到图中节点全部输出为止.</p>
-<h5 id="java">Java</h5>
-<p>图的结构定义及实现见<a href="https://zcybupt.github.io/post/Graph/">另一篇博客</a></p>
-<pre><code class="language-java">public class TopologySort {
-    public static List&lt;GraphNode&gt; topologySort(Graph graph) {
-        HashMap&lt;GraphNode, Integer&gt; inMap = new HashMap&lt;&gt;();
-        Queue&lt;GraphNode&gt; zeroInQueue = new LinkedList&lt;&gt;();
-        // 取出所有节
-        for (GraphNode node : graph.nodes.values()) {
-            inMap.put(node, node.in);   // 建立节点和其入度的对应关系
-            if (node.in == 0)
-                zeroInQueue.add(node);
+          <h2 id="题目">题目</h2>
+<p>给定一个字符串类型的数组 <code>strs</code> , 找到一种拼接方式, 使得把所有字符串拼接起来之后形成的字符串具有最低的字典序.</p>
+<h2 id="题解">题解</h2>
+<p>不可通过将各个数组元素按字典序排列再拼接的方式来解, 如对数组 <code>['b', 'ba']</code> 来说, 若按元素字典序来排列将得到 <code>bba</code> , 而实际上该结果并没有 <code>bab</code> 小, 故这种做法不可取.</p>
+<p>本题应比较 <code>str1 + str2</code> 和 <code>str2 + str1</code> 的字典序大小, 以此为标准重写比较函数, 排序后拼接即可.</p>
+<h3 id="java">Java</h3>
+<pre><code class="language-java">public class LowestLexicography {
+    public static String lowestString(String[] strs) {
+        if (strs == null || strs.length == 0) {
+            return null;
         }
 
-        List&lt;GraphNode&gt; result = new ArrayList&lt;&gt;();
-        while (!zeroInQueue.isEmpty()) {
-            GraphNode cur = zeroInQueue.poll();
-            result.add(cur);
-            // 将入度为 0 的节点的下一层节点的入度减一, 若为 0 则放入 zeroInQueue 中
-            for (GraphNode next : cur.nexts) {
-                inMap.put(next, inMap.get(next) - 1);
-                if (inMap.get(next) == 0) {
-                    zeroInQueue.add(next);
-                }
-            }
+        Arrays.sort(strs, (a, b) -&gt; (a + b).compareTo(b + a));
+
+        String result = &quot;&quot;;
+        for (String str : strs) {
+            result += str;
         }
+
         return result;
     }
 }
 </code></pre>
-<h5 id="python">Python</h5>
-<pre><code class="language-python">def topology_sort(graph):
-    in_dict = dict()
-    zero_in_list = []
+<h3 id="python">Python</h3>
+<p>以冒泡排序为例</p>
+<pre><code class="language-python">def get_lowest_lexicography(strings):
+    for i in range(len(strings)):
+        for j in range(len(strings) - 1):
+            if strings[j] + strings[j + 1] &gt; strings[j + 1] + strings[j]:
+                strings[j], strings[j + 1] = strings[j + 1], strings[j]
 
-    for node in graph.nodes.values():
-        in_dict[node] = node.in_degree
-        if node.in_degree == 0:
-            zero_in_list.append(node)
+    return &quot;&quot;.join(strings)
+</code></pre>
+<h3 id="go">Go</h3>
+<pre><code class="language-python">func getLowestLexicography(strs []string) string {
+	for i := 0; i &lt; len(strs); i++ {
+		for j := 0; j &lt; len(strs)-1; j++ {
+			if strs[j]+strs[j+1] &gt; strs[j+1]+strs[j] {
+				strs[j], strs[j+1] = strs[j+1], strs[j]
+			}
+		}
+	}
 
-    result = []
-    while zero_in_list:
-        cur = zero_in_list.pop()
-        result.append(cur)
-
-        for next in cur.nexts:
-            in_dict[next] = in_dict[next] - 1
-            if in_dict[next] == 0:
-                zero_in_list.append(next)
-
-    return result
+	return strings.Join(strs, &quot;&quot;)
+}
 </code></pre>
 
         </div>
 
         
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/oX_1wl8kW/">
-            <span class="flex-auto">图</span>
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/8fH8K72w_/">
+            <span class="flex-auto">贪心问题</span>
           </a>
         
           <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/sygsU_q1s/">
@@ -196,21 +171,12 @@
 
         <div class="flex justify-between py-8">
           
-            <div class="prev-post">
-              <a href="https://zcybupt.github.io/post/MinimumSpanningTree/">
-                <h3 class="post-title">
-                  <i class="ri-arrow-left-line"></i>
-                  最小生成树
-                </h3>
-              </a>
-            </div>
-          
 
           
             <div class="next-post">
-              <a href="https://zcybupt.github.io/post/DFS/">
+              <a href="https://zcybupt.github.io/post/SlidingWindowMaximum/">
                 <h3 class="post-title">
-                  深度优先遍历
+                  滑动窗口最大值
                   <i class="ri-arrow-right-line"></i>
                 </h3>
               </a>

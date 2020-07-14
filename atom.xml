@@ -2,13 +2,67 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-12T10:35:59.975Z</updated>
+    <updated>2020-07-14T08:05:05.889Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
     <logo>https://zcybupt.github.io/images/avatar.png</logo>
     <icon>https://zcybupt.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, CODEFANCIER</rights>
+    <entry>
+        <title type="html"><![CDATA[最低字典序排列字符串]]></title>
+        <id>https://zcybupt.github.io/post/LexicographicalString/</id>
+        <link href="https://zcybupt.github.io/post/LexicographicalString/">
+        </link>
+        <updated>2020-07-13T10:29:49.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="题目">题目</h2>
+<p>给定一个字符串类型的数组 <code>strs</code> , 找到一种拼接方式, 使得把所有字符串拼接起来之后形成的字符串具有最低的字典序.</p>
+<h2 id="题解">题解</h2>
+<p>不可通过将各个数组元素按字典序排列再拼接的方式来解, 如对数组 <code>['b', 'ba']</code> 来说, 若按元素字典序来排列将得到 <code>bba</code> , 而实际上该结果并没有 <code>bab</code> 小, 故这种做法不可取.</p>
+<p>本题应比较 <code>str1 + str2</code> 和 <code>str2 + str1</code> 的字典序大小, 以此为标准重写比较函数, 排序后拼接即可.</p>
+<h3 id="java">Java</h3>
+<pre><code class="language-java">public class LowestLexicography {
+    public static String lowestString(String[] strs) {
+        if (strs == null || strs.length == 0) {
+            return null;
+        }
+
+        Arrays.sort(strs, (a, b) -&gt; (a + b).compareTo(b + a));
+
+        String result = &quot;&quot;;
+        for (String str : strs) {
+            result += str;
+        }
+
+        return result;
+    }
+}
+</code></pre>
+<h3 id="python">Python</h3>
+<p>以冒泡排序为例</p>
+<pre><code class="language-python">def get_lowest_lexicography(strings):
+    for i in range(len(strings)):
+        for j in range(len(strings) - 1):
+            if strings[j] + strings[j + 1] &gt; strings[j + 1] + strings[j]:
+                strings[j], strings[j + 1] = strings[j + 1], strings[j]
+
+    return &quot;&quot;.join(strings)
+</code></pre>
+<h3 id="go">Go</h3>
+<pre><code class="language-python">func getLowestLexicography(strs []string) string {
+	for i := 0; i &lt; len(strs); i++ {
+		for j := 0; j &lt; len(strs)-1; j++ {
+			if strs[j]+strs[j+1] &gt; strs[j+1]+strs[j] {
+				strs[j], strs[j+1] = strs[j+1], strs[j]
+			}
+		}
+	}
+
+	return strings.Join(strs, &quot;&quot;)
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[滑动窗口最大值]]></title>
         <id>https://zcybupt.github.io/post/SlidingWindowMaximum/</id>
@@ -874,106 +928,6 @@ def process(str_arr, i, pre):
         hannoi(n - 1, source, assist, target)
         print('move ' + str(n) + ' from ' + source + ' to ' + target)
         hannoi(n - 1, assist, target, source)
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[限重最大值问题]]></title>
-        <id>https://zcybupt.github.io/post/Knapsack/</id>
-        <link href="https://zcybupt.github.io/post/Knapsack/">
-        </link>
-        <updated>2020-06-26T11:37:58.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="题目">题目</h3>
-<p>给定两个数组 <code>w</code> 和 <code>v</code> ，两个数组长度相等，<code>w[i]</code> 表示第i件商品的 重量，<code>v[i]</code> 表示第i件商品的价值。 再给定一个整数 <code>bag</code> ，要求你挑选商品的重量加起来一定不能超过 <code>bag</code> ，返回满足这个条件下，你能获得的最大价值。</p>
-<h3 id="题解">题解</h3>
-<p>解法类似<a href="https://zcybupt.github.io/post/SumToTarget/">上一篇博客</a></p>
-<h4 id="暴力递归">暴力递归</h4>
-<p>穷举所有可能的结果, 迭代过程中判断累计重量 <code>acc_weight</code> 是否超过 <code>bag</code> , 若超过则返回 <code>Integer.MIN_VALUE</code> , 相当于直接舍弃该分支. 另一个迭代的基础条件为当 <code>i</code> 达到 <code>w.length</code> 时, 返回 <code>0</code> , 因为第 <code>i</code> 次递归的返回值为当前商品的价值 <code>v[i]</code> 加上后续商品的价值与只有后续商品价值二者中的较大者, <code>i</code> 等于 <code>w.length</code> 时, 没有后续商品, 故直接返回 <code>0</code> .</p>
-<h5 id="java">Java</h5>
-<pre><code class="language-java">public class Knapsack {
-    public static int maxValue(int[] w, int[] v, int i, int accWeight, int bag) {
-        if (accWeight &gt; bag) {
-            return Integer.MIN_VALUE;   // 重量超过 bag, 舍弃
-        }
-
-        if (i == w.length) {
-            return 0;
-        }
-
-        return Math.max(
-                maxValue(w, v, i + 1, accWeight, bag),
-                v[i] + maxValue(w, v, i + 1, accWeight + w[i], bag)
-        );
-    }
-
-    public static void main(String[] args) {
-        int[] w = {3, 2, 4, 7};
-        int[] v = {5, 6, 3, 19};
-        int bag = 11;
-
-        System.out.println(maxValue(w, v, 0, 0, bag));
-    }
-}
-</code></pre>
-<h5 id="python">Python</h5>
-<pre><code class="language-python">def max_value(w, v, i, acc_weight, bag):
-    if acc_weight &gt; bag: return float('-inf')
-
-    if i == len(w): return 0
-
-    return max(
-        max_value(w, v, i + 1, acc_weight, bag),
-        v[i] + max_value(w, v, i + 1, acc_weight + w[i], bag)
-    )
-</code></pre>
-<h4 id="动态规划">动态规划</h4>
-<p>此类<strong>无后效性</strong>的递归问题均可转化为动态递归.</p>
-<h5 id="步骤">步骤</h5>
-<ol>
-<li>分析可变参数, 求出表空间</li>
-<li>确定最终状态</li>
-<li>根据 base case 确定初始状态</li>
-<li>分析一个普遍位置的依赖关系</li>
-<li>根据依赖顺序, 逆序求出整张表</li>
-</ol>
-<h5 id="java-2">Java</h5>
-<pre><code class="language-python">public class Knapsack {
-    public static int maxValue(int[] w, int[] v, int bag) {
-        int[][] dp = new int[w.length + 1][bag + 1];
-
-        for (int i = 0; i &lt;= bag; i++) {
-            dp[w.length][i] = 0;
-        }
-
-        for (int i = w.length - 1; i &gt;= 0; i--) {
-            for (int j = bag; j &gt;= 0; j--) {
-                dp[i][j] = dp[i + 1][j];
-                if (j + w[i] &lt;= bag)
-                    dp[i][j] = Math.max(
-                            dp[i + 1][j],
-                            dp[i + 1][j + w[i]] + v[i]
-                    );
-            }
-        }
-
-        return dp[0][0];
-    }
-}
-</code></pre>
-<h5 id="python-2">Python</h5>
-<pre><code class="language-python">def max_value(w, v, bag):
-    dp = [[0] * (bag + 1) for _ in range(len(w) + 1)]
-
-    for i in range(len(w) - 1, -1, -1):
-        for j in range(bag, -1, -1):
-            dp[i][j] = dp[i + 1][j]
-            if j + w[i] &lt;= bag:
-                dp[i][j] = max(
-                    dp[i + 1][j],
-                    dp[i + 1][j + w[i]] + v[i]
-                )
-                
-    return dp[0][0]
 </code></pre>
 ]]></content>
     </entry>
