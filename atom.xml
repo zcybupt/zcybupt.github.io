@@ -2,13 +2,96 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-15T12:05:03.670Z</updated>
+    <updated>2020-07-15T13:24:41.785Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
     <logo>https://zcybupt.github.io/images/avatar.png</logo>
     <icon>https://zcybupt.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, CODEFANCIER</rights>
+    <entry>
+        <title type="html"><![CDATA[日程安排问题]]></title>
+        <id>https://zcybupt.github.io/post/BestArrange/</id>
+        <link href="https://zcybupt.github.io/post/BestArrange/">
+        </link>
+        <updated>2020-07-15T11:57:58.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="问题">问题</h2>
+<p>一些项目要占用一个会议室宣讲, 会议室不能同时容纳两个项目的宣讲. 给定每个项目的开始和结束时间 (输入为数组, 其中是一个个具体的项目), 合理安排宣讲日程, 使得会议室进行的宣讲场次最多, 返回这个最多的场次</p>
+<h2 id="题解">题解</h2>
+<p>本题不可按开始时间排序, 若某个宣讲开始时间早但持续时间长, 可能不如多个晚开始的宣讲场次多; 也不可按持续时间长短, 某个短时间的宣讲可能与其它宣讲的起始时间重叠.</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200715202427.png" alt="" loading="lazy"></figure>
+<h3 id="java">Java</h3>
+<pre><code class="language-java">class Program {
+    int start;
+    int end;
+
+    public Program(int start, int end) {
+        this.start = start;
+        this.end = end;
+    }
+}
+
+public class BestArrange {
+    public static int bestArrange(Program[] programs, int start) {
+        Arrays.sort(programs, (a, b) -&gt; a.end - b.end);
+        int result = 0;
+
+        for (Program program : programs) {
+            if (start &lt;= program.start) {
+                result++;
+                start = program.end;
+            }
+        }
+
+        return result;
+    }
+}
+</code></pre>
+<h3 id="python">Python</h3>
+<pre><code class="language-python">class Program:
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+
+
+def get_best_arrange(programs, start):
+    programs.sort(key=lambda x: x.end)
+    result = 0
+
+    for program in programs:
+        if start &lt;= program.start:
+            result += 1
+            start = program.end
+
+    return result
+</code></pre>
+<h3 id="go">Go</h3>
+<pre><code class="language-go">type Program struct {
+	start, end int
+}
+
+func getBestArrange(programs []Program, start int) int {
+	for i := 0; i &lt; len(programs); i++ {
+		for j := 0; j &lt; len(programs)-1; j++ {
+			if programs[j].end &gt; programs[j+1].end {
+				programs[j], programs[j+1] = programs[j+1], programs[j]
+			}
+		}
+	}
+	result := 0
+
+	for _, program := range programs {
+		if start &lt;= program.start {
+			result++
+			start = program.end
+		}
+	}
+
+	return result
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[最低字典序排列字符串]]></title>
         <id>https://zcybupt.github.io/post/LexicographicalString/</id>
@@ -883,51 +966,6 @@ def process(str_arr, i, pre):
         return
     process(str_arr, i + 1, pre + str_arr[i])
     process(str_arr, i + 1, pre)
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[汉诺塔问题]]></title>
-        <id>https://zcybupt.github.io/post/Hannoi/</id>
-        <link href="https://zcybupt.github.io/post/Hannoi/">
-        </link>
-        <updated>2020-06-27T11:46:36.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="题目">题目</h3>
-<p>打印 <code>n</code> 层汉诺塔从最左边移动到最右边的全部过程</p>
-<h3 id="题解">题解</h3>
-<p>假定三根柱子分别为 <code>from</code> , <code>to</code> 和 <code>help</code> , 该问题可划分为 3 个步骤</p>
-<ol>
-<li>将 <code>1~(n-1)</code> 从 <code>from</code> 移动到 <code>help</code> 上</li>
-<li>将 <code>n</code> 从 <code>from</code> 移动到 <code>to</code> 上</li>
-<li>将 <code>1~(n-1)</code> 从 <code>help</code> 移动到 <code>to</code> 上</li>
-</ol>
-<p>其中, 将 <code>1~(n-1)</code> 从 <code>help</code> 移动到 <code>to</code> 的过程又可分为多个子问题, 需不断调整三个柱子的角色.</p>
-<h4 id="java">Java</h4>
-<pre><code class="language-java">public class Hannoi {
-    public static void hannoi(int n, String from, String to, String help) {
-        if (n == 1) {
-            System.out.println(&quot;move &quot; + 1 + &quot; from &quot; + from + &quot; to &quot; + to);
-        } else {
-            hannoi(n - 1, from, help, to);
-            System.out.println(&quot;move &quot; + n + &quot; from &quot; + from + &quot; to &quot; + to);
-            hannoi(n - 1, help, to, from);
-        }
-    }
-
-    public static void main(String[] args) {
-        int n = 3;
-        hannoi(3, &quot;left&quot;, &quot;right&quot;, &quot;mid&quot;);
-    }
-}
-</code></pre>
-<h4 id="python">Python</h4>
-<pre><code class="language-python">def hannoi(n, source, target, assist):
-    if n == 1:
-        print('move 1 from ' + source + ' to ' + target)
-    else:
-        hannoi(n - 1, source, assist, target)
-        print('move ' + str(n) + ' from ' + source + ' to ' + target)
-        hannoi(n - 1, assist, target, source)
 </code></pre>
 ]]></content>
     </entry>
