@@ -2,13 +2,81 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-17T12:35:43.358Z</updated>
+    <updated>2020-07-18T13:07:15.476Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
     <logo>https://zcybupt.github.io/images/avatar.png</logo>
     <icon>https://zcybupt.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, CODEFANCIER</rights>
+    <entry>
+        <title type="html"><![CDATA[KMP算法]]></title>
+        <id>https://zcybupt.github.io/post/KMP/</id>
+        <link href="https://zcybupt.github.io/post/KMP/">
+        </link>
+        <updated>2020-07-18T13:03:03.000Z</updated>
+        <content type="html"><![CDATA[<p>KMP其实挺简单的，这么简单一个算法整了三天，真的是又懒又菜的典范了</p>
+<p>参考资料：</p>
+<ul>
+<li>
+<p><a href="https://www.bilibili.com/video/BV1Px411z7Yo">KMP字符串匹配算法1</a></p>
+</li>
+<li>
+<p><a href="bilibili.com/video/BV1hW411a7ys">KMP字符串匹配算法2</a></p>
+</li>
+<li>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzI5ODA5NTgyMw==&amp;mid=2247483968&amp;idx=1&amp;sn=3c21f29eb6c5083f85ac7c97d2051303&amp;chksm=ecaa47e0dbddcef6a97a453df68bc6c6ff040bdd84f58caf99b1f3a8cb84d7405062b039c396&amp;token=1263366918&amp;lang=zh_CN#rd">图解KMP</a></p>
+</li>
+</ul>
+<h2 id="题解">题解</h2>
+<h3 id="java">Java</h3>
+<pre><code class="language-java">public class KMP {
+    public static int[] getNextTable(String needle) {
+        int len = needle.length();
+        int[] next = new int[len];
+        next[0] = -1;
+        int lp = -1, rp = 0;    // 左右指针, 即文章中的 k 和 index
+
+        while (rp &lt; len - 1) {
+            if (lp == -1 || needle.charAt(rp) == needle.charAt(lp))
+                // k = -1 时, 左右指针均向右移动
+                // 当左右指针所指元素相等时, 均向右移动
+                next[++rp] = ++lp;
+            else
+                // 左右指针所指元素不等, 左指针移向其所指字符的对应 next 指向的位置
+                lp = next[lp];
+        }
+
+        return next;
+    }
+
+    public static int KMP(String haystack, String needle) {
+        int haystackLen = haystack.length();
+        int needleLen = needle.length();
+
+        if (needleLen == 0) return 0;
+        int haystackCur = 0, needleCur = 0;
+        int[] next = getNextTable(needle);
+
+        while (haystackCur &lt; haystackLen &amp;&amp; needleCur &lt; needleLen) {
+            if (haystack.charAt(haystackCur) == needle.charAt(needleCur)) {
+                // 对比两个字符串, 各位相同时两指针右移
+                haystackCur++;
+                needleCur++;
+            } else {
+                // 不相同则根据 next 表查找 needleCur 移向的位置
+                // needleCur 移动到了开头, 退无可退, 主串指针继续后移
+                if (needleCur == 0) haystackCur++;
+                else needleCur = next[needleCur];
+            }
+        }
+
+        return needleCur == needleLen ? haystackCur - needleCur : -1;
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[日程安排问题]]></title>
         <id>https://zcybupt.github.io/post/BestArrange/</id>
@@ -904,68 +972,6 @@ func process(charArr []byte, i int) {
 		process(charArr, i+1)
 	}
 }
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[打印字符串的子序列]]></title>
-        <id>https://zcybupt.github.io/post/Subsequence/</id>
-        <link href="https://zcybupt.github.io/post/Subsequence/">
-        </link>
-        <updated>2020-06-28T09:10:02.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="题目">题目</h3>
-<p>打印一个字符串的全部子序列, 包括空字符串</p>
-<h3 id="题解">题解</h3>
-<p>迭代过程中, 要么当前字符保留, 要么略过</p>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200628200644.png" alt="" loading="lazy"></figure>
-<h4 id="java">Java</h4>
-<pre><code class="language-java">public class Subsequence {
-    public static void printAllSub(String str) {
-        char[] chs = str.toCharArray();
-        process(chs, 0, &quot;&quot;);
-        System.out.println(&quot;&quot;);
-    }
-
-    public static void process(char[] chs, int i, String pre) {
-        if (i == chs.length) {
-            if (!pre.equals(&quot;&quot;)) {
-                System.out.println(pre);
-            }
-            return;
-        }
-        process(chs, i + 1, pre + String.valueOf(chs[i]));
-        process(chs, i + 1, pre);
-    }
-
-    public static void main(String[] args) {
-        String test = &quot;abc&quot;;
-        printAllSub(test);
-    }
-}
-</code></pre>
-<pre><code>abc
-ab
-ac
-a
-bc
-b
-c
-
-</code></pre>
-<h4 id="python">Python</h4>
-<pre><code class="language-python">def print_subsequence(string):
-    str_arr = [i for i in string]
-    process(str_arr, 0, '')
-    print()
-
-
-def process(str_arr, i, pre):
-    if i == len(str_arr):
-        if pre != '':
-            print(pre)
-        return
-    process(str_arr, i + 1, pre + str_arr[i])
-    process(str_arr, i + 1, pre)
 </code></pre>
 ]]></content>
     </entry>
