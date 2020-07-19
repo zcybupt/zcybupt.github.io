@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-19T12:14:40.823Z</updated>
+    <updated>2020-07-19T12:15:13.010Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
@@ -231,6 +231,7 @@ func isSubtree(s *TreeNode, t *TreeNode) bool {
 <p><a href="https://leetcode-cn.com/problems/subtree-of-another-tree/comments/384272">LeetCode @洪世贤</a>：<br>
 没有什么是 Python 一行解决不了的</p>
 </blockquote>
+<p>Python 的诱惑？</p>
 <pre><code class="language-python">class Solution:
     def isSubtree(self, s: TreeNode, t: TreeNode) -&gt; bool:
         return str(s).find(str(t)) != -1
