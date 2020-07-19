@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1595077632129">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1595128297724">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1595077632129" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1595128297724" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -45,9 +45,12 @@
             <ul class="markdownIt-TOC">
 <li>
 <ul>
+<li><a href="#%E9%A2%98%E7%9B%AEleetcode-28">题目(LeetCode #28)</a></li>
 <li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
 <ul>
 <li><a href="#java">Java</a></li>
+<li><a href="#python">Python</a></li>
+<li><a href="#go">Go</a></li>
 </ul>
 </li>
 </ul>
@@ -100,11 +103,24 @@
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
         <h1 class="text-3xl font-bold lg:mt-16">KMP算法</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-07-18 / 2 min read
+          2020-07-18 / 3 min read
         </div>
         
         <div class="post-content yue">
-          <p>KMP其实挺简单的，这么简单一个算法整了三天，真的是又懒又菜的典范了</p>
+          <h2 id="题目leetcode-28">题目(<a href="https://leetcode-cn.com/problems/implement-strstr/">LeetCode #28</a>)</h2>
+<p>实现 <code>strStr()</code> 函数。</p>
+<p>给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。</p>
+<p><strong>示例 1:</strong></p>
+<blockquote>
+<p><strong>输入:</strong> haystack = &quot;hello&quot;, needle = &quot;ll&quot;<br>
+<strong>输出:</strong> 2</p>
+</blockquote>
+<p><strong>示例 2:</strong></p>
+<blockquote>
+<p><strong>输入:</strong> haystack = &quot;aaaaa&quot;, needle = &quot;bba&quot;<br>
+<strong>输出:</strong> -1</p>
+</blockquote>
+<h2 id="题解">题解</h2>
 <p>参考资料：</p>
 <ul>
 <li>
@@ -117,7 +133,6 @@
 <p><a href="https://mp.weixin.qq.com/s?__biz=MzI5ODA5NTgyMw==&amp;mid=2247483968&amp;idx=1&amp;sn=3c21f29eb6c5083f85ac7c97d2051303&amp;chksm=ecaa47e0dbddcef6a97a453df68bc6c6ff040bdd84f58caf99b1f3a8cb84d7405062b039c396&amp;token=1263366918&amp;lang=zh_CN#rd">图解KMP</a></p>
 </li>
 </ul>
-<h2 id="题解">题解</h2>
 <h3 id="java">Java</h3>
 <pre><code class="language-java">public class KMP {
     public static int[] getNextTable(String needle) {
@@ -162,6 +177,93 @@
 
         return needleCur == needleLen ? haystackCur - needleCur : -1;
     }
+}
+</code></pre>
+<h3 id="python">Python</h3>
+<pre><code class="language-python">class KMP:
+    def get_next_table(self, needle):
+        length = len(needle)
+        lp, rp = -1, 0
+        next_table = [0] * length
+        next_table[0] = -1
+
+        while rp &lt; length - 1:
+            if needle[lp] == needle[rp] or lp == -1:
+                rp += 1
+                lp += 1
+                next_table[rp] = lp
+            else:
+                lp = next_table[lp]
+
+        return next_table
+
+    def kmp(self, haystack, needle):
+        haystack_len = len(haystack)
+        needle_len = len(needle)
+
+        if needle_len == 0: return 0
+        haystack_cur, needle_cur = 0, 0
+        next_table = self.get_next_table(needle)
+
+        while haystack_cur &lt; haystack_len and needle_cur &lt; needle_len:
+            if haystack[haystack_cur] == needle[needle_cur]:
+                haystack_cur += 1
+                needle_cur += 1
+            else:
+                if needle_cur == 0: haystack_cur += 1
+                else: needle_cur = next_table[needle_cur]
+
+        return haystack_cur - needle_cur if needle_cur == needle_len else -1
+</code></pre>
+<h3 id="go">Go</h3>
+<pre><code class="language-go">func getNextTable(needle string) []int {
+	length := len(needle)
+	lp, rp := -1, 0
+	next := make([]int, length)
+	next[0] = -1
+
+	for rp &lt; length-1 {
+		if lp == -1 || needle[lp] == needle[rp] {
+			rp++
+			lp++
+			next[rp] = lp
+		} else {
+			lp = next[lp]
+		}
+	}
+
+	return next
+}
+
+func KMP(haystack, needle string) int {
+	haystackLen := len(haystack)
+	needleLen := len(needle)
+
+	if needleLen == 0 {
+		return 0
+	}
+
+	haystackCur, needleCur := 0, 0
+	next := getNextTable(needle)
+
+	for haystackCur &lt; haystackLen &amp;&amp; needleCur &lt; needleLen {
+		if haystack[haystackCur] == needle[needleCur] {
+			haystackCur++
+			needleCur++
+		} else {
+			if needleCur == 0 {
+				haystackCur++
+			} else {
+				needleCur = next[needleCur]
+			}
+		}
+	}
+
+	if needleCur == needleLen {
+		return haystackCur - needleCur
+	} else {
+		return -1
+	}
 }
 </code></pre>
 
