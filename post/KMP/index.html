@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1595128588730">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1595147137536">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1595128588730" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1595147137536" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -129,7 +129,7 @@
 <p><a href="https://www.bilibili.com/video/BV1Px411z7Yo">KMP字符串匹配算法1</a></p>
 </li>
 <li>
-<p><a href="bilibili.com/video/BV1hW411a7ys">KMP字符串匹配算法2</a></p>
+<p><a href="https://www.bilibili.com/video/BV1hW411a7ys">KMP字符串匹配算法2</a></p>
 </li>
 <li>
 <p><a href="https://mp.weixin.qq.com/s?__biz=MzI5ODA5NTgyMw==&amp;mid=2247483968&amp;idx=1&amp;sn=3c21f29eb6c5083f85ac7c97d2051303&amp;chksm=ecaa47e0dbddcef6a97a453df68bc6c6ff040bdd84f58caf99b1f3a8cb84d7405062b039c396&amp;token=1263366918&amp;lang=zh_CN#rd">图解KMP</a></p>
@@ -156,7 +156,7 @@
         return next;
     }
 
-    public static int KMP(String haystack, String needle) {
+    public static int getIndex(String haystack, String needle) {
         int haystackLen = haystack.length();
         int needleLen = needle.length();
 
@@ -199,7 +199,7 @@
 
         return next_table
 
-    def kmp(self, haystack, needle):
+    def get_index(self, haystack, needle):
         haystack_len = len(haystack)
         needle_len = len(needle)
 
@@ -237,7 +237,7 @@
 	return next
 }
 
-func KMP(haystack, needle string) int {
+func getIndex(haystack, needle string) int {
 	haystackLen := len(haystack)
 	needleLen := len(needle)
 

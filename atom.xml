@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-19T03:16:31.966Z</updated>
+    <updated>2020-07-19T08:25:41.534Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
@@ -35,7 +35,7 @@
 <p><a href="https://www.bilibili.com/video/BV1Px411z7Yo">KMP字符串匹配算法1</a></p>
 </li>
 <li>
-<p><a href="bilibili.com/video/BV1hW411a7ys">KMP字符串匹配算法2</a></p>
+<p><a href="https://www.bilibili.com/video/BV1hW411a7ys">KMP字符串匹配算法2</a></p>
 </li>
 <li>
 <p><a href="https://mp.weixin.qq.com/s?__biz=MzI5ODA5NTgyMw==&amp;mid=2247483968&amp;idx=1&amp;sn=3c21f29eb6c5083f85ac7c97d2051303&amp;chksm=ecaa47e0dbddcef6a97a453df68bc6c6ff040bdd84f58caf99b1f3a8cb84d7405062b039c396&amp;token=1263366918&amp;lang=zh_CN#rd">图解KMP</a></p>
@@ -62,7 +62,7 @@
         return next;
     }
 
-    public static int KMP(String haystack, String needle) {
+    public static int getIndex(String haystack, String needle) {
         int haystackLen = haystack.length();
         int needleLen = needle.length();
 
@@ -105,7 +105,7 @@
 
         return next_table
 
-    def kmp(self, haystack, needle):
+    def get_index(self, haystack, needle):
         haystack_len = len(haystack)
         needle_len = len(needle)
 
@@ -143,7 +143,7 @@
 	return next
 }
 
-func KMP(haystack, needle string) int {
+func getIndex(haystack, needle string) int {
 	haystackLen := len(haystack)
 	needleLen := len(needle)
 
