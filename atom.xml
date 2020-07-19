@@ -2,13 +2,53 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-19T08:25:41.534Z</updated>
+    <updated>2020-07-19T09:13:13.036Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
     <logo>https://zcybupt.github.io/images/avatar.png</logo>
     <icon>https://zcybupt.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, CODEFANCIER</rights>
+    <entry>
+        <title type="html"><![CDATA[判断子树结构是否相同]]></title>
+        <id>https://zcybupt.github.io/post/SubtreeOfAnotherTree/</id>
+        <link href="https://zcybupt.github.io/post/SubtreeOfAnotherTree/">
+        </link>
+        <updated>2020-07-19T09:05:27.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="题目leetcode-572">题目(<a href="https://leetcode-cn.com/problems/subtree-of-another-tree/">LeetCode #572</a>)</h2>
+<p>给定两个非空二叉树 <code>s</code> 和 <code>t</code>，检验 <code>s</code> 中是否包含和 <code>t</code> 具有相同结构和节点值的子树。<code>s</code> 的一个子树包括 <code>s</code> 的一个节点和这个节点的所有子孙。<code>s</code> 也可以看做它自身的一棵子树。</p>
+<p>示例 1:<br>
+给定的树 s:</p>
+<pre><code class="language-python">     3
+    / \
+   4   5
+  / \
+ 1   2
+</code></pre>
+<p>给定的树 t：</p>
+<pre><code class="language-python">   4 
+  / \
+ 1   2
+</code></pre>
+<p>返回 <strong>true</strong>，因为 t 与 s 的一个子树拥有相同的结构和节点值。</p>
+<p>示例 2:<br>
+给定的树 s：</p>
+<pre><code class="language-python">     3
+    / \
+   4   5
+  / \
+ 1   2
+    /
+   0
+</code></pre>
+<p>给定的树 t：</p>
+<pre><code class="language-python">   4
+  / \
+ 1   2
+</code></pre>
+<p>返回 <strong>false</strong>。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[KMP算法]]></title>
         <id>https://zcybupt.github.io/post/KMP/</id>
@@ -1000,77 +1040,6 @@ def fib_matrix(n):
         [0, 1, 0]
     ], dtype='float64') ** (n - 2) * np.mat([3, 2, 1]).T
     return int(result[0, 0])
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[字符串的全排列]]></title>
-        <id>https://zcybupt.github.io/post/PrintPermutations/</id>
-        <link href="https://zcybupt.github.io/post/PrintPermutations/">
-        </link>
-        <updated>2020-07-02T11:54:36.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="题目">题目</h3>
-<p>打印一个字符串的全部排列</p>
-<h3 id="题解">题解</h3>
-<p>每次递归都将后续字符与当前字符交换, 如第 <code>i</code> 次递归, 将 <code>i</code> 位置之后的字符分别与 <code>i</code> 处字符交换</p>
-<p>若要去重使用集合即可</p>
-<h4 id="java">Java</h4>
-<pre><code class="language-java">public class PrintPermutations {
-    public static void printPermutations(String str) {
-        char[] chars = str.toCharArray();
-        process(chars, 0);
-    }
-
-    public static void process(char[] chars, int i) {
-        if (i == chars.length) {
-            System.out.println(String.valueOf(chars));
-        }
-
-        for (int j = i; j &lt; chars.length; j++) {
-            swap(chars, i, j);
-            process1(chars, i + 1);
-        }
-    }
-
-    public static void swap(char[] chars, int i, int j) {
-        char tmp = chars[i];
-        chars[i] = chars[j];
-        chars[j] = tmp;
-    }
-}
-</code></pre>
-<h4 id="python">Python</h4>
-<pre><code class="language-python">def print_permutations(str_input):
-    char_arr = [i for i in str_input]
-    process(char_arr, 0)
-
-
-def process(char_arr, i):
-    arr_len = len(char_arr)
-    if i == arr_len:
-        print(''.join(char_arr))
-
-    for j in range(i, arr_len):
-        char_arr[i], char_arr[j] = char_arr[j], char_arr[i]
-        process(char_arr, i + 1)
-</code></pre>
-<h4 id="go">Go</h4>
-<pre><code class="language-go">func printPermutations(input string) {
-	charArr := []byte(input)
-	process(charArr, 0)
-}
-
-func process(charArr []byte, i int) {
-	arrLen := len(charArr)
-	if i == arrLen {
-		fmt.Println(string(charArr))
-	}
-
-	for j := i; j &lt; arrLen; j++ {
-		charArr[i], charArr[j] = charArr[j], charArr[i]
-		process(charArr, i+1)
-	}
-}
 </code></pre>
 ]]></content>
     </entry>

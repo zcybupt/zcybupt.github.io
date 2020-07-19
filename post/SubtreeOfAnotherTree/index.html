@@ -45,17 +45,7 @@
             <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E9%A2%98%E7%9B%AE">题目</a>
-<ul>
-<li><a href="#%E8%A6%81%E6%B1%82">要求</a></li>
-<li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
-<ul>
-<li><a href="#java">Java</a></li>
-<li><a href="#python">Python</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a href="#%E9%A2%98%E7%9B%AEleetcode-572">题目(LeetCode #572)</a></li>
 </ul>
 </li>
 </ul>
@@ -104,152 +94,74 @@
 <div class="mask" onclick="closeMenu()">
 </div>
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-bold lg:mt-16">之字形打印矩阵</h1>
+        <h1 class="text-3xl font-bold lg:mt-16">判断子树结构是否相同</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-02-16 / 3 min read
+          2020-07-19 / 1 min read
         </div>
-        
-          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/11707.png" alt="">
         
         <div class="post-content yue">
-          <h2 id="题目">题目</h2>
-<p>给定一个矩阵, 按照之字型的方式打印矩阵, 例如</p>
-<pre><code class="language-python">1  2  3  4
-5  6  7  8
-9  10 11 12
+          <h2 id="题目leetcode-572">题目(<a href="https://leetcode-cn.com/problems/subtree-of-another-tree/">LeetCode #572</a>)</h2>
+<p>给定两个非空二叉树 <code>s</code> 和 <code>t</code>，检验 <code>s</code> 中是否包含和 <code>t</code> 具有相同结构和节点值的子树。<code>s</code> 的一个子树包括 <code>s</code> 的一个节点和这个节点的所有子孙。<code>s</code> 也可以看做它自身的一棵子树。</p>
+<p>示例 1:<br>
+给定的树 s:</p>
+<pre><code class="language-python">     3
+    / \
+   4   5
+  / \
+ 1   2
 </code></pre>
-<p>输出</p>
-<pre><code class="language-python">1, 2, 5, 9, 6, 3, 4, 7, 10, 11, 8, 12
+<p>给定的树 t：</p>
+<pre><code class="language-python">   4 
+  / \
+ 1   2
 </code></pre>
-<h3 id="要求">要求</h3>
-<p>额外空间复杂度为 <code>O(1)</code></p>
-<h3 id="题解">题解</h3>
-<p>本题可以考虑设定两个游标 <code>a</code> 和 <code>b</code> , 初始时均指向左上角, 后分别沿上边界和左边界移动, 当运动到边的末尾时分别向下和向右移动, 打印 <code>a</code> 和 <code>b</code> 两点形成的对角线上的点即可.</p>
-<p><strong>需注意 a, b 横纵坐标增加的顺序, 否则容易在拐点出现下标越界</strong></p>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200216095801.png" alt="" loading="lazy"></figure>
-<center>
-<img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200216151246.png">
-图来自<a href='https://jishuin.proginn.com/p/5174.html'>程序员客栈</a>
-</center><br>
-<h4 id="java">Java</h4>
-<pre><code class="language-java">public class PrintMatrixZigZag {
-    public static void printMatrixZigZag(int[][] matrix) {
-        int row1 = 0;
-        int col1 = 0;
-        int row2 = 0;
-        int col2 = 0;
-        int endR = matrix.length - 1;
-        int endC = matrix[0].length - 1;
-        boolean fromUp = false;
-        while (row1 &lt;= endR) {
-            printDiagonal(matrix, row1, col1, row2, col2, fromUp);
-            // 需注意 a, b 横纵坐标增加的顺序, 否则容易在拐点出现下标越界
-            row1 = col1 == endC ? row1 + 1 : row1;
-            col1 = col1 == endC ? col1 : col1 + 1;
-            col2 = row2 == endR ? col2 + 1 : col2;
-            row2 = row2 == endR ? row2 : row2 + 1;
-            fromUp = !fromUp; // 反转
-        }
-    }
-
-    /**
-     * @param fromUp True: 从上向下打印
-     */
-    public static void printDiagonal(int[][] m, int row1, int col1, int row2, int col2, boolean fromUp) {
-        if (fromUp) {
-            while (row1 &lt;= row2) {
-                System.out.print(m[row1++][col1--] + &quot; &quot;);
-            }
-        } else {
-            while (row1 &lt;= row2) {
-                System.out.print(m[row2--][col2++] + &quot; &quot;);
-            }
-        }
-    }
-
-    public static void main(String[] args) {
-        int[][] inputMatrix = {
-                {1, 2,  3,  4},
-                {5, 6,  7,  8},
-                {9, 10, 11, 12}
-        };
-
-        printMatrixZigZag(inputMatrix);
-    }
-}
+<p>返回 <strong>true</strong>，因为 t 与 s 的一个子树拥有相同的结构和节点值。</p>
+<p>示例 2:<br>
+给定的树 s：</p>
+<pre><code class="language-python">     3
+    / \
+   4   5
+  / \
+ 1   2
+    /
+   0
 </code></pre>
-<h4 id="python">Python</h4>
-<pre><code class="language-python">def print_matrix_zigzag(matrix):
-    row1 = 0
-    col1 = 0
-    row2 = 0
-    col2 = 0
-    end_row = len(matrix) - 1
-    end_col = len(matrix[0]) - 1
-    from_up = False
-    result = []
-
-    while row1 &lt;= end_row:
-        result.extend(get_diagonal(matrix, row1, col1, row2, col2, from_up))
-        row1 = row1 + 1 if col1 == end_col else row1
-        col1 = col1 if col1 == end_col else col1 + 1
-        col2 = col2 + 1 if row2 == end_row else col2
-        row2 = row2 if row2 == end_row else row2 + 1
-        from_up = not from_up
-
-    print(result)
-
-
-def get_diagonal(m, row1, col1, row2, col2, from_up):
-    tmp_result = []
-    if from_up:
-        for i in range(row1, row2 + 1):
-            tmp_result.append(m[i][col1])
-            col1 -= 1
-    else:
-        for i in range(row2, row1 - 1, -1):
-            tmp_result.append(m[i][col2])
-            col2 += 1
-
-    return tmp_result
-
-
-if __name__ == '__main__':
-    input_matrix = [
-        [1, 2,  3,  4],
-        [5, 6,  7,  8],
-        [9, 10, 11, 12]
-    ]
-
-    print_matrix_zigzag(input_matrix)
+<p>给定的树 t：</p>
+<pre><code class="language-python">   4
+  / \
+ 1   2
 </code></pre>
+<p>返回 <strong>false</strong>。</p>
 
         </div>
 
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/Pf3CZ4Bv0/">
+            <span class="flex-auto">KMP</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/Dg_uXOhX3/">
+            <span class="flex-auto">Easy</span>
+          </a>
         
           <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/sygsU_q1s/">
             <span class="flex-auto">算法</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/uIoWQi2bzm/">
+            <span class="flex-auto">LeetCode</span>
           </a>
         
 
 
         <div class="flex justify-between py-8">
           
-            <div class="prev-post">
-              <a href="https://zcybupt.github.io/post/SearchMatrix/">
-                <h3 class="post-title">
-                  <i class="ri-arrow-left-line"></i>
-                  搜索二维矩阵
-                </h3>
-              </a>
-            </div>
-          
 
           
             <div class="next-post">
-              <a href="https://zcybupt.github.io/post/PrintMatrixSpiralOrder/">
+              <a href="https://zcybupt.github.io/post/KMP/">
                 <h3 class="post-title">
-                  顺时针打印矩阵
+                  KMP算法
                   <i class="ri-arrow-right-line"></i>
                 </h3>
               </a>
