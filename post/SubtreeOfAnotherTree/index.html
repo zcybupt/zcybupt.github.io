@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1595149989072">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1595160828178">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1595149989072" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1595160828178" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -46,6 +46,14 @@
 <li>
 <ul>
 <li><a href="#%E9%A2%98%E7%9B%AEleetcode-572">题目(LeetCode #572)</a></li>
+<li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
+<ul>
+<li><a href="#java">Java</a></li>
+<li><a href="#python">Python</a></li>
+<li><a href="#go">Go</a></li>
+<li><a href="#%E5%A5%87%E6%B7%AB%E5%B7%A7%E6%8A%80">奇淫巧技</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -96,14 +104,14 @@
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
         <h1 class="text-3xl font-bold lg:mt-16">判断子树结构是否相同</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-07-19 / 1 min read
+          2020-07-19 / 4 min read
         </div>
         
         <div class="post-content yue">
           <h2 id="题目leetcode-572">题目(<a href="https://leetcode-cn.com/problems/subtree-of-another-tree/">LeetCode #572</a>)</h2>
 <p>给定两个非空二叉树 <code>s</code> 和 <code>t</code>，检验 <code>s</code> 中是否包含和 <code>t</code> 具有相同结构和节点值的子树。<code>s</code> 的一个子树包括 <code>s</code> 的一个节点和这个节点的所有子孙。<code>s</code> 也可以看做它自身的一棵子树。</p>
-<p>示例 1:<br>
-给定的树 s:</p>
+<p>示例 1:</p>
+<p>给定的树 s:</p>
 <pre><code class="language-python">     3
     / \
    4   5
@@ -116,8 +124,8 @@
  1   2
 </code></pre>
 <p>返回 <strong>true</strong>，因为 t 与 s 的一个子树拥有相同的结构和节点值。</p>
-<p>示例 2:<br>
-给定的树 s：</p>
+<p>示例 2:</p>
+<p>给定的树 s：</p>
 <pre><code class="language-python">     3
     / \
    4   5
@@ -132,6 +140,194 @@
  1   2
 </code></pre>
 <p>返回 <strong>false</strong>。</p>
+<h2 id="题解">题解</h2>
+<p><strong>仅作为KMP的练习，非最优解</strong></p>
+<p>先将两棵树序列化（这里采用先序遍历），再利用 KMP 判断 <code>t</code> 是否为 <code>s</code> 的子串。</p>
+<h3 id="java">Java</h3>
+<pre><code class="language-java">class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode(int val) {
+        this.val = val;
+    }
+}
+
+public class Code_45_SubtreeOfAnotherTree {
+    public static String getPreorderString(TreeNode treeNode) {
+        if (treeNode == null) return &quot;#&quot;;
+
+        String tmpResult = &quot;_&quot; + treeNode.val + &quot;_&quot; + getPreorderString(treeNode.left);
+        tmpResult += &quot;_&quot; + getPreorderString(treeNode.right);
+
+        return tmpResult;
+    }
+
+    public static int[] getNextTable(String pattern) {
+        int len = pattern.length();
+        int lp = -1, rp = 0;
+        int[] nextTable = new int[len];
+        nextTable[0] = -1;
+
+        while (rp &lt; len - 1) {
+            if (lp == -1 || pattern.charAt(lp) == pattern.charAt(rp)) {
+                nextTable[++rp] = ++lp;
+            } else {
+                lp = nextTable[lp];
+            }
+        }
+
+        return nextTable;
+    }
+
+    // KMP
+    public static boolean isSubtree(TreeNode s, TreeNode t) {
+        String serializedS = getPreorderString(s);
+        String serializedT = getPreorderString(t);
+        int sCur = 0, tCur = 0;
+        int sLen = serializedS.length();
+        int tLen = serializedT.length();
+        int[] nextTable = getNextTable(serializedT);
+
+        while (sCur &lt; sLen &amp;&amp; tCur &lt; tLen) {
+            if (serializedS.charAt(sCur) == serializedT.charAt(tCur)) {
+                sCur++;
+                tCur++;
+            } else {
+                if (tCur == 0) sCur++;
+                else tCur = nextTable[tCur];
+            }
+        }
+
+        return tCur == tLen;
+    }
+}
+</code></pre>
+<h3 id="python">Python</h3>
+<pre><code class="language-python">class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+class SubTreeOfAnotherTree:
+    def get_preorder_string(self, tree_node: TreeNode):
+        if not tree_node: return '#'
+
+        tmp_str = '_' + str(tree_node.val) + '_' + self.get_preorder_string(tree_node.left)
+        tmp_str += '_' + self.get_preorder_string(tree_node.right)
+
+        return tmp_str
+
+    def get_next_table(self, pattern: str):
+        lp, rp = -1, 0
+        length = len(pattern)
+        next_table = [0] * length
+        next_table[0] = -1
+
+        while rp &lt; length - 1:
+            if pattern[lp] == pattern[rp] or lp == -1:
+                lp += 1
+                rp += 1
+                next_table[rp] = lp
+            else:
+                lp = next_table[lp]
+
+        return next_table
+
+    def isSubtree(self, s: TreeNode, t: TreeNode) -&gt; bool:
+        serialized_s = self.get_preorder_string(s)
+        serialized_t = self.get_preorder_string(t)
+        s_len = len(serialized_s)
+        t_len = len(serialized_t)
+
+        s_cur, t_cur = 0, 0
+        next_table = self.get_next_table(serialized_t)
+
+        while s_cur &lt; s_len and t_cur &lt; t_len:
+            if serialized_s[s_cur] == serialized_t[t_cur]:
+                s_cur += 1
+                t_cur += 1
+            else:
+                if t_cur == 0:
+                    s_cur += 1
+                else:
+                    t_cur = next_table[t_cur]
+
+        return t_cur == t_len
+</code></pre>
+<h3 id="go">Go</h3>
+<pre><code class="language-go">type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+
+func getPreorderString(treeNode *TreeNode) string {
+	if treeNode == nil {
+		return &quot;#&quot;
+	}
+
+	tmpStr := &quot;_&quot; + strconv.Itoa(treeNode.Val) + &quot;_&quot; + getPreorderString(treeNode.Left)
+	tmpStr += &quot;_&quot; + getPreorderString(treeNode.Right)
+
+	return tmpStr
+}
+
+func getNextTable(pattern string) []int {
+	lp, rp := -1, 0
+	length := len(pattern)
+	nextTable := make([]int, length)
+	nextTable[0] = -1
+
+	for rp &lt; length-1 {
+		if lp == -1 || pattern[lp] == pattern[rp] {
+			lp++
+			rp++
+			nextTable[rp] = lp
+		} else {
+			lp = nextTable[lp]
+		}
+	}
+
+	return nextTable
+}
+
+func isSubtree(s *TreeNode, t *TreeNode) bool {
+	serializedS := getPreorderString(s)
+	serializedT := getPreorderString(t)
+	sCur, tCur := 0, 0
+	sLen := len(serializedS)
+	tLen := len(serializedT)
+	nextTable := getNextTable(serializedT)
+
+	for sCur &lt; sLen &amp;&amp; tCur &lt; tLen {
+		if serializedS[sCur] == serializedT[tCur] {
+			sCur++
+			tCur++
+		} else {
+			if tCur == 0 {
+				sCur++
+			} else {
+				tCur = nextTable[tCur]
+			}
+		}
+	}
+
+	return tCur == tLen
+}
+</code></pre>
+<h3 id="奇淫巧技">奇淫巧技</h3>
+<blockquote>
+<p><a href="https://leetcode-cn.com/problems/subtree-of-another-tree/comments/384272">LeetCode @洪世贤</a>：<br>
+没有什么是 Python 一行解决不了的</p>
+</blockquote>
+<pre><code class="language-python">class Solution:
+    def isSubtree(self, s: TreeNode, t: TreeNode) -&gt; bool:
+        return str(s).find(str(t)) != -1
+</code></pre>
 
         </div>
 
