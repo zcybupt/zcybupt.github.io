@@ -2,13 +2,67 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-19T12:15:13.010Z</updated>
+    <updated>2020-07-20T09:59:48.718Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
     <logo>https://zcybupt.github.io/images/avatar.png</logo>
     <icon>https://zcybupt.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, CODEFANCIER</rights>
+    <entry>
+        <title type="html"><![CDATA[Manacher算法]]></title>
+        <id>https://zcybupt.github.io/post/Manacher/</id>
+        <link href="https://zcybupt.github.io/post/Manacher/">
+        </link>
+        <updated>2020-07-20T02:58:51.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="题目leetcode-5">题目(<a href="https://leetcode-cn.com/problems/longest-palindromic-substring/">LeetCode #5</a>)</h2>
+<p>给定一个字符串 <code>s</code>，找到 <code>s</code> 中最长的回文子串。你可以假设 <code>s</code> 的最大长度为 1000。</p>
+<p><strong>示例 1：</strong></p>
+<blockquote>
+<p><strong>输入:</strong> &quot;babad&quot;<br>
+<strong>输出:</strong> &quot;bab&quot;<br>
+<strong>注意:</strong> &quot;aba&quot; 也是一个有效答案。</p>
+</blockquote>
+<p><strong>示例 2：</strong></p>
+<blockquote>
+<p><strong>输入:</strong> &quot;cbbd&quot;<br>
+<strong>输出:</strong> &quot;bb&quot;</p>
+</blockquote>
+<h2 id="题解">题解</h2>
+<h3 id="扩展中心法">扩展中心法</h3>
+<p>遍历字符串，由每个字符串向两侧扩展逐一比对。</p>
+<pre><code class="language-java">public class Solution {
+    public static String longestPalindrome(String s) {
+        if (s == null || s.length() == 0) return &quot;&quot;;
+        int start = 0, end = 0;
+
+        for (int i = 0; i &lt; s.length(); i++) {
+            int len1 = expandAroundCenter(s, i, i);
+            int len2 = expandAroundCenter(s, i, i + 1);
+            int len = Math.max(len1, len2);
+
+            if (len &gt; end - start) {
+                start = i - (len - 1) / 2;
+                end = i + len / 2;
+            }
+        }
+
+        return s.substring(start, end + 1);
+    }
+
+
+    public static int expandAroundCenter(String s, int left, int right) {
+        while (left &gt;= 0 &amp;&amp; right &lt; s.length() &amp;&amp; s.charAt(left) == s.charAt(right)) {
+            left--; right++;
+        }
+
+        return right - left - 1;
+    }
+}
+</code></pre>
+<h3 id="manacher算法">Manacher算法</h3>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[判断子树结构是否相同]]></title>
         <id>https://zcybupt.github.io/post/SubtreeOfAnotherTree/</id>
@@ -1161,74 +1215,6 @@ func getAndRemoveLastElement(stack []int) (int, []int) {
 		return last, stack
 	}
 }
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[斐波那契数列的矩阵求法]]></title>
-        <id>https://zcybupt.github.io/post/CowNumber/</id>
-        <link href="https://zcybupt.github.io/post/CowNumber/">
-        </link>
-        <updated>2020-07-04T12:15:51.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="题目">题目</h3>
-<p>母牛每年生一头母牛, 新出生的母牛成长三年后也能每年生一头母牛, 假设牛不会死. 求 <code>N</code> 年后母牛的数量</p>
-<h3 id="题解">题解</h3>
-<h4 id="递归">递归</h4>
-<p>归纳得 <code>F(N) = F(N-1) + F(N-3)</code></p>
-<p>该式实际上可解释为每年牛的总数等于前一年牛的总数 <code>F(N-1)</code> 加上三年前牛的总数 <code>F(N-3)</code> , 其中 <code>F(N-3)</code> 即为每年新增的牛的数量.</p>
-<p>若规定牛的寿命为 10 年, 减去 <code>F(N-10)</code> 即可</p>
-<h5 id="java">Java</h5>
-<pre><code class="language-java">public class CowNumber {
-    public static int getCowNum(int N) {
-        if (N &lt;= 2) return N + 1;
-        return getCowNum(N - 1) + getCowNum(N - 3);
-    }
-
-    public static void main(String[] args) {
-        System.out.println(getCowNum(8));
-    }
-}
-</code></pre>
-<pre><code class="language-java">28
-</code></pre>
-<h5 id="python">Python</h5>
-<pre><code class="language-python">def get_cow_number(n):
-    if n &lt;= 2:
-        return n + 1
-
-    return get_cow_number(n - 1) + get_cow_number(n - 3)
-</code></pre>
-<h5 id="go">Go</h5>
-<pre><code class="language-go">func getCowNum(n int) int {
-	if n &lt;= 2 {
-		return n + 1
-	}
-
-	return getCowNum(n-1) + getCowNum(n-3)
-}
-</code></pre>
-<h4 id="斐波那契数列的矩阵求法">斐波那契数列的矩阵求法</h4>
-<p>以上算法的时间复杂度为 <code>O(N²)</code> 本题可参考<a href="https://www.geeksforgeeks.org/matrix-exponentiation/">斐波那契数列的矩阵求法</a>, 该算法时间复杂度仅为 <code>O(logN)</code></p>
-<p>推导如下:</p>
-<pre><code>F(n) = a*F(n-1) + b*F(n-2) + c*F(n-3)
-F(n-1) = F(n-1)
-F(n-2) = F(n-2)
-</code></pre>
-<p>本题中 a = 1, b = 0, c = 1</p>
-<p>故可得</p>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200705153235.png" alt="" loading="lazy"></figure>
-<h5 id="python-2">Python</h5>
-<pre><code class="language-python">import numpy as np
-
-def fib_matrix(n):
-    if n &lt;= 2:
-        return n + 1
-    result = np.mat([
-        [1, 0, 1],
-        [1, 0, 0],
-        [0, 1, 0]
-    ], dtype='float64') ** (n - 2) * np.mat([3, 2, 1]).T
-    return int(result[0, 0])
 </code></pre>
 ]]></content>
     </entry>

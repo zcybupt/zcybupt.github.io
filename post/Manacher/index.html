@@ -45,20 +45,11 @@
             <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li>
+<li><a href="#%E9%A2%98%E7%9B%AEleetcode-5">题目(LeetCode #5)</a></li>
+<li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
 <ul>
-<li><a href="#%E9%97%AE%E9%A2%98">问题</a>
-<ul>
-<li><a href="#%E8%A6%81%E6%B1%82">要求</a></li>
-<li><a href="#%E9%A2%98%E8%A7%A3">题解</a></li>
-</ul>
-</li>
-<li><a href="#%E4%BE%8B%E9%A2%98-leetcode-155">例题: LeetCode #155</a>
-<ul>
-<li><a href="#java">Java</a></li>
-<li><a href="#python">Python</a></li>
-</ul>
-</li>
+<li><a href="#%E6%89%A9%E5%B1%95%E4%B8%AD%E5%BF%83%E6%B3%95">扩展中心法</a></li>
+<li><a href="#manacher%E7%AE%97%E6%B3%95">Manacher算法</a></li>
 </ul>
 </li>
 </ul>
@@ -109,171 +100,70 @@
 <div class="mask" onclick="closeMenu()">
 </div>
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-bold lg:mt-16">最小栈问题</h1>
+        <h1 class="text-3xl font-bold lg:mt-16">Manacher算法</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-02-11 / 3 min read
+          2020-07-20 / 2 min read
         </div>
         
-          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/2.png" alt="">
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200720175920.png" alt="">
         
         <div class="post-content yue">
-          <h3 id="问题">问题</h3>
-<p>实现一个特殊的栈, 在实现栈的基本功能的基础上, 再实现返回栈中最小元素的操作</p>
-<h4 id="要求">要求</h4>
-<ul>
-<li><code>pop</code> 、<code>push</code> 、<code>getMin</code> 操作的时间复杂度均为 <code>O(1)</code></li>
-<li>可使用现成的栈结构</li>
-</ul>
-<h4 id="题解">题解</h4>
-<p>若使用变量来保存最小值, 在进行多次出入栈操作之后无法保证 <code>getMin()</code> 返回值正确.</p>
-<p>使用 <code>minStack</code> 来保存最小值栈, 入栈时若小于 <code>minStack</code> 栈顶元素则压入新元素; 若大于则再压入一个 <code>minStack</code> 栈顶元素.</p>
-<pre><code class="language-java">public class MinStack {
-    private Stack&lt;Integer&gt; dataStack;
-    private Stack&lt;Integer&gt; minStack;
-
-    public MinStack() {
-        dataStack = new Stack&lt;&gt;();
-        minStack = new Stack&lt;&gt;();
-    }
-
-    public void push(int newEle) {
-        if (minStack.isEmpty()) {
-            minStack.push(newEle);
-        } else if (newEle &lt; getMin()) {
-            minStack.push(newEle);
-        } else {
-            minStack.push(getMin());
-        }
-
-        dataStack.push(newEle);
-    }
-
-    public int pop() {
-        minStack.pop();
-        return dataStack.pop();
-    }
-
-    public int top() {
-        return dataStack.peek();
-    }
-
-    public int getMin() {
-        if (minStack.isEmpty()) {
-            throw new RuntimeException(&quot;Empty stack&quot;);
-        }
-        return minStack.peek();
-    }
-}
-</code></pre>
-<h3 id="例题-leetcode-155">例题: <a href="https://leetcode-cn.com/problems/min-stack/">LeetCode #155</a></h3>
-<p>设计一个支持 push，pop，top 操作，并能在常数时间内检索到最小元素的栈。</p>
-<ul>
-<li>
-<p>push(x) -- 将元素 x 推入栈中。</p>
-</li>
-<li>
-<p>pop() -- 删除栈顶的元素。</p>
-</li>
-<li>
-<p>top() -- 获取栈顶元素。</p>
-</li>
-<li>
-<p>getMin() -- 检索栈中的最小元素。</p>
-</li>
-</ul>
-<p>示例:</p>
+          <h2 id="题目leetcode-5">题目(<a href="https://leetcode-cn.com/problems/longest-palindromic-substring/">LeetCode #5</a>)</h2>
+<p>给定一个字符串 <code>s</code>，找到 <code>s</code> 中最长的回文子串。你可以假设 <code>s</code> 的最大长度为 1000。</p>
+<p><strong>示例 1：</strong></p>
 <blockquote>
-<p>MinStack minStack = new MinStack();<br>
-minStack.push(-2);<br>
-minStack.push(0);<br>
-minStack.push(-3);<br>
-minStack.getMin();   --&gt; 返回 -3.<br>
-minStack.pop();<br>
-minStack.top();          --&gt; 返回 0.<br>
-minStack.getMin();   --&gt; 返回 -2.</p>
+<p><strong>输入:</strong> &quot;babad&quot;<br>
+<strong>输出:</strong> &quot;bab&quot;<br>
+<strong>注意:</strong> &quot;aba&quot; 也是一个有效答案。</p>
 </blockquote>
-<h4 id="java">Java</h4>
-<pre><code class="language-java">import java.util.Stack;
+<p><strong>示例 2：</strong></p>
+<blockquote>
+<p><strong>输入:</strong> &quot;cbbd&quot;<br>
+<strong>输出:</strong> &quot;bb&quot;</p>
+</blockquote>
+<h2 id="题解">题解</h2>
+<h3 id="扩展中心法">扩展中心法</h3>
+<p>遍历字符串，由每个字符串向两侧扩展逐一比对。</p>
+<pre><code class="language-java">public class Solution {
+    public static String longestPalindrome(String s) {
+        if (s == null || s.length() == 0) return &quot;&quot;;
+        int start = 0, end = 0;
 
-class MinStack {
-    private Stack&lt;Integer&gt; dataStack;
-    private Stack&lt;Integer&gt; minStack;
-    
-    /** initialize your data structure here. */
-    public MinStack() {
-        dataStack = new Stack&lt;&gt;();
-        minStack = new Stack&lt;&gt;();
-    }
-    
-    public void push(int x) {
-        if (minStack.isEmpty()) {
-            minStack.push(x);
-        } else if (x &lt; getMin()) {
-            minStack.push(x);
-        } else {
-            minStack.push(getMin());
+        for (int i = 0; i &lt; s.length(); i++) {
+            int len1 = expandAroundCenter(s, i, i);
+            int len2 = expandAroundCenter(s, i, i + 1);
+            int len = Math.max(len1, len2);
+
+            if (len &gt; end - start) {
+                start = i - (len - 1) / 2;
+                end = i + len / 2;
+            }
         }
 
-        dataStack.push(x);
+        return s.substring(start, end + 1);
     }
-    
-    public void pop() {
-        minStack.pop();
-        dataStack.pop();
-    }
-    
-    public int top() {
-        return dataStack.peek();
-    }
-    
-    public int getMin() {
-        if (minStack.isEmpty()) {
-            throw new RuntimeException(&quot;Empty stack&quot;);
+
+
+    public static int expandAroundCenter(String s, int left, int right) {
+        while (left &gt;= 0 &amp;&amp; right &lt; s.length() &amp;&amp; s.charAt(left) == s.charAt(right)) {
+            left--; right++;
         }
-        return minStack.peek();
+
+        return right - left - 1;
     }
 }
 </code></pre>
-<h4 id="python">Python</h4>
-<pre><code class="language-python">class MinStack:
-    def __init__(self):
-        self.data_stack = []
-        self.min_stack = []
-        
-    def push(self, new_ele):
-        if len(self.min_stack) == 0:
-            self.min_stack.append(new_ele)
-        elif new_ele &lt; self.min_stack[-1]:
-            self.min_stack.append(new_ele)
-        else:
-            self.min_stack.append(self.min_stack[-1])
-        
-        self.data_stack.append(new_ele)
-        
-    def pop(self):
-        if len(self.data_stack) == 0:
-            return None
-        self.min_stack.pop()
-        self.data_stack.pop()
-        
-    def top(self):
-        return self.data_stack[-1]
-
-    def getMin(self):
-        if len(self.min_stack) == 0:
-            return None
-        return self.min_stack[-1]
-</code></pre>
+<h3 id="manacher算法">Manacher算法</h3>
 
         </div>
 
         
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/6KuYfzwch/">
-            <span class="flex-auto">栈</span>
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/63UckNPCU/">
+            <span class="flex-auto">Manacher</span>
           </a>
         
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/Dg_uXOhX3/">
-            <span class="flex-auto">Easy</span>
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/zjyfY7MTi/">
+            <span class="flex-auto">Medium</span>
           </a>
         
           <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/sygsU_q1s/">
@@ -288,21 +178,12 @@ class MinStack {
 
         <div class="flex justify-between py-8">
           
-            <div class="prev-post">
-              <a href="https://zcybupt.github.io/post/QueueStack/">
-                <h3 class="post-title">
-                  <i class="ri-arrow-left-line"></i>
-                  用队列实现栈
-                </h3>
-              </a>
-            </div>
-          
 
           
             <div class="next-post">
-              <a href="https://zcybupt.github.io/post/ArrayQueue/">
+              <a href="https://zcybupt.github.io/post/SubtreeOfAnotherTree/">
                 <h3 class="post-title">
-                  固定长度的数组实现队列
+                  判断子树结构是否相同
                   <i class="ri-arrow-right-line"></i>
                 </h3>
               </a>
