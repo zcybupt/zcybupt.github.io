@@ -2,13 +2,84 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-22T01:06:46.354Z</updated>
+    <updated>2020-07-22T15:14:20.149Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
     <logo>https://zcybupt.github.io/images/avatar.png</logo>
     <icon>https://zcybupt.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, CODEFANCIER</rights>
+    <entry>
+        <title type="html"><![CDATA[最短回文串]]></title>
+        <id>https://zcybupt.github.io/post/shortestPalindrome/</id>
+        <link href="https://zcybupt.github.io/post/shortestPalindrome/">
+        </link>
+        <updated>2020-07-22T10:28:47.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="题目leetcode-214">题目(<a href="https://leetcode-cn.com/problems/shortest-palindrome">LeetCode #214</a>)</h2>
+<p>给定一个字符串 s，你可以通过在字符串前面添加字符将其转换为回文串。找到并返回可以用这种方式转换的最短回文串。</p>
+<p><strong>示例 1:</strong></p>
+<blockquote>
+<p><strong>输入:</strong> &quot;aacecaaa&quot;<br>
+<strong>输出:</strong> &quot;aaacecaaa&quot;</p>
+</blockquote>
+<p><strong>示例 2:</strong></p>
+<blockquote>
+<p><strong>输入:</strong> &quot;abcd&quot;<br>
+<strong>输出:</strong> &quot;dcbabcd&quot;</p>
+</blockquote>
+<h2 id="题解">题解</h2>
+<p>可利用<a href="https://zcybupt.github.io/post/Manacher/">Manacher 算法</a>找到原字符串包含第一个字符的最长回文子串，将该回文子串后的字符逆序加到开头即可。</p>
+<p>示例 1 中，对 <code>aacecaaa</code> 来说，包含第一个字符的最长回文子串为 <code>aacecaa</code> ，需把剩余的 <code>a</code> 逆序加到开头，即得到 <code>aaacecaaa</code> ；示例 2 中，<code>abcd</code> 包含第一个字符的最长回文子串为 <code>a</code> ，<code>bcd</code> 逆序得到 <code>dcb</code> ，放到开头即得到 <code>dcbabcd</code> 。</p>
+<h3 id="java">java</h3>
+<pre><code class="language-java">public class ShortestPalindrome {
+    public static String preprocess(String s) {
+        String result = &quot;^&quot;;
+        for (int i = 0; i &lt; s.length(); i++) {
+            result += &quot;#&quot; + s.charAt(i);
+        }
+
+        return result + &quot;#$&quot;;
+    }
+
+    public static String shortestPalindrome(String s) {
+        if (s == null || s.length() == 0) return &quot;&quot;;
+
+        String tmpStr = preprocess(s);
+        int strLen = tmpStr.length();
+        int C = 0, R = 0;
+        int[] p = new int[strLen];
+        int maxLen = 0;
+
+        for (int i = 1; i &lt; strLen - 1; i++) {
+            p[i] = R &gt; i ? Math.min(p[2 * C - i], R - i) : 1;
+
+            while (tmpStr.charAt(i - p[i]) == tmpStr.charAt(i + p[i])) {
+                p[i]++;
+            }
+
+            if (R &lt; p[i] + i) {
+                R = p[i] + i;
+                C = i;
+            }
+
+            // 仅保存以第一个字符开头的回文子串的最大长度
+            if (maxLen &lt; p[i] - 1 &amp;&amp; (C - p[C]) / 2 == 0) {
+                maxLen = p[i] - 1;
+            }
+        }
+
+        String result = &quot;&quot;;
+
+        for (int i = s.length() - 1; i &gt;= maxLen; i--) {
+            result += s.charAt(i);
+        }
+
+        return result + s;
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Manacher算法]]></title>
         <id>https://zcybupt.github.io/post/Manacher/</id>
@@ -1290,86 +1361,6 @@ endif
 </code></pre>
 <figure data-type="image" tabindex="7"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200708211444.png" alt="" loading="lazy"></figure>
 <p>Yolo v4 的训练配置方式与 v3 相同, 可参考之前的文章: <a href="https://zcybupt.github.io/post/YoloDeployment">YOLO v3 环境搭建及训练入门指南</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[递归逆序栈]]></title>
-        <id>https://zcybupt.github.io/post/ReverseStackUsingRecursive/</id>
-        <link href="https://zcybupt.github.io/post/ReverseStackUsingRecursive/">
-        </link>
-        <updated>2020-07-07T09:05:33.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="题目">题目</h3>
-<p>逆序一个栈, 且不能使用额外的数据结构, 只可使用递归函数</p>
-<h3 id="题解">题解</h3>
-<p>可将问题分为两个步骤:</p>
-<ol>
-<li>弹出栈底元素并返回</li>
-<li>获取栈底元素并将其放回栈顶</li>
-</ol>
-<h4 id="java">Java</h4>
-<pre><code class="language-java">public class ReverseStackUsingRecursive {
-    public static void reverse(Stack&lt;Integer&gt; stack) {
-        if (stack.isEmpty()) return;
-
-        int ele = getAndRemoveLastElement(stack);
-        reverse(stack);
-        stack.push(ele);
-    }
-
-    public static int getAndRemoveLastElement(Stack&lt;Integer&gt; stack) {
-        int result = stack.pop();
-        if (stack.isEmpty()) {
-            return result;
-        } else {
-            int last = getAndRemoveLastElement(stack);
-            stack.push(result);
-            return last;
-        }
-    }
-}
-</code></pre>
-<h4 id="python">Python</h4>
-<pre><code class="language-python">def reverse(stack):
-    if not stack or len(stack) == 0:
-        return
-    ele = get_and_remove_last_element(stack)
-    reverse(stack)
-    stack.append(ele)
-
-
-def get_and_remove_last_element(stack):
-    result = stack.pop()
-    if len(stack) == 0:
-        return result
-    else:
-        last = get_and_remove_last_element(stack)
-        stack.append(result)
-        return last
-</code></pre>
-<h4 id="go">Go</h4>
-<p>若不使用指针的指针则需注意引用传递, 否则会由于 stack 数组不更新进入死循环</p>
-<pre><code class="language-go">func reverse(stack []int) {
-	if stack == nil || len(stack) == 0 {
-		return
-	}
-
-	ele, stack := getAndRemoveLastElement(stack)	// 需将 stack 重新赋值
-	reverse(stack)
-	stack = append(stack, ele)
-}
-
-func getAndRemoveLastElement(stack []int) (int, []int) {
-	result := stack[len(stack)-1]
-	stack = stack[:len(stack)-1]
-	if len(stack) == 0 {
-		return result, stack
-	} else {
-		last, stack := getAndRemoveLastElement(stack)
-		stack = append(stack, result)
-		return last, stack
-	}
-}
-</code></pre>
 ]]></content>
     </entry>
 </feed>

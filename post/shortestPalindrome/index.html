@@ -45,12 +45,10 @@
             <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E9%A2%98%E7%9B%AEleetcode-53">题目(LeetCode #53)</a></li>
-<li><a href="#%E8%A7%A3%E6%B3%95">解法</a>
+<li><a href="#%E9%A2%98%E7%9B%AEleetcode-214">题目(LeetCode #214)</a></li>
+<li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
 <ul>
-<li><a href="#java">Java</a></li>
-<li><a href="#python">Python</a></li>
-<li><a href="#go">Go</a></li>
+<li><a href="#java">java</a></li>
 </ul>
 </li>
 </ul>
@@ -101,106 +99,87 @@
 <div class="mask" onclick="closeMenu()">
 </div>
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-bold lg:mt-16">子数组最大累加和</h1>
+        <h1 class="text-3xl font-bold lg:mt-16">最短回文串</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-07-11 / 2 min read
+          2020-07-22 / 2 min read
         </div>
         
-          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200711114521.png" alt="">
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200720175920.png" alt="">
         
         <div class="post-content yue">
-          <h2 id="题目leetcode-53">题目(<a href="https://leetcode-cn.com/problems/maximum-subarray/submissions/">LeetCode #53</a>)</h2>
-<p>给定一个整数数组 <code>nums</code> ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。</p>
-<p>示例:</p>
+          <h2 id="题目leetcode-214">题目(<a href="https://leetcode-cn.com/problems/shortest-palindrome">LeetCode #214</a>)</h2>
+<p>给定一个字符串 s，你可以通过在字符串前面添加字符将其转换为回文串。找到并返回可以用这种方式转换的最短回文串。</p>
+<p><strong>示例 1:</strong></p>
 <blockquote>
-<p>输入: [-2,1,-3,4,-1,2,1,-5,4],<br>
-输出: 6<br>
-解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。</p>
+<p><strong>输入:</strong> &quot;aacecaaa&quot;<br>
+<strong>输出:</strong> &quot;aaacecaaa&quot;</p>
 </blockquote>
-<h2 id="解法">解法</h2>
-<p>创建两个变量, <code>current</code> 和 <code>maxSum</code> , 遍历数组, 将每个元素累加到 <code>current</code> 上, 再与 <code>maxSum</code> 比较, 使 <code>maxSum</code> 总保存 <code>current</code> 的最大值, 若累加过程中 <code>current</code> 变为负数, 则手动将其归零, 继续计算.</p>
-<h3 id="java">Java</h3>
-<pre><code class="language-java">public class MaxSumOfSubarray {
-    public static int maxSubArray(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return 0;
+<p><strong>示例 2:</strong></p>
+<blockquote>
+<p><strong>输入:</strong> &quot;abcd&quot;<br>
+<strong>输出:</strong> &quot;dcbabcd&quot;</p>
+</blockquote>
+<h2 id="题解">题解</h2>
+<p>可利用<a href="https://zcybupt.github.io/post/Manacher/">Manacher 算法</a>找到原字符串包含第一个字符的最长回文子串，将该回文子串后的字符逆序加到开头即可。</p>
+<p>示例 1 中，对 <code>aacecaaa</code> 来说，包含第一个字符的最长回文子串为 <code>aacecaa</code> ，需把剩余的 <code>a</code> 逆序加到开头，即得到 <code>aaacecaaa</code> ；示例 2 中，<code>abcd</code> 包含第一个字符的最长回文子串为 <code>a</code> ，<code>bcd</code> 逆序得到 <code>dcb</code> ，放到开头即得到 <code>dcbabcd</code> 。</p>
+<h3 id="java">java</h3>
+<pre><code class="language-java">public class ShortestPalindrome {
+    public static String preprocess(String s) {
+        String result = &quot;^&quot;;
+        for (int i = 0; i &lt; s.length(); i++) {
+            result += &quot;#&quot; + s.charAt(i);
         }
-        int current = 0;
-        int maxSum = Integer.MIN_VALUE;
 
-        for (int num : nums) {
-            current += num;
-            maxSum = Math.max(current, maxSum);
-            current = Math.max(current, 0);
+        return result + &quot;#$&quot;;
+    }
+
+    public static String shortestPalindrome(String s) {
+        if (s == null || s.length() == 0) return &quot;&quot;;
+
+        String tmpStr = preprocess(s);
+        int strLen = tmpStr.length();
+        int C = 0, R = 0;
+        int[] p = new int[strLen];
+        int maxLen = 0;
+
+        for (int i = 1; i &lt; strLen - 1; i++) {
+            p[i] = R &gt; i ? Math.min(p[2 * C - i], R - i) : 1;
+
+            while (tmpStr.charAt(i - p[i]) == tmpStr.charAt(i + p[i])) {
+                p[i]++;
+            }
+
+            if (R &lt; p[i] + i) {
+                R = p[i] + i;
+                C = i;
+            }
+
+            // 仅保存以第一个字符开头的回文子串的最大长度
+            if (maxLen &lt; p[i] - 1 &amp;&amp; (C - p[C]) / 2 == 0) {
+                maxLen = p[i] - 1;
+            }
         }
 
-        return maxSum;
+        String result = &quot;&quot;;
+
+        for (int i = s.length() - 1; i &gt;= maxLen; i--) {
+            result += s.charAt(i);
+        }
+
+        return result + s;
     }
 }
 </code></pre>
-<h3 id="python">Python</h3>
-<pre><code class="language-python">class MaxSumOfSubarray:
-    def maxSubArray(self, nums):
-        if not nums or len(nums) == 0:
-            return 0
-
-        current = 0
-        max_sum = float(&quot;-inf&quot;)
-
-        for num in nums:
-            current += num
-            max_sum = max(current, max_sum)
-            current = max(0, current)
-
-        return max_sum
-</code></pre>
-<h3 id="go">Go</h3>
-<p>Go 中整型常量可定义如下</p>
-<pre><code class="language-go">const INT_MAX = int(^uint(0) &gt;&gt; 1) 	// 有符号最大值
-const INT_MIN = ^INT_MAX			// 有符号最小值
-
-const UINT_MIN uint = 0				// 无符号最小值, 即为 0
-const UINT_MAX = ^uint(0)			// 无符号最大值
-</code></pre>
-<pre><code class="language-go">func maxSubArray(nums []int) int {
-	if nums == nil || len(nums) == 0 {
-		return 0
-	}
-
-	current := 0
-	maxSum := ^int(^uint(0) &gt;&gt; 1)
-
-	for _, num := range nums {
-		current += num
-		maxSum = max(current, maxSum)
-		current = max(0, current)
-	}
-
-	return maxSum
-}
-
-func max(a, b int) int {
-	if a &gt; b {
-		return a
-	} else {
-		return b
-	}
-}
-
-func min(a, b int) int {
-	if a &lt; b {
-		return a
-	} else {
-		return b
-	}
-}
-</code></pre>
 
         </div>
 
         
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/Dg_uXOhX3/">
-            <span class="flex-auto">Easy</span>
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/63UckNPCU/">
+            <span class="flex-auto">Manacher</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/ZNK9RrTqB/">
+            <span class="flex-auto">Hard</span>
           </a>
         
           <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/sygsU_q1s/">
@@ -215,21 +194,12 @@ func min(a, b int) int {
 
         <div class="flex justify-between py-8">
           
-            <div class="prev-post">
-              <a href="https://zcybupt.github.io/post/SlidingWindowMaximum/">
-                <h3 class="post-title">
-                  <i class="ri-arrow-left-line"></i>
-                  滑动窗口最大值
-                </h3>
-              </a>
-            </div>
-          
 
           
             <div class="next-post">
-              <a href="https://zcybupt.github.io/post/TrappingRainWater/">
+              <a href="https://zcybupt.github.io/post/Manacher/">
                 <h3 class="post-title">
-                  接雨水问题
+                  Manacher算法
                   <i class="ri-arrow-right-line"></i>
                 </h3>
               </a>
