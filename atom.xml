@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-23T01:35:38.754Z</updated>
+    <updated>2020-07-23T01:40:00.790Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
@@ -144,6 +144,7 @@ func shortestPalindrome(s string) string {
 			maxLen = p[i] - 1
 		}
 	}
+
 	result := &quot;&quot;
 	for i := len(s) - 1; i &gt;= maxLen; i-- {
 		result += string(s[i])
