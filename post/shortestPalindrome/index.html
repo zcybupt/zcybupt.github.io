@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1595430856065">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1595468135924">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1595430856065" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1595468135924" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -48,7 +48,9 @@
 <li><a href="#%E9%A2%98%E7%9B%AEleetcode-214">题目(LeetCode #214)</a></li>
 <li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
 <ul>
-<li><a href="#java">java</a></li>
+<li><a href="#java">Java</a></li>
+<li><a href="#python">Python</a></li>
+<li><a href="#go">Go</a></li>
 </ul>
 </li>
 </ul>
@@ -101,7 +103,7 @@
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
         <h1 class="text-3xl font-bold lg:mt-16">最短回文串</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-07-22 / 2 min read
+          2020-07-22 / 4 min read
         </div>
         
           <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200720175920.png" alt="">
@@ -122,7 +124,7 @@
 <h2 id="题解">题解</h2>
 <p>可利用<a href="https://zcybupt.github.io/post/Manacher/">Manacher 算法</a>找到原字符串包含第一个字符的最长回文子串，将该回文子串后的字符逆序加到开头即可。</p>
 <p>示例 1 中，对 <code>aacecaaa</code> 来说，包含第一个字符的最长回文子串为 <code>aacecaa</code> ，需把剩余的 <code>a</code> 逆序加到开头，即得到 <code>aaacecaaa</code> ；示例 2 中，<code>abcd</code> 包含第一个字符的最长回文子串为 <code>a</code> ，<code>bcd</code> 逆序得到 <code>dcb</code> ，放到开头即得到 <code>dcbabcd</code> 。</p>
-<h3 id="java">java</h3>
+<h3 id="java">Java</h3>
 <pre><code class="language-java">public class ShortestPalindrome {
     public static String preprocess(String s) {
         String result = &quot;^&quot;;
@@ -155,19 +157,100 @@
             }
 
             // 仅保存以第一个字符开头的回文子串的最大长度
+            // (C - p[C]) / 2 即为当前回文串的起始索引
             if (maxLen &lt; p[i] - 1 &amp;&amp; (C - p[C]) / 2 == 0) {
                 maxLen = p[i] - 1;
             }
         }
 
+        // 逆序剩余部分字符串
         String result = &quot;&quot;;
-
         for (int i = s.length() - 1; i &gt;= maxLen; i--) {
             result += s.charAt(i);
         }
 
         return result + s;
     }
+}
+</code></pre>
+<h3 id="python">Python</h3>
+<pre><code class="language-python">class ShortestPalindrome:
+    def shortest_palindrome(self, s: str) -&gt; str:
+        tmp_str = &quot;^#&quot; + &quot;&quot;.join([x + &quot;#&quot; for x in s]) + &quot;$&quot;
+        str_len = len(tmp_str)
+        p = [0] * str_len
+        c, r = 0, 0
+        max_len = 0
+
+        for i in range(1, str_len - 1):
+            p[i] = min(p[2 * c - i], r - i) if r &gt; i else 1
+            while tmp_str[i - p[i]] == tmp_str[i + p[i]]:
+                p[i] += 1
+
+            if r &lt; p[i] + i:
+                r = p[i] + i
+                c = i
+
+            if max_len &lt; p[i] - 1 and (c - p[c]) // 2 == 0:
+                max_len = p[i] - 1
+
+        return &quot;&quot;.join([x for x in s[:max_len - 1:-1]]) + s
+</code></pre>
+<h3 id="go">Go</h3>
+<pre><code class="language-go">func preprocess(s string) string {
+	result := &quot;^#&quot;
+
+	for _, ch := range s {
+		result += string(ch) + &quot;#&quot;
+	}
+
+	return result + &quot;$&quot;
+}
+
+func shortestPalindrome(s string) string {
+	if len(s) == 0 {
+		return &quot;&quot;
+	}
+
+	tmpStr := preprocess(s)
+	strLen := len(tmpStr)
+	p := make([]int, strLen)
+	C, R := 0, 0
+	maxLen := 0
+
+	for i := 1; i &lt; strLen-1; i++ {
+		if R &gt; i {
+			p[i] = min(p[2*C-i], R-i)
+		} else {
+			p[i] = 1
+		}
+
+		for tmpStr[i-p[i]] == tmpStr[i+p[i]] {
+			p[i]++
+		}
+
+		if R &lt; p[i]+i {
+			R = p[i] + i
+			C = i
+		}
+
+		if maxLen &lt; p[i]-1 &amp;&amp; (C-p[C])/2 == 0 {
+			maxLen = p[i] - 1
+		}
+	}
+	result := &quot;&quot;
+	for i := len(s) - 1; i &gt;= maxLen; i-- {
+		result += string(s[i])
+	}
+
+	return result + s
+}
+
+func min(a, b int) int {
+	if a &lt; b {
+		return a
+	}
+	return b
 }
 </code></pre>
 
