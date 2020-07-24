@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1595468394951">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1595584227922">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1595468394951" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1595584227922" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -525,18 +525,18 @@ cal_small_sum(input_arr)
 <h4 id="算法实现-7">算法实现</h4>
 <h5 id="原始实现">原始实现</h5>
 <p>单侧扫描, 将小于 p 的数字放到 p 的左边, 大于 p 的不动</p>
-<pre><code class="language-python">def partition(arr, L, R):
-    less = L - 1
+<pre><code class="language-python">def partition(arr: list, l: int, r: int):
+    lp = l # 记录左指针位置, 每当有满足条件的值时就与 lp 交换位置, 并自增
 
-    for i in range(L, R + 1):
-        if arr[i] &lt;= arr[R]:  # arr[R] 即为 p
-            less += 1
-            arr[less], arr[i] = arr[i], arr[less]
+    for i in range(l, r + 1):
+        if arr[i] &lt;= arr[r]:
+            arr[lp], arr[i] = arr[i], arr[lp]
+            lp += 1
 
 
-def quick_sort(arr, L, R):
-    for i in range(R, L - 1, -1):
-        partition(arr, L, i)
+def quick_sort(arr, l, r):
+    for i in range(r, l - 1, -1):
+        partition(arr, l, i)
 
 
 input_arr = [9, 8, 7, 4, 8, 3, 5, 2, 4, 1]
