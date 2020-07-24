@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1595594240270">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1595595022554">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1595594240270" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1595595022554" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -97,6 +97,7 @@
 <li><a href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0-7">算法实现</a>
 <ul>
 <li><a href="#%E5%8E%9F%E5%A7%8B%E5%AE%9E%E7%8E%B0">原始实现</a></li>
+<li><a href="#%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0">递归实现</a></li>
 <li><a href="#%E6%94%B9%E8%BF%9B%E5%AE%9E%E7%8E%B0">改进实现</a></li>
 </ul>
 </li>
@@ -545,8 +546,8 @@ print(input_arr)
 </code></pre>
 <pre><code class="language-python">[1, 2, 3, 4, 4, 5, 7, 8, 8, 9]
 </code></pre>
-<pre><code class="language-python"># 递归实现
-def partition(arr: list, l: int, r: int):
+<h5 id="递归实现">递归实现</h5>
+<pre><code class="language-python">def partition(arr: list, l: int, r: int):
     lp = l # 记录左指针位置, 每当有满足条件的值时就与 lp 交换位置, 并自增
 
     for i in range(l, r + 1):
