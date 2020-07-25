@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1595669422497">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1595669561269">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1595669422497" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1595669561269" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -583,7 +583,7 @@ def partition(arr: list, l: int, r: int) -&gt; int:
                       中轴值 =&gt; l/r(此时 l == r, 即 l 和 r 均指向左右部分的交界)
     &quot;&quot;&quot;
     p = arr[l]
-    while l &lt; r:
+    while l != r:
         while l &lt; r and arr[r] &gt;= p:
             r -= 1
         arr[l] = arr[r]  # 在右侧找到比中轴小的元素
@@ -625,7 +625,7 @@ def partition(arr: list, l: int, r: int):
     arr[rand_index], arr[l] = arr[l], arr[rand_index]
 
     p = arr[l]
-    while l &lt; r:
+    while l != r:
         while l &lt; r and arr[r] &gt;= p:
             r -= 1
         arr[l] = arr[r]  # 在右侧找到比中轴小的元素
@@ -660,7 +660,7 @@ print(input_arr)
 <p>现有红白蓝三种不同颜色的小球，乱序排列在一起，请重新排列这些小球，使得红白蓝三色的同颜色的球在一起。这个问题之所以叫荷兰国旗问题，是因为我们可以将红白蓝三色小球想象成条状物，有序排列后正好组成荷兰国旗。</p>
 <pre><code class="language-python">def partition(arr, L, R):
     p = arr[L]
-    while L &lt; R:
+    while L != R:
         while L &lt; R and arr[R] &gt;= p:
             R -= 1
         arr[L] = arr[R]
