@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1595858329304">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1595862525976">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1595858329304" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1595862525976" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -65,6 +65,8 @@
 <li><a href="#%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86">后序遍历</a>
 <ul>
 <li><a href="#java-3">Java</a></li>
+<li><a href="#python-3">Python</a></li>
+<li><a href="#go-3">Go</a></li>
 </ul>
 </li>
 </ul>
@@ -119,8 +121,10 @@
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
         <h1 class="text-3xl font-bold lg:mt-16">Morris遍历</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-07-26 / 5 min read
+          2020-07-26 / 8 min read
         </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200727230828.png" alt="">
         
         <div class="post-content yue">
           <h2 id="原理">原理</h2>
@@ -156,7 +160,17 @@
 </ol>
 </li>
 </ol>
-<p>若某节点有左子树，则该节点将被遍历两次（即 <code>2.2</code> ），若没有左子树则将被遍历一次。</p>
+<ul>
+<li>
+<p>若某节点有左子树，则该节点将被遍历两次（即 <code>2.2</code> ），若没有左子树则将被遍历一次；</p>
+</li>
+<li>
+<p>在遍历过程中，本质上当前节点总是该节点左子树的 <code>rightmost</code> 的后继（节点的后继指中序遍历输出结果的后续节点）；</p>
+</li>
+<li>
+<p>通过 <code>rightmost</code> 的右孩子的指向来判断是第一次还是第二次遍历到当前节点。</p>
+</li>
+</ul>
 <p>下图为每一步迭代的结果（从左至右，从上到下），cur代表当前节点，深色节点表示该节点已输出。（图源：<a href="https://www.cnblogs.com/anniekim/archive/2013/06/15/morristraversal.html">AnnieKim</a>）</p>
 <figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200727191413.png" alt="" loading="lazy"></figure>
 <h2 id="实现">实现</h2>
@@ -210,7 +224,7 @@ public class MorrisTraversal {
         self.right = right
 
 
-def morris_traverse(head: TreeNode) -&gt; None:
+def morris_preorder_traverse(head: TreeNode) -&gt; None:
     if not head: return
 
     cur1 = head
@@ -237,7 +251,7 @@ def morris_traverse(head: TreeNode) -&gt; None:
 	right *TreeNode
 }
 
-func morrisTraverse(head *TreeNode) {
+func morrisPreorderTraverse(head *TreeNode) {
 	if head == nil {
 		return
 	}
@@ -257,7 +271,7 @@ func morrisTraverse(head *TreeNode) {
 				cur1 = cur1.left
 				continue
 			} else {
-				cur2 = nil
+				cur2.right = nil
 			}
 		} else {
 			fmt.Printf(&quot;%d &quot;, cur1.val)
@@ -267,9 +281,12 @@ func morrisTraverse(head *TreeNode) {
 }
 </code></pre>
 <h3 id="中序遍历">中序遍历</h3>
+<p>有左子树的节点第二次回到该节点时再打印；无左子树的节点只会遍历一次，故直接输出。如下图输出顺序为 <code>2 1 3</code> 。</p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200727220729.png" alt="" loading="lazy"></figure>
+<p>当前节点无左子树或第二次遍历当前节点（即 <code>rightmost</code> 的右孩子指向 <code>cur1</code>）时均需输出当前节点值，而只有这两种情况需将指针右移，故可理解为只要向右移动就输出。</p>
 <h4 id="java-2">Java</h4>
 <pre><code class="language-java">public class MorrisTraversal {
-    public static void morrisInorderTraverse(TreeNode head) {
+    public static void morrisInOrderTraverse(TreeNode head) {
         if (head == null) return;
 
         TreeNode cur1 = head;
@@ -277,26 +294,26 @@ func morrisTraverse(head *TreeNode) {
 
         while (cur1 != null) {
             cur2 = cur1.left;
-            if (cur2 != null) {             // cur1 有左子树
+            if (cur2 != null) {               // cur1 有左子树
                 while (cur2.right != null &amp;&amp; cur2.right != cur1) {
-                    cur2 = cur2.right;      // 左子树上最右节点, 此时 cur2 即为 rightmost
+                    cur2 = cur2.right;        // 左子树上最右节点, 此时 cur2 即为 rightmost
                 }
-                if (cur2.right == null) {   // rightmost 的右孩子为空, 此时为第一次遍历当前节点
+                if (cur2.right == null) {     // rightmost 的右孩子为空, 此时为第一次遍历当前节点
                     cur2.right = cur1;
                     cur1 = cur1.left;
                     continue;
                 } else {
-                    cur2.right = null;      // rightmost 的右孩子指向 cur1, 此时为第二次遍历当前节点
+                    cur2.right = null;        // rightmost 的右孩子指向 cur1, 此时为第二次遍历当前节点
                 }
             }
-            System.out.print(cur1.val + &quot; &quot;);
-            cur1 = cur1.right;              // cur1 无左子树
+            System.out.print(cur1.val + &quot; &quot;); // 当前节点无左子树或第二次遍历当前节点
+            cur1 = cur1.right;                // cur1 无左子树或 rightmost 的右孩子指向 cur1 时
         }
     }
 }
 </code></pre>
 <h4 id="python-2">Python</h4>
-<pre><code class="language-python">def morris_inorder_traverse(head: TreeNode) -&gt; None:
+<pre><code class="language-python">def morris_in_order_traverse(head: TreeNode) -&gt; None:
     if not head: return
 
     cur1 = head
@@ -315,7 +332,7 @@ func morrisTraverse(head *TreeNode) {
         cur1 = cur1.right
 </code></pre>
 <h4 id="go-2">Go</h4>
-<pre><code class="language-go">func morrisInorderTraverse(head *TreeNode) {
+<pre><code class="language-go">func morrisInOrderTraverse(head *TreeNode) {
 	if head == nil {
 		return
 	}
@@ -334,7 +351,7 @@ func morrisTraverse(head *TreeNode) {
 				cur1 = cur1.left
 				continue
 			} else {
-				cur2 = nil
+				cur2.right = nil
 			}
 		}
 		fmt.Printf(&quot;%d &quot;, cur1.val)
@@ -343,8 +360,153 @@ func morrisTraverse(head *TreeNode) {
 }
 </code></pre>
 <h3 id="后序遍历">后序遍历</h3>
+<p>第二次遍历到某节点时，逆序打印其左子树的右边界。遍历完后再逆序打印整棵树的右边界即为后序遍历。</p>
 <h4 id="java-3">Java</h4>
-<pre><code class="language-java">
+<pre><code class="language-java">public class MorrisTraversal {
+    public static void morrisPostOrderTraverse(TreeNode head) {
+        if (head == null) return;
+
+        TreeNode cur1 = head;
+        TreeNode cur2 = null;
+
+        while (cur1 != null) {
+            cur2 = cur1.left;
+            if (cur2 != null) {             // cur1 有左子树
+                while (cur2.right != null &amp;&amp; cur2.right != cur1) {
+                    cur2 = cur2.right;      // 左子树上最右节点, 此时 cur2 即为 rightmost
+                }
+                if (cur2.right == null) {   // rightmost 的右孩子为空, 此时为第一次遍历当前节点
+                    cur2.right = cur1;
+                    cur1 = cur1.left;
+                    continue;
+                } else {
+                    cur2.right = null;      // rightmost 的右孩子指向 cur1, 此时为第二次遍历当前节点
+                    printEdge(cur1.left);   // 第二次遍历到该节点, 打印左子树的右边界
+                }
+            }
+            cur1 = cur1.right;              // cur1 无左子树
+        }
+        printEdge(head);                    // 打印整棵树的右边界
+    }
+
+    public static void printEdge(TreeNode head) {
+        TreeNode tail = reverseEdge(head);
+        TreeNode cur = tail;
+
+        while (cur != null) {
+            System.out.print(cur.val + &quot; &quot;);
+            cur = cur.right;
+        }
+        recursiveTraverse(tail);
+    }
+
+    public static TreeNode reverseEdge(TreeNode from) {
+        TreeNode pre = null;
+        TreeNode next = null;
+
+        while (from != null) {
+            next = from.right;
+            from.right = pre;
+            pre = from;
+            from = next;
+        }
+        return pre;
+    }
+}
+</code></pre>
+<h4 id="python-3">Python</h4>
+<pre><code class="language-python">def morris_post_order_traverse(head: TreeNode) -&gt; None:
+    if not head: return
+
+    cur1 = head
+    while cur1:
+        cur2 = cur1.left
+        if cur2:
+            while cur2.right and cur2.right != cur1:
+                cur2 = cur2.right
+            if cur2.right is None:
+                cur2.right = cur1
+                cur1 = cur1.left
+                continue
+            else:
+                cur2.right = None
+                print_edge(cur1.left)
+        cur1 = cur1.right
+    print_edge(head)
+
+
+def print_edge(head: TreeNode) -&gt; None:
+    tail = reverse_edge(head)
+    cur = tail
+
+    while cur:
+        print(cur.val, end=&quot; &quot;)
+        cur = cur.right
+
+    reverse_edge(tail)
+
+
+def reverse_edge(head: TreeNode) -&gt; TreeNode:
+    pre = None
+    while head:
+        rear = head.right
+        head.right = pre
+        pre = head
+        head = rear
+    return pre
+</code></pre>
+<h4 id="go-3">Go</h4>
+<pre><code class="language-go">func morrisPostOrderTraverse(head *TreeNode) {
+	if head == nil {
+		return
+	}
+
+	cur1 := head
+	var cur2 *TreeNode
+
+	for cur1 != nil {
+		cur2 = cur1.left
+		if cur2 != nil {
+			for cur2.right != nil &amp;&amp; cur2.right != cur1 {
+				cur2 = cur2.right
+			}
+			if cur2.right == nil {
+				cur2.right = cur1
+				cur1 = cur1.left
+				continue
+			} else {
+				cur2.right = nil
+				printEdge(cur1.left)
+			}
+		}
+		cur1 = cur1.right
+	}
+	printEdge(head)
+}
+
+func printEdge(head *TreeNode) {
+	tail := reverseEdge(head)
+	cur := tail
+
+	for cur != nil {
+		fmt.Printf(&quot;%d &quot;, cur.val)
+		cur = cur.right
+	}
+
+	reverseEdge(tail)
+}
+
+func reverseEdge(head *TreeNode) *TreeNode {
+	var pre *TreeNode
+	for head != nil {
+		next := head.right
+		head.right = pre
+		pre = head
+		head = next
+	}
+
+	return pre
+}
 </code></pre>
 
         </div>
