@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-27T15:08:49.951Z</updated>
+    <updated>2020-07-28T00:58:51.285Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
@@ -37,7 +37,7 @@
     }
 }
 </code></pre>
-<p>Morris 遍历实质上是人为地追踪递归过程中国遍历位置的变化。其过程如下：</p>
+<p>Morris 遍历实质上是人为地追踪递归过程中遍历位置的变化。其过程如下：</p>
 <p>设 <code>cur</code> 为当前节点。</p>
 <ol>
 <li>若 <code>cur</code> 无左子树，<code>cur</code> 向右移动</li>
@@ -53,7 +53,7 @@
 <p>若某节点有左子树，则该节点将被遍历两次（即 <code>2.2</code> ），若没有左子树则将被遍历一次；</p>
 </li>
 <li>
-<p>在遍历过程中，本质上当前节点总是该节点左子树的 <code>rightmost</code> 的后继（节点的后继指中序遍历输出结果的后续节点）；</p>
+<p>在第二遍历某节点时，当前节点总是该节点左子树的 <code>rightmost</code> 的后继（节点的后继指中序遍历输出结果的后续节点）</p>
 </li>
 <li>
 <p>通过 <code>rightmost</code> 的右孩子的指向来判断是第一次还是第二次遍历到当前节点。</p>
