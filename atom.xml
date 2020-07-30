@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-07-30T07:59:11.305Z</updated>
+    <updated>2020-07-30T08:02:28.809Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
@@ -134,11 +134,11 @@
 </li>
 <li>
 <p>若中序后继与待删除节点直接相连，如下图所示：</p>
-<p>![image-20200730155440816](/Users/zcy/Library/Application Support/typora-user-images/image-20200730155440816.png)</p>
+<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200730160149.png" alt="" loading="lazy"></figure>
 <ul>
 <li>9 与 12 直接相连，则直接将 12 上移至 9 的位置，并修改 12 的左子树指向即可。</li>
 </ul>
-<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200730155612.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200730155612.png" alt="" loading="lazy"></figure>
 </li>
 </ul>
 <pre><code class="language-java">public static Node delete(Node deleteNode) {
@@ -167,7 +167,7 @@
 </code></pre>
 <h2 id="缺点">缺点</h2>
 <p>插入或删除节点过程中如果不及时调整，将使查找效率降低，如将数组 <code>[2, 3, 4, 5, 6]</code> 插入树的过程中，不加调整将得到如下结构，此时查找和插入效率退化至 <code>O(n)</code> 。</p>
-<figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200729204357.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="7"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200729204357.png" alt="" loading="lazy"></figure>
 <p>为解决查找效率退化的问题，又提出了 AVL 树和红黑树等，可将最坏效率降至 <code>O(logn)</code>。</p>
 ]]></content>
     </entry>
