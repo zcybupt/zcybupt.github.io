@@ -42,27 +42,7 @@
             文章目录
           </p>
           <div class="toc-container hidden lg:block">
-            <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#%E9%A2%98%E7%9B%AE">题目</a>
-<ul>
-<li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
-<ul>
-<li><a href="#java">Java</a></li>
-<li><a href="#python">Python</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
+            
           </div>
         </div>
       
@@ -107,94 +87,37 @@
 <div class="mask" onclick="closeMenu()">
 </div>
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-bold lg:mt-16">切割金条问题</h1>
+        <h1 class="text-3xl font-bold lg:mt-16">跳跃表</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-06-08 / 2 min read
+          2020-07-31 / 1 min read
         </div>
-        
-          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200608175118.png" alt="">
         
         <div class="post-content yue">
-          <h3 id="题目">题目</h3>
-<p>一块金条切成两半, 是需要花费和长度数值一样的铜板的. 比如长度为 <code>20</code> 的 金条, 不管切成长度多大的两半, 都要花费 <code>20</code> 个铜板. 一群人想整分整块金条, 怎么分最省铜板?</p>
-<p>例, 给定数组 <code>{10,20,30}</code>, 代表一共三个人, 整块金条长度为 <code>10</code> + <code>20</code> + <code>30</code> = <code>60</code> . 金条要分成 <code>10</code>, <code>20</code>, <code>30</code> 三个部分.</p>
-<ul>
-<li>如果先把长度 <code>60</code> 的金条分成 <code>10</code> 和 <code>50</code> , 花费 <code>60</code> 再把长度 <code>50</code> 的金条分成 <code>20</code> 和 <code>30</code>, 花费 <code>50</code> ,  一共花费 <code>110</code> 铜板.</li>
-<li>如果先把长度 <code>60</code> 的金条分成 <code>30</code> 和 <code>30</code>, 花费 <code>60</code>  再把长度 <code>30</code> 金条分成 <code>10</code> 和 <code>20</code> ，花费 <code>30</code>  一共花费 <code>90</code> 铜板.</li>
-</ul>
-<p>输入一个数组, 返回分割的最小代价.</p>
-<h4 id="题解">题解</h4>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200608181441.png" alt="" loading="lazy"></figure>
-<p>如图, 该问题可看作哈夫曼树, 树中的叶结点即为最终的划分结果, 相当于给了叶结点, 求什么情况下非叶结点的和最小. 可采用贪心算法, 利用堆结构. 将所有节点存入小根堆中. 每次依次弹出两个元素, 求和, 并将和放回小根堆中, 循环计算即可得到最小值.</p>
-<h5 id="java">Java</h5>
-<pre><code class="language-java">import java.util.PriorityQueue;
-
-public class MinimalCost {
-    PriorityQueue&lt;Integer&gt; priorityQueue = new PriorityQueue&lt;&gt;();
-
-    public int getMinimalCost() {
-        while (priorityQueue.size() != 1) {
-            int tmp1 = priorityQueue.poll();
-            int tmp2 = priorityQueue.poll();
-            priorityQueue.add(tmp1 + tmp2);
-        }
-
-        return priorityQueue.peek();
-    }
-}
-</code></pre>
-<h5 id="python">Python</h5>
-<pre><code class="language-python">from heapq import *
-
-def get_minimal_cost(result_list):
-    heapify(result_list)
-    
-    while len(result_list) != 1:
-        tmp1 = heappop(result_list)
-        tmp2 = heappop(result_list)
-        heappush(result_list, tmp1 + tmp2)
-    
-    return result_list[0]
-</code></pre>
+          <p>https://leetcode-cn.com/problems/design-skiplist/</p>
+<p>https://juejin.im/post/6844903446475177998</p>
+<p>https://zhuanlan.zhihu.com/p/53975333</p>
+<p>https://lotabout.me/2018/skip-list/</p>
 
         </div>
 
         
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/Fxzc0ldB4/">
-            <span class="flex-auto">哈夫曼编码</span>
-          </a>
-        
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/xRCJzAADD/">
-            <span class="flex-auto">堆</span>
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/HQnRoKsAf/">
+            <span class="flex-auto">跳表</span>
           </a>
         
           <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/sygsU_q1s/">
             <span class="flex-auto">算法</span>
           </a>
         
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/uIoWQi2bzm/">
+            <span class="flex-auto">LeetCode</span>
+          </a>
+        
 
 
         <div class="flex justify-between py-8">
           
-            <div class="prev-post">
-              <a href="https://zcybupt.github.io/post/MaximizedCapital/">
-                <h3 class="post-title">
-                  <i class="ri-arrow-left-line"></i>
-                  投资最大化问题
-                </h3>
-              </a>
-            </div>
-          
 
-          
-            <div class="next-post">
-              <a href="https://zcybupt.github.io/post/MedianFinder/">
-                <h3 class="post-title">
-                  随时找到数据流的中位数
-                  <i class="ri-arrow-right-line"></i>
-                </h3>
-              </a>
-            </div>
           
         </div>
 
