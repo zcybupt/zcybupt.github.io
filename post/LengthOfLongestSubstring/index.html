@@ -45,7 +45,7 @@
             <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E9%A2%98%E7%9B%AEleetcode-28">题目(LeetCode #28)</a></li>
+<li><a href="#%E9%A2%98%E7%9B%AEleetcode-3">题目(LeetCode #3)</a></li>
 <li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
 <ul>
 <li><a href="#java">Java</a></li>
@@ -101,183 +101,121 @@
 <div class="mask" onclick="closeMenu()">
 </div>
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-bold lg:mt-16">KMP算法</h1>
+        <h1 class="text-3xl font-bold lg:mt-16">无重复字符的最长子串</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-07-18 / 3 min read
+          2020-08-02 / 3 min read
         </div>
         
-          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200719111555.png" alt="">
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200802173834.png" alt="">
         
         <div class="post-content yue">
-          <h2 id="题目leetcode-28">题目(<a href="https://leetcode-cn.com/problems/implement-strstr/">LeetCode #28</a>)</h2>
-<p>实现 <code>strStr()</code> 函数。</p>
-<p>给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。</p>
+          <h2 id="题目leetcode-3">题目(<a href="https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/">LeetCode #3</a>)</h2>
+<p>给定一个字符串，请你找出其中不含有重复字符的<strong>最长子串</strong>的长度。</p>
 <p><strong>示例 1:</strong></p>
 <blockquote>
-<p><strong>输入:</strong> haystack = &quot;hello&quot;, needle = &quot;ll&quot;<br>
-<strong>输出:</strong> 2</p>
+<p><strong>输入:</strong> &quot;abcabcbb&quot;<br>
+<strong>输出:</strong> 3<br>
+<strong>解释:</strong> 因为无重复字符的最长子串是 &quot;abc&quot;，所以其长度为 3。</p>
 </blockquote>
 <p><strong>示例 2:</strong></p>
 <blockquote>
-<p><strong>输入:</strong> haystack = &quot;aaaaa&quot;, needle = &quot;bba&quot;<br>
-<strong>输出:</strong> -1</p>
+<p><strong>输入:</strong> &quot;bbbbb&quot;<br>
+<strong>输出:</strong> 1<br>
+<strong>解释:</strong> 因为无重复字符的最长子串是 &quot;b&quot;，所以其长度为 1。</p>
+</blockquote>
+<p><strong>示例 3:</strong></p>
+<blockquote>
+<p><strong>输入:</strong> &quot;pwwkew&quot;<br>
+<strong>输出:</strong> 3<br>
+<strong>解释:</strong> 因为无重复字符的最长子串是 &quot;wke&quot;，所以其长度为 3。答案必须是<strong>子串</strong>的长度，&quot;pwke&quot; 是一个子序列，不是子串。</p>
 </blockquote>
 <h2 id="题解">题解</h2>
-<p>参考资料：</p>
-<ul>
-<li>
-<p><a href="https://www.bilibili.com/video/BV1Px411z7Yo">KMP字符串匹配算法1</a></p>
-</li>
-<li>
-<p><a href="https://www.bilibili.com/video/BV1hW411a7ys">KMP字符串匹配算法2</a></p>
-</li>
-<li>
-<p><a href="https://mp.weixin.qq.com/s?__biz=MzI5ODA5NTgyMw==&amp;mid=2247483968&amp;idx=1&amp;sn=3c21f29eb6c5083f85ac7c97d2051303&amp;chksm=ecaa47e0dbddcef6a97a453df68bc6c6ff040bdd84f58caf99b1f3a8cb84d7405062b039c396&amp;token=1263366918&amp;lang=zh_CN#rd">图解KMP</a></p>
-</li>
-</ul>
+<p>可采用滑动窗口法，将窗口内的字符保存到集合中，窗口的左边界向右移动时，弹出已不在窗口内的元素；窗口的右边界向右移动时判断字符是否已在集合中，若不在则加入，若已有则终止循环，记录当前最长长度。</p>
 <h3 id="java">Java</h3>
-<pre><code class="language-java">public class KMP {
-    public static int[] getNextTable(String needle) {
-        int len = needle.length();
-        int[] next = new int[len];
-        next[0] = -1;
-        int lp = -1, rp = 0;    // 左右指针, 即文章中的 k 和 index
+<pre><code class="language-java">import java.util.HashSet;
 
-        while (rp &lt; len - 1) {
-            if (lp == -1 || needle.charAt(rp) == needle.charAt(lp))
-                // k = -1 时, 左右指针均向右移动
-                // 当左右指针所指元素相等时, 均向右移动
-                next[++rp] = ++lp;
-            else
-                // 左右指针所指元素不等, 左指针移向其所指字符的对应 next 指向的位置
-                lp = next[lp];
+public class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        HashSet&lt;Character&gt; charSet = new HashSet&lt;&gt;();
+        int length = s.length();
+        int rk = -1, ans = 0;
+
+        for (int i = 0; i &lt; length; i++) {
+            if (i != 0) {
+                charSet.remove(s.charAt(i - 1));
+            }
+            while (rk + 1 &lt; length &amp;&amp; !charSet.contains(s.charAt(rk + 1))) {
+                charSet.add(s.charAt(rk + 1));
+                rk++;
+            }
+            ans = Math.max(ans, rk - i + 1);
         }
 
-        return next;
+        return ans;
     }
 
-    public static int getIndex(String haystack, String needle) {
-        int haystackLen = haystack.length();
-        int needleLen = needle.length();
-
-        if (needleLen == 0) return 0;
-        int haystackCur = 0, needleCur = 0;
-        int[] next = getNextTable(needle);
-
-        while (haystackCur &lt; haystackLen &amp;&amp; needleCur &lt; needleLen) {
-            if (haystack.charAt(haystackCur) == needle.charAt(needleCur)) {
-                // 对比两个字符串, 各位相同时两指针右移
-                haystackCur++;
-                needleCur++;
-            } else {
-                // 不相同则根据 next 表查找 needleCur 移向的位置
-                // needleCur 移动到了开头, 退无可退, 主串指针继续后移
-                if (needleCur == 0) haystackCur++;
-                else needleCur = next[needleCur];
-            }
-        }
-
-        return needleCur == needleLen ? haystackCur - needleCur : -1;
+    public static void main(String[] args) {
+        String s = &quot;abcabcbb&quot;;
+        Solution solution = new Solution();
+        System.out.println(solution.lengthOfLongestSubstring(s));
     }
 }
 </code></pre>
 <h3 id="python">Python</h3>
-<pre><code class="language-python">class KMP:
-    def get_next_table(self, needle):
-        length = len(needle)
-        lp, rp = -1, 0
-        next_table = [0] * length
-        next_table[0] = -1
+<pre><code class="language-python">class Solution:
+    def lengthOfLongestSubstring(self, s: str) -&gt; int:
+        char_set = set()
+        rk, ans = -1, 0
+        length = len(s)
 
-        while rp &lt; length - 1:
-            if needle[lp] == needle[rp] or lp == -1:
-                rp += 1
-                lp += 1
-                next_table[rp] = lp
-            else:
-                lp = next_table[lp]
+        for i in range(length):
+            if i != 0: char_set.remove(s[i - 1])
 
-        return next_table
+            while rk + 1 &lt; length and s[rk + 1] not in char_set:
+                char_set.add(s[rk + 1])
+                rk += 1
+            ans = max(ans, rk - i + 1)
 
-    def get_index(self, haystack, needle):
-        haystack_len = len(haystack)
-        needle_len = len(needle)
-
-        if needle_len == 0: return 0
-        haystack_cur, needle_cur = 0, 0
-        next_table = self.get_next_table(needle)
-
-        while haystack_cur &lt; haystack_len and needle_cur &lt; needle_len:
-            if haystack[haystack_cur] == needle[needle_cur]:
-                haystack_cur += 1
-                needle_cur += 1
-            else:
-                if needle_cur == 0: haystack_cur += 1
-                else: needle_cur = next_table[needle_cur]
-
-        return haystack_cur - needle_cur if needle_cur == needle_len else -1
+        return ans
 </code></pre>
 <h3 id="go">Go</h3>
-<pre><code class="language-go">func getNextTable(needle string) []int {
-	length := len(needle)
-	lp, rp := -1, 0
-	next := make([]int, length)
-	next[0] = -1
+<p>Golang 中没有集合，使用 map 实现过于繁琐，可采用 int 数组来模拟集合操作。</p>
+<p>将每个字符的 <code>ASCII</code> 值作为数组的索引，数组内存储的为该字符的出现与否（1 或 0）。</p>
+<pre><code class="language-go">package main
 
-	for rp &lt; length-1 {
-		if lp == -1 || needle[lp] == needle[rp] {
-			rp++
-			lp++
-			next[rp] = lp
-		} else {
-			lp = next[lp]
+import (
+	&quot;fmt&quot;
+	&quot;math&quot;
+)
+
+func lengthOfLongestSubstring(s string) int {
+	var window [128]int         // ASCII 总共定义了 128 个字符
+	length := len(s)
+	rk, ans := -1, 0
+
+	for i, _ := range s {
+		if i != 0 {
+			window[s[i-1]] = 0  // 左边界移出窗口
 		}
-	}
-
-	return next
-}
-
-func getIndex(haystack, needle string) int {
-	haystackLen := len(haystack)
-	needleLen := len(needle)
-
-	if needleLen == 0 {
-		return 0
-	}
-
-	haystackCur, needleCur := 0, 0
-	next := getNextTable(needle)
-
-	for haystackCur &lt; haystackLen &amp;&amp; needleCur &lt; needleLen {
-		if haystack[haystackCur] == needle[needleCur] {
-			haystackCur++
-			needleCur++
-		} else {
-			if needleCur == 0 {
-				haystackCur++
-			} else {
-				needleCur = next[needleCur]
-			}
+		for rk+1 &lt; length &amp;&amp; window[s[rk+1]] == 0 {
+			window[s[rk+1]] = 1 // 右边界移入窗口
+			rk++
 		}
+		ans = int(math.Max(float64(ans), float64(rk-i+1)))
 	}
-
-	if needleCur == needleLen {
-		return haystackCur - needleCur
-	} else {
-		return -1
-	}
+	return ans
 }
 </code></pre>
 
         </div>
 
         
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/Pf3CZ4Bv0/">
-            <span class="flex-auto">KMP</span>
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/81XUqot-5/">
+            <span class="flex-auto">集合</span>
           </a>
         
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/Dg_uXOhX3/">
-            <span class="flex-auto">Easy</span>
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/zjyfY7MTi/">
+            <span class="flex-auto">Medium</span>
           </a>
         
           <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/sygsU_q1s/">
@@ -292,21 +230,12 @@ func getIndex(haystack, needle string) int {
 
         <div class="flex justify-between py-8">
           
-            <div class="prev-post">
-              <a href="https://zcybupt.github.io/post/SubtreeOfAnotherTree/">
-                <h3 class="post-title">
-                  <i class="ri-arrow-left-line"></i>
-                  判断子树结构是否相同
-                </h3>
-              </a>
-            </div>
-          
 
           
             <div class="next-post">
-              <a href="https://zcybupt.github.io/post/BestArrange/">
+              <a href="https://zcybupt.github.io/post/BinarySearchTree/">
                 <h3 class="post-title">
-                  日程安排问题
+                  二叉查找树
                   <i class="ri-arrow-right-line"></i>
                 </h3>
               </a>
