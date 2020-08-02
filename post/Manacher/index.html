@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1596361507213">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1596365834719">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1596361507213" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1596365834719" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -173,7 +173,7 @@
 <figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200721172042.png" alt="处理前" loading="lazy"></figure>
 <figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200721172128.png" alt="处理后" loading="lazy"></figure>
 <h4 id="最长回文子串长度">最长回文子串长度</h4>
-<p>观察可知，预处理后的字符串的最长回文子串的回文半径减 <code>1</code> 即为原字符串的最长回文子串长度。以字符串 <code>cabbaf</code> 为例，处理后的最长回文子串的回文半径为 <code>p[6] = 5</code> ，<code>p[6] - 1 = 4</code> 即为原字符串的最长回文子串 <code>abba</code> 的长度。</p>
+<p>下表中 <code>p</code> 数组存储的是以各字符为中心的回文子串的最大长度。观察可知，预处理后的字符串的最长回文子串的回文半径减 <code>1</code> 即为原字符串的最长回文子串长度。以字符串 <code>cabbaf</code> 为例，处理后的最长回文子串的回文半径为 <code>p[6] = 5</code> ，<code>p[6] - 1 = 4</code> 即为原字符串的最长回文子串 <code>abba</code> 的长度。</p>
 <figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200721172934.png" alt="" loading="lazy"></figure>
 <p>所以原字符串的最长回文子串长度 <code>maxLen = p[i] - 1</code></p>
 <h4 id="最长回文子串的起始索引">最长回文子串的起始索引</h4>
@@ -189,7 +189,11 @@
 <p>故可得回文子串右边界与其半径之间的关系为：<code>R = C + p[C]</code></p>
 <figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200721192607.png" alt="" loading="lazy"></figure>
 <p>由于回文子串关于 <code>C</code> 对称，由该子串上某位置 <code>i</code> 可得其对称位置 <code>j</code> ，由 <code>i + j = 2 * C</code> 知 <code>j = 2 * C - i</code> 。</p>
-<p>若以 <code>j</code> 为中心的回文子串的右边界在 <code>R</code> 以内，即 <code>j + p[j] &lt; R</code> 时，由对称性可知，<code>p[j] = p[i]</code> ；若以 <code>j</code> 为中心的回文子串的右边界大于 <code>R</code> ，即 <code>j + p[j] &gt; R</code> 时，图中红色部分为关于 <code>j</code> 对称的回文子串，故此时有 <code>p[j] = R - j</code> ；若 <code>j + p[j] &gt;= R</code> ，则令 <code>p[j] = 1</code> ，此时也需更新 <code>C</code> 和 <code>R</code> ，继续向后用扩展中心法计算 <code>p</code> 各位置的值。</p>
+<ul>
+<li>若以 <code>j</code> 为中心的回文子串的右边界在 <code>R</code> 以内，即 <code>j + p[j] &lt; R</code> 时，由对称性可知，<code>p[j] = p[i]</code> ；</li>
+<li>若以 <code>j</code> 为中心的回文子串的右边界大于 <code>R</code> ，即 <code>j + p[j] &gt; R</code> 时，图中红色部分为关于 <code>j</code> 对称的回文子串，故此时有 <code>p[j] = R - j</code> ；</li>
+<li>若 <code>j + p[j] &gt;= R</code> ，则令 <code>p[j] = 1</code> ，此时也需更新 <code>C</code> 和 <code>R</code> ，继续向后用扩展中心法计算 <code>p</code> 各位置的值。</li>
+</ul>
 <h5 id="java">Java</h5>
 <pre><code class="language-java">public class Manacher {
     public static String preprocess(String s) {
@@ -287,7 +291,7 @@ func longestPalindrome(s string) string {
 
 	for i := 1; i &lt; length-1; i++ {
 		if R &gt; i {
-			p[i] = min(p[2*C-i], R-i)
+			p[i] = int(math.Min(float64(p[2*C-i]), float64(R-i)))
 		} else {
 			p[i] = 1
 		}
@@ -309,14 +313,6 @@ func longestPalindrome(s string) string {
 
 	start := (index - maxLen) / 2
 	return s[start : start+maxLen]
-}
-
-func min(a, b int) int {
-	if a &lt; b {
-		return a
-	} else {
-		return b
-	}
 }
 </code></pre>
 <h3 id="参考资料">参考资料</h3>
