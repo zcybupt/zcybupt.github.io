@@ -1,0 +1,461 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CODEFANCIER</title>
+<meta name="description" content="" />
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1596537717669">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://zcybupt.github.io/styles/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-170272843-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-170272843-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://zcybupt.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1596537717669" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E9%A2%98%E7%9B%AEleetcode-8">题目(LeetCode #8)</a></li>
+<li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
+<ul>
+<li><a href="#java">Java</a></li>
+<li><a href="#python">Python</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://github.com/zcybupt" class="menu" style="animation-delay: 0.6000000000000001s" target="_blank">
+          GitHub
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://zcybupt.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">字符串转换整数（atoi）</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2020-08-04 / 5 min read
+        </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200804184129.png" alt="">
+        
+        <div class="post-content yue">
+          <h2 id="题目leetcode-8">题目(<a href="https://leetcode-cn.com/problems/string-to-integer-atoi/">LeetCode #8</a>)</h2>
+<p>请你来实现一个 <code>atoi</code> 函数，使其能将字符串转换成整数。</p>
+<p>首先，该函数会根据需要丢弃无用的开头空格字符，直到寻找到第一个非空格的字符为止。接下来的转化规则如下：</p>
+<ul>
+<li>
+<p>如果第一个非空字符为正或者负号时，则将该符号与之后面尽可能多的连续数字字符组合起来，形成一个有符号整数。</p>
+</li>
+<li>
+<p>假如第一个非空字符是数字，则直接将其与之后连续的数字字符组合起来，形成一个整数。</p>
+</li>
+<li>
+<p>该字符串在有效的整数部分之后也可能会存在多余的字符，那么这些字符可以被忽略，它们对函数不应该造成影响。</p>
+</li>
+</ul>
+<p>注意：假如该字符串中的第一个非空格字符不是一个有效整数字符、字符串为空或字符串仅包含空白字符时，则你的函数不需要进行转换，即无法进行有效转换。</p>
+<p>在任何情况下，若函数不能进行有效的转换时，请返回 0 。</p>
+<p><strong>提示：</strong></p>
+<ul>
+<li>本题中的空白字符只包括空格字符 <code>' '</code> 。</li>
+<li>假设我们的环境只能存储 32 位大小的有符号整数，那么其数值范围为 [−2<sup>31</sup>,  2<sup>31</sup> − 1]。如果数值超过这个范围，请返回  INT_MAX (2<sup>31</sup> − 1) 或 INT_MIN (−2<sup>31</sup>) 。</li>
+</ul>
+<p><strong>示例 1:</strong></p>
+<blockquote>
+<p><strong>输入:</strong> &quot;42&quot;<br>
+<strong>输出:</strong> 42</p>
+</blockquote>
+<p><strong>示例 2:</strong></p>
+<blockquote>
+<p><strong>输入:</strong> &quot;   -42&quot;<br>
+<strong>输出:</strong> -42<br>
+<strong>解释:</strong> 第一个非空白字符为 '-', 它是一个负号。<br>
+我们尽可能将负号与后面所有连续出现的数字组合起来，最后得到 -42 。</p>
+</blockquote>
+<p><strong>示例 3:</strong></p>
+<blockquote>
+<p><strong>输入:</strong> &quot;4193 with words&quot;<br>
+<strong>输出:</strong> 4193<br>
+<strong>解释:</strong> 转换截止于数字 '3' ，因为它的下一个字符不为数字。</p>
+</blockquote>
+<p><strong>示例 4:</strong></p>
+<blockquote>
+<p><strong>输入:</strong> &quot;words and 987&quot;<br>
+<strong>输出:</strong> 0<br>
+<strong>解释:</strong> 第一个非空字符是 'w', 但它不是数字或正、负号。<br>
+因此无法执行有效的转换。</p>
+</blockquote>
+<p><strong>示例 5:</strong></p>
+<blockquote>
+<p><strong>输入:</strong> &quot;-91283472332&quot;<br>
+<strong>输出:</strong> -2147483648<br>
+<strong>解释:</strong> 数字 &quot;-91283472332&quot; 超过 32 位有符号整数范围。<br>
+因此返回 INT_MIN (−2<sup>31</sup>) 。</p>
+</blockquote>
+<h2 id="题解">题解</h2>
+<p>逐位处理字符串，根据每位字符确定一个覆盖所有情况的有限状态机，如下图所示（<a href="https://leetcode-cn.com/problems/string-to-integer-atoi/solution/zi-fu-chuan-zhuan-huan-zheng-shu-atoi-by-leetcode-/">图源</a>）：</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200804155943.png" alt="" loading="lazy"></figure>
+<p>得到以下的状态转移表：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">space</th>
+<th style="text-align:center">+ / -</th>
+<th style="text-align:center">number</th>
+<th style="text-align:center">other</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">start</td>
+<td style="text-align:center">start</td>
+<td style="text-align:center">signed</td>
+<td style="text-align:center">in_number</td>
+<td style="text-align:center">end</td>
+</tr>
+<tr>
+<td style="text-align:center">signed</td>
+<td style="text-align:center">end</td>
+<td style="text-align:center">end</td>
+<td style="text-align:center">in_number</td>
+<td style="text-align:center">end</td>
+</tr>
+<tr>
+<td style="text-align:center">in_number</td>
+<td style="text-align:center">end</td>
+<td style="text-align:center">end</td>
+<td style="text-align:center">in_number</td>
+<td style="text-align:center">end</td>
+</tr>
+<tr>
+<td style="text-align:center">end</td>
+<td style="text-align:center">end</td>
+<td style="text-align:center">end</td>
+<td style="text-align:center">end</td>
+<td style="text-align:center">end</td>
+</tr>
+</tbody>
+</table>
+<p>根据上表即可编写代码即可</p>
+<h3 id="java">Java</h3>
+<pre><code class="language-java">class FSM {
+    public String status = &quot;start&quot;;
+    public int sign = 1;
+    public long ans = 0;
+    public HashMap&lt;String, String[]&gt; table = new HashMap&lt;&gt;();
+
+    public FSM() {
+        table.put(&quot;start&quot;, new String[]{&quot;start&quot;, &quot;signed&quot;, &quot;in_number&quot;, &quot;end&quot;});
+        table.put(&quot;signed&quot;, new String[]{&quot;end&quot;, &quot;end&quot;, &quot;in_number&quot;, &quot;end&quot;});
+        table.put(&quot;in_number&quot;, new String[]{&quot;end&quot;, &quot;end&quot;, &quot;in_number&quot;, &quot;end&quot;});
+        table.put(&quot;end&quot;, new String[]{&quot;end&quot;, &quot;end&quot;, &quot;end&quot;, &quot;end&quot;});
+    }
+
+    public int getColumn(char ch) {
+        if (ch == ' ') return 0;
+        if (ch == '+' || ch == '-') return 1;
+        if (ch &gt;= '0' &amp;&amp; ch &lt;= '9') return 2;
+        return 3;
+    }
+
+    public void get(char ch) {
+        status = table.get(status)[getColumn(ch)];
+        if (status.equals(&quot;in_number&quot;)) {
+            int curInt = Character.getNumericValue(ch);
+            ans = ans * 10 + curInt;
+            if ((int) ans != ans) {
+                if (sign == 1) ans = Integer.MAX_VALUE;
+                if (sign == -1) ans = Integer.MIN_VALUE;
+            }
+        } else if (status.equals(&quot;signed&quot;)) {
+            sign = ch == '+' ? 1 : -1;
+        }
+    }
+}
+
+class Solution {
+    public int myAtoi(String str) {
+        FSM fsm = new FSM();
+        for (char ch : str.toCharArray()) {
+            fsm.get(ch);
+        }
+        return fsm.sign * (int) fsm.ans;
+    }
+}
+</code></pre>
+<h3 id="python">Python</h3>
+<pre><code class="language-python">class FSM:
+    def __init__(self):
+        self.state = 'start'
+        self.sign = 1
+        self.ans = 0
+        self.table = {
+            'start': ['start', 'signed', 'in_number', 'end'],
+            'signed': ['end', 'end', 'in_number', 'end'],
+            'in_number': ['end', 'end', 'in_number', 'end'],
+            'end': ['end', 'end', 'end', 'end'],
+        }
+
+    def get_column(self, c: str) -&gt; int:
+        if c.isspace():
+            return 0
+        if c in ['+', '-']:
+            return 1
+        if c.isdigit():
+            return 2
+        return 3
+
+    def get(self, c: str):
+        self.state = self.table[self.state][self.get_column(c)]
+        if self.state == 'in_number':
+            self.ans = self.ans * 10 + int(c)
+            self.ans = min(self.ans, INT_MAX) if self.sign == 1 else min(self.ans, -INT_MIN)
+        elif self.state == 'signed':
+            self.sign = 1 if c == '+' else -1
+
+
+class Solution:
+    def myAtoi(self, str: str) -&gt; int:
+        fsm = FSM()
+        for c in str:
+            fsm.get(c)
+        return fsm.sign * fsm.ans
+</code></pre>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/i5UHJbFia/">
+            <span class="flex-auto">状态机</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/zjyfY7MTi/">
+            <span class="flex-auto">Medium</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/sygsU_q1s/">
+            <span class="flex-auto">算法</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/uIoWQi2bzm/">
+            <span class="flex-auto">LeetCode</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+
+          
+            <div class="next-post">
+              <a href="https://zcybupt.github.io/post/LengthOfLongestSubstring/">
+                <h3 class="post-title">
+                  无重复字符的最长子串
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: 'f69e1255342d00cd7bd4',
+    clientSecret: '3b9c344a90d850d00b99b0c0c7716b8f71a2f1bc',
+    repo: 'zcybupt.github.io',
+    owner: 'zcybupt',
+    admin: ['zcybupt'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+      </div>
+    </div>
+
+    <script src="https://zcybupt.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>
