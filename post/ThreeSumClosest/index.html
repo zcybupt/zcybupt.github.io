@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1597023424985">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1597023587548">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1597023424985" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1597023587548" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -124,7 +124,7 @@
 <li>-10<sup>4</sup>&gt; &lt;= target &lt;= 10<sup>4</sup></li>
 </ul>
 <h2 id="题解">题解</h2>
-<p>本题与<a href="https://zcybupt.github.io/post/ThreeSum/">三数之和类似</a> ，可采用双指针法，差别在于本题可以有重复元素。</p>
+<p>本题与<a href="https://zcybupt.github.io/post/ThreeSum/">三数之和</a>类似 ，可采用双指针法，差别在于本题可以有重复元素。</p>
 <p>由于处理过程中数组已经过排序，故在遍历数组元素的过程中，若 <code>nums[i] + nums[L] + nums[R] &gt; target</code> ，需将 <code>R</code> 左移，以减小三数和，进而减小其与 <code>target</code> 的差值；若 <code>nums[i] + nums[L] + nums[R] &lt; target</code> ，需将 <code>L</code> 右移，增大三数和来达到相同目的。</p>
 <h3 id="java">Java</h3>
 <pre><code class="language-java">import java.util.Arrays;
