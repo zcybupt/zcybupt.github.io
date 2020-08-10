@@ -45,18 +45,12 @@
             <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li>
-<ul>
-<li>
-<ul>
-<li>
+<li><a href="#%E9%A2%98%E7%9B%AEleetcode-16">题目(LeetCode #16)</a></li>
+<li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
 <ul>
 <li><a href="#java">Java</a></li>
 <li><a href="#python">Python</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a href="#go">Go</a></li>
 </ul>
 </li>
 </ul>
@@ -107,195 +101,163 @@
 <div class="mask" onclick="closeMenu()">
 </div>
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-bold lg:mt-16">前缀树 🌲</h1>
+        <h1 class="text-3xl font-bold lg:mt-16">最接近的三数之和</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-06-18 / 4 min read
+          2020-08-10 / 3 min read
         </div>
         
-          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200618182402.png" alt="">
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200809191125.png" alt="">
         
         <div class="post-content yue">
-          <p><strong>前缀树</strong> 又称 <strong>字典树</strong>, 是一种有序多叉树结构. 常用于做词频统计和前缀匹配. 与二叉树结构不同, 数据不保存在节点中, 而是由路径来表示. 节点中存储标记信息 ( 如经过前一路径的次数, 以前一路径所表示的字母结尾的单词的数量等 ). 如图中所示, 表示了关键字集合 {&quot;A&quot;, &quot;to&quot;, &quot;tea&quot;, &quot;ted&quot;, &quot;ten&quot;, &quot;i&quot;, &quot;in&quot;, &quot;inn&quot;}, 结点数字表示经过该路径且在此终结的字符串的数量, 即词频.</p>
-<h5 id="java">Java</h5>
-<p>以下假定输入的数据由 26 个小写字母构成, 不含其它字符. 故可用 <code>0~25</code> 的索引来代表 <code>a~z</code> , 可通过计算单个字母的 ASCII 与字符 <code>a</code> 的差算得索引. 若要存储其它类型数据, 将 TreeNode 中存储下个节点的变量改用 Map 即可.</p>
-<pre><code class="language-java">class TrieNode {
-    public int passNum;
-    public int endNum;
-    public TrieNode[] map;
+          <h2 id="题目leetcode-16">题目(<a href="https://leetcode-cn.com/problems/3sum-closest/">LeetCode #16</a>)</h2>
+<p>给定一个包括 <code>n</code> 个整数的数组 <code>nums</code> 和 一个目标值 <code>target</code> 。找出 <code>nums</code> 中的三个整数，使得它们的和与 <code>target</code> 最接近。返回这三个数的和。假定每组输入只存在唯一答案。</p>
+<p><strong>示例：</strong></p>
+<blockquote>
+<p><strong>输入：</strong> nums = [-1,2,1,-4], target = 1</p>
+<p><strong>输出：</strong> 2</p>
+<p><strong>解释：</strong> 与 target 最接近的和是 2 (-1 + 2 + 1 = 2) 。</p>
+</blockquote>
+<p><strong>提示：</strong></p>
+<ul>
+<li>3 &lt;= nums.length &lt;= 10³</li>
+<li>-10³ &lt;= nums[i] &lt;= 10³</li>
+<li>-10<sup>4</sup>&gt; &lt;= target &lt;= 10<sup>4</sup></li>
+</ul>
+<h2 id="题解">题解</h2>
+<p>本题与<a href="https://zcybupt.github.io/post/ThreeSum/">三数之和类似</a> ，可采用双指针法，差别在于本题可以有重复元素。</p>
+<p>由于处理过程中数组已经过排序，故在遍历数组元素的过程中，若 <code>nums[i] + nums[L] + nums[R] &gt; target</code> ，需将 <code>R</code> 左移，以减小三数和，进而减小其与 <code>target</code> 的差值；若 <code>nums[i] + nums[L] + nums[R] &lt; target</code> ，需将 <code>L</code> 右移，增大三数和来达到相同目的。</p>
+<h3 id="java">Java</h3>
+<pre><code class="language-java">import java.util.Arrays;
 
-    public TrieNode() {
-        passNum = 0;
-        endNum = 0;
-        map = new TrieNode[26];
-    }
-}
+public class Solution {
+    public int threeSumClosest(int[] nums, int target) {
+        int arrLen = nums.length;
+        if (arrLen &lt; 3) return 0;
 
-public class Trie {
-    private TrieNode root;
+        Arrays.sort(nums);
+        int L, R;
+        int result = 0;
+        int minDiff = Integer.MAX_VALUE;
+        int curDiff, curSum;
 
-    public Trie() {
-        root = new TrieNode();
-    }
-
-    public void insert(String word) {
-        if (word == null)
-            return;
-
-        char[] chars = word.toCharArray();
-        TrieNode node = root;
-
-        int index = 0;
-        for (char tmpChar : chars) {
-            index = tmpChar - 'a';
-            if (node.map[index] == null) {
-                node.map[index] = new TrieNode();
-            }
-            node = node.map[index];	// node 指向下一个节点
-            node.passNum++;
-        }
-        node.endNum++;
-    }
-
-    public int search(String word) {
-        if (word == null)
-            return 0;
-
-        char[] chars = word.toCharArray();
-        TrieNode node = root;
-
-        int index = 0;
-        for (char tmpChar : chars) {
-            index = tmpChar - 'a';
-            if (node.map[index] == null) {
-                return 0;
-            }
-            node = node.map[index];
-        }
-        return node.endNum;
-    }
-
-    public void delete(String word) {
-        if (search(word) != 0) {
-            char[] chars = word.toCharArray();
-            TrieNode node = root;
-            int index = 0;
-            for (char tmpChar : chars) {
-                index = tmpChar - 'a';
-                // 若某路径的 passNum 为 1, 说明只有目标单词经过, 可直接将后续置空
-                if (node.map[index].passNum-- == 1) {
-                    node.map[index] = null;
-                    return;
+        for (int i = 0; i &lt; arrLen; i++) {
+            L = i + 1;
+            R = arrLen - 1;
+            while (L &lt; R) {
+                curSum = nums[i] + nums[L] + nums[R];
+                if (curSum == target) return curSum;
+                curDiff = Math.abs(curSum - target);
+                if (curDiff &lt; minDiff) {
+                    result = curSum;
+                    minDiff = curDiff;
                 }
-                node = node.map[index];
+                if (curSum &gt; target) R--;
+                else L++;
             }
-            node.endNum--;
         }
-    }
 
-    public int prefixNum(String pre) {
-        if (pre == null)
-            return 0;
-        char[] chars = pre.toCharArray();
-        TrieNode node = root;
-        int index = 0;
-        for (char tmpChar : chars) {
-            index = tmpChar - 'a';
-            if (node.map[index] == null) {
-                return 0;
-            }
-            node = node.map[index];
-        }
-        return node.passNum;
+        return result;
     }
 }
 </code></pre>
-<h5 id="python">Python</h5>
-<pre><code class="language-python">class TrieNode:
-    def __init__(self):
-        self.pass_num = 0
-        self.end_num = 0
-        self.map = dict()
+<h3 id="python">Python</h3>
+<pre><code class="language-python">class Solution:
+    def threeSumClosest(self, nums: list, target: int) -&gt; int:
+        list_len = len(nums)
+        if not nums or list_len &lt; 3: return 0
 
+        nums.sort()
+        min_diff = float('inf')
+        result = 0
 
-class Trie:
-    def __init__(self):
-        self.root = TrieNode()
+        for i in range(list_len):
+            l = i + 1
+            r = list_len - 1
+            while l &lt; r:
+                cur_sum = nums[i] + nums[l] + nums[r]
+                if cur_sum == target: return cur_sum
+                cur_diff = abs(cur_sum - target)
+                if cur_diff &lt; min_diff:
+                    result = cur_sum
+                    min_diff = cur_diff
 
-    def insert(self, word):
-        if not word: return
+                if cur_sum &gt; target: r -= 1
+                else: l += 1
 
-        node = self.root
-        for ch in word:
-            if not node.map.get(ch):
-                node.map[ch] = TrieNode()
-            node = node.map[ch]
-            node.pass_num += 1
+        return result
+</code></pre>
+<h3 id="go">Go</h3>
+<pre><code class="language-go">package main
 
-        node.end_num += 1
+import (
+    &quot;math&quot;
+    &quot;sort&quot;
+)
 
-    def search(self, word):
-        if not word: return 0
+func threeSumClosest(nums []int, target int) int {
+    arrLen := len(nums)
+    if nums == nil || arrLen &lt; 3 {
+        return 0
+    }
 
-        node = self.root
-        for ch in word:
-            if not node.map.get(ch):
-                return 0
-            node = node.map[ch]
+    sort.Ints(nums)
+    result, curSum, curDiff := 0, 0, 0
+    minDiff := math.MaxInt32
 
-        return node.end_num
+    for i, v := range nums {
+        L, R := i+1, arrLen-1
+        for L &lt; R {
+            curSum = v + nums[L] + nums[R]
+            if curSum == target {
+                return curSum
+            }
+            curDiff = int(math.Abs(float64(curSum - target)))
+            if curDiff &lt; minDiff {
+                result = curSum
+                minDiff = curDiff
+            }
 
-    def delete(self, word):
-        if self.search(word):
-            node = self.root
+            if curSum &gt; target {
+                R--
+            } else {
+                L++
+            }
+        }
+    }
 
-            for ch in word:
-                node.map[ch].pass_num -= 1
-                if node.map.get(ch).pass_num == 0:
-                    node.map[ch] = None
-                    return
-                node = node.map[ch]
-            node.end_num -= 1
-
-    def prefix_num(self, pre):
-        if not pre: return 0
-
-        node = self.root
-        for ch in pre:
-            if not node.map.get(ch): return 0
-            node = node.map[ch]
-        return node.pass_num
+    return result
+}
 </code></pre>
 
         </div>
 
         
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/_b7_k4R4A/">
-            <span class="flex-auto">前缀树</span>
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/MZ3hriJa0/">
+            <span class="flex-auto">双指针法</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/zjyfY7MTi/">
+            <span class="flex-auto">Medium</span>
           </a>
         
           <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/sygsU_q1s/">
             <span class="flex-auto">算法</span>
           </a>
         
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/uIoWQi2bzm/">
+            <span class="flex-auto">LeetCode</span>
+          </a>
+        
 
 
         <div class="flex justify-between py-8">
           
-            <div class="prev-post">
-              <a href="https://zcybupt.github.io/post/Graph/">
-                <h3 class="post-title">
-                  <i class="ri-arrow-left-line"></i>
-                  图
-                </h3>
-              </a>
-            </div>
-          
 
           
             <div class="next-post">
-              <a href="https://zcybupt.github.io/post/UnionFind/">
+              <a href="https://zcybupt.github.io/post/ThreeSum/">
                 <h3 class="post-title">
-                  并查集
+                  三数之和
                   <i class="ri-arrow-right-line"></i>
                 </h3>
               </a>
