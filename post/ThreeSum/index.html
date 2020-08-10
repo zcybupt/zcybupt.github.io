@@ -45,12 +45,17 @@
             <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E9%97%AE%E9%A2%98">问题</a></li>
+<li><a href="#%E9%A2%98%E7%9B%AEleetcode-15">题目(LeetCode #15)</a></li>
 <li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
 <ul>
+<li><a href="#%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95">双指针法</a>
+<ul>
+<li><a href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6">时间复杂度</a></li>
 <li><a href="#java">Java</a></li>
 <li><a href="#python">Python</a></li>
 <li><a href="#go">Go</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -101,120 +106,184 @@
 <div class="mask" onclick="closeMenu()">
 </div>
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-bold lg:mt-16">日程安排问题</h1>
+        <h1 class="text-3xl font-bold lg:mt-16">三数之和</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-07-15 / 2 min read
+          2020-08-09 / 5 min read
         </div>
         
-          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200715212403.png" alt="">
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200809191125.png" alt="">
         
         <div class="post-content yue">
-          <h2 id="问题">问题</h2>
-<p>一些项目要占用一个会议室宣讲, 会议室不能同时容纳两个项目的宣讲. 给定每个项目的开始和结束时间 (输入为数组, 其中是一个个具体的项目), 合理安排宣讲日程, 使得会议室进行的宣讲场次最多, 返回这个最多的场次</p>
+          <h2 id="题目leetcode-15">题目(<a href="https://leetcode-cn.com/problems/3sum/">LeetCode #15</a>)</h2>
+<p>给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。</p>
+<p>注意：答案中不可以包含重复的三元组。</p>
+<p><strong>示例：</strong></p>
+<blockquote>
+<p>给定数组 nums = [-1, 0, 1, 2, -1, -4]，</p>
+<p>满足要求的三元组集合为：<br>
+[<br>
+[-1, 0, 1],<br>
+[-1, -1, 2]<br>
+]</p>
+</blockquote>
 <h2 id="题解">题解</h2>
-<p>本题不可按开始时间排序, 若某个宣讲开始时间早但持续时间长, 可能不如多个晚开始的宣讲场次多; 也不可按持续时间长短, 某个短时间的宣讲可能与其它宣讲的起始时间重叠.</p>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200715202427.png" alt="" loading="lazy"></figure>
-<h3 id="java">Java</h3>
-<pre><code class="language-java">class Program {
-    int start;
-    int end;
+<h3 id="双指针法">双指针法</h3>
+<p>若要找出所有满足条件的解，需三个变量 <code>a</code> , <code>b</code> , <code>c</code> 的所有情况且不能重复，若直接遍历时间复杂度为 <code>O(N³)</code> ，本题的关键在于如何降低时间复杂度和去除重复解。</p>
+<p>可采用双指针法来实现遍历的不重不漏，首先将数组进行排序，再使<code>L</code> 指向 <code>i+1</code> ，<code>R</code> 指向末尾元素，两指针向中间移动直至相遇为止。在遍历过程中</p>
+<ul>
+<li>若 <code>nums[i]</code> 与 <code>nums[i-1]</code> 、<code>nums[L]</code> 与 <code>nums[L+1]</code> 、<code>nums[R]</code> 与 <code>nums[R-1]</code> 相等即说明遇到了重复元素，跳过即可；</li>
+<li>若 <code>nums[i] + nums[L] + nums[R] == target</code> ，即为一组解，<code>L</code> 和 <code>R</code> 同时移动；</li>
+<li>若 <code>nums[i] + nums[L] + nums[R] &gt; target</code> ，<code>R</code> 应向左移动以减小三数之和；</li>
+<li>若<code>nums[i] + nums[L] + nums[R] &lt; target</code> ，<code>L</code> 应向右移动以增大三数之和。</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200809203120.png" alt="" loading="lazy"></figure>
+<h4 id="时间复杂度">时间复杂度</h4>
+<ul>
+<li>时间复杂度：<code>O(N²)</code> ，数组排序 <code>O(NlogN)</code> ，遍历数组 <code>O(N)</code> ，双指针遍历 <code>O(N)</code> ，总体为 <code>O(NlogN) + O(N) * O(N)</code> ，<code>O(N²)</code></li>
+<li>空间复杂度：<code>O(1)</code></li>
+</ul>
+<p>参考题解：<a href="https://leetcode-cn.com/problems/3sum/solution/pai-xu-shuang-zhi-zhen-zhu-xing-jie-shi-python3-by/">LeetCode</a></p>
+<h4 id="java">Java</h4>
+<pre><code class="language-java">import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-    public Program(int start, int end) {
-        this.start = start;
-        this.end = end;
-    }
-}
+public class Solution {
+    public List&lt;List&lt;Integer&gt;&gt; threeSum(int[] nums) {
+        int listLen = nums.length;
+        List&lt;List&lt;Integer&gt;&gt; results = new ArrayList&lt;&gt;();
+        if (listLen &lt; 3) return results;
 
-public class BestArrange {
-    public static int bestArrange(Program[] programs, int start) {
-        Arrays.sort(programs, (a, b) -&gt; a.end - b.end);
-        int result = 0;
+        Arrays.sort(nums);
+        int L, R;
 
-        for (Program program : programs) {
-            if (start &lt;= program.start) {
-                result++;
-                start = program.end;
+        for (int i = 0; i &lt; listLen; i++) {
+            if (nums[i] &gt; 0) return results;
+            if (i &gt; 0 &amp;&amp; nums[i] == nums[i - 1]) continue;
+            L = i + 1;
+            R = listLen - 1;
+            while (L &lt; R) {
+                if (nums[i] + nums[L] + nums[R] == 0) {
+                    results.add(new ArrayList&lt;&gt;(Arrays.asList(nums[i], nums[L], nums[R])));
+                    while (L &lt; R &amp;&amp; nums[L] == nums[L + 1]) L++;
+                    while (L &lt; R &amp;&amp; nums[R] == nums[R - 1]) R--;
+                    L++; R--;
+                } else if (nums[i] + nums[L] + nums[R] &gt; 0) {
+                    R--;
+                } else {
+                    L++;
+                }
             }
         }
 
-        return result;
+        return results;
     }
 }
 </code></pre>
-<h3 id="python">Python</h3>
-<pre><code class="language-python">class Program:
-    def __init__(self, start, end):
-        self.start = start
-        self.end = end
+<h4 id="python">Python</h4>
+<pre><code class="language-python">class Solution:
+    def threeSum(self, nums: list) -&gt; list:
+        list_len = len(nums)
+        results = []
+        if not nums or list_len &lt; 3: return results
 
-
-def get_best_arrange(programs, start):
-    programs.sort(key=lambda x: x.end)
-    result = 0
-
-    for program in programs:
-        if start &lt;= program.start:
-            result += 1
-            start = program.end
-
-    return result
+        nums.sort()
+        for i in range(list_len):
+            if nums[i] &gt; 0: return results
+            if (i &gt; 0 and nums[i] == nums[i - 1]): continue
+            L = i + 1
+            R = list_len - 1
+            while L &lt; R:
+                if nums[i] + nums[L] + nums[R] == 0:
+                    results.append([nums[i], nums[L], nums[R]])
+                    while L &lt; R and nums[L] == nums[L + 1]: L += 1
+                    while L &lt; R and nums[R] == nums[R - 1]: R -= 1
+                    L += 1
+                    R -= 1
+                elif nums[i] + nums[L] + nums[R] &gt; 0:
+                    R -= 1
+                else:
+                    L += 1
+        return results
 </code></pre>
-<h3 id="go">Go</h3>
-<pre><code class="language-go">type Program struct {
-	start, end int
-}
+<h4 id="go">Go</h4>
+<pre><code class="language-go">package main
 
-func getBestArrange(programs []Program, start int) int {
-	for i := 0; i &lt; len(programs); i++ {
-		for j := 0; j &lt; len(programs)-1; j++ {
-			if programs[j].end &gt; programs[j+1].end {
-				programs[j], programs[j+1] = programs[j+1], programs[j]
+import (
+    &quot;sort&quot;
+)
+
+func threeSum(nums []int) [][]int {
+    arrLen := len(nums)
+	var results [][]int
+	if nums == nil || arrLen &lt; 3 {
+		return results
+	}
+
+	sort.Ints(nums)
+
+	for i := 0; i &lt; arrLen; i++ {
+		if nums[i] &gt; 0 {
+			return results
+		}
+
+		if i &gt; 0 &amp;&amp; nums[i] == nums[i-1] {
+			continue
+		}
+
+		L, R := i+1, arrLen-1
+		for L &lt; R {
+			if nums[i]+nums[L]+nums[R] == 0 {
+				results = append(results, []int{nums[i], nums[L], nums[R]})
+				for L &lt; R &amp;&amp; nums[L] == nums[L+1] {
+					L++
+				}
+				for L &lt; R &amp;&amp; nums[R] == nums[R-1] {
+					R--
+				}
+				L++
+				R--
+			} else if nums[i]+nums[L]+nums[R] &gt; 0 {
+				R--
+			} else {
+				L++
 			}
 		}
 	}
-	result := 0
 
-	for _, program := range programs {
-		if start &lt;= program.start {
-			result++
-			start = program.end
-		}
-	}
-
-	return result
+	return results
 }
 </code></pre>
 
         </div>
 
         
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/8fH8K72w_/">
-            <span class="flex-auto">贪心问题</span>
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/MZ3hriJa0/">
+            <span class="flex-auto">双指针法</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/zjyfY7MTi/">
+            <span class="flex-auto">Medium</span>
           </a>
         
           <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/sygsU_q1s/">
             <span class="flex-auto">算法</span>
           </a>
         
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/uIoWQi2bzm/">
+            <span class="flex-auto">LeetCode</span>
+          </a>
+        
 
 
         <div class="flex justify-between py-8">
           
-            <div class="prev-post">
-              <a href="https://zcybupt.github.io/post/KMP/">
-                <h3 class="post-title">
-                  <i class="ri-arrow-left-line"></i>
-                  KMP算法
-                </h3>
-              </a>
-            </div>
-          
 
           
             <div class="next-post">
-              <a href="https://zcybupt.github.io/post/LexicographicalString/">
+              <a href="https://zcybupt.github.io/post/StringToIntegerAtoi/">
                 <h3 class="post-title">
-                  最低字典序排列字符串
+                  字符串转换整数（atoi）
                   <i class="ri-arrow-right-line"></i>
                 </h3>
               </a>
