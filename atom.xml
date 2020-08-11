@@ -2,13 +2,169 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-08-10T01:39:50.805Z</updated>
+    <updated>2020-08-11T01:40:36.920Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
     <logo>https://zcybupt.github.io/images/avatar.png</logo>
     <icon>https://zcybupt.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, CODEFANCIER</rights>
+    <entry>
+        <title type="html"><![CDATA[删除链表的倒数第N个节点]]></title>
+        <id>https://zcybupt.github.io/post/RemoveNthNodeFromEndOfList/</id>
+        <link href="https://zcybupt.github.io/post/RemoveNthNodeFromEndOfList/">
+        </link>
+        <updated>2020-08-11T00:44:03.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="题目leetcode-19">题目(<a href="https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/">LeetCode #19</a>)</h2>
+<p>给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。</p>
+<p><strong>示例：</strong></p>
+<blockquote>
+<p>给定一个链表: <strong>1-&gt;2-&gt;3-&gt;4-&gt;5</strong>, 和 <strong>n = 2</strong>.</p>
+<p>当删除了倒数第二个节点后，链表变为 <strong>1-&gt;2-&gt;3-&gt;5</strong>.</p>
+</blockquote>
+<p><strong>说明：</strong></p>
+<p>给定的 n 保证是有效的。</p>
+<p><strong>进阶：</strong></p>
+<p>你能尝试使用一趟扫描实现吗？</p>
+<h2 id="题解">题解</h2>
+<h3 id="递归法">递归法</h3>
+<p>利用递归的特性，从递归栈底向上累加即为倒数索引。</p>
+<p><code>removeNode</code> 最终返回的值为输入链表的长度，若该返回值与 <code>n</code> 相等，则说明去掉的是第一个节点，此时头节点为 <code>head.next</code> 。</p>
+<h4 id="java">Java</h4>
+<pre><code class="language-java">class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int x) {
+        val = x;
+    }
+}
+
+public class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+    	return removeNode(head, n) == n ? head.next : head; 
+    }
+
+    public int removeNode(ListNode node, int n) {
+        if (node.next == null) return 1;
+        int m = removeNode(node.next, n);
+        if (m == n)
+            node.next = node.next.next;
+
+        return m + 1;
+    }
+}
+</code></pre>
+<h4 id="python">Python</h4>
+<pre><code class="language-python">class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+class Solution:
+    def removeNthFromEnd(self, head: ListNode, n: int) -&gt; ListNode:
+        return head.next if self.remove_node(head, n) == n else head
+
+    def remove_node(self, head: ListNode, n: int) -&gt; int:
+        if not head.next: return 1
+        m = self.remove_node(head.next, n)
+        if m == n:
+            head.next = head.next.next
+
+        return m + 1
+</code></pre>
+<h4 id="go">Go</h4>
+<pre><code class="language-go">package main
+
+type ListNode struct {
+    Val  int
+    Next *ListNode
+}
+
+func removeNthFromEnd(head *ListNode, n int) *ListNode {
+    if removeNode(head, n) == n {
+        return head.Next
+    } else {
+        return head
+    }
+}
+
+func removeNode(head *ListNode, n int) int {
+    if head.Next == nil {
+        return 1
+    }
+
+    m := removeNode(head.Next, n)
+    if m == n {
+        head.Next = head.Next.Next
+    }
+
+    return m + 1
+}
+</code></pre>
+<h3 id="双指针法">双指针法</h3>
+<p>使用快慢指针来查找索引，快指针先移动 <code>n</code> 个位置，再同时移动两指针，当快指针指向链表的尾节点时，慢指针所指即为倒数第 <code>n</code> 个节点。</p>
+<h4 id="java-2">Java</h4>
+<pre><code class="language-java">class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if (head == null || head.next == null) return null;
+
+        ListNode fast = head, slow = head;
+        for (int i = 0; i &lt; n; i++)
+            fast = fast.next;
+
+        if (fast == null)
+            return head.next;
+
+        while (fast.next != null) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+
+        slow.next = slow.next.next;
+        return head;
+    }
+}
+</code></pre>
+<h4 id="python-2">Python</h4>
+<pre><code class="language-python">class Solution:
+    def removeNthFromEnd(self, head: ListNode, n: int) -&gt; ListNode:
+        fast, slow = head, head
+        for i in range(n):
+            fast = fast.next
+
+        if not fast: return head.next
+
+        while fast.next:
+            fast = fast.next
+            slow = slow.next
+
+        slow.next = slow.next.next
+
+        return head
+</code></pre>
+<h4 id="go-2">Go</h4>
+<pre><code class="language-go">func removeNthFromEnd(head *ListNode, n int) *ListNode {
+    fast, slow := head, head
+
+    for i := 0; i &lt; n; i++ {
+        fast = fast.Next
+    }
+
+    if fast == nil {
+        return head.Next
+    }
+
+    for fast.Next != nil {
+        fast = fast.Next
+        slow = slow.Next
+    }
+    slow.Next = slow.Next.Next
+
+    return head
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[最接近的三数之和]]></title>
         <id>https://zcybupt.github.io/post/ThreeSumClosest/</id>
@@ -1715,173 +1871,6 @@ func isSubtree(s *TreeNode, t *TreeNode) bool {
 <pre><code class="language-python">class Solution:
     def isSubtree(self, s: TreeNode, t: TreeNode) -&gt; bool:
         return str(s).find(str(t)) != -1
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[KMP算法]]></title>
-        <id>https://zcybupt.github.io/post/KMP/</id>
-        <link href="https://zcybupt.github.io/post/KMP/">
-        </link>
-        <updated>2020-07-18T13:03:03.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="题目leetcode-28">题目(<a href="https://leetcode-cn.com/problems/implement-strstr/">LeetCode #28</a>)</h2>
-<p>实现 <code>strStr()</code> 函数。</p>
-<p>给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。</p>
-<p><strong>示例 1:</strong></p>
-<blockquote>
-<p><strong>输入:</strong> haystack = &quot;hello&quot;, needle = &quot;ll&quot;<br>
-<strong>输出:</strong> 2</p>
-</blockquote>
-<p><strong>示例 2:</strong></p>
-<blockquote>
-<p><strong>输入:</strong> haystack = &quot;aaaaa&quot;, needle = &quot;bba&quot;<br>
-<strong>输出:</strong> -1</p>
-</blockquote>
-<h2 id="题解">题解</h2>
-<p>参考资料：</p>
-<ul>
-<li>
-<p><a href="https://www.bilibili.com/video/BV1Px411z7Yo">KMP字符串匹配算法1</a></p>
-</li>
-<li>
-<p><a href="https://www.bilibili.com/video/BV1hW411a7ys">KMP字符串匹配算法2</a></p>
-</li>
-<li>
-<p><a href="https://mp.weixin.qq.com/s?__biz=MzI5ODA5NTgyMw==&amp;mid=2247483968&amp;idx=1&amp;sn=3c21f29eb6c5083f85ac7c97d2051303&amp;chksm=ecaa47e0dbddcef6a97a453df68bc6c6ff040bdd84f58caf99b1f3a8cb84d7405062b039c396&amp;token=1263366918&amp;lang=zh_CN#rd">图解KMP</a></p>
-</li>
-</ul>
-<h3 id="java">Java</h3>
-<pre><code class="language-java">public class KMP {
-    public static int[] getNextTable(String needle) {
-        int len = needle.length();
-        int[] next = new int[len];
-        next[0] = -1;
-        int lp = -1, rp = 0;    // 左右指针, 即文章中的 k 和 index
-
-        while (rp &lt; len - 1) {
-            if (lp == -1 || needle.charAt(rp) == needle.charAt(lp))
-                // k = -1 时, 左右指针均向右移动
-                // 当左右指针所指元素相等时, 均向右移动
-                next[++rp] = ++lp;
-            else
-                // 左右指针所指元素不等, 左指针移向其所指字符的对应 next 指向的位置
-                lp = next[lp];
-        }
-
-        return next;
-    }
-
-    public static int getIndex(String haystack, String needle) {
-        int haystackLen = haystack.length();
-        int needleLen = needle.length();
-
-        if (needleLen == 0) return 0;
-        int haystackCur = 0, needleCur = 0;
-        int[] next = getNextTable(needle);
-
-        while (haystackCur &lt; haystackLen &amp;&amp; needleCur &lt; needleLen) {
-            if (haystack.charAt(haystackCur) == needle.charAt(needleCur)) {
-                // 对比两个字符串, 各位相同时两指针右移
-                haystackCur++;
-                needleCur++;
-            } else {
-                // 不相同则根据 next 表查找 needleCur 移向的位置
-                // needleCur 移动到了开头, 退无可退, 主串指针继续后移
-                if (needleCur == 0) haystackCur++;
-                else needleCur = next[needleCur];
-            }
-        }
-
-        return needleCur == needleLen ? haystackCur - needleCur : -1;
-    }
-}
-</code></pre>
-<h3 id="python">Python</h3>
-<pre><code class="language-python">class KMP:
-    def get_next_table(self, needle):
-        length = len(needle)
-        lp, rp = -1, 0
-        next_table = [0] * length
-        next_table[0] = -1
-
-        while rp &lt; length - 1:
-            if needle[lp] == needle[rp] or lp == -1:
-                rp += 1
-                lp += 1
-                next_table[rp] = lp
-            else:
-                lp = next_table[lp]
-
-        return next_table
-
-    def get_index(self, haystack, needle):
-        haystack_len = len(haystack)
-        needle_len = len(needle)
-
-        if needle_len == 0: return 0
-        haystack_cur, needle_cur = 0, 0
-        next_table = self.get_next_table(needle)
-
-        while haystack_cur &lt; haystack_len and needle_cur &lt; needle_len:
-            if haystack[haystack_cur] == needle[needle_cur]:
-                haystack_cur += 1
-                needle_cur += 1
-            else:
-                if needle_cur == 0: haystack_cur += 1
-                else: needle_cur = next_table[needle_cur]
-
-        return haystack_cur - needle_cur if needle_cur == needle_len else -1
-</code></pre>
-<h3 id="go">Go</h3>
-<pre><code class="language-go">func getNextTable(needle string) []int {
-	length := len(needle)
-	lp, rp := -1, 0
-	next := make([]int, length)
-	next[0] = -1
-
-	for rp &lt; length-1 {
-		if lp == -1 || needle[lp] == needle[rp] {
-			rp++
-			lp++
-			next[rp] = lp
-		} else {
-			lp = next[lp]
-		}
-	}
-
-	return next
-}
-
-func getIndex(haystack, needle string) int {
-	haystackLen := len(haystack)
-	needleLen := len(needle)
-
-	if needleLen == 0 {
-		return 0
-	}
-
-	haystackCur, needleCur := 0, 0
-	next := getNextTable(needle)
-
-	for haystackCur &lt; haystackLen &amp;&amp; needleCur &lt; needleLen {
-		if haystack[haystackCur] == needle[needleCur] {
-			haystackCur++
-			needleCur++
-		} else {
-			if needleCur == 0 {
-				haystackCur++
-			} else {
-				needleCur = next[needleCur]
-			}
-		}
-	}
-
-	if needleCur == needleLen {
-		return haystackCur - needleCur
-	} else {
-		return -1
-	}
-}
 </code></pre>
 ]]></content>
     </entry>
