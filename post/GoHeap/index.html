@@ -39,30 +39,22 @@
       
         <div class="animated fadeInLeft" style="animation-delay: 0.4s">
           <p class="my-4 text-gray-600 font-light hidden lg:block">
-            
+            文章目录
           </p>
-          <div class="animated fadeInLeft social-container hidden lg:block" style="animation-delay: 0.6s">
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%A0%86%E7%9A%84%E4%BD%BF%E7%94%A8">堆的使用</a>
+<ul>
+<li><a href="#%E5%AE%9E%E4%BE%8B">实例</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BE%8B%E9%A2%98leetcode-23">例题(LeetCode #23)</a></li>
+</ul>
+</li>
+</ul>
+
           </div>
         </div>
       
@@ -106,33 +98,239 @@
 </div>
 <div class="mask" onclick="closeMenu()">
 </div>
-      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4">
-        <h2 class="text-lg text-gray-700 mb-8">
-          <i class="ri-bookmark-line"></i> 状态机
-        </h2>
-        
-  <section class="post-item md:flex pb-12 animated fadeIn" :style="{ 'animation-delay': `${0 * 0.2}s` }">
-    
-      <a href="https://zcybupt.github.io/post/StringToIntegerAtoi/" class="feature-image-wrapper bg-gray-100 rounded-lg flex-shrink-0 mr-8 w-full h-56 h-32 md:w-56 md:h-40">
-        <div class="post-feature-image lazy w-full h-56 h-32 md:w-56 md:h-40" data-bg="'https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200804184129.png'">
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">Golang堆的实现</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2020-08-13 / 4 min read
         </div>
-      </a>
-    
-    <div class="content">
-      <a href="https://zcybupt.github.io/post/StringToIntegerAtoi/">
-        <h2 class="post-title text-xl font-extrabold mt-5 md:mt-0">字符串转换整数（atoi）</h2>
-      </a>
-      <div class="post-abstract text-gray-700 font-light my-4">
         
-      </div>
-      <div class="text-gray-400 text-sm font-light">2020-08-04 / 5 min read</div>
-    </div>
-  </section>
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200814081053.png" alt="">
+        
+        <div class="post-content yue">
+          <h2 id="堆的使用">堆的使用</h2>
+<p>Golang 中没有给出堆的具体实现，仅提供了标准容器库 <code>container/heap</code> ，需手动实现。</p>
+<p>heap 接口定义如下</p>
+<pre><code class="language-go">type Interface interface {
+	sort.Interface
+	Push(x interface{}) // add x as element Len()
+	Pop() interface{}   // remove and return element Len() - 1.
+}
+</code></pre>
+<p>该接口同时继承了 <code>sort.Interface</code> ，定义如下</p>
+<pre><code class="language-go">type Interface interface {
+	// Len is the number of elements in the collection.
+	Len() int
+	// Less reports whether the element with
+	// index i should sort before the element with index j.
+	Less(i, j int) bool
+	// Swap swaps the elements with indexes i and j.
+	Swap(i, j int)
+}
+</code></pre>
+<p>故创建堆时需实现 <code>Len()</code> 、<code>Less(i, j int)</code> 、<code>Swap(i, j int)</code> 、<code>Push(x interface{})</code> 、<code>Pop()</code> 五个方法。</p>
+<p>向堆中插入节点时，堆会自动调整结构，Golang 中始终保持最后一个元素为堆顶，故 Pop 时返回<strong>最后一个节点</strong>并删除即可。</p>
+<h3 id="实例">实例</h3>
+<pre><code class="language-go">package main
 
-        <div class="pagination-container animated fadeIn">
-  
-  
-</div>
+import (
+	&quot;container/heap&quot;
+	&quot;fmt&quot;
+	&quot;math/rand&quot;
+	&quot;strconv&quot;
+	&quot;time&quot;
+)
+
+type Person struct {
+	Name string
+	Age  int
+}
+
+type PersonHeap []Person
+
+func (ph PersonHeap) Len() int {
+	return len(ph)
+}
+
+func (ph PersonHeap) Swap(i, j int) {
+	ph[i], ph[j] = ph[j], ph[i]
+}
+
+func (ph PersonHeap) Less(i, j int) bool {
+	return ph[i].Age &lt; ph[j].Age // 大根堆
+}
+
+func (ph *PersonHeap) Push(p interface{}) {
+	*ph = append(*ph, p.(Person))
+}
+
+func (ph *PersonHeap) Pop() interface{} {
+	n := len(*ph)
+	result := (*ph)[n-1]
+	*ph = (*ph)[:n-1]
+	return result
+}
+
+func main() {
+	rand.Seed(time.Now().Unix())
+	hp := &amp;PersonHeap{}
+	for i := 0; i &lt; 6; i++ {
+		*hp = append(*hp, Person{&quot;p&quot; + strconv.Itoa(i), rand.Intn(50)})
+	}
+	fmt.Printf(&quot;原始切片: %#v\n&quot;, hp)
+
+	heap.Init(hp)
+
+	fmt.Printf(&quot;堆: %#v\n&quot;, hp)
+
+	fmt.Println(hp.Pop())
+	heap.Push(hp, Person{&quot;newP&quot;, 30})
+
+	fmt.Printf(&quot;%#v\n&quot;, hp)
+}
+</code></pre>
+<h2 id="例题leetcode-23">例题(LeetCode #23)</h2>
+<p>合并 k 个排序链表，返回合并后的排序链表。请分析和描述算法的复杂度。</p>
+<p><strong>示例:</strong></p>
+<blockquote>
+<p>输入:<br>
+[<br>
+  1-&gt;4-&gt;5,<br>
+  1-&gt;3-&gt;4,<br>
+  2-&gt;6<br>
+]<br>
+输出: 1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4-&gt;5-&gt;6</p>
+</blockquote>
+<pre><code class="language-go">package main
+
+import (
+	&quot;container/heap&quot;
+	&quot;fmt&quot;
+)
+
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}
+
+type PriorityQueue []*ListNode
+
+func (pq PriorityQueue) Len() int {
+	return len(pq)
+}
+
+func (pq PriorityQueue) Less(i, j int) bool {
+	return pq[i].Val &lt; pq[j].Val
+}
+
+func (pq *PriorityQueue) Swap(i, j int) {
+	(*pq)[i].Val, (*pq)[j].Val = (*pq)[j].Val, (*pq)[i].Val
+}
+
+func (pq *PriorityQueue) Push(x interface{}) {
+	*pq = append(*pq, x.(*ListNode))
+}
+
+func (pq *PriorityQueue) Pop() interface{} {
+	result := (*pq)[len(*pq)-1]
+	*pq = (*pq)[:len(*pq)-1]
+	return result
+}
+
+func mergeKLists(lists []*ListNode) *ListNode {
+	if lists == nil || len(lists) == 0 {
+		return nil
+	}
+
+	dummyHead := &amp;ListNode{0, nil}
+	curNode := dummyHead
+	var pq PriorityQueue
+
+	for _, list := range lists {
+		tmp := list
+		for tmp != nil {
+			heap.Push(&amp;pq, tmp)
+			tmp = tmp.Next
+		}
+	}
+
+	for len(pq) != 0 {
+		curNode.Next = heap.Pop(&amp;pq).(*ListNode)
+		curNode = curNode.Next
+	}
+	curNode.Next = nil
+
+	return dummyHead.Next
+}
+
+func main() {
+	l1 := &amp;ListNode{1, nil}
+	l1.Next = &amp;ListNode{4, nil}
+	l1.Next.Next = &amp;ListNode{5, nil}
+
+	l2 := &amp;ListNode{1, nil}
+	l2.Next = &amp;ListNode{3, nil}
+	l2.Next.Next = &amp;ListNode{4, nil}
+
+	l3 := &amp;ListNode{2, nil}
+	l3.Next = &amp;ListNode{6, nil}
+
+	lists := []*ListNode{l1, l2, l3}
+
+	result := mergeKLists(lists)
+	for result != nil {
+		fmt.Printf(&quot;%d &quot;, result.Val)
+		result = result.Next
+	}
+}
+</code></pre>
+
+        </div>
+
+        
+
+
+        <div class="flex justify-between py-8">
+          
+
+          
+            <div class="next-post">
+              <a href="https://zcybupt.github.io/post/RemoveNthNodeFromEndOfList/">
+                <h3 class="post-title">
+                  删除链表的倒数第N个节点
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: 'f69e1255342d00cd7bd4',
+    clientSecret: '3b9c344a90d850d00b99b0c0c7716b8f71a2f1bc',
+    repo: 'zcybupt.github.io',
+    owner: 'zcybupt',
+    admin: ['zcybupt'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
 
       </div>
     </div>
