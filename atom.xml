@@ -2,13 +2,22 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-08-16T08:30:21.792Z</updated>
+    <updated>2020-08-18T07:06:53.129Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
     <logo>https://zcybupt.github.io/images/avatar.png</logo>
     <icon>https://zcybupt.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, CODEFANCIER</rights>
+    <entry>
+        <title type="html"><![CDATA[串联所有单次的子串]]></title>
+        <id>https://zcybupt.github.io/post/SubstringWithConcatenationOfAllWords/</id>
+        <link href="https://zcybupt.github.io/post/SubstringWithConcatenationOfAllWords/">
+        </link>
+        <updated>2020-08-18T01:28:11.000Z</updated>
+        <content type="html"><![CDATA[<p>aaaa</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Golang堆的实现]]></title>
         <id>https://zcybupt.github.io/post/GoHeap/</id>
@@ -96,7 +105,7 @@ func main() {
 	fmt.Printf(&quot;%#v\n&quot;, hp)
 }
 </code></pre>
-<h2 id="例题leetcode-23">例题(LeetCode #23)</h2>
+<h2 id="例题leetcode-23">例题(<a href="https://leetcode-cn.com/problems/merge-k-sorted-lists/">LeetCode #23</a>)</h2>
 <p>合并 k 个排序链表，返回合并后的排序链表。请分析和描述算法的复杂度。</p>
 <p><strong>示例:</strong></p>
 <blockquote>
@@ -1623,210 +1632,6 @@ func min(a, b int) int {
 	return b
 }
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Manacher算法]]></title>
-        <id>https://zcybupt.github.io/post/Manacher/</id>
-        <link href="https://zcybupt.github.io/post/Manacher/">
-        </link>
-        <updated>2020-07-20T02:58:51.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="题目leetcode-5">题目(<a href="https://leetcode-cn.com/problems/longest-palindromic-substring/">LeetCode #5</a>)</h2>
-<p>给定一个字符串 <code>s</code>，找到 <code>s</code> 中最长的回文子串。你可以假设 <code>s</code> 的最大长度为 1000。</p>
-<p><strong>示例 1：</strong></p>
-<blockquote>
-<p><strong>输入:</strong> &quot;babad&quot;<br>
-<strong>输出:</strong> &quot;bab&quot;<br>
-<strong>注意:</strong> &quot;aba&quot; 也是一个有效答案。</p>
-</blockquote>
-<p><strong>示例 2：</strong></p>
-<blockquote>
-<p><strong>输入:</strong> &quot;cbbd&quot;<br>
-<strong>输出:</strong> &quot;bb&quot;</p>
-</blockquote>
-<h2 id="题解">题解</h2>
-<h3 id="扩展中心法">扩展中心法</h3>
-<p>遍历字符串，由每个字符串向两侧扩展逐一比对。</p>
-<p>时间复杂度为 <code>O(n²)</code> 。</p>
-<pre><code class="language-java">public class Solution {
-    public static String longestPalindrome(String s) {
-        if (s == null || s.length() == 0) return &quot;&quot;;
-        int start = 0, end = 0;
-
-        for (int i = 0; i &lt; s.length(); i++) {
-            int len1 = expandAroundCenter(s, i, i);
-            int len2 = expandAroundCenter(s, i, i + 1);
-            int len = Math.max(len1, len2);
-
-            if (len &gt; end - start) {
-                start = i - (len - 1) / 2;
-                end = i + len / 2;
-            }
-        }
-
-        return s.substring(start, end + 1);
-    }
-
-    public static int expandAroundCenter(String s, int left, int right) {
-        while (left &gt;= 0 &amp;&amp; right &lt; s.length() &amp;&amp; s.charAt(left) == s.charAt(right)) {
-            left--; right++;
-        }
-
-        return right - left - 1;
-    }
-}
-</code></pre>
-<h3 id="manacher算法">Manacher算法</h3>
-<h4 id="预处理">预处理</h4>
-<p>在原始字符串的每个字符的左右两边都加上特殊字符，使处理后的字符串长度均为奇数，以此来解决偶回文时用扩展法不能找到回文中心而导致的找不到回文子串的问题。</p>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200721172042.png" alt="处理前" loading="lazy"></figure>
-<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200721172128.png" alt="处理后" loading="lazy"></figure>
-<h4 id="最长回文子串长度">最长回文子串长度</h4>
-<p>下表中 <code>p</code> 数组存储的是以各字符为中心的回文子串的最大长度。观察可知，预处理后的字符串的最长回文子串的回文半径减 <code>1</code> 即为原字符串的最长回文子串长度。以字符串 <code>cabbaf</code> 为例，处理后的最长回文子串的回文半径为 <code>p[6] = 5</code> ，<code>p[6] - 1 = 4</code> 即为原字符串的最长回文子串 <code>abba</code> 的长度。</p>
-<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200721172934.png" alt="" loading="lazy"></figure>
-<p>所以原字符串的最长回文子串长度 <code>maxLen = p[i] - 1</code></p>
-<h4 id="最长回文子串的起始索引">最长回文子串的起始索引</h4>
-<p>在 <code>#c#a#b#b#a#f#</code> 中，<code>p[6] = 5</code> ，用索引 <code>i</code> 减去最长回文半径 <code>p[i]</code> 即可得到原字符串的最长回文子串的起始索引，即 <code>i - p[i] = 6 - 5 = 1</code> ；但对奇回文 <code>aba</code> 来说，用这种方法得到的结果为 <code>3 - p[3] = 3 - 4 = -1</code> ，下标越界。</p>
-<p>为解决下标越界的问题，可在预处理后的字符串前再添加一个特殊字符，而为了使字符串长度保持为奇数，其后也需添加另一个字符。而原字符串的最长回文子串的起始索引变为 <code>(i - p[i]) / 2</code> 。</p>
-<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200721180408.png" alt="" loading="lazy"></figure>
-<p>对 <code>cabbaf</code> 来说，原字符串的最长回文子串的起始索引为 <code>(7 - p[7]) / 2 = (7 - 5) / 2 = 1</code></p>
-<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200721180435.png" alt="" loading="lazy"></figure>
-<p>对 <code>aba</code> 来说，原字符串的最长回文子串的起始索引为 <code>(3 - p[3]) / 2 = (3 - 3) / 2 = 0</code></p>
-<p>故原字符串的最长回文子串的起始索引可表示为 <code>index = (i - p[i]) / 2</code></p>
-<h4 id="计算-p-数组">计算 p 数组</h4>
-<p>定义两个变量 <code>C</code> 和 <code>R</code> ，分别为某一回文子串的中心字符的索引和右边界。如对 <code>^#c#a#b#b#a#f#$</code> 中的 <code>#a#b#b#a#</code> 来说，<code>C = 7</code> ，<code>p[C] = 5</code> ，以 <code>7</code> 为中心的回文子串的右边界即为 <code>R = C + p[C] = 12</code> ；当 <code>C = 12</code> 时，以 <code>12</code> 为中心的回文子串的右边界即为 <code>R = C + p[C] = 12 + 2 = 14</code> 。</p>
-<p>故可得回文子串右边界与其半径之间的关系为：<code>R = C + p[C]</code></p>
-<figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200721192607.png" alt="" loading="lazy"></figure>
-<p>由于回文子串关于 <code>C</code> 对称，由该子串上某位置 <code>i</code> 可得其对称位置 <code>j</code> ，由 <code>i + j = 2 * C</code> 知 <code>j = 2 * C - i</code> 。</p>
-<ul>
-<li>若以 <code>j</code> 为中心的回文子串的右边界在 <code>R</code> 以内，即 <code>j + p[j] &lt; R</code> 时，由对称性可知，<code>p[j] = p[i]</code> ；</li>
-<li>若以 <code>j</code> 为中心的回文子串的右边界大于 <code>R</code> ，即 <code>j + p[j] &gt; R</code> 时，图中红色部分为关于 <code>j</code> 对称的回文子串，故此时有 <code>p[j] = R - j</code> ；</li>
-<li>若 <code>j + p[j] &gt;= R</code> ，则令 <code>p[j] = 1</code> ，此时也需更新 <code>C</code> 和 <code>R</code> ，继续向后用扩展中心法计算 <code>p</code> 各位置的值。</li>
-</ul>
-<h5 id="java">Java</h5>
-<pre><code class="language-java">public class Manacher {
-    public static String preprocess(String s) {
-        String result = &quot;^&quot;;
-        for (int i = 0; i &lt; s.length(); i++) {
-            result += &quot;#&quot; + s.charAt(i);
-        }
-
-        return result + &quot;#$&quot;;
-    }
-
-    public static String longestPalindrome(String s) {
-        if (s.length() == 0) return &quot;&quot;;
-
-        String tmpStr = preprocess(s);
-        int len = tmpStr.length();
-        int[] p = new int[len];
-        int C = 0, R = 0;
-        int maxLen = -1;    // 最长回文子串长度
-        int index = 0;      // 最长回文子串中心索引
-
-        for (int i = 1; i &lt; len - 1; i++) {
-            p[i] = R &gt; i ? Math.min(p[2 * C - i], R - i) : 1;
-
-            while (tmpStr.charAt(i + p[i]) == tmpStr.charAt(i - p[i]))
-                p[i]++;
-
-            if (R &lt; p[i] + i) {
-                R = p[i] + i;
-                C = i;
-            }
-
-            if (maxLen &lt; p[i] - 1) {
-                maxLen = p[i] - 1;
-                index = i;
-            }
-        }
-
-        int start = (index - maxLen) / 2;   // (i - p[i]) / 2
-        return s.substring(start, start + maxLen);
-    }
-}
-</code></pre>
-<h5 id="python">Python</h5>
-<pre><code class="language-python">class Manacher:
-    def longest_palindrome(self, s: str) -&gt; str:
-        if s is None or len(s) == 0: return &quot;&quot;
-
-        tmp_str = '^#' + ''.join([x + '#' for x in s]) + &quot;$&quot;
-        length = len(tmp_str)
-        p = [0] * length
-        c, r = 0, 0
-        max_len = -1
-        index = 0
-
-        for i in range(1, length - 1):
-            p[i] = min(p[2 * c - i], r - i) if r &gt; i else 1
-
-            while tmp_str[i + p[i]] == tmp_str[i - p[i]]:
-                p[i] += 1
-
-            if r &lt; i + p[i]:
-                r = i + p[i]
-                c = i
-
-            if max_len &lt; p[i] - 1:
-                max_len = p[i] - 1
-                index = i
-
-        start = (index - max_len) // 2
-        return s[start: start + max_len]
-</code></pre>
-<h5 id="go">Go</h5>
-<pre><code class="language-go">func preprocess(s string) string {
-	result := &quot;^#&quot;
-
-	for _, ch := range s {
-		result += string(ch) + &quot;#&quot;
-	}
-
-	return result + &quot;$&quot;
-}
-
-func longestPalindrome(s string) string {
-	if len(s) == 0 {
-		return &quot;&quot;
-	}
-
-	tmpStr := preprocess(s)
-	length := len(tmpStr)
-	p := make([]int, length)
-	C, R := 0, 0
-	maxLen := 0
-	index := 0
-
-	for i := 1; i &lt; length-1; i++ {
-		if R &gt; i {
-			p[i] = int(math.Min(float64(p[2*C-i]), float64(R-i)))
-		} else {
-			p[i] = 1
-		}
-
-		for tmpStr[i+p[i]] == tmpStr[i-p[i]] {
-			p[i]++
-		}
-
-		if R &lt; i+p[i] {
-			R = i + p[i]
-			C = i
-		}
-
-		if maxLen &lt; p[i]-1 {
-			maxLen = p[i] - 1
-			index = i
-		}
-	}
-
-	start := (index - maxLen) / 2
-	return s[start : start+maxLen]
-}
-</code></pre>
-<h3 id="参考资料">参考资料</h3>
-<p><a href="https://www.jianshu.com/p/392172762e55">马拉车算法</a></p>
-<p><a href="https://leetcode.wang/leetCode-5-Longest-Palindromic-Substring.html">leetcode.wang</a></p>
 ]]></content>
     </entry>
 </feed>
