@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-08-19T02:53:35.493Z</updated>
+    <updated>2020-08-19T03:04:04.945Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
@@ -24,7 +24,7 @@
   s = &quot;barfoothefoobarman&quot;,<br>
   words = [&quot;foo&quot;,&quot;bar&quot;]<br>
 <strong>输出：</strong>[0,9]<br>
-**解释：**从索引 0 和 9 开始的子串分别是 &quot;barfoo&quot; 和 &quot;foobar&quot; 。输出的顺序不重要, [9,0] 也是有效答案。</p>
+解释：从索引 0 和 9 开始的子串分别是 &quot;barfoo&quot; 和 &quot;foobar&quot; 。输出的顺序不重要, [9,0] 也是有效答案。</p>
 </blockquote>
 <p><strong>示例 2：</strong></p>
 <blockquote>
