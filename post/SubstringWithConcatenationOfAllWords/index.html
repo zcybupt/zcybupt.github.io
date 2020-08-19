@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1597738182043">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1597805603932">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1597738182043" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1597805603932" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -114,7 +114,7 @@
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
         <h1 class="text-3xl font-bold lg:mt-16">串联所有单词的子串</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-08-18 / 6 min read
+          2020-08-18 / 9 min read
         </div>
         
           <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200818160928.png" alt="">
@@ -140,6 +140,25 @@
 </blockquote>
 <h2 id="题解">题解</h2>
 <h3 id="暴力解法">暴力解法</h3>
+<p><a href="https://leetcode-cn.com/problems/substring-with-concatenation-of-all-words/solution/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by-w-6/">参考题解</a></p>
+<p>创建两个 <code>Map</code> ，存储每个单词与单词出现次数的对应关系，<code>wordMap</code> 中保存输入数组 <code>words</code> 的词频信息；<code>curMap</code> 中保存逐位遍历输入字符串 <code>s</code> 的过程中产生的 <code>wordMap</code> 中含有的单词的词频。整体流程如下：</p>
+<ul>
+<li>创建 <code>wordMap</code> ，保存输入数组 <code>words</code> 中单词和对应的词频</li>
+<li>逐位遍历输入字符串 <code>s</code> ，记起始位为 <code>start</code> ，单词长度为 <code>wordLen</code> ，判断每次迭代 <code>s[start, start + wordLen]</code> 位置的单词是否在 <code>wordMap</code> 中
+<ul>
+<li>若不存在，跳出当前循环</li>
+<li>若存在，则判断该词在 <code>curMap</code> 中出现次数是否超过其在 <code>wordMap</code> 中的词频
+<ul>
+<li>若超过，则跳出当前循环</li>
+<li>若不超过，则增加 <code>curMap</code> 中该词的词频</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>若从某位置 <code>i</code> 开始，遍历过程中所有的词都符合条件，则将 <code>i</code> 放入结果集中。</li>
+</ul>
+<p>时间复杂度：假设 <code>s</code> 的长度是 <code>n</code> ，<code>words</code> 里有 <code>m</code> 个单词，那么时间复杂度为 <code>O(n * m)</code> 。</p>
+<p>空间复杂度：两个 <code>HashMap</code>，假设 <code>words</code> 里有 <code>m</code> 个单词，就是 <code>O(m)</code> 。</p>
 <h4 id="java">Java</h4>
 <pre><code class="language-java">import java.util.*;
 
@@ -171,6 +190,7 @@ class Solution {
                 }
                 count++;
             }
+           	// 所有单词均符合条件
             if (count == arrLen) results.add(i);
             curMap.clear();
             count = 0;
@@ -247,6 +267,35 @@ class Solution {
 }
 </code></pre>
 <h3 id="滑动窗口法">滑动窗口法</h3>
+<p><a href="https://leetcode-cn.com/problems/substring-with-concatenation-of-all-words/solution/javashi-xian-cong-bao-li-fa-dao-hua-dong-chuang-ko/">参考题解</a></p>
+<p>使用滑动窗口来优化遍历过程，假定输入为字符串 <code>s</code> 和字符串数组 <code>words</code> 。取满足条件时的字符串长度为滑动窗口大小，即 <code>windowSize = len(words) * len(words[0])</code> ，分别从 <code>i=0,1,2</code> 开始移动窗口，每次移动 <code>len(words[0])</code> 的长度即可覆盖全部情况。跳过移动过程中的重复校验可降低时间复杂度，有以下三种重复情况：</p>
+<ol>
+<li>
+<p>匹配成功，窗口后移出现重复匹配</p>
+<pre><code class="language-python">s = 'barfoofoofoobarman'
+words = ['bar', 'foo', 'foo']
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200818210418.png" alt="" loading="lazy"></figure>
+<p>上图中 <code>s[3:9]</code> 已在 <code>i=0</code> 为开头的窗口中校验过，确认存在于 <code>words</code> 数组中，且词频未越界，故无需重复判断，直接校验 <code>i=9</code> 之后的字符即可。</p>
+</li>
+<li>
+<p>匹配失败，有 <code>words</code> 中不包含的单词</p>
+<pre><code class="language-python">s = 'barfoofoothefoobarman'
+words = ['bar', 'foo', 'foo']
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200819102313.png" alt="" loading="lazy"></figure>
+<p>滑窗以 <code>i=0</code> 起始时，其中包含 <code>words</code> 数组中没有的 <code>the</code> ，匹配失败。而滑窗移动到 <code>i=3</code> 和 <code>i=6</code> 时又对 <code>the</code> 进行了重复校验，可直接将窗口移动到 <code>i=9</code> 位置跳过重复操作。</p>
+</li>
+<li>
+<p>匹配失败，单词均在 <code>words</code> 中，但词频超出要求</p>
+<pre><code class="language-python">s = 'foobarbarfoobarman'
+words = ['bar', 'foo', 'foo']
+</code></pre>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200819103158.png" alt="" loading="lazy"></figure>
+<p><code>i=0</code> 起始的窗口和 <code>i=3</code> 起始的窗口中均有两个 <code>bar</code> ，但 <code>words</code> 数组中仅有一个，可从 <code>i=6</code> 开始继续校验。</p>
+</li>
+</ol>
+<p>实际实现过程中，对窗口中的字符串进一步划分，每次只取 <code>len(word[0])</code> 长度的子串，若该子串在 <code>words</code> 中且词频未越界，则增加该词在 <code>curMap</code> 中的词频。检验窗口中字符串的子串的过程中记录满足条件的单词数量 ，若当前窗口遍历完成后该数与 <code>words</code> 数组长度相等，则说明全部符合条件。</p>
 <h4 id="java-2">Java</h4>
 <pre><code class="language-java">import java.util.*;
 
@@ -277,7 +326,7 @@ class Solution {
                     j--;
                 }
                 if (j == 0) results.add(start);
-                start += wordLen * Math.max(j, 1);
+                start += wordLen * Math.max(j, 1); // 若 j != 0 则说明匹配失败，窗口右移 j * wordLen，跳过已校验位置
             }
         }
 
@@ -367,6 +416,10 @@ func max(a, b int) int {
 
         </div>
 
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/qZzQfkROl/">
+            <span class="flex-auto">滑动窗口法</span>
+          </a>
         
           <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/ZNK9RrTqB/">
             <span class="flex-auto">Hard</span>
