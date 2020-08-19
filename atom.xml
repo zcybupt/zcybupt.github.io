@@ -2,13 +2,160 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-08-19T03:04:04.945Z</updated>
+    <updated>2020-08-19T03:53:07.291Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
     <logo>https://zcybupt.github.io/images/avatar.png</logo>
     <icon>https://zcybupt.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, CODEFANCIER</rights>
+    <entry>
+        <title type="html"><![CDATA[下一个排列]]></title>
+        <id>https://zcybupt.github.io/post/NextPermutation/</id>
+        <link href="https://zcybupt.github.io/post/NextPermutation/">
+        </link>
+        <updated>2020-08-18T10:37:19.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="题目leetcode-31">题目(<a href="https://leetcode-cn.com/problems/next-permutation/">LeetCode #31</a>)</h2>
+<p>实现获取下一个排列的函数，算法需要将给定数字序列重新排列成字典序中下一个更大的排列。</p>
+<p>如果不存在下一个更大的排列，则将数字重新排列成最小的排列（即升序排列）。</p>
+<p>必须<strong>原地</strong>修改，只允许使用额外常数空间。</p>
+<p>以下是一些例子，输入位于左侧列，其相应输出位于右侧列。</p>
+<pre><code class="language-python">1,2,3 -&gt; 1,3,2
+3,2,1 -&gt; 1,2,3
+1,1,5 -&gt; 1,5,1
+</code></pre>
+<h2 id="题解">题解</h2>
+<p><a href="https://leetcode-cn.com/problems/next-permutation/solution/xia-yi-ge-pai-lie-suan-fa-xiang-jie-si-lu-tui-dao-/">参考题解</a></p>
+<p>仿照 C++ 中 <code>next_permutation</code> 的实现方法。</p>
+<h3 id="分析">分析</h3>
+<ol>
+<li>下一个数比当前数大：将<strong>后面的大数与前面的小数交换</strong> ，如 <code>123456</code> ，将 <code>5</code> 和 <code>6</code> 交换得到 <code>123465</code> ；</li>
+<li>下一个数的增幅应尽量小，使之满足字典序中的 <strong>下一个</strong>，为了满足该条件需进行如下操作：
+<ol>
+<li>在 <strong>尽可能靠右的低位</strong>进行交换，需<strong>从后向前</strong>查找；</li>
+<li>将一个<strong>尽可能小的大数</strong>与前面的<strong>小数</strong>交换，如 <code>123465</code> ，下一个排列应该将 <code>5</code> 与 <code>4</code> 交换而不是将 <code>6</code> 和 <code>4</code> 交换；</li>
+<li>将<strong>大数</strong>换到前面后，需将<strong>大数</strong>后面的<strong>所有数</strong>重置为<strong>升序</strong>，升序排列即为最小排列。以 <code>123465</code> 为例：首先按照上一步，交换 <code>5</code> 和 <code>4</code> ，得到 <code>123564</code> 。调整 <code>5</code> 后的数为升序，得到 <code>123546</code> ，即为下一个排列。</li>
+</ol>
+</li>
+</ol>
+<h3 id="实现步骤">实现步骤</h3>
+<ol>
+<li><strong>从后向前</strong>查找第一个<strong>相邻升序</strong>的元素对 <code>(i, j)</code> ，满足 <code>nums[i] &lt; nums[j]</code> 。此时 <code>[j, end)</code> 必然为降序；</li>
+<li>在 <code>[j, end)</code> <strong>从后向前</strong>查找第一个满足 <code>nums[i] &lt; nums[k]</code> 的 <code>k</code> 。<code>nums[i]</code> 和 <code>nums[k]</code> 即为上述<strong>小数</strong>和<strong>大数</strong>；</li>
+<li>交换 <code>nums[i]</code> 和 <code>nums[k]</code> ；</li>
+<li>此时 <code>[j, end)</code> 必然为降序，逆置 <code>[j, end)</code> 使其升序；</li>
+<li>若在步骤 1 找不到符合的相邻元素对，则说明当前数组单调递减，直接跳到步骤 4，整体逆序即可。</li>
+</ol>
+<h3 id="图解">图解</h3>
+<p>以求 <code>12385764</code> 的下一个排列为例：</p>
+<ol>
+<li>
+<p>初始时：</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200819114340.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>从前向后查找第一个相邻升序的元素对 <code>(i, j)</code> ，这里 <code>i=4</code> ，<code>j=5</code> ，对应值为 <code>5</code> 和 <code>7</code> ：</p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200819114506.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>从后向前查找第一个大于 <code>nums[i]</code> 的值 <code>nums[k]</code> ，此例中 <code>nums[i] = 5</code> ，故 <code>nums[k]=6</code></p>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200819114626.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>交换 <code>nums[i]</code> 和 <code>nums[k]</code> ，即 <code>5</code> 和 <code>6</code>：</p>
+<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200819114752.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>交换后 <code>[j, end)</code> 必仍是降序，逆置 <code>[j, end)</code> ，使其变为升序：</p>
+<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200819114909.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>故 <code>12385764</code> 的下一个排列为 <code>12386457</code> ，逆序后对比如下：</p>
+<figure data-type="image" tabindex="6"><img src="https://pic.leetcode-cn.com/e56a66ed318d1761cd8c8f9d1521f82a30c71ecc84f551912b90d8fe254c8f3d-image.png" alt="image.png" loading="lazy"></figure>
+</li>
+</ol>
+<h3 id="实现">实现</h3>
+<h4 id="java">Java</h4>
+<pre><code class="language-java">class Solution {
+    public void nextPermutation(int[] nums) {
+        int arrLen = nums.length;
+        if (arrLen &lt;= 1) return;
+
+        int i = arrLen - 2, j = arrLen - 1, k = arrLen - 1;
+
+        while (i &gt;= 0 &amp;&amp; nums[i] &gt;= nums[j]) {
+            i--; j--;
+        }
+
+        if (i &gt;= 0) {
+            while (nums[i] &gt;= nums[k]) k--;
+            swap(i, k, nums);
+        }
+
+        for (i = j, j = arrLen - 1; i &lt; j; i++, j--) {
+            swap(i, j, nums);
+        }
+    }
+
+    public void swap(int i, int j, int[] nums) {
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
+}
+</code></pre>
+<h4 id="python">Python</h4>
+<pre><code class="language-python">class Solution:
+    def nextPermutation(self, nums: list) -&gt; None:
+        arr_len = len(nums)
+        if arr_len &lt;= 1: return
+
+        i, j, k = arr_len - 2, arr_len - 1, arr_len - 1
+
+        while i &gt;= 0 and nums[i] &gt;= nums[j]:
+            i -= 1
+            j -= 1
+
+        if i &gt;= 0:
+            while nums[i] &gt;= nums[k]: k -= 1
+            nums[i], nums[k] = nums[k], nums[i]
+
+        i, j = j, arr_len - 1
+        while i &lt; j:
+            nums[i], nums[j] = nums[j], nums[i]
+            i += 1
+            j -= 1
+</code></pre>
+<h4 id="go">Go</h4>
+<pre><code class="language-go">func nextPermutation(nums []int)  {
+    arrLen := len(nums)
+    if arrLen &lt;= 1 {
+        return
+    }
+
+    i, j, k := arrLen - 2, arrLen - 1, arrLen - 1
+    for i &gt;= 0 &amp;&amp; nums[i] &gt;= nums[j] {
+        i--
+        j--
+    }
+
+    if i &gt;= 0 {
+        for nums[i] &gt;= nums[k] {
+            k--
+        }
+        nums[i], nums[k] = nums[k], nums[i]
+    }
+
+    i, j = j, arrLen - 1
+    for i &lt; j {
+        nums[i], nums[j] = nums[j], nums[i]
+        i++
+        j--
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[串联所有单词的子串]]></title>
         <id>https://zcybupt.github.io/post/SubstringWithConcatenationOfAllWords/</id>
@@ -1769,159 +1916,6 @@ func reverseEdge(head *TreeNode) *TreeNode {
 	}
 
 	return pre
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[最短回文串]]></title>
-        <id>https://zcybupt.github.io/post/ShortestPalindrome/</id>
-        <link href="https://zcybupt.github.io/post/ShortestPalindrome/">
-        </link>
-        <updated>2020-07-22T10:28:47.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="题目leetcode-214">题目(<a href="https://leetcode-cn.com/problems/shortest-palindrome">LeetCode #214</a>)</h2>
-<p>给定一个字符串 s，你可以通过在字符串前面添加字符将其转换为回文串。找到并返回可以用这种方式转换的最短回文串。</p>
-<p><strong>示例 1:</strong></p>
-<blockquote>
-<p><strong>输入:</strong> &quot;aacecaaa&quot;<br>
-<strong>输出:</strong> &quot;aaacecaaa&quot;</p>
-</blockquote>
-<p><strong>示例 2:</strong></p>
-<blockquote>
-<p><strong>输入:</strong> &quot;abcd&quot;<br>
-<strong>输出:</strong> &quot;dcbabcd&quot;</p>
-</blockquote>
-<h2 id="题解">题解</h2>
-<p>可利用<a href="https://zcybupt.github.io/post/Manacher/">Manacher 算法</a>找到原字符串包含第一个字符的最长回文子串，将该回文子串后的字符逆序加到开头即可。</p>
-<p>示例 1 中，对 <code>aacecaaa</code> 来说，包含第一个字符的最长回文子串为 <code>aacecaa</code> ，需把剩余的 <code>a</code> 逆序加到开头，即得到 <code>aaacecaaa</code> ；示例 2 中，<code>abcd</code> 包含第一个字符的最长回文子串为 <code>a</code> ，<code>bcd</code> 逆序得到 <code>dcb</code> ，放到开头即得到 <code>dcbabcd</code> 。</p>
-<h3 id="java">Java</h3>
-<pre><code class="language-java">public class ShortestPalindrome {
-    public static String preprocess(String s) {
-        String result = &quot;^&quot;;
-        for (int i = 0; i &lt; s.length(); i++) {
-            result += &quot;#&quot; + s.charAt(i);
-        }
-
-        return result + &quot;#$&quot;;
-    }
-
-    public static String shortestPalindrome(String s) {
-        if (s == null || s.length() == 0) return &quot;&quot;;
-
-        String tmpStr = preprocess(s);
-        int strLen = tmpStr.length();
-        int C = 0, R = 0;
-        int[] p = new int[strLen];
-        int maxLen = 0;
-
-        for (int i = 1; i &lt; strLen - 1; i++) {
-            p[i] = R &gt; i ? Math.min(p[2 * C - i], R - i) : 1;
-
-            while (tmpStr.charAt(i - p[i]) == tmpStr.charAt(i + p[i])) {
-                p[i]++;
-            }
-
-            if (R &lt; p[i] + i) {
-                R = p[i] + i;
-                C = i;
-            }
-
-            // 仅保存以第一个字符开头的回文子串的最大长度
-            // (C - p[C]) / 2 即为当前回文串的起始索引
-            if (maxLen &lt; p[i] - 1 &amp;&amp; (C - p[C]) / 2 == 0) {
-                maxLen = p[i] - 1;
-            }
-        }
-
-        // 逆序剩余部分字符串
-        String result = &quot;&quot;;
-        for (int i = s.length() - 1; i &gt;= maxLen; i--) {
-            result += s.charAt(i);
-        }
-
-        return result + s;
-    }
-}
-</code></pre>
-<h3 id="python">Python</h3>
-<pre><code class="language-python">class ShortestPalindrome:
-    def shortest_palindrome(self, s: str) -&gt; str:
-        tmp_str = &quot;^#&quot; + &quot;&quot;.join([x + &quot;#&quot; for x in s]) + &quot;$&quot;
-        str_len = len(tmp_str)
-        p = [0] * str_len
-        c, r = 0, 0
-        max_len = 0
-
-        for i in range(1, str_len - 1):
-            p[i] = min(p[2 * c - i], r - i) if r &gt; i else 1
-            while tmp_str[i - p[i]] == tmp_str[i + p[i]]:
-                p[i] += 1
-
-            if r &lt; p[i] + i:
-                r = p[i] + i
-                c = i
-
-            if max_len &lt; p[i] - 1 and (c - p[c]) // 2 == 0:
-                max_len = p[i] - 1
-
-        return &quot;&quot;.join([x for x in s[:max_len - 1:-1]]) + s
-</code></pre>
-<h3 id="go">Go</h3>
-<pre><code class="language-go">func preprocess(s string) string {
-	result := &quot;^#&quot;
-
-	for _, ch := range s {
-		result += string(ch) + &quot;#&quot;
-	}
-
-	return result + &quot;$&quot;
-}
-
-func shortestPalindrome(s string) string {
-	if len(s) == 0 {
-		return &quot;&quot;
-	}
-
-	tmpStr := preprocess(s)
-	strLen := len(tmpStr)
-	p := make([]int, strLen)
-	C, R := 0, 0
-	maxLen := 0
-
-	for i := 1; i &lt; strLen-1; i++ {
-		if R &gt; i {
-			p[i] = min(p[2*C-i], R-i)
-		} else {
-			p[i] = 1
-		}
-
-		for tmpStr[i-p[i]] == tmpStr[i+p[i]] {
-			p[i]++
-		}
-
-		if R &lt; p[i]+i {
-			R = p[i] + i
-			C = i
-		}
-
-		if maxLen &lt; p[i]-1 &amp;&amp; (C-p[C])/2 == 0 {
-			maxLen = p[i] - 1
-		}
-	}
-
-	result := &quot;&quot;
-	for i := len(s) - 1; i &gt;= maxLen; i-- {
-		result += string(s[i])
-	}
-
-	return result + s
-}
-
-func min(a, b int) int {
-	if a &lt; b {
-		return a
-	}
-	return b
 }
 </code></pre>
 ]]></content>

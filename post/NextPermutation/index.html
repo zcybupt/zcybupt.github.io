@@ -45,16 +45,19 @@
             <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E9%A2%98%E7%9B%AE">题目</a>
+<li><a href="#%E9%A2%98%E7%9B%AEleetcode-31">题目(LeetCode #31)</a></li>
+<li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
 <ul>
-<li><a href="#%E8%A6%81%E6%B1%82">要求</a></li>
-<li><a href="#%E9%A2%98%E8%A7%A3">题解</a></li>
-</ul>
-</li>
-<li><a href="#%E4%BE%8B%E9%A2%98-leetcode-86">例题: LeetCode # 86</a>
+<li><a href="#%E5%88%86%E6%9E%90">分析</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E6%AD%A5%E9%AA%A4">实现步骤</a></li>
+<li><a href="#%E5%9B%BE%E8%A7%A3">图解</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0">实现</a>
 <ul>
 <li><a href="#java">Java</a></li>
 <li><a href="#python">Python</a></li>
+<li><a href="#go">Go</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -105,150 +108,152 @@
 <div class="mask" onclick="closeMenu()">
 </div>
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-bold lg:mt-16">分隔链表</h1>
+        <h1 class="text-3xl font-bold lg:mt-16">下一个排列</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-03-02 / 3 min read
+          2020-08-18 / 4 min read
         </div>
         
-          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/2.png" alt="">
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200818184008.png" alt="">
         
         <div class="post-content yue">
-          <h2 id="题目">题目</h2>
-<p>给定一个链表和一个特定值 x，对链表进行分隔，使得所有小于 x 的节点都在大于或等于 x 的节点之前。</p>
-<p>你应当保留两个分区中每个节点的初始相对位置。</p>
-<p>示例:</p>
-<p>输入:</p>
-<pre><code class="language-python">head = 1-&gt;4-&gt;3-&gt;2-&gt;5-&gt;2, x = 3
+          <h2 id="题目leetcode-31">题目(<a href="https://leetcode-cn.com/problems/next-permutation/">LeetCode #31</a>)</h2>
+<p>实现获取下一个排列的函数，算法需要将给定数字序列重新排列成字典序中下一个更大的排列。</p>
+<p>如果不存在下一个更大的排列，则将数字重新排列成最小的排列（即升序排列）。</p>
+<p>必须<strong>原地</strong>修改，只允许使用额外常数空间。</p>
+<p>以下是一些例子，输入位于左侧列，其相应输出位于右侧列。</p>
+<pre><code class="language-python">1,2,3 -&gt; 1,3,2
+3,2,1 -&gt; 1,2,3
+1,1,5 -&gt; 1,5,1
 </code></pre>
-<p>输出:</p>
-<pre><code class="language-python">1-&gt;2-&gt;2-&gt;4-&gt;3-&gt;5
-</code></pre>
-<h3 id="要求">要求</h3>
-<p>每部分中结点从左到右顺序与原链表的先后次序一致</p>
-<h3 id="题解">题解</h3>
-<p>可创建三个指针分别保存三个部分的结点, 新结点追加即可</p>
-<pre><code class="language-java">class ListNode {
-    int val;
-    ListNode next;
+<h2 id="题解">题解</h2>
+<p><a href="https://leetcode-cn.com/problems/next-permutation/solution/xia-yi-ge-pai-lie-suan-fa-xiang-jie-si-lu-tui-dao-/">参考题解</a></p>
+<p>仿照 C++ 中 <code>next_permutation</code> 的实现方法。</p>
+<h3 id="分析">分析</h3>
+<ol>
+<li>下一个数比当前数大：将<strong>后面的大数与前面的小数交换</strong> ，如 <code>123456</code> ，将 <code>5</code> 和 <code>6</code> 交换得到 <code>123465</code> ；</li>
+<li>下一个数的增幅应尽量小，使之满足字典序中的 <strong>下一个</strong>，为了满足该条件需进行如下操作：
+<ol>
+<li>在 <strong>尽可能靠右的低位</strong>进行交换，需<strong>从后向前</strong>查找；</li>
+<li>将一个<strong>尽可能小的大数</strong>与前面的<strong>小数</strong>交换，如 <code>123465</code> ，下一个排列应该将 <code>5</code> 与 <code>4</code> 交换而不是将 <code>6</code> 和 <code>4</code> 交换；</li>
+<li>将<strong>大数</strong>换到前面后，需将<strong>大数</strong>后面的<strong>所有数</strong>重置为<strong>升序</strong>，升序排列即为最小排列。以 <code>123465</code> 为例：首先按照上一步，交换 <code>5</code> 和 <code>4</code> ，得到 <code>123564</code> 。调整 <code>5</code> 后的数为升序，得到 <code>123546</code> ，即为下一个排列。</li>
+</ol>
+</li>
+</ol>
+<h3 id="实现步骤">实现步骤</h3>
+<ol>
+<li><strong>从后向前</strong>查找第一个<strong>相邻升序</strong>的元素对 <code>(i, j)</code> ，满足 <code>nums[i] &lt; nums[j]</code> 。此时 <code>[j, end)</code> 必然为降序；</li>
+<li>在 <code>[j, end)</code> <strong>从后向前</strong>查找第一个满足 <code>nums[i] &lt; nums[k]</code> 的 <code>k</code> 。<code>nums[i]</code> 和 <code>nums[k]</code> 即为上述<strong>小数</strong>和<strong>大数</strong>；</li>
+<li>交换 <code>nums[i]</code> 和 <code>nums[k]</code> ；</li>
+<li>此时 <code>[j, end)</code> 必然为降序，逆置 <code>[j, end)</code> 使其升序；</li>
+<li>若在步骤 1 找不到符合的相邻元素对，则说明当前数组单调递减，直接跳到步骤 4，整体逆序即可。</li>
+</ol>
+<h3 id="图解">图解</h3>
+<p>以求 <code>12385764</code> 的下一个排列为例：</p>
+<ol>
+<li>
+<p>初始时：</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200819114340.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>从前向后查找第一个相邻升序的元素对 <code>(i, j)</code> ，这里 <code>i=4</code> ，<code>j=5</code> ，对应值为 <code>5</code> 和 <code>7</code> ：</p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200819114506.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>从后向前查找第一个大于 <code>nums[i]</code> 的值 <code>nums[k]</code> ，此例中 <code>nums[i] = 5</code> ，故 <code>nums[k]=6</code></p>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200819114626.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>交换 <code>nums[i]</code> 和 <code>nums[k]</code> ，即 <code>5</code> 和 <code>6</code>：</p>
+<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200819114752.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>交换后 <code>[j, end)</code> 必仍是降序，逆置 <code>[j, end)</code> ，使其变为升序：</p>
+<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200819114909.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>故 <code>12385764</code> 的下一个排列为 <code>12386457</code> ，逆序后对比如下：</p>
+<figure data-type="image" tabindex="6"><img src="https://pic.leetcode-cn.com/e56a66ed318d1761cd8c8f9d1521f82a30c71ecc84f551912b90d8fe254c8f3d-image.png" alt="image.png" loading="lazy"></figure>
+</li>
+</ol>
+<h3 id="实现">实现</h3>
+<h4 id="java">Java</h4>
+<pre><code class="language-java">class Solution {
+    public void nextPermutation(int[] nums) {
+        int arrLen = nums.length;
+        if (arrLen &lt;= 1) return;
 
-    ListNode(int x) {
-        val = x;
-    }
-}
+        int i = arrLen - 2, j = arrLen - 1, k = arrLen - 1;
 
-public class PartitionList {
-    public static ListNode partition(ListNode head, int x) {
-        ListNode left = new ListNode(0);
-        ListNode middle = new ListNode(0);
-        ListNode right = new ListNode(0);
-
-        ListNode node1 = left;
-        ListNode node2 = middle;
-        ListNode node3 = right;
-
-        while (head != null) {
-            if (head.val &lt; x) {
-                node1.next = head;
-                head = head.next;
-                node1 = node1.next;
-                node1.next = null;
-            } else if (head.val == x) {
-                node2.next = head;
-                head = head.next;
-                node2 = node2.next;
-                node2.next = null;
-            } else {
-                node3.next = head;
-                head = head.next;
-                node3 = node3.next;
-                node3.next = null;
-            }
+        while (i &gt;= 0 &amp;&amp; nums[i] &gt;= nums[j]) {
+            i--; j--;
         }
 
-        node1.next = middle.next;
-        node2.next = right.next;
-
-        return left.next;
-    }
-}
-
-</code></pre>
-<h2 id="例题-leetcode-86">例题: <a href="https://leetcode-cn.com/problems/partition-list/">LeetCode # 86</a></h2>
-<p>给定一个链表和一个特定值 x，对链表进行分隔，使得所有小于 x 的节点都在大于或等于 x 的节点之前。</p>
-<p>你应当保留两个分区中每个节点的初始相对位置。</p>
-<p>示例:</p>
-<p>输入:</p>
-<pre><code class="language-python">head = 1-&gt;4-&gt;3-&gt;2-&gt;5-&gt;2, x = 3
-</code></pre>
-<p>输出:</p>
-<pre><code class="language-python">1-&gt;2-&gt;2-&gt;4-&gt;3-&gt;5
-</code></pre>
-<h3 id="java">Java</h3>
-<pre><code class="language-java">class ListNode {
-    int val;
-    ListNode next;
-
-    ListNode(int x) {
-        val = x;
-    }
-}
-
-public class PartitionList {
-    public static ListNode partition(ListNode head, int x) {
-        ListNode left = new ListNode(0);
-        ListNode right = new ListNode(0);
-
-        ListNode node1 = left;
-        ListNode node2 = right;
-
-        while (head != null) {
-            if (head.val &lt; x) {
-                node1.next = head;
-                head = head.next;
-                node1 = node1.next;
-                node1.next = null;
-            } else {
-                node2.next = head;
-                head = head.next;
-                node2 = node2.next;
-                node2.next = null;
-            }
+        if (i &gt;= 0) {
+            while (nums[i] &gt;= nums[k]) k--;
+            swap(i, k, nums);
         }
 
-        node1.next = right.next;
+        for (i = j, j = arrLen - 1; i &lt; j; i++, j--) {
+            swap(i, j, nums);
+        }
+    }
 
-        return left.next;
+    public void swap(int i, int j, int[] nums) {
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
     }
 }
 </code></pre>
-<h3 id="python">Python</h3>
-<pre><code class="language-python">class ListNode:
-    def __init__(self, x):
-        self.val = x
-        self.next = None
+<h4 id="python">Python</h4>
+<pre><code class="language-python">class Solution:
+    def nextPermutation(self, nums: list) -&gt; None:
+        arr_len = len(nums)
+        if arr_len &lt;= 1: return
 
-class PartitionList:
-    def partition(self, head, x):
-        left = ListNode(0)
-        right = ListNode(0)
-        
-        node1 = left
-        node2 = right
-        
-        while head:
-            if head.val &lt; x:
-                node1.next = head
-                head = head.next
-                node1 = node1.next
-                node1.next = None
-            else:
-                node2.next = head
-                head = head.next
-                node2 = node2.next
-                node2.next = None
-            
-        node1.next = right.next
-        return left.next
+        i, j, k = arr_len - 2, arr_len - 1, arr_len - 1
+
+        while i &gt;= 0 and nums[i] &gt;= nums[j]:
+            i -= 1
+            j -= 1
+
+        if i &gt;= 0:
+            while nums[i] &gt;= nums[k]: k -= 1
+            nums[i], nums[k] = nums[k], nums[i]
+
+        i, j = j, arr_len - 1
+        while i &lt; j:
+            nums[i], nums[j] = nums[j], nums[i]
+            i += 1
+            j -= 1
+</code></pre>
+<h4 id="go">Go</h4>
+<pre><code class="language-go">func nextPermutation(nums []int)  {
+    arrLen := len(nums)
+    if arrLen &lt;= 1 {
+        return
+    }
+
+    i, j, k := arrLen - 2, arrLen - 1, arrLen - 1
+    for i &gt;= 0 &amp;&amp; nums[i] &gt;= nums[j] {
+        i--
+        j--
+    }
+
+    if i &gt;= 0 {
+        for nums[i] &gt;= nums[k] {
+            k--
+        }
+        nums[i], nums[k] = nums[k], nums[i]
+    }
+
+    i, j = j, arrLen - 1
+    for i &lt; j {
+        nums[i], nums[j] = nums[j], nums[i]
+        i++
+        j--
+    }
+}
 </code></pre>
 
         </div>
@@ -256,10 +261,6 @@ class PartitionList:
         
           <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/zjyfY7MTi/">
             <span class="flex-auto">Medium</span>
-          </a>
-        
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/oSB8FUkUZ/">
-            <span class="flex-auto">链表</span>
           </a>
         
           <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/sygsU_q1s/">
@@ -274,21 +275,12 @@ class PartitionList:
 
         <div class="flex justify-between py-8">
           
-            <div class="prev-post">
-              <a href="https://zcybupt.github.io/post/CopyRandomList/">
-                <h3 class="post-title">
-                  <i class="ri-arrow-left-line"></i>
-                  复制带随机指针的链表
-                </h3>
-              </a>
-            </div>
-          
 
           
             <div class="next-post">
-              <a href="https://zcybupt.github.io/post/IsPalindrome/">
+              <a href="https://zcybupt.github.io/post/SubstringWithConcatenationOfAllWords/">
                 <h3 class="post-title">
-                  判断一个链表是否为回文结构
+                  串联所有单词的子串
                   <i class="ri-arrow-right-line"></i>
                 </h3>
               </a>
