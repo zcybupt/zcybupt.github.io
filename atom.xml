@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-08-21T11:15:13.219Z</updated>
+    <updated>2020-08-21T11:15:51.066Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
@@ -107,24 +107,6 @@
 
         return true;
     }
-
-    public static void main(String[] args) {
-        char[][] board = {
-                {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
-                {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
-                {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
-                {'8', '.', '.', '.', '6', '.', '.', '.', '3'},
-                {'4', '.', '.', '8', '.', '3', '.', '.', '1'},
-                {'7', '.', '.', '.', '2', '.', '.', '.', '6'},
-                {'.', '6', '.', '.', '.', '.', '2', '8', '.'},
-                {'.', '.', '.', '4', '1', '9', '.', '.', '5'},
-                {'.', '.', '.', '.', '8', '.', '.', '7', '9'}
-        };
-
-        Solution solution = new Solution();
-        System.out.println(solution.isValidSudoku(board));
-    }
-}
 </code></pre>
 <h4 id="python">Python</h4>
 <pre><code class="language-python">class Solution:
@@ -148,22 +130,6 @@
                     return False
 
         return True
-
-
-if __name__ == '__main__':
-    board = [
-        [&quot;5&quot;,&quot;3&quot;,&quot;.&quot;,&quot;.&quot;,&quot;7&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;],
-        [&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;1&quot;,&quot;9&quot;,&quot;5&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;],
-        [&quot;.&quot;,&quot;9&quot;,&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;,&quot;.&quot;],
-        [&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;3&quot;],
-        [&quot;4&quot;,&quot;.&quot;,&quot;.&quot;,&quot;8&quot;,&quot;.&quot;,&quot;3&quot;,&quot;.&quot;,&quot;.&quot;,&quot;1&quot;],
-        [&quot;7&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;2&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;],
-        [&quot;.&quot;,&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;2&quot;,&quot;8&quot;,&quot;.&quot;],
-        [&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;4&quot;,&quot;1&quot;,&quot;9&quot;,&quot;.&quot;,&quot;.&quot;,&quot;5&quot;],
-        [&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;7&quot;,&quot;9&quot;]
-    ]
-    solution = Solution()
-    print(solution.isValidSudoku(board))
 </code></pre>
 <h4 id="go">Go</h4>
 <pre><code class="language-go">package main
@@ -194,21 +160,6 @@ func isValidSudoku(board [][]byte) bool {
     }
 
     return true
-}
-
-func main() {
-    board := [][]byte{
-        {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
-        {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
-        {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
-        {'8', '.', '.', '.', '6', '.', '.', '.', '3'},
-        {'4', '.', '.', '8', '.', '3', '.', '.', '1'},
-        {'7', '.', '.', '.', '2', '.', '.', '.', '6'},
-        {'.', '6', '.', '.', '.', '.', '2', '8', '.'},
-        {'.', '.', '.', '4', '1', '9', '.', '.', '5'},
-        {'.', '.', '.', '.', '8', '.', '.', '7', '9'},
-    }
-    fmt.Println(isValidSudoku(board))
 }
 </code></pre>
 ]]></content>
