@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-08-21T11:15:51.066Z</updated>
+    <updated>2020-08-21T11:18:23.422Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
@@ -76,7 +76,7 @@
 <li>每个 <code>3 x 3</code> 的子数独中无重复数字</li>
 </ul>
 <p>这三个条件可在一次迭代中完成，难点在于如何枚举子数独。</p>
-<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200821185645.png" alt="" loading="lazy"></figure>
+<img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200821185645.png" style="zoom:50%;" />
 <p>子数独的索引可通过 <code>(row / 3) * 3 + column / 3</code> 算得，其中 <code>/</code> 为整除（我也不知道别人是怎么想到的🙃）。</p>
 <p>而判断是否有重复项可通过 <code>Map</code> 来判断，其中 <code>key</code> 为数字，<code>value</code> 为出现次数，在此使用二维数组来存储对应关系。</p>
 <h3 id="复杂度">复杂度</h3>
