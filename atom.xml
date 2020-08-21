@@ -2,13 +2,212 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-08-19T03:53:07.291Z</updated>
+    <updated>2020-08-21T01:04:15.926Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
     <logo>https://zcybupt.github.io/images/avatar.png</logo>
     <icon>https://zcybupt.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, CODEFANCIER</rights>
+    <entry>
+        <title type="html"><![CDATA[在排序数组中查找元素的第一个和最后一个位置]]></title>
+        <id>https://zcybupt.github.io/post/FindFirstAndLastPositionOfElementInSortedArray/</id>
+        <link href="https://zcybupt.github.io/post/FindFirstAndLastPositionOfElementInSortedArray/">
+        </link>
+        <updated>2020-08-21T00:47:24.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="题目leetcode-34">题目(<a href="https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/">LeetCode #34</a>)</h2>
+<p>给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。</p>
+<p>你的算法时间复杂度必须是 O(log n) 级别。</p>
+<p>如果数组中不存在目标值，返回 <code>[-1, -1]</code>。</p>
+<p><strong>示例1：</strong></p>
+<blockquote>
+<p><strong>输入:</strong> nums = [5,7,7,8,8,10], target = 8<br>
+<strong>输出:</strong> [3,4]</p>
+</blockquote>
+<p><strong>示例2：</strong></p>
+<blockquote>
+<p><strong>输入:</strong> nums = [5,7,7,8,8,10], target = 6<br>
+<strong>输出:</strong> [-1, -1]</p>
+</blockquote>
+<h2 id="题解">题解</h2>
+<h3 id="方法一">方法一</h3>
+<p>先进行二分查找找到目标值 <code>target</code> ，再从两侧逐位逼近 <code>mid</code> ，判断是否与 <code>target</code> 相等即可找到开始合结束位置。</p>
+<p>查找阶段时间复杂度为 <code>O(logn)</code> ，但在查找首尾时若输入数组全部为 <code>target</code> ，如 <code>[8, 8, 8, 8 , 8]</code> ，则将退化至 <code>O(n)</code> 。</p>
+<h4 id="java">Java</h4>
+<pre><code class="language-java">class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        if (nums == null || nums.length == 0) return new int[]{-1, -1};
+        int arrLen = nums.length;
+        int left = 0, right = arrLen - 1;
+
+        while (left &lt;= right) {
+            int mid = (left + right) / 2;
+            if (nums[mid] == target) {
+                while (nums[left] != target) left++;
+                while (nums[right] != target) right--;
+                return new int[]{left, right};
+            }
+            
+            if (nums[mid] &lt; target) left = mid + 1;
+            else right = mid - 1;
+        }
+
+        return new int[]{-1, -1};
+    }
+}
+</code></pre>
+<h4 id="python">Python</h4>
+<pre><code class="language-python">class Solution:
+    def searchRange(self, nums: list, target: int) -&gt; list:
+        if not nums or len(nums) == 0: return [-1, -1]
+        arr_len = len(nums)
+        left , right = 0, arr_len - 1
+
+        while left &lt;= right:
+            mid = (left + right) // 2
+            if nums[mid] == target:
+                while nums[left] != target: left += 1
+                while nums[right] != target: right -= 1
+                return [left, right]
+            if nums[mid] &lt; target: left = mid + 1
+            else: right = mid - 1
+
+        return [-1, -1]
+</code></pre>
+<h4 id="go">Go</h4>
+<pre><code class="language-go">func searchRange(nums []int, target int) []int {
+    arrLen := len(nums)
+    if arrLen == 0 {
+        return []int{-1, -1}
+    }
+    left, right := 0, arrLen - 1
+
+    for left &lt;= right {
+        mid := (left + right) / 2
+        if nums[mid] == target {
+            for nums[left] != target {
+                left++
+            }
+            for nums[right] != target {
+                right--
+            }
+            return []int{left, right}
+        }
+
+        if nums[mid] &lt; target {
+            left = mid + 1
+        } else {
+            right = mid - 1
+        }
+    }
+
+    return []int{-1, -1}
+}
+</code></pre>
+<h3 id="方法二">方法二</h3>
+<p>在方法一的基础上，在查找首尾时也采用二分查找，时间复杂度整体为 <code>O(logn)</code> 。</p>
+<h4 id="java-2">Java</h4>
+<pre><code class="language-java">class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        return new int[] {
+            binarySearch(nums, target, true),
+            binarySearch(nums, target, false)
+        };
+    }
+
+    public int binarySearch(int[] nums, int target, boolean isSearchFirst) {
+        int arrLen = nums.length;
+        if (arrLen == 0) return -1;
+
+        int left = 0, right = arrLen - 1;
+        while (left &lt;= right) {
+            int mid = (left + right) / 2;
+            if (nums[mid] &lt; target) left = mid + 1;
+            else if (nums[mid] &gt; target) right = mid - 1;
+            else {
+                if (isSearchFirst) {
+                    if (mid &gt; 0 &amp;&amp; nums[mid] == nums[mid - 1]) right = mid - 1;
+                    else return mid;
+                } else {
+                    if (mid &lt; arrLen - 1 &amp;&amp; nums[mid] == nums[mid + 1]) left = mid + 1;
+                    else return mid;
+                }
+            }
+        }
+
+        return -1;
+    }
+}
+</code></pre>
+<h4 id="python-2">Python</h4>
+<pre><code class="language-python">class Solution:
+    def searchRange(self, nums: list, target: int) -&gt; list:
+        if not nums or len(nums) == 0: return [-1, -1]
+        return [
+            self.binary_search(nums, target, True),
+            self.binary_search(nums, target, False)
+        ]
+
+    def binary_search(self, nums: list, target: int, is_search_first: bool):
+        arr_len = len(nums)
+        left, right = 0, arr_len - 1
+        while left &lt;= right:
+            mid = (left + right) // 2
+            if nums[mid] &gt; target: right = mid - 1
+            elif nums[mid] &lt; target: left = mid + 1
+            else:
+                if is_search_first:
+                    if mid &gt; 0 and nums[mid] == nums[mid - 1]: right = mid - 1
+                    else: return mid
+                else:
+                    if mid &lt; arr_len - 1 and nums[mid] == nums[mid + 1]: left = mid + 1
+                    else: return mid
+
+        return -1
+</code></pre>
+<h4 id="go-2">Go</h4>
+<pre><code class="language-go">func searchRange(nums []int, target int) []int {
+    return []int {
+        binarySearch(nums, target, true),
+        binarySearch(nums, target, false),
+    }
+}
+
+func binarySearch(nums []int, target int, isSearchFirst bool) int {
+    arrLen := len(nums)
+    if arrLen == 0 {
+        return -1
+    }
+    left, right := 0, arrLen - 1
+
+    for left &lt;= right {
+        mid := (left + right) / 2
+        if nums[mid] &lt; target {
+            left = mid + 1
+        } else if nums[mid] &gt; target {
+            right = mid - 1
+        } else {
+            if isSearchFirst {
+                if mid &gt; 0 &amp;&amp; nums[mid] == nums[mid - 1] {
+                    right = mid -1
+                } else {
+                    return mid
+                }
+            } else {
+                if mid &lt; arrLen - 1 &amp;&amp; nums[mid] == nums[mid + 1] {
+                    left = mid + 1
+                } else {
+                    return mid
+                }
+            }
+        }
+    }
+
+    return -1
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[下一个排列]]></title>
         <id>https://zcybupt.github.io/post/NextPermutation/</id>
@@ -1529,395 +1728,6 @@ func lengthOfLongestSubstring(s string) int {
 <figure data-type="image" tabindex="7"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200729204357.png" alt="" loading="lazy"></figure>
 <p>为解决查找效率退化的问题，又提出了 AVL 树和红黑树等，可将最坏效率降至 <code>O(logn)</code>。</p>
 <p><a href="https://github.com/zcybupt/rawfiles/blob/master/codes/Java/Code_50_BinarySearchTree.java">完整代码</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Morris遍历]]></title>
-        <id>https://zcybupt.github.io/post/MorrisTraversal/</id>
-        <link href="https://zcybupt.github.io/post/MorrisTraversal/">
-        </link>
-        <updated>2020-07-26T10:20:43.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="原理">原理</h2>
-<p>无论是手动创建栈遍历树还是递归（即调用系统栈）遍历树，其空间复杂度均为 <code>O(N)</code> ，而 Morris 实现了 <code>O(1)</code> 常数空间复杂度的树的遍历。</p>
-<p>递归遍历树的过程中，每个节点均被遍历了三次，前中后序取决于打印的位置。</p>
-<pre><code class="language-java">public class RecursiveTraversal {
-    public static void recursiveTraverse(TreeNode head) {
-        if (head == null) return;
-
-        // 先序遍历
-        // System.out.println(head.val);
-
-        recursiveTraverse(head.left);
-
-        // 中序遍历
-        // System.out.println(head.val);
-        
-        recursiveTraverse(head.right);
-        
-        // 后序遍历
-        // System.out.println(head.val);
-    }
-}
-</code></pre>
-<p>Morris 遍历实质上是人为地追踪递归过程中遍历位置的变化。其过程如下：</p>
-<p>设 <code>cur</code> 为当前节点。</p>
-<ol>
-<li>若 <code>cur</code> 无左子树，<code>cur</code> 向右移动</li>
-<li>若 <code>cur</code> 有左子树，找到左子树上最右节点，记为 <code>rightmost</code>
-<ol>
-<li>若 <code>rightmost</code> 的右孩子为 <code>null</code> ，<code>rightmost.right = cur</code> ，<code>cur</code> 向左移动</li>
-<li>若 <code>rightmost</code> 的右孩子为 <code>cur</code> ，<code>rightmost.right = null</code> ，<code>cur</code> 向右移动</li>
-</ol>
-</li>
-</ol>
-<ul>
-<li>
-<p>若某节点有左子树，则该节点将被遍历两次（即 <code>2.2</code> ），若没有左子树则将被遍历一次；</p>
-</li>
-<li>
-<p>在第二遍历某节点时，当前节点总是该节点左子树的 <code>rightmost</code> 的后继（节点的后继指中序遍历输出结果的后续节点）</p>
-</li>
-<li>
-<p>通过 <code>rightmost</code> 的右孩子的指向来判断是第一次还是第二次遍历到当前节点。</p>
-</li>
-</ul>
-<p>下图为每一步迭代的结果（从左至右，从上到下），cur代表当前节点，深色节点表示该节点已输出。（图源：<a href="https://www.cnblogs.com/anniekim/archive/2013/06/15/morristraversal.html">AnnieKim</a>）</p>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200727191413.png" alt="" loading="lazy"></figure>
-<h2 id="实现">实现</h2>
-<h3 id="先序遍历">先序遍历</h3>
-<p>第一次到达一个节点时就输出。</p>
-<h4 id="java">Java</h4>
-<pre><code class="language-java">class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-
-    TreeNode(int val) {
-        this.val = val;
-    }
-}
-
-public class MorrisTraversal {
-    public static void morrisPreorderTraverse(TreeNode head) {
-        if (head == null) return;
-
-        TreeNode cur1 = head;
-        TreeNode cur2 = null;
-
-        while (cur1 != null) {
-            cur2 = cur1.left;
-            if (cur2 != null) {                       // cur1 有左子树
-                while (cur2.right != null &amp;&amp; cur2.right != cur1) {
-                    cur2 = cur2.right;                // 左子树上最右节点, 此时 cur2 即为 rightmost
-                }
-                if (cur2.right == null) {             // rightmost 的右孩子为空, 此时为第一次遍历当前节点
-                    cur2.right = cur1;
-                    System.out.print(cur1.val + &quot; &quot;); // 第一次遍历一个节点, 打印该节点
-                    cur1 = cur1.left;
-                    continue;
-                } else {
-                    cur2.right = null;                // rightmost 的右孩子指向 cur1, 此时为第二次遍历当前节点
-                }
-            } else {
-                System.out.print(cur1.val + &quot; &quot;);     // 节点无左子树, 只会遍历一遍, 故直接输出
-            }
-            cur1 = cur1.right;                        // cur1 无左子树或 rightmost 的右孩子指向 cur1 时
-        }
-    }
-}
-</code></pre>
-<h4 id="python">Python</h4>
-<pre><code class="language-python">class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
-
-def morris_preorder_traverse(head: TreeNode) -&gt; None:
-    if not head: return
-
-    cur1 = head
-    while cur1:
-        cur2 = cur1.left
-        if cur2:
-            while cur2.right and cur2.right != cur1:
-                cur2 = cur2.right
-            if cur2.right is None:
-                cur2.right = cur1
-                print(cur1.val, end=&quot; &quot;)
-                cur1 = cur1.left
-                continue
-            else:
-                cur2.right = None
-        else:
-            print(cur1.val, end=&quot; &quot;)
-        cur1 = cur1.right
-</code></pre>
-<h4 id="go">Go</h4>
-<pre><code class="language-go">type TreeNode struct {
-	val   int
-	left  *TreeNode
-	right *TreeNode
-}
-
-func morrisPreorderTraverse(head *TreeNode) {
-	if head == nil {
-		return
-	}
-
-	cur1 := head
-	var cur2 *TreeNode
-
-	for cur1 != nil {
-		cur2 = cur1.left
-		if cur2 != nil {
-			for cur2.right != nil &amp;&amp; cur2.right != cur1 {
-				cur2 = cur2.right
-			}
-			if cur2.right == nil {
-				cur2.right = cur1
-				fmt.Printf(&quot;%d &quot;, cur1.val)
-				cur1 = cur1.left
-				continue
-			} else {
-				cur2.right = nil
-			}
-		} else {
-			fmt.Printf(&quot;%d &quot;, cur1.val)
-		}
-		cur1 = cur1.right
-	}
-}
-</code></pre>
-<h3 id="中序遍历">中序遍历</h3>
-<p>有左子树的节点第二次回到该节点时再打印；无左子树的节点只会遍历一次，故直接输出。如下图输出顺序为 <code>2 1 3</code> 。</p>
-<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200727220729.png" alt="" loading="lazy"></figure>
-<p>当前节点无左子树或第二次遍历当前节点（即 <code>rightmost</code> 的右孩子指向 <code>cur1</code>）时均需输出当前节点值，而只有这两种情况需将指针右移，故可理解为只要向右移动就输出。</p>
-<h4 id="java-2">Java</h4>
-<pre><code class="language-java">public class MorrisTraversal {
-    public static void morrisInOrderTraverse(TreeNode head) {
-        if (head == null) return;
-
-        TreeNode cur1 = head;
-        TreeNode cur2 = null;
-
-        while (cur1 != null) {
-            cur2 = cur1.left;
-            if (cur2 != null) {               // cur1 有左子树
-                while (cur2.right != null &amp;&amp; cur2.right != cur1) {
-                    cur2 = cur2.right;        // 左子树上最右节点, 此时 cur2 即为 rightmost
-                }
-                if (cur2.right == null) {     // rightmost 的右孩子为空, 此时为第一次遍历当前节点
-                    cur2.right = cur1;
-                    cur1 = cur1.left;
-                    continue;
-                } else {
-                    cur2.right = null;        // rightmost 的右孩子指向 cur1, 此时为第二次遍历当前节点
-                }
-            }
-            System.out.print(cur1.val + &quot; &quot;); // 当前节点无左子树或第二次遍历当前节点
-            cur1 = cur1.right;                // cur1 无左子树或 rightmost 的右孩子指向 cur1 时
-        }
-    }
-}
-</code></pre>
-<h4 id="python-2">Python</h4>
-<pre><code class="language-python">def morris_in_order_traverse(head: TreeNode) -&gt; None:
-    if not head: return
-
-    cur1 = head
-    while cur1:
-        cur2 = cur1.left
-        if cur2:
-            while cur2.right and cur2.right != cur1:
-                cur2 = cur2.right
-            if cur2.right is None:
-                cur2.right = cur1
-                cur1 = cur1.left
-                continue
-            else:
-                cur2.right = None
-        print(cur1.val, end=&quot; &quot;)
-        cur1 = cur1.right
-</code></pre>
-<h4 id="go-2">Go</h4>
-<pre><code class="language-go">func morrisInOrderTraverse(head *TreeNode) {
-	if head == nil {
-		return
-	}
-
-	cur1 := head
-	var cur2 *TreeNode
-
-	for cur1 != nil {
-		cur2 = cur1.left
-		if cur2 != nil {
-			for cur2.right != nil &amp;&amp; cur2.right != cur1 {
-				cur2 = cur2.right
-			}
-			if cur2.right == nil {
-				cur2.right = cur1
-				cur1 = cur1.left
-				continue
-			} else {
-				cur2.right = nil
-			}
-		}
-		fmt.Printf(&quot;%d &quot;, cur1.val)
-		cur1 = cur1.right
-	}
-}
-</code></pre>
-<h3 id="后序遍历">后序遍历</h3>
-<p>第二次遍历到某节点时，逆序打印其左子树的右边界。遍历完后再逆序打印整棵树的右边界即为后序遍历。</p>
-<h4 id="java-3">Java</h4>
-<pre><code class="language-java">public class MorrisTraversal {
-    public static void morrisPostOrderTraverse(TreeNode head) {
-        if (head == null) return;
-
-        TreeNode cur1 = head;
-        TreeNode cur2 = null;
-
-        while (cur1 != null) {
-            cur2 = cur1.left;
-            if (cur2 != null) {             // cur1 有左子树
-                while (cur2.right != null &amp;&amp; cur2.right != cur1) {
-                    cur2 = cur2.right;      // 左子树上最右节点, 此时 cur2 即为 rightmost
-                }
-                if (cur2.right == null) {   // rightmost 的右孩子为空, 此时为第一次遍历当前节点
-                    cur2.right = cur1;
-                    cur1 = cur1.left;
-                    continue;
-                } else {
-                    cur2.right = null;      // rightmost 的右孩子指向 cur1, 此时为第二次遍历当前节点
-                    printEdge(cur1.left);   // 第二次遍历到该节点, 打印左子树的右边界
-                }
-            }
-            cur1 = cur1.right;              // cur1 无左子树
-        }
-        printEdge(head);                    // 打印整棵树的右边界
-    }
-
-    public static void printEdge(TreeNode head) {
-        TreeNode tail = reverseEdge(head);
-        TreeNode cur = tail;
-
-        while (cur != null) {
-            System.out.print(cur.val + &quot; &quot;);
-            cur = cur.right;
-        }
-        recursiveTraverse(tail);
-    }
-
-    public static TreeNode reverseEdge(TreeNode from) {
-        TreeNode pre = null;
-        TreeNode next = null;
-
-        while (from != null) {
-            next = from.right;
-            from.right = pre;
-            pre = from;
-            from = next;
-        }
-        return pre;
-    }
-}
-</code></pre>
-<h4 id="python-3">Python</h4>
-<pre><code class="language-python">def morris_post_order_traverse(head: TreeNode) -&gt; None:
-    if not head: return
-
-    cur1 = head
-    while cur1:
-        cur2 = cur1.left
-        if cur2:
-            while cur2.right and cur2.right != cur1:
-                cur2 = cur2.right
-            if cur2.right is None:
-                cur2.right = cur1
-                cur1 = cur1.left
-                continue
-            else:
-                cur2.right = None
-                print_edge(cur1.left)
-        cur1 = cur1.right
-    print_edge(head)
-
-
-def print_edge(head: TreeNode) -&gt; None:
-    tail = reverse_edge(head)
-    cur = tail
-
-    while cur:
-        print(cur.val, end=&quot; &quot;)
-        cur = cur.right
-
-    reverse_edge(tail)
-
-
-def reverse_edge(head: TreeNode) -&gt; TreeNode:
-    pre = None
-    while head:
-        rear = head.right
-        head.right = pre
-        pre = head
-        head = rear
-    return pre
-</code></pre>
-<h4 id="go-3">Go</h4>
-<pre><code class="language-go">func morrisPostOrderTraverse(head *TreeNode) {
-	if head == nil {
-		return
-	}
-
-	cur1 := head
-	var cur2 *TreeNode
-
-	for cur1 != nil {
-		cur2 = cur1.left
-		if cur2 != nil {
-			for cur2.right != nil &amp;&amp; cur2.right != cur1 {
-				cur2 = cur2.right
-			}
-			if cur2.right == nil {
-				cur2.right = cur1
-				cur1 = cur1.left
-				continue
-			} else {
-				cur2.right = nil
-				printEdge(cur1.left)
-			}
-		}
-		cur1 = cur1.right
-	}
-	printEdge(head)
-}
-
-func printEdge(head *TreeNode) {
-	tail := reverseEdge(head)
-	cur := tail
-
-	for cur != nil {
-		fmt.Printf(&quot;%d &quot;, cur.val)
-		cur = cur.right
-	}
-
-	reverseEdge(tail)
-}
-
-func reverseEdge(head *TreeNode) *TreeNode {
-	var pre *TreeNode
-	for head != nil {
-		next := head.right
-		head.right = pre
-		pre = head
-		head = next
-	}
-
-	return pre
-}
-</code></pre>
 ]]></content>
     </entry>
 </feed>
