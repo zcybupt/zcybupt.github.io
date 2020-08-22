@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1598008877131">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1598093771205">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1598008877131" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1598093771205" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -211,6 +211,18 @@
 </code></pre>
 <h3 id="方法二">方法二</h3>
 <p>在方法一的基础上，在查找首尾时也采用二分查找，时间复杂度整体为 <code>O(logn)</code> 。</p>
+<p>以输入 <code>nums = [1, 2, 3, 3, 3, 3, 3, 3, 4]</code> 和 <code>target = 3</code> ，查找目标值的开始位置为例。</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200822184455.png" alt="" loading="lazy"></figure>
+<p>首先根据二分法找到与 <code>target</code> 相等的位置，在此即为 <code>4</code> 。</p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200822184746.png" alt="" loading="lazy"></figure>
+<p>由于有 <code>nums[mid] == nums[mid - 1]</code> ，将 <code>right</code> 指向 <code>mid - 1</code> 。</p>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200822185022.png" alt="" loading="lazy"></figure>
+<p>重新计算 <code>mid</code> 为 <code>3 // 2 = 1</code> 。</p>
+<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200822185216.png" alt="" loading="lazy"></figure>
+<p>此时有 <code>nums[mid] &lt; target</code> ，将 <code>left</code> 指向 <code>mid + 1</code> 。</p>
+<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200822185418.png" alt="" loading="lazy"></figure>
+<p>重新计算 <code>mid</code> 为 2，此时 <code>nums[mid] != nums[mid - 1]</code> ，返回 <code>mid</code> 当前值即为目标值的开始位置。</p>
+<p>查找 <code>target</code> 的结束位置与上述过程类似，不再赘述。</p>
 <h4 id="java-2">Java</h4>
 <pre><code class="language-java">class Solution {
     public int[] searchRange(int[] nums, int target) {
