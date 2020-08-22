@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1598093771205">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1598094060122">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1598093771205" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1598094060122" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -114,7 +114,7 @@
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
         <h1 class="text-3xl font-bold lg:mt-16">有序数组查找元素的起止范围</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-08-21 / 5 min read
+          2020-08-21 / 6 min read
         </div>
         
           <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200821090343.gif" alt="">
@@ -211,6 +211,7 @@
 </code></pre>
 <h3 id="方法二">方法二</h3>
 <p>在方法一的基础上，在查找首尾时也采用二分查找，时间复杂度整体为 <code>O(logn)</code> 。</p>
+<p>与一般的二分法查找相等位置不同，查找起始位置的终止条件为：前一个元素与当前元素不相等；查找终止位置的结束条件为：后一个元素与当前元素不相等。</p>
 <p>以输入 <code>nums = [1, 2, 3, 3, 3, 3, 3, 3, 4]</code> 和 <code>target = 3</code> ，查找目标值的开始位置为例。</p>
 <figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200822184455.png" alt="" loading="lazy"></figure>
 <p>首先根据二分法找到与 <code>target</code> 相等的位置，在此即为 <code>4</code> 。</p>
