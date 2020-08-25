@@ -2,13 +2,220 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-08-22T11:01:06.503Z</updated>
+    <updated>2020-08-25T12:07:15.827Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
     <logo>https://zcybupt.github.io/images/avatar.png</logo>
     <icon>https://zcybupt.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, CODEFANCIER</rights>
+    <entry>
+        <title type="html"><![CDATA[组合总和]]></title>
+        <id>https://zcybupt.github.io/post/CombinationSum/</id>
+        <link href="https://zcybupt.github.io/post/CombinationSum/">
+        </link>
+        <updated>2020-08-24T03:15:01.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="题目leetcode-39">题目(<a href="https://leetcode-cn.com/problems/combination-sum/">LeetCode #39</a>)</h2>
+<p>给定一个<strong>无重复元素</strong>的数组 <code>candidates</code> 和一个目标数 <code>target</code> ，找出 <code>candidates</code> 中所有可以使数字和为 <code>target</code> 的组合。</p>
+<p><code>candidates</code> 中的数字可以无限制重复被选取。</p>
+<p><strong>说明：</strong></p>
+<ul>
+<li>所有数字（包括 target）都是正整数。</li>
+<li>解集不能包含重复的组合。</li>
+</ul>
+<p><strong>示例 1：</strong></p>
+<blockquote>
+<p>**输入：**candidates = [2, 3, 6, 7], target = 7,</p>
+<p><strong>所求解集为：</strong><br>
+[<br>
+  [7],<br>
+  [2,2,3]<br>
+]</p>
+</blockquote>
+<p><strong>示例 2：</strong></p>
+<blockquote>
+<p>**输入：**candidates = [2,3,5], target = 8,<br>
+<strong>所求解集为：</strong><br>
+[<br>
+  [2, 2, 2, 2],<br>
+  [2, 3, 3],<br>
+  [3, 5]<br>
+]</p>
+</blockquote>
+<h2 id="题解">题解</h2>
+<p><a href="https://leetcode-cn.com/problems/combination-sum/solution/hui-su-suan-fa-jian-zhi-python-dai-ma-java-dai-m-2/">参考题解</a></p>
+<h3 id="思路分析">思路分析</h3>
+<p><strong>回溯法</strong>（探索与回溯法）是一种选优搜索法，又称为试探法，按选优条件向前搜索，以达到目标。但当探索到某一步时，发现原先选择并不优或达不到目标，就退回一步重新选择，这种走不通就退回再走的技术为回溯法，而满足回溯条件的某个状态的点称为“回溯点”。</p>
+<p>本题为回溯法经典例题，以 <code>candidates = [2, 3, 6, 7]</code> ，<code>target = 7</code> 为例，可用 <code>target</code> 减去 <code>candidates</code> 中的元素，得到新的 <code>target</code> ，再减去 <code>candidates</code> 中的元素，多次相减，若在某次迭代中 <code>target</code> 变为 0，则减数的集合即为一个解；若 <code>target</code> 小于 0 则回退至上一步继续寻找下一个解。如下图所示，其中绿色叶节点所在的路径即为一解。</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200825174143.png" alt="" loading="lazy"></figure>
+<p>以上算法实现如下</p>
+<pre><code class="language-java">import java.util.*;
+
+class Solution {
+    List&lt;List&lt;Integer&gt;&gt; results = new ArrayList&lt;&gt;();
+
+    public List&lt;List&lt;Integer&gt;&gt; combinationSum(int[] candidates, int target) {
+        int arrLen = candidates.length;
+        if (arrLen == 0) return results;
+
+        Deque&lt;Integer&gt; path = new ArrayDeque&lt;&gt;();
+        dfs(candidates, 0, arrLen, target, path);
+        return results;
+    }
+
+    public void dfs(int[] candidates, int begin, int arrLen, int target, Deque&lt;Integer&gt; path) {
+        if (target &lt; 0) return;
+        if (target == 0) {
+            results.add(new ArrayList&lt;&gt;(path));
+            return;
+        }
+
+        for (int i = 0; i &lt; arrLen; i++) {
+            path.addLast(candidates[i]);
+            dfs(candidates, i, arrLen, target - candidates[i], path);
+            // 回溯，移除路径的最后一段，相当于回到了上一层。
+            // 如路径[2, 2, 2, 2]，上一行 dfs 递归遇到 target &lt; 0，返回。
+            // 移除路径最后一段 2，即返回了上一层的 1，继续计算 candidates[i] = 3 的情况。
+            path.removeLast();
+        }
+    }
+}
+</code></pre>
+<p>输出：</p>
+<pre><code class="language-python">[ 2 2 3 ]
+[ 2 3 2 ]
+[ 3 2 2 ]
+[ 7 ]
+</code></pre>
+<p>可以看到出现了重复解，这是由于每次计算下一层的 <code>target</code> 时均考虑了 <code>candidates</code> 的所有情况。若要避免这种重复，可在每个分支上排除之前已计算过的 <code>candidates</code> 值，如在 <code>7 - 2 = 5</code> 分支上已考虑了所有 <code>candidates[i] = 2</code> 的情况，在 <code>7 - 3/6/7</code> 三个分支上无需重复考虑。去重后树结构如下：</p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200825174354.png" alt="" loading="lazy"></figure>
+<p>实现如下</p>
+<pre><code class="language-java">import java.util.*;
+
+class Solution {
+    List&lt;List&lt;Integer&gt;&gt; results = new ArrayList&lt;&gt;();
+
+    public List&lt;List&lt;Integer&gt;&gt; combinationSum(int[] candidates, int target) {
+        int arrLen = candidates.length;
+        if (arrLen == 0) return results;
+
+        Deque&lt;Integer&gt; path = new ArrayDeque&lt;&gt;();
+        dfs(candidates, 0, arrLen, target, path);
+        return results;
+    }
+
+    public void dfs(int[] candidates, int begin, int arrLen, int target, Deque&lt;Integer&gt; path) {
+        if (target &lt; 0) return;
+        if (target == 0) {
+            results.add(new ArrayList&lt;&gt;(path));
+            return;
+        }
+
+        // 对 candidates 的循环改为从 begin 位置开始
+        // 如遍历到 i = 1 时，后续遍历时也会跳过 i = 0 位置
+        for (int i = begin; i &lt; arrLen; i++) {
+            path.addLast(candidates[i]);
+            dfs(candidates, i, arrLen, target - candidates[i], path);
+            path.removeLast();
+        }
+    }
+}
+</code></pre>
+<p>此时输出即为无重复的解：</p>
+<pre><code class="language-python">[ 2 2 3 ]
+[ 7 ]
+</code></pre>
+<h3 id="剪枝提速">剪枝提速</h3>
+<p>在计算过程中，若 <code>target</code> 减去某个 <code>candidates[i]</code> 后小于 0，则大于该 <code>candidates[i]</code> 的值与 <code>target</code> 的差也必然小于 0。故可先对 <code>candidates</code> 数组进行升序排序，在遍历 <code>candidates</code> 数组的过程中，若 <code>target &lt; candidates[i]</code> 则 <code>i + 1</code> 及其之后的位置也无需考虑。剪枝后的树如下，可以看到已减少了很多分支：</p>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200825195757.png" alt="" loading="lazy"></figure>
+<p>实现如下</p>
+<h4 id="java">Java</h4>
+<pre><code class="language-java">class Solution {
+    public List&lt;List&lt;Integer&gt;&gt; combinationSum(int[] candidates, int target) {
+        int len = candidates.length;
+        List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+        if (len == 0) return result;
+
+        Arrays.sort(candidates);
+        Deque&lt;Integer&gt; path = new ArrayDeque&lt;&gt;();
+        dfs(candidates, 0, len, target, path, result);
+        return result;
+    }
+
+    public void dfs(int[] candidates, int begin, int len, int target, Deque&lt;Integer&gt; path, List&lt;List&lt;Integer&gt;&gt; result) {
+        if (target == 0) {
+            result.add(new ArrayList&lt;&gt;(path));
+            return;
+        }
+
+        for (int i = begin; i &lt; len; i++) {
+            if (target &lt; candidates[i]) break;
+            path.addLast(candidates[i]);
+            dfs(candidates, i, len, target - candidates[i], path, result);
+            path.removeLast();
+        }
+    }
+}
+</code></pre>
+<h4 id="python">Python</h4>
+<pre><code class="language-python">class Solution:
+    def __init__(self):
+        self.path = []
+        self.results = []
+
+    def combinationSum(self, candidates: list, target: int) -&gt; list:
+        arr_len = len(candidates)
+        if arr_len == 0: return self.results
+
+        candidates.sort()
+        self.dfs(candidates, 0, arr_len, target)
+        return self.results
+
+    def dfs(self, candidates: list, begin: int, arr_len: int, target: int) -&gt; None:
+        if target == 0:
+            self.results.append(self.path[:]) # 此处注意需要深拷贝
+            return
+
+        for i in range(begin, arr_len):
+            if (target - candidates[i] &lt; 0): break
+            self.path.append(candidates[i])
+            self.dfs(candidates, i, arr_len, target - candidates[i])
+            self.path.pop()
+</code></pre>
+<h4 id="go">Go</h4>
+<pre><code class="language-go">func combinationSum(candidates []int, target int) [][]int {
+	arrLen := len(candidates)
+	var results [][]int
+	if arrLen == 0 {
+		return results
+	}
+
+	var path []int
+	sort.Ints(candidates)
+	dfs(candidates, 0, arrLen, target, &amp;results, path)
+	return results
+}
+
+func dfs(candidates []int, begin, arrLen, target int, results *[][]int, path []int) {
+	if target == 0 {
+		*results = append(*results, path[:]) // 深拷贝
+		return
+	}
+
+	for i := begin; i &lt; arrLen; i++ {
+		if target - candidates[i] &lt; 0 {
+			break
+		}
+
+		path = append(path, candidates[i])
+		dfs(candidates, i, arrLen, target - candidates[i], results, path)
+		path = path[:len(path)-1]
+	}
+}
+</code></pre>
+<h2 id="进阶leetcode-40">进阶(<a href="https://leetcode-cn.com/problems/combination-sum-ii/">LeetCode #40</a>)</h2>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[有效的数独]]></title>
         <id>https://zcybupt.github.io/post/ValidSudoku/</id>
@@ -1623,111 +1830,6 @@ class Solution:
         for c in str:
             fsm.get(c)
         return fsm.sign * fsm.ans
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[无重复字符的最长子串]]></title>
-        <id>https://zcybupt.github.io/post/LengthOfLongestSubstring/</id>
-        <link href="https://zcybupt.github.io/post/LengthOfLongestSubstring/">
-        </link>
-        <updated>2020-08-02T09:09:19.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="题目leetcode-3">题目(<a href="https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/">LeetCode #3</a>)</h2>
-<p>给定一个字符串，请你找出其中不含有重复字符的<strong>最长子串</strong>的长度。</p>
-<p><strong>示例 1:</strong></p>
-<blockquote>
-<p><strong>输入:</strong> &quot;abcabcbb&quot;<br>
-<strong>输出:</strong> 3<br>
-<strong>解释:</strong> 因为无重复字符的最长子串是 &quot;abc&quot;，所以其长度为 3。</p>
-</blockquote>
-<p><strong>示例 2:</strong></p>
-<blockquote>
-<p><strong>输入:</strong> &quot;bbbbb&quot;<br>
-<strong>输出:</strong> 1<br>
-<strong>解释:</strong> 因为无重复字符的最长子串是 &quot;b&quot;，所以其长度为 1。</p>
-</blockquote>
-<p><strong>示例 3:</strong></p>
-<blockquote>
-<p><strong>输入:</strong> &quot;pwwkew&quot;<br>
-<strong>输出:</strong> 3<br>
-<strong>解释:</strong> 因为无重复字符的最长子串是 &quot;wke&quot;，所以其长度为 3。答案必须是<strong>子串</strong>的长度，&quot;pwke&quot; 是一个子序列，不是子串。</p>
-</blockquote>
-<h2 id="题解">题解</h2>
-<p>可采用滑动窗口法，将窗口内的字符保存到集合中，窗口的左边界向右移动时，弹出已不在窗口内的元素；窗口的右边界向右移动时判断字符是否已在集合中，若不在则加入，若已有则终止循环，记录当前最长长度。</p>
-<h3 id="java">Java</h3>
-<pre><code class="language-java">import java.util.HashSet;
-
-public class Solution {
-    public int lengthOfLongestSubstring(String s) {
-        HashSet&lt;Character&gt; charSet = new HashSet&lt;&gt;();
-        int length = s.length();
-        int rk = -1, ans = 0;
-
-        for (int i = 0; i &lt; length; i++) {
-            if (i != 0) {
-                charSet.remove(s.charAt(i - 1));
-            }
-            while (rk + 1 &lt; length &amp;&amp; !charSet.contains(s.charAt(rk + 1))) {
-                charSet.add(s.charAt(rk + 1));
-                rk++;
-            }
-            ans = Math.max(ans, rk - i + 1);
-        }
-
-        return ans;
-    }
-
-    public static void main(String[] args) {
-        String s = &quot;abcabcbb&quot;;
-        Solution solution = new Solution();
-        System.out.println(solution.lengthOfLongestSubstring(s));
-    }
-}
-</code></pre>
-<h3 id="python">Python</h3>
-<pre><code class="language-python">class Solution:
-    def lengthOfLongestSubstring(self, s: str) -&gt; int:
-        char_set = set()
-        rk, ans = -1, 0
-        length = len(s)
-
-        for i in range(length):
-            if i != 0: char_set.remove(s[i - 1])
-
-            while rk + 1 &lt; length and s[rk + 1] not in char_set:
-                char_set.add(s[rk + 1])
-                rk += 1
-            ans = max(ans, rk - i + 1)
-
-        return ans
-</code></pre>
-<h3 id="go">Go</h3>
-<p>Golang 中没有集合，使用 map 实现过于繁琐，可采用 int 数组来模拟集合操作。</p>
-<p>将每个字符的 <code>ASCII</code> 值作为数组的索引，数组内存储的为该字符的出现与否（1 或 0）。</p>
-<pre><code class="language-go">package main
-
-import (
-	&quot;fmt&quot;
-	&quot;math&quot;
-)
-
-func lengthOfLongestSubstring(s string) int {
-	var window [128]int         // ASCII 总共定义了 128 个字符
-	length := len(s)
-	rk, ans := -1, 0
-
-	for i, _ := range s {
-		if i != 0 {
-			window[s[i-1]] = 0  // 左边界移出窗口
-		}
-		for rk+1 &lt; length &amp;&amp; window[s[rk+1]] == 0 {
-			window[s[rk+1]] = 1 // 右边界移入窗口
-			rk++
-		}
-		ans = int(math.Max(float64(ans), float64(rk-i+1)))
-	}
-	return ans
-}
 </code></pre>
 ]]></content>
     </entry>

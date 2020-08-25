@@ -1,0 +1,484 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CODEFANCIER</title>
+<meta name="description" content="" />
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1598357232243">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://zcybupt.github.io/styles/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-170272843-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-170272843-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://zcybupt.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1598357232243" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E9%A2%98%E7%9B%AEleetcode-39">题目(LeetCode #39)</a></li>
+<li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
+<ul>
+<li><a href="#%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90">思路分析</a></li>
+<li><a href="#%E5%89%AA%E6%9E%9D%E6%8F%90%E9%80%9F">剪枝提速</a>
+<ul>
+<li><a href="#java">Java</a></li>
+<li><a href="#python">Python</a></li>
+<li><a href="#go">Go</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E8%BF%9B%E9%98%B6leetcode-40">进阶(LeetCode #40)</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://github.com/zcybupt" class="menu" style="animation-delay: 0.6000000000000001s" target="_blank">
+          GitHub
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://zcybupt.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">组合总和</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2020-08-24 / 6 min read
+        </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200825200647.png" alt="">
+        
+        <div class="post-content yue">
+          <h2 id="题目leetcode-39">题目(<a href="https://leetcode-cn.com/problems/combination-sum/">LeetCode #39</a>)</h2>
+<p>给定一个<strong>无重复元素</strong>的数组 <code>candidates</code> 和一个目标数 <code>target</code> ，找出 <code>candidates</code> 中所有可以使数字和为 <code>target</code> 的组合。</p>
+<p><code>candidates</code> 中的数字可以无限制重复被选取。</p>
+<p><strong>说明：</strong></p>
+<ul>
+<li>所有数字（包括 target）都是正整数。</li>
+<li>解集不能包含重复的组合。</li>
+</ul>
+<p><strong>示例 1：</strong></p>
+<blockquote>
+<p>**输入：**candidates = [2, 3, 6, 7], target = 7,</p>
+<p><strong>所求解集为：</strong><br>
+[<br>
+  [7],<br>
+  [2,2,3]<br>
+]</p>
+</blockquote>
+<p><strong>示例 2：</strong></p>
+<blockquote>
+<p>**输入：**candidates = [2,3,5], target = 8,<br>
+<strong>所求解集为：</strong><br>
+[<br>
+  [2, 2, 2, 2],<br>
+  [2, 3, 3],<br>
+  [3, 5]<br>
+]</p>
+</blockquote>
+<h2 id="题解">题解</h2>
+<p><a href="https://leetcode-cn.com/problems/combination-sum/solution/hui-su-suan-fa-jian-zhi-python-dai-ma-java-dai-m-2/">参考题解</a></p>
+<h3 id="思路分析">思路分析</h3>
+<p><strong>回溯法</strong>（探索与回溯法）是一种选优搜索法，又称为试探法，按选优条件向前搜索，以达到目标。但当探索到某一步时，发现原先选择并不优或达不到目标，就退回一步重新选择，这种走不通就退回再走的技术为回溯法，而满足回溯条件的某个状态的点称为“回溯点”。</p>
+<p>本题为回溯法经典例题，以 <code>candidates = [2, 3, 6, 7]</code> ，<code>target = 7</code> 为例，可用 <code>target</code> 减去 <code>candidates</code> 中的元素，得到新的 <code>target</code> ，再减去 <code>candidates</code> 中的元素，多次相减，若在某次迭代中 <code>target</code> 变为 0，则减数的集合即为一个解；若 <code>target</code> 小于 0 则回退至上一步继续寻找下一个解。如下图所示，其中绿色叶节点所在的路径即为一解。</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200825174143.png" alt="" loading="lazy"></figure>
+<p>以上算法实现如下</p>
+<pre><code class="language-java">import java.util.*;
+
+class Solution {
+    List&lt;List&lt;Integer&gt;&gt; results = new ArrayList&lt;&gt;();
+
+    public List&lt;List&lt;Integer&gt;&gt; combinationSum(int[] candidates, int target) {
+        int arrLen = candidates.length;
+        if (arrLen == 0) return results;
+
+        Deque&lt;Integer&gt; path = new ArrayDeque&lt;&gt;();
+        dfs(candidates, 0, arrLen, target, path);
+        return results;
+    }
+
+    public void dfs(int[] candidates, int begin, int arrLen, int target, Deque&lt;Integer&gt; path) {
+        if (target &lt; 0) return;
+        if (target == 0) {
+            results.add(new ArrayList&lt;&gt;(path));
+            return;
+        }
+
+        for (int i = 0; i &lt; arrLen; i++) {
+            path.addLast(candidates[i]);
+            dfs(candidates, i, arrLen, target - candidates[i], path);
+            // 回溯，移除路径的最后一段，相当于回到了上一层。
+            // 如路径[2, 2, 2, 2]，上一行 dfs 递归遇到 target &lt; 0，返回。
+            // 移除路径最后一段 2，即返回了上一层的 1，继续计算 candidates[i] = 3 的情况。
+            path.removeLast();
+        }
+    }
+}
+</code></pre>
+<p>输出：</p>
+<pre><code class="language-python">[ 2 2 3 ]
+[ 2 3 2 ]
+[ 3 2 2 ]
+[ 7 ]
+</code></pre>
+<p>可以看到出现了重复解，这是由于每次计算下一层的 <code>target</code> 时均考虑了 <code>candidates</code> 的所有情况。若要避免这种重复，可在每个分支上排除之前已计算过的 <code>candidates</code> 值，如在 <code>7 - 2 = 5</code> 分支上已考虑了所有 <code>candidates[i] = 2</code> 的情况，在 <code>7 - 3/6/7</code> 三个分支上无需重复考虑。去重后树结构如下：</p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200825174354.png" alt="" loading="lazy"></figure>
+<p>实现如下</p>
+<pre><code class="language-java">import java.util.*;
+
+class Solution {
+    List&lt;List&lt;Integer&gt;&gt; results = new ArrayList&lt;&gt;();
+
+    public List&lt;List&lt;Integer&gt;&gt; combinationSum(int[] candidates, int target) {
+        int arrLen = candidates.length;
+        if (arrLen == 0) return results;
+
+        Deque&lt;Integer&gt; path = new ArrayDeque&lt;&gt;();
+        dfs(candidates, 0, arrLen, target, path);
+        return results;
+    }
+
+    public void dfs(int[] candidates, int begin, int arrLen, int target, Deque&lt;Integer&gt; path) {
+        if (target &lt; 0) return;
+        if (target == 0) {
+            results.add(new ArrayList&lt;&gt;(path));
+            return;
+        }
+
+        // 对 candidates 的循环改为从 begin 位置开始
+        // 如遍历到 i = 1 时，后续遍历时也会跳过 i = 0 位置
+        for (int i = begin; i &lt; arrLen; i++) {
+            path.addLast(candidates[i]);
+            dfs(candidates, i, arrLen, target - candidates[i], path);
+            path.removeLast();
+        }
+    }
+}
+</code></pre>
+<p>此时输出即为无重复的解：</p>
+<pre><code class="language-python">[ 2 2 3 ]
+[ 7 ]
+</code></pre>
+<h3 id="剪枝提速">剪枝提速</h3>
+<p>在计算过程中，若 <code>target</code> 减去某个 <code>candidates[i]</code> 后小于 0，则大于该 <code>candidates[i]</code> 的值与 <code>target</code> 的差也必然小于 0。故可先对 <code>candidates</code> 数组进行升序排序，在遍历 <code>candidates</code> 数组的过程中，若 <code>target &lt; candidates[i]</code> 则 <code>i + 1</code> 及其之后的位置也无需考虑。剪枝后的树如下，可以看到已减少了很多分支：</p>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200825195757.png" alt="" loading="lazy"></figure>
+<p>实现如下</p>
+<h4 id="java">Java</h4>
+<pre><code class="language-java">class Solution {
+    public List&lt;List&lt;Integer&gt;&gt; combinationSum(int[] candidates, int target) {
+        int len = candidates.length;
+        List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+        if (len == 0) return result;
+
+        Arrays.sort(candidates);
+        Deque&lt;Integer&gt; path = new ArrayDeque&lt;&gt;();
+        dfs(candidates, 0, len, target, path, result);
+        return result;
+    }
+
+    public void dfs(int[] candidates, int begin, int len, int target, Deque&lt;Integer&gt; path, List&lt;List&lt;Integer&gt;&gt; result) {
+        if (target == 0) {
+            result.add(new ArrayList&lt;&gt;(path));
+            return;
+        }
+
+        for (int i = begin; i &lt; len; i++) {
+            if (target &lt; candidates[i]) break;
+            path.addLast(candidates[i]);
+            dfs(candidates, i, len, target - candidates[i], path, result);
+            path.removeLast();
+        }
+    }
+}
+</code></pre>
+<h4 id="python">Python</h4>
+<pre><code class="language-python">class Solution:
+    def __init__(self):
+        self.path = []
+        self.results = []
+
+    def combinationSum(self, candidates: list, target: int) -&gt; list:
+        arr_len = len(candidates)
+        if arr_len == 0: return self.results
+
+        candidates.sort()
+        self.dfs(candidates, 0, arr_len, target)
+        return self.results
+
+    def dfs(self, candidates: list, begin: int, arr_len: int, target: int) -&gt; None:
+        if target == 0:
+            self.results.append(self.path[:]) # 此处注意需要深拷贝
+            return
+
+        for i in range(begin, arr_len):
+            if (target - candidates[i] &lt; 0): break
+            self.path.append(candidates[i])
+            self.dfs(candidates, i, arr_len, target - candidates[i])
+            self.path.pop()
+</code></pre>
+<h4 id="go">Go</h4>
+<pre><code class="language-go">func combinationSum(candidates []int, target int) [][]int {
+	arrLen := len(candidates)
+	var results [][]int
+	if arrLen == 0 {
+		return results
+	}
+
+	var path []int
+	sort.Ints(candidates)
+	dfs(candidates, 0, arrLen, target, &amp;results, path)
+	return results
+}
+
+func dfs(candidates []int, begin, arrLen, target int, results *[][]int, path []int) {
+	if target == 0 {
+		*results = append(*results, path[:]) // 深拷贝
+		return
+	}
+
+	for i := begin; i &lt; arrLen; i++ {
+		if target - candidates[i] &lt; 0 {
+			break
+		}
+
+		path = append(path, candidates[i])
+		dfs(candidates, i, arrLen, target - candidates[i], results, path)
+		path = path[:len(path)-1]
+	}
+}
+</code></pre>
+<h2 id="进阶leetcode-40">进阶(<a href="https://leetcode-cn.com/problems/combination-sum-ii/">LeetCode #40</a>)</h2>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/wuM3dU7-w/">
+            <span class="flex-auto">回溯算法</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/zjyfY7MTi/">
+            <span class="flex-auto">Medium</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/sygsU_q1s/">
+            <span class="flex-auto">算法</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/uIoWQi2bzm/">
+            <span class="flex-auto">LeetCode</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+
+          
+            <div class="next-post">
+              <a href="https://zcybupt.github.io/post/ValidSudoku/">
+                <h3 class="post-title">
+                  有效的数独
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: 'f69e1255342d00cd7bd4',
+    clientSecret: '3b9c344a90d850d00b99b0c0c7716b8f71a2f1bc',
+    repo: 'zcybupt.github.io',
+    owner: 'zcybupt',
+    admin: ['zcybupt'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+      </div>
+    </div>
+
+    <script src="https://zcybupt.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>
