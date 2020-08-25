@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1598357232243">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1598358087060">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1598357232243" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1598358087060" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -45,7 +45,8 @@
             <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E9%A2%98%E7%9B%AEleetcode-39">题目(LeetCode #39)</a></li>
+<li><a href="#%E9%A2%98%E7%9B%AEleetcode-39">题目(LeetCode #39)</a>
+<ul>
 <li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
 <ul>
 <li><a href="#%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90">思路分析</a></li>
@@ -58,7 +59,8 @@
 </li>
 </ul>
 </li>
-<li><a href="#%E8%BF%9B%E9%98%B6leetcode-40">进阶(LeetCode #40)</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -109,7 +111,7 @@
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
         <h1 class="text-3xl font-bold lg:mt-16">组合总和</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-08-24 / 6 min read
+          2020-08-24 / 7 min read
         </div>
         
           <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200825200647.png" alt="">
@@ -125,7 +127,7 @@
 </ul>
 <p><strong>示例 1：</strong></p>
 <blockquote>
-<p>**输入：**candidates = [2, 3, 6, 7], target = 7,</p>
+<p>**输入： **candidates = [2, 3, 6, 7], target = 7,</p>
 <p><strong>所求解集为：</strong><br>
 [<br>
   [7],<br>
@@ -134,7 +136,7 @@
 </blockquote>
 <p><strong>示例 2：</strong></p>
 <blockquote>
-<p>**输入：**candidates = [2,3,5], target = 8,<br>
+<p><strong>输入：</strong> candidates = [2,3,5], target = 8,<br>
 <strong>所求解集为：</strong><br>
 [<br>
   [2, 2, 2, 2],<br>
@@ -142,9 +144,16 @@
   [3, 5]<br>
 ]</p>
 </blockquote>
-<h2 id="题解">题解</h2>
+<p><strong>提示：</strong></p>
+<ul>
+<li>1 &lt;= candidates.length &lt;= 30</li>
+<li>1 &lt;= candidates[i] &lt;= 200</li>
+<li>candidate 中的每个元素都是独一无二的。</li>
+<li>1 &lt;= target &lt;= 500</li>
+</ul>
+<h3 id="题解">题解</h3>
 <p><a href="https://leetcode-cn.com/problems/combination-sum/solution/hui-su-suan-fa-jian-zhi-python-dai-ma-java-dai-m-2/">参考题解</a></p>
-<h3 id="思路分析">思路分析</h3>
+<h4 id="思路分析">思路分析</h4>
 <p><strong>回溯法</strong>（探索与回溯法）是一种选优搜索法，又称为试探法，按选优条件向前搜索，以达到目标。但当探索到某一步时，发现原先选择并不优或达不到目标，就退回一步重新选择，这种走不通就退回再走的技术为回溯法，而满足回溯条件的某个状态的点称为“回溯点”。</p>
 <p>本题为回溯法经典例题，以 <code>candidates = [2, 3, 6, 7]</code> ，<code>target = 7</code> 为例，可用 <code>target</code> 减去 <code>candidates</code> 中的元素，得到新的 <code>target</code> ，再减去 <code>candidates</code> 中的元素，多次相减，若在某次迭代中 <code>target</code> 变为 0，则减数的集合即为一个解；若 <code>target</code> 小于 0 则回退至上一步继续寻找下一个解。如下图所示，其中绿色叶节点所在的路径即为一解。</p>
 <figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200825174143.png" alt="" loading="lazy"></figure>
@@ -225,11 +234,11 @@ class Solution {
 <pre><code class="language-python">[ 2 2 3 ]
 [ 7 ]
 </code></pre>
-<h3 id="剪枝提速">剪枝提速</h3>
+<h4 id="剪枝提速">剪枝提速</h4>
 <p>在计算过程中，若 <code>target</code> 减去某个 <code>candidates[i]</code> 后小于 0，则大于该 <code>candidates[i]</code> 的值与 <code>target</code> 的差也必然小于 0。故可先对 <code>candidates</code> 数组进行升序排序，在遍历 <code>candidates</code> 数组的过程中，若 <code>target &lt; candidates[i]</code> 则 <code>i + 1</code> 及其之后的位置也无需考虑。剪枝后的树如下，可以看到已减少了很多分支：</p>
 <figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200825195757.png" alt="" loading="lazy"></figure>
 <p>实现如下</p>
-<h4 id="java">Java</h4>
+<h5 id="java">Java</h5>
 <pre><code class="language-java">class Solution {
     public List&lt;List&lt;Integer&gt;&gt; combinationSum(int[] candidates, int target) {
         int len = candidates.length;
@@ -257,7 +266,7 @@ class Solution {
     }
 }
 </code></pre>
-<h4 id="python">Python</h4>
+<h5 id="python">Python</h5>
 <pre><code class="language-python">class Solution:
     def __init__(self):
         self.path = []
@@ -282,7 +291,7 @@ class Solution {
             self.dfs(candidates, i, arr_len, target - candidates[i])
             self.path.pop()
 </code></pre>
-<h4 id="go">Go</h4>
+<h5 id="go">Go</h5>
 <pre><code class="language-go">func combinationSum(candidates []int, target int) [][]int {
 	arrLen := len(candidates)
 	var results [][]int
@@ -313,7 +322,6 @@ func dfs(candidates []int, begin, arrLen, target int, results *[][]int, path []i
 	}
 }
 </code></pre>
-<h2 id="进阶leetcode-40">进阶(<a href="https://leetcode-cn.com/problems/combination-sum-ii/">LeetCode #40</a>)</h2>
 
         </div>
 
