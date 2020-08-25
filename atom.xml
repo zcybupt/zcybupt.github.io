@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-08-25T12:21:29.739Z</updated>
+    <updated>2020-08-25T12:23:24.093Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
@@ -25,7 +25,7 @@
 </ul>
 <p><strong>示例 1：</strong></p>
 <blockquote>
-<p>**输入： **candidates = [2, 3, 6, 7], target = 7,</p>
+<p><strong>输入：</strong> candidates = [2, 3, 6, 7], target = 7,</p>
 <p><strong>所求解集为：</strong><br>
 [<br>
   [7],<br>
@@ -220,6 +220,7 @@ func dfs(candidates []int, begin, arrLen, target int, results *[][]int, path []i
 	}
 }
 </code></pre>
+<h3 id=""></h3>
 ]]></content>
     </entry>
     <entry>
