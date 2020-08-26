@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-08-25T12:23:24.093Z</updated>
+    <updated>2020-08-26T11:33:51.610Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
@@ -34,8 +34,8 @@
 </blockquote>
 <p><strong>示例 2：</strong></p>
 <blockquote>
-<p><strong>输入：</strong> candidates = [2,3,5], target = 8,<br>
-<strong>所求解集为：</strong><br>
+<p><strong>输入：</strong> candidates = [2,3,5], target = 8,</p>
+<p><strong>所求解集为：</strong><br>
 [<br>
   [2, 2, 2, 2],<br>
   [2, 3, 3],<br>
@@ -133,7 +133,9 @@ class Solution {
 [ 7 ]
 </code></pre>
 <h4 id="剪枝提速">剪枝提速</h4>
-<p>在计算过程中，若 <code>target</code> 减去某个 <code>candidates[i]</code> 后小于 0，则大于该 <code>candidates[i]</code> 的值与 <code>target</code> 的差也必然小于 0。故可先对 <code>candidates</code> 数组进行升序排序，在遍历 <code>candidates</code> 数组的过程中，若 <code>target &lt; candidates[i]</code> 则 <code>i + 1</code> 及其之后的位置也无需考虑。剪枝后的树如下，可以看到已减少了很多分支：</p>
+<p>在计算过程中，若 <code>target</code> 减去某个 <code>candidates[i]</code> 后小于 0，则大于该 <code>candidates[i]</code> 的值与 <code>target</code> 的差也必然小于 0。故可先对 <code>candidates</code> 数组进行升序排序，在遍历 <code>candidates</code> 数组的过程中，若 <code>target &lt; candidates[i]</code> 则 <code>i + 1</code> 及其之后的位置也无需考虑。</p>
+<p><strong>注意：</strong> 采用这种剪枝方法必须先将 <code>candidates</code> 数组排序，否则若大于 <code>target</code> 的数排在前时，会提前触发 break，导致后边小于 <code>target</code> 的元素被跳过。</p>
+<p>剪枝后的树如下，可以看到已减少了很多分支：</p>
 <figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200825195757.png" alt="" loading="lazy"></figure>
 <p>实现如下</p>
 <h5 id="java">Java</h5>
@@ -220,7 +222,194 @@ func dfs(candidates []int, begin, arrLen, target int, results *[][]int, path []i
 	}
 }
 </code></pre>
-<h3 id=""></h3>
+<h2 id="进阶leetcode-40">进阶(<a href="https://leetcode-cn.com/problems/combination-sum-ii/">LeetCode #40</a>)</h2>
+<p><a href="https://leetcode-cn.com/problems/combination-sum-ii/solution/hui-su-suan-fa-jian-zhi-python-dai-ma-java-dai-m-3/">参考题解</a></p>
+<p>给定一个数组 <code>candidates</code> 和一个目标数<code>target</code> ，找出 <code>candidates</code> 中所有可以使数字和为 <code>target</code> 的组合。</p>
+<p><code>candidates</code> 中的每个数字在每个组合中只能使用一次。</p>
+<p><strong>说明：</strong></p>
+<ul>
+<li>所有数字（包括目标数）都是正整数。</li>
+<li>解集不能包含重复的组合。</li>
+</ul>
+<p><strong>示例 1：</strong></p>
+<blockquote>
+<p><strong>输入：</strong> candidates = [10, 1, 2, 7, 6, 1, 5], target = 8,</p>
+<p><strong>所求解集为：</strong><br>
+[<br>
+  [1, 7],<br>
+  [1, 2, 5],<br>
+  [2, 6],<br>
+  [1, 1, 6]<br>
+]</p>
+</blockquote>
+<p><strong>示例 2：</strong></p>
+<blockquote>
+<p><strong>输入：</strong>  candidates = [2, 5, 2, 1, 2], target = 5,</p>
+<p><strong>所求解集为：</strong><br>
+[<br>
+  [1, 2, 2],<br>
+  [5]<br>
+]</p>
+</blockquote>
+<h3 id="题解-2">题解</h3>
+<p>以 <code>candidates = [2, 5, 2, 1, 2]</code> ，<code>target = 5</code> 为例，若采用 #39 题中的算法，得到以下树结构（以 <code>2',2'',2'''</code> 区分三个位置的 2）：</p>
+<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200826191716.png" alt="" loading="lazy"></figure>
+<p>输出如下</p>
+<pre><code class="language-python">[ 1 1 1 1 1 ]
+[ 1 1 1 2 ]
+[ 1 1 1 2 ]
+[ 1 1 1 2 ]
+[ 1 2 2 ]
+[ 1 2 2 ]
+[ 1 2 2 ]
+[ 1 2 2 ]
+[ 1 2 2 ]
+[ 1 2 2 ]
+[ 5 ]
+</code></pre>
+<p>需修改算法使之满足以下两个条件：</p>
+<ul>
+<li>每个数字在每个组合中只能使用一次</li>
+<li>解集不能包含重复的组合</li>
+</ul>
+<h4 id="限制组合中数字的出现次数">限制组合中数字的出现次数</h4>
+<p>在分支上遍历 <code>candidates</code> 时跳过已使用过的位置即可，此时树的结构如下：</p>
+<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200826192051.png" alt="" loading="lazy"></figure>
+<p>实现如下：</p>
+<pre><code class="language-java">class Solution {
+    public List&lt;List&lt;Integer&gt;&gt; combinationSum(int[] candidates, int target) {
+        int len = candidates.length;
+        List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+        if (len == 0) return result;
+
+        // 必须先排序
+        Arrays.sort(candidates);
+        Deque&lt;Integer&gt; path = new ArrayDeque&lt;&gt;();
+        dfs(candidates, 0, len, target, path, result);
+        return result;
+    }
+
+    public void dfs(int[] candidates, int begin, int len, int target, Deque&lt;Integer&gt; path, List&lt;List&lt;Integer&gt;&gt; result) {
+        if (target == 0) {
+            result.add(new ArrayList&lt;&gt;(path));
+            return;
+        }
+
+        for (int i = begin; i &lt; len; i++) {
+            if (target &lt; candidates[i]) break;
+            path.addLast(candidates[i]);
+            // 下一层 begin 从 i + 1 开始，跳过当前的 i
+            dfs(candidates, i + 1, len, target - candidates[i], path, result);
+            path.removeLast();
+        }
+    }
+}
+</code></pre>
+<p>此时输出为：</p>
+<pre><code class="language-python">[ 1 2 2 ]
+[ 1 2 2 ]
+[ 1 2 2 ]
+[ 5 ]
+</code></pre>
+<h4 id="去除重复组合">去除重复组合</h4>
+<p>从图中可知组合 <code>1, 2', 2''</code> 、<code>1, 2', 2'''</code> 和 <code>1, 2'', 2'''</code> 三者重复，要去除这种重复应跳过同一层级出现的相等元素。剪枝后的树结构如下：</p>
+<figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200826193035.png" alt="" loading="lazy"></figure>
+<p>最终输出为：</p>
+<pre><code class="language-python">[ 1 2 2 ]
+[ 5 ]
+</code></pre>
+<p>实现如下：</p>
+<h5 id="java-2">Java</h5>
+<pre><code class="language-java">class Solution {
+    public List&lt;List&lt;Integer&gt;&gt; combinationSum2(int[] candidates, int target) {
+        int len = candidates.length;
+        List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+        if (len == 0) return result;
+
+        Arrays.sort(candidates);
+        Deque&lt;Integer&gt; path = new ArrayDeque&lt;&gt;();
+        dfs(candidates, 0, len, target, path, result);
+        return result;
+    }
+
+    public void dfs(int[] candidates, int begin, int len, int target, Deque&lt;Integer&gt; path, List&lt;List&lt;Integer&gt;&gt; result) {
+        if (target == 0) {
+            result.add(new ArrayList&lt;&gt;(path));
+            return;
+        }
+
+        for (int i = begin; i &lt; len; i++) {
+            if (target &lt; candidates[i]) break;
+            // 跳过同一层的相等元素
+            if (i &gt; begin &amp;&amp; candidates[i] == candidates[i - 1]) continue;
+            path.addLast(candidates[i]);
+            dfs(candidates, i + 1, len, target - candidates[i], path, result);
+            path.removeLast();
+        }
+    }
+}
+</code></pre>
+<h5 id="python-2">Python</h5>
+<pre><code class="language-python">class Solution:
+    def __init__(self):
+        self.path = []
+        self.results = []
+
+    def combinationSum2(self, candidates: list, target: int) -&gt; list:
+        arr_len = len(candidates)
+        if arr_len == 0: return self.results
+
+        candidates.sort()
+        self.dfs(candidates, 0, arr_len, target)
+
+        return self.results
+
+    def dfs(self, candidates: list, begin: int, arr_len: int, target: int) -&gt; None:
+        if target == 0:
+            self.results.append(self.path[:]) # 注意此处 path 需要深拷贝
+            return
+
+        for i in range(begin, arr_len):
+            if target - candidates[i] &lt; 0: break
+            if i &gt; begin and candidates[i] == candidates[i - 1]: continue
+            self.path.append(candidates[i])
+            self.dfs(candidates, i + 1, arr_len, target - candidates[i])
+            self.path.pop()
+</code></pre>
+<h5 id="go-2">Go</h5>
+<pre><code class="language-go">func combinationSum2(candidates []int, target int) [][]int {
+	arrLen := len(candidates)
+	var results [][]int
+	if arrLen == 0 {
+		return results
+	}
+
+	var path []int
+	sort.Ints(candidates)
+	dfs(candidates, 0, arrLen, target, &amp;results, path)
+	return results
+}
+
+func dfs(candidates []int, begin, arrLen, target int, results *[][]int, path []int) {
+	if target == 0 {
+		*results = append(*results, append([]int{}, path...))
+		return
+	}
+
+	for i := begin; i &lt; arrLen; i++ {
+		if target &lt; candidates[i] {
+			break
+		}
+		if i &gt; begin &amp;&amp; candidates[i] == candidates[i-1] {
+			continue
+		}
+
+		path = append(path, candidates[i])
+		dfs(candidates, i+1, arrLen, target-candidates[i], results, path)
+		path = path[:len(path)-1]
+	}
+}
+</code></pre>
 ]]></content>
     </entry>
     <entry>
