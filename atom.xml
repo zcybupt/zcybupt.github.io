@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-08-26T11:33:51.610Z</updated>
+    <updated>2020-08-26T11:36:26.005Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
@@ -312,7 +312,7 @@ func dfs(candidates []int, begin, arrLen, target int, results *[][]int, path []i
 [ 5 ]
 </code></pre>
 <h4 id="去除重复组合">去除重复组合</h4>
-<p>从图中可知组合 <code>1, 2', 2''</code> 、<code>1, 2', 2'''</code> 和 <code>1, 2'', 2'''</code> 三者重复，要去除这种重复应跳过同一层级出现的相等元素。剪枝后的树结构如下：</p>
+<p>从图中可知组合 <code>[1, 2', 2'']</code> 、<code>[1, 2', 2''']</code> 和 <code>[1, 2'', 2''']</code> 三者重复，要去除这种重复应跳过同一层级出现的相等元素。剪枝后的树结构如下：</p>
 <figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200826193035.png" alt="" loading="lazy"></figure>
 <p>最终输出为：</p>
 <pre><code class="language-python">[ 1 2 2 ]

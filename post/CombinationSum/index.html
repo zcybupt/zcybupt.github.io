@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1598441626552">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1598441782778">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1598441626552" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1598441782778" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -430,7 +430,7 @@ func dfs(candidates []int, begin, arrLen, target int, results *[][]int, path []i
 [ 5 ]
 </code></pre>
 <h4 id="去除重复组合">去除重复组合</h4>
-<p>从图中可知组合 <code>1, 2', 2''</code> 、<code>1, 2', 2'''</code> 和 <code>1, 2'', 2'''</code> 三者重复，要去除这种重复应跳过同一层级出现的相等元素。剪枝后的树结构如下：</p>
+<p>从图中可知组合 <code>[1, 2', 2'']</code> 、<code>[1, 2', 2''']</code> 和 <code>[1, 2'', 2''']</code> 三者重复，要去除这种重复应跳过同一层级出现的相等元素。剪枝后的树结构如下：</p>
 <figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200826193035.png" alt="" loading="lazy"></figure>
 <p>最终输出为：</p>
 <pre><code class="language-python">[ 1 2 2 ]
