@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-09-01T10:07:11.667Z</updated>
+    <updated>2020-09-01T11:45:15.149Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
@@ -31,8 +31,107 @@
 ]</p>
 </blockquote>
 <h3 id="题解">题解</h3>
-<h2 id="进阶">进阶</h2>
+<p>使用 <code>visited</code> 数组标记已访问过的元素。</p>
+<h4 id="java">Java</h4>
+<pre><code class="language-java">import java.util.*;
+
+class Solution {
+    public List&lt;List&lt;Integer&gt;&gt; permute(int[] nums) {
+        List&lt;List&lt;Integer&gt;&gt; results = new ArrayList&lt;&gt;();
+        dfs(results, nums, new ArrayList&lt;&gt;(), new int[nums.length]);
+
+        return results;
+    }
+
+    public void dfs(List&lt;List&lt;Integer&gt;&gt; results, int[] nums, ArrayList&lt;Integer&gt; tmp, int[] visited) {
+        if (tmp.size() == nums.length) {
+            results.add(new ArrayList&lt;&gt;(tmp));
+            return;
+        }
+
+        for (int i = 0; i &lt; nums.length; i++) {
+            if (visited[i] == 1) continue;
+            tmp.add(nums[i]);
+            visited[i] = 1;
+            dfs(results, nums, tmp, visited);
+            visited[i] = 0;
+            tmp.remove(tmp.size() - 1);
+        }
+    }
+}
+</code></pre>
+<h4 id="python">Python</h4>
+<p>使用切片和 <code>list</code> 的加法，在向下递归时略过当前元素即实现了对访问过元素的标记。</p>
+<pre><code class="language-python">class Solution:
+    def permute(self, nums: list) -&gt; list:
+        results = []
+        def dfs(nums, tmp):
+            if not nums:
+                results.append(tmp)
+                return
+            for i in range(len(nums)):
+                dfs(nums[:i] + nums[i + 1:], tmp + [nums[i]])
+        dfs(nums, [])
+        return results
+
+    def permute1(self, nums: list) -&gt; list:
+        return list(itertools.permutations(nums))
+</code></pre>
+<p>调用 <code>Python</code> 的内置函数实现如下</p>
+<pre><code class="language-python">import itertools
+
+class Solution:
+    def permute(self, nums: list) -&gt; list:
+        return list(itertools.permutations(nums))
+</code></pre>
+<h4 id="go">Go</h4>
+<p><code>Go</code> 在实现时需注意 <code>append(nums, 2)</code> 不会修改 <code>nums</code> 数组存储的内容，但 <code>append(nums[:i], 2)</code> 会使 <code>nums</code> 数组发生改变。</p>
+<pre><code class="language-go">package main
+
+import &quot;fmt&quot;
+
+func permute(nums []int) [][]int {
+    var results [][]int
+    dfs(&amp;results, nums, []int{})
+
+    return results
+}
+
+func dfs(results *[][]int, nums, tmp []int) {
+    if len(nums) == 0 {
+        *results = append(*results, append([]int{}, tmp...)) // 深拷贝
+        return
+    }
+
+    for i := 0; i &lt; len(nums); i++ {
+        dfs(results, combinedArr(nums[:i], nums[i+1:]), combinedArr(tmp, []int{nums[i]}))
+    }
+}
+
+func combinedArr(arr1, arr2 []int) []int {
+    var result []int
+    result = append(result, arr1...)
+    result = append(result, arr2...)
+
+    return result
+}
+</code></pre>
+<h2 id="进阶leetcode-47">进阶(<a href="https://leetcode-cn.com/problems/permutations-ii/">LeetCode #47</a>)</h2>
+<p>给定一个可包含重复数字的序列，返回所有不重复的全排列。</p>
+<p><strong>示例:</strong></p>
+<blockquote>
+<p><strong>输入:</strong>  [1, 1, 2]<br>
+<strong>输出:</strong><br>
+[<br>
+  [1, 1, 2],<br>
+  [1, 2, 1],<br>
+  [2, 1, 1]<br>
+]</p>
+</blockquote>
 <h3 id="题解-2">题解</h3>
+<h2 id="其它解法">其它解法</h2>
+<p>仿写 C++ 中的 <code>nextPermutation</code> 函数，该解法 #46、#47 均可 AC。</p>
+<p>详见 <a href="https://zcybupt.github.io/post/NextPermutation/">下一个排列</a></p>
 ]]></content>
     </entry>
     <entry>
@@ -932,7 +1031,7 @@ func binarySearch(nums []int, target int, isSearchFirst bool) int {
 <figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200819114340.png" alt="" loading="lazy"></figure>
 </li>
 <li>
-<p>从前向后查找第一个相邻升序的元素对 <code>(i, j)</code> ，这里 <code>i=4</code> ，<code>j=5</code> ，对应值为 <code>5</code> 和 <code>7</code> ：</p>
+<p>从后向前查找第一个相邻升序的元素对 <code>(i, j)</code> ，这里 <code>i=4</code> ，<code>j=5</code> ，对应值为 <code>5</code> 和 <code>7</code> ：</p>
 <figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200819114506.png" alt="" loading="lazy"></figure>
 </li>
 <li>

@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1598954828811">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1598960711971">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1598954828811" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1598960711971" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -47,14 +47,21 @@
 <ul>
 <li><a href="#%E9%A2%98%E7%9B%AEleetcode-46">题目(LeetCode #46)</a>
 <ul>
-<li><a href="#%E9%A2%98%E8%A7%A3">题解</a></li>
+<li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
+<ul>
+<li><a href="#java">Java</a></li>
+<li><a href="#python">Python</a></li>
+<li><a href="#go">Go</a></li>
 </ul>
 </li>
-<li><a href="#%E8%BF%9B%E9%98%B6">进阶</a>
+</ul>
+</li>
+<li><a href="#%E8%BF%9B%E9%98%B6leetcode-47">进阶(LeetCode #47)</a>
 <ul>
 <li><a href="#%E9%A2%98%E8%A7%A3-2">题解</a></li>
 </ul>
 </li>
+<li><a href="#%E5%85%B6%E5%AE%83%E8%A7%A3%E6%B3%95">其它解法</a></li>
 </ul>
 </li>
 </ul>
@@ -105,7 +112,7 @@
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
         <h1 class="text-3xl font-bold lg:mt-16">全排列</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-09-01 / 1 min read
+          2020-09-01 / 3 min read
         </div>
         
           <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200901173102.png" alt="">
@@ -127,8 +134,107 @@
 ]</p>
 </blockquote>
 <h3 id="题解">题解</h3>
-<h2 id="进阶">进阶</h2>
+<p>使用 <code>visited</code> 数组标记已访问过的元素。</p>
+<h4 id="java">Java</h4>
+<pre><code class="language-java">import java.util.*;
+
+class Solution {
+    public List&lt;List&lt;Integer&gt;&gt; permute(int[] nums) {
+        List&lt;List&lt;Integer&gt;&gt; results = new ArrayList&lt;&gt;();
+        dfs(results, nums, new ArrayList&lt;&gt;(), new int[nums.length]);
+
+        return results;
+    }
+
+    public void dfs(List&lt;List&lt;Integer&gt;&gt; results, int[] nums, ArrayList&lt;Integer&gt; tmp, int[] visited) {
+        if (tmp.size() == nums.length) {
+            results.add(new ArrayList&lt;&gt;(tmp));
+            return;
+        }
+
+        for (int i = 0; i &lt; nums.length; i++) {
+            if (visited[i] == 1) continue;
+            tmp.add(nums[i]);
+            visited[i] = 1;
+            dfs(results, nums, tmp, visited);
+            visited[i] = 0;
+            tmp.remove(tmp.size() - 1);
+        }
+    }
+}
+</code></pre>
+<h4 id="python">Python</h4>
+<p>使用切片和 <code>list</code> 的加法，在向下递归时略过当前元素即实现了对访问过元素的标记。</p>
+<pre><code class="language-python">class Solution:
+    def permute(self, nums: list) -&gt; list:
+        results = []
+        def dfs(nums, tmp):
+            if not nums:
+                results.append(tmp)
+                return
+            for i in range(len(nums)):
+                dfs(nums[:i] + nums[i + 1:], tmp + [nums[i]])
+        dfs(nums, [])
+        return results
+
+    def permute1(self, nums: list) -&gt; list:
+        return list(itertools.permutations(nums))
+</code></pre>
+<p>调用 <code>Python</code> 的内置函数实现如下</p>
+<pre><code class="language-python">import itertools
+
+class Solution:
+    def permute(self, nums: list) -&gt; list:
+        return list(itertools.permutations(nums))
+</code></pre>
+<h4 id="go">Go</h4>
+<p><code>Go</code> 在实现时需注意 <code>append(nums, 2)</code> 不会修改 <code>nums</code> 数组存储的内容，但 <code>append(nums[:i], 2)</code> 会使 <code>nums</code> 数组发生改变。</p>
+<pre><code class="language-go">package main
+
+import &quot;fmt&quot;
+
+func permute(nums []int) [][]int {
+    var results [][]int
+    dfs(&amp;results, nums, []int{})
+
+    return results
+}
+
+func dfs(results *[][]int, nums, tmp []int) {
+    if len(nums) == 0 {
+        *results = append(*results, append([]int{}, tmp...)) // 深拷贝
+        return
+    }
+
+    for i := 0; i &lt; len(nums); i++ {
+        dfs(results, combinedArr(nums[:i], nums[i+1:]), combinedArr(tmp, []int{nums[i]}))
+    }
+}
+
+func combinedArr(arr1, arr2 []int) []int {
+    var result []int
+    result = append(result, arr1...)
+    result = append(result, arr2...)
+
+    return result
+}
+</code></pre>
+<h2 id="进阶leetcode-47">进阶(<a href="https://leetcode-cn.com/problems/permutations-ii/">LeetCode #47</a>)</h2>
+<p>给定一个可包含重复数字的序列，返回所有不重复的全排列。</p>
+<p><strong>示例:</strong></p>
+<blockquote>
+<p><strong>输入:</strong>  [1, 1, 2]<br>
+<strong>输出:</strong><br>
+[<br>
+  [1, 1, 2],<br>
+  [1, 2, 1],<br>
+  [2, 1, 1]<br>
+]</p>
+</blockquote>
 <h3 id="题解-2">题解</h3>
+<h2 id="其它解法">其它解法</h2>
+<p>仿写 C++ 中的 <code>nextPermutation</code> 函数，该解法 #46、#47 均可 AC。</p>
+<p>详见 <a href="https://zcybupt.github.io/post/NextPermutation/">下一个排列</a></p>
 
         </div>
 
