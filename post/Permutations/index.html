@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1598960711971">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1599044277643">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1598960711971" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1599044277643" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -58,10 +58,22 @@
 </li>
 <li><a href="#%E8%BF%9B%E9%98%B6leetcode-47">进阶(LeetCode #47)</a>
 <ul>
-<li><a href="#%E9%A2%98%E8%A7%A3-2">题解</a></li>
+<li><a href="#%E9%A2%98%E8%A7%A3-2">题解</a>
+<ul>
+<li><a href="#java-2">Java</a></li>
+<li><a href="#python-2">Python</a></li>
+<li><a href="#go-2">Go</a></li>
 </ul>
 </li>
-<li><a href="#%E5%85%B6%E5%AE%83%E8%A7%A3%E6%B3%95">其它解法</a></li>
+</ul>
+</li>
+<li><a href="#%E5%85%B6%E5%AE%83%E8%A7%A3%E6%B3%95">其它解法</a>
+<ul>
+<li><a href="#java-3">Java</a></li>
+<li><a href="#python-3">Python</a></li>
+<li><a href="#go-3">Go</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -112,7 +124,7 @@
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
         <h1 class="text-3xl font-bold lg:mt-16">全排列</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-09-01 / 3 min read
+          2020-09-01 / 8 min read
         </div>
         
           <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200901173102.png" alt="">
@@ -232,9 +244,221 @@ func combinedArr(arr1, arr2 []int) []int {
 ]</p>
 </blockquote>
 <h3 id="题解-2">题解</h3>
+<p><a href="https://leetcode-cn.com/problems/permutations-ii/solution/hui-su-suan-fa-python-dai-ma-java-dai-ma-by-liwe-2/">参考题解</a></p>
+<p>#46 中的算法流程如下，因 #47 包含重复元素，需对递归树进行剪枝：</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200902171649.png" alt="" loading="lazy"></figure>
+<p>观察可知，若两个分支的前几位排列相同，则这两个分支上的递归子树也相等，如 <code>[1]</code> 与 <code>[1']</code> 、<code>[2, 1]</code> 与 <code>[2, 1']</code> （即图上红框中内容）重复，可进行剪枝，在同一层判断 <code>nums[i] == nums[i - 1]</code> 是否成立即可。若只设定这一个剪枝条件，将使以下蓝框中的分支被误剪，导致返回空的解集：</p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200902175046.png" alt="" loading="lazy"></figure>
+<p>为避免这种现象的产生，可借助 <code>visited</code> 数组对是否遍历过某分支进行标记，仅在前一个分支遍历完成（即 <code>visited[i - 1] == 0</code> 成立时）进行剪枝。故剪枝的判断条件为 <code>i &gt; 0 &amp;&amp; nums[i] == nums[i - 1] &amp;&amp; visited[i - 1] == 0</code> 。</p>
+<p>下图为递归时递归栈的调用顺序：</p>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200902184517.png" alt="" loading="lazy"></figure>
+<p><strong>注：</strong> 实际上 <code>visited[i - 1]</code> 等于 0、不等于 0、等于 1、不等于 1 四种情况下产生的结果相同，但若直接去掉则将返回空的解集🙃。<code>visited[i - 1]</code> 起到的是标记的作用，即只选择 <code>visited[i - 1]</code> 等于 0 或只选择等于 1 的分支，区别仅在于最终结果集中元素的顺序不同，详见 <a href="https://leetcode-cn.com/problems/permutations-ii/solution/hui-su-suan-fa-python-dai-ma-java-dai-ma-by-liwe-2/">这篇题解</a> 的补充说明部分。</p>
+<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200902185042.png" alt="" loading="lazy"></figure>
+<h4 id="java-2">Java</h4>
+<pre><code class="language-java">class Solution {
+    public List&lt;List&lt;Integer&gt;&gt; permuteUnique(int[] nums) {
+        List&lt;List&lt;Integer&gt;&gt; res = new ArrayList&lt;&gt;();
+        Arrays.sort(nums);
+        dfs(res, nums, new ArrayList&lt;&gt;(), new int[nums.length]);
+        return res;
+    }
+
+    public void dfs(List&lt;List&lt;Integer&gt;&gt; res, int[] nums, List&lt;Integer&gt; tmp, int[] visited) {
+        if (tmp.size() == nums.length) {
+            res.add(new ArrayList&lt;&gt;(tmp));
+            return;
+        }
+
+        for (int i = 0; i &lt; nums.length; i++) {
+            if (visited[i] == 1) continue;
+
+            if (i &gt; 0 &amp;&amp; nums[i] == nums[i - 1] &amp;&amp; visited[i - 1] == 0) continue;
+
+            tmp.add(nums[i]);
+            visited[i] = 1;
+            dfs(res, nums, tmp, visited);
+            visited[i] = 0;
+            tmp.remove(tmp.size() - 1);
+        }
+    }
+}
+</code></pre>
+<h4 id="python-2">Python</h4>
+<pre><code class="language-python">class Solution:
+    def permuteUnique(self, nums: list) -&gt; list:
+        results = []
+        arr_len = len(nums)
+        def dfs(tmp: list, visited: list):
+            if len(tmp) == arr_len:
+                results.append(tmp[:])
+                return
+
+            for i in range(arr_len):
+                if visited[i] or (i &gt; 0 and nums[i] == nums[i - 1] and not visited[i - 1]): continue
+                tmp.append(nums[i])
+                visited[i] = 1
+                dfs(tmp, visited)
+                visited[i] = 0
+                tmp.pop()
+
+        nums.sort()
+        dfs([], [0] * len(nums))
+        return results
+</code></pre>
+<h4 id="go-2">Go</h4>
+<pre><code class="language-python">import &quot;sort&quot;
+
+func permuteUnique(nums []int) [][]int {
+    var results [][]int
+    sort.Ints(nums)
+    arrLen := len(nums)
+    dfs(&amp;results, nums, []int{}, make([]int, arrLen), arrLen)
+
+    return results
+}
+
+func dfs(results *[][]int, nums, tmp, visited []int, arrLen int) {
+    if len(tmp) == arrLen {
+        *results = append(*results, append([]int{}, tmp...)) // 注意深拷贝
+        return
+    }
+
+    for i := 0; i &lt; arrLen; i++ {
+        if visited[i] == 1 || (i &gt; 0 &amp;&amp; nums[i] == nums[i - 1] &amp;&amp; visited[i - 1] == 0) {
+            continue
+        }
+        tmp = append(tmp, nums[i])
+        visited[i] = 1
+        dfs(results, nums, tmp, visited, arrLen)
+        tmp = tmp[:len(tmp) - 1]
+        visited[i] = 0
+    }
+}
+</code></pre>
 <h2 id="其它解法">其它解法</h2>
 <p>仿写 C++ 中的 <code>nextPermutation</code> 函数，该解法 #46、#47 均可 AC。</p>
 <p>详见 <a href="https://zcybupt.github.io/post/NextPermutation/">下一个排列</a></p>
+<h3 id="java-3">Java</h3>
+<pre><code class="language-java">import java.util.*;
+
+class Solution {
+    public List&lt;List&lt;Integer&gt;&gt; permuteUnique(int[] nums) {
+        List&lt;List&lt;Integer&gt;&gt; results = new ArrayList&lt;&gt;();
+        Arrays.sort(nums);
+        results.add(arrToList(nums));
+        while (nextPermutation(nums)) {
+            results.add(arrToList(nums));
+        }
+
+        return results;
+    }
+
+    public List&lt;Integer&gt; arrToList(int[] nums) {
+        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+        for (int num : nums) result.add(num);
+        return result;
+    }
+
+    public boolean nextPermutation(int[] nums) {
+        int arrLen = nums.length;
+        int i = arrLen - 2, j = arrLen - 1, k = arrLen - 1;
+
+        while (i &gt;= 0 &amp;&amp; nums[i] &gt;= nums[j]) {
+            i--; j--;
+        }
+
+        if (i == -1) return false;
+
+        while (nums[i] &gt;= nums[k]) k--;
+        swap(nums, i, k);
+
+        for (i = j, j = arrLen - 1; i &lt; j; i++, j--) {
+            swap(nums, i, j);
+        }
+
+        return true;
+    }
+
+    public void swap(int[] nums, int i, int j) {
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
+}
+</code></pre>
+<h3 id="python-3">Python</h3>
+<pre><code class="language-python">class Solution:
+    def permuteUnique(self, nums: list) -&gt; list:
+        results = []
+        arr_len = len(nums)
+
+        def next_permutation() -&gt; bool:
+            i, j, k = arr_len - 2, arr_len - 1, arr_len - 1
+
+            while i &gt;= 0 and nums[i] &gt;= nums[j]:
+                i -= 1
+                j -= 1
+
+            if i == -1: return False
+
+            while nums[i] &gt;= nums[k]: k -= 1
+            nums[i], nums[k] = nums[k], nums[i]
+
+            i, j = j, arr_len - 1
+            while i &lt; j:
+                nums[i], nums[j] = nums[j], nums[i]
+                i += 1
+                j -= 1
+
+            return True
+
+        nums.sort()
+        results.append(nums[:])
+        while next_permutation():
+            results.append(nums[:])
+
+        return results
+</code></pre>
+<h3 id="go-3">Go</h3>
+<pre><code class="language-go">import &quot;sort&quot;
+
+func permuteUnique(nums []int) [][]int {
+    var results [][]int
+    arrLen := len(nums)
+    sort.Ints(nums)
+    results = append(results, append([]int{}, nums...))
+
+    for nextPermutation(nums, arrLen) {
+        results = append(results, append([]int{}, nums...))
+    }
+
+    return results
+}
+
+func nextPermutation(nums []int, arrLen int) bool {
+    i, j, k := arrLen - 2, arrLen - 1, arrLen - 1
+
+    for i &gt;= 0 &amp;&amp; nums[i] &gt;= nums[j] {
+        i--
+        j--
+    }
+
+    if i == -1 {
+        return false
+    }
+
+    for nums[i] &gt;= nums[k] {
+        k--
+    }
+    nums[i], nums[k] = nums[k], nums[i]
+
+    for i, j = j, arrLen - 1; i &lt; j; i, j = i + 1, j - 1 {
+        nums[i], nums[j] = nums[j], nums[i]
+    }
+
+    return true
+}
+</code></pre>
 
         </div>
 
