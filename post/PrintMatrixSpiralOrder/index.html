@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CODEFANCIER</title>
 <meta name="description" content="好吃懒做，怠惰本惰" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1599288328436">
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1599298618255">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -32,7 +32,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1599288328436" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1599298618255" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
       </div>
@@ -51,10 +51,11 @@
 <li><a href="#%E9%A2%98%E8%A7%A3">题解</a></li>
 </ul>
 </li>
-<li><a href="#%E4%BE%8B%E9%A2%98-leetcode-29-54">例题: LeetCode # 29 # 54</a>
+<li><a href="#%E4%BE%8B%E9%A2%98-leetcode-29-%E5%89%91%E6%8C%87offer-54">例题: LeetCode # 29  剑指Offer # 54</a>
 <ul>
 <li><a href="#java">Java</a></li>
 <li><a href="#python">Python</a></li>
+<li><a href="#go">Go</a></li>
 </ul>
 </li>
 </ul>
@@ -107,7 +108,7 @@
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
         <h1 class="text-3xl font-bold lg:mt-16">顺时针打印矩阵</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-02-14 / 5 min read
+          2020-02-14 / 6 min read
         </div>
         
           <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/2.png" alt="">
@@ -187,7 +188,7 @@
     }
 }
 </code></pre>
-<h2 id="例题-leetcode-29-54">例题: LeetCode <a href="https://leetcode-cn.com/problems/shun-shi-zhen-da-yin-ju-zhen-lcof/"># 29</a> <a href="https://leetcode-cn.com/problems/spiral-matrix/"># 54</a></h2>
+<h2 id="例题-leetcode-29-剑指offer-54">例题: <a href="https://leetcode-cn.com/problems/shun-shi-zhen-da-yin-ju-zhen-lcof/">LeetCode # 29</a>  <a href="https://leetcode-cn.com/problems/spiral-matrix/">剑指Offer # 54</a></h2>
 <p>给定一个包含 m x n 个元素的矩阵（m 行, n 列），请按照顺时针螺旋顺序，返回矩阵中的所有元素。</p>
 <p>示例 1:</p>
 <p>输入:</p>
@@ -214,99 +215,120 @@
 <h3 id="java">Java</h3>
 <pre><code class="language-Java">class Solution {
     public List&lt;Integer&gt; spiralOrder(int[][] matrix) {
-        int row1 = 0;
-        int col1 = 0;
-        int col2 = 0;
-        int row2 = matrix.length - 1;
-        try {
-            col2 = matrix[0].length - 1;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+        if (matrix == null || matrix.length == 0) return result;
+        int row1 = 0, col1 = 0;
+        int row2 = matrix.length - 1, col2 = matrix[0].length - 1;
 
-        while (row1 &lt;= row2 &amp;&amp; col1 &lt;= col2) {
-            result.addAll(printEdge(matrix, row1++, col1++, row2--, col2--));
-        }
+        while (row1 &lt;= row2 &amp;&amp; col1 &lt;= col2)
+            result.addAll(getEdge(matrix, row1++, col1++, row2--, col2--));
 
         return result;
     }
 
-    public static List&lt;Integer&gt; printEdge(int[][] m, int row1, int col1, int row2, int col2) {
+    public List&lt;Integer&gt; getEdge(int[][] m, int row1, int col1, int row2, int col2) {
         List&lt;Integer&gt; tmpResult = new ArrayList&lt;&gt;();
 
         if (row1 == row2) {
-            for (int i = col1; i &lt;= col2; i++) {
+            for (int i = col1; i &lt;= col2; i++)
                 tmpResult.add(m[row1][i]);
-            }
-        } else if (col1 == col2) {
-            for (int i = row1; i &lt;= row2; i++) {
-                tmpResult.add(m[i][col1]);
-            }
-        } else {
-            int cuR = row1;
-            int cuC = col1;
-            while (cuC != col2) {
-                tmpResult.add(m[row1][cuC]);
-                cuC++;
-            }
-            while (cuR != row2) {
-                tmpResult.add(m[cuR][col2]);
-                cuR++;
-            }
-            while (cuC != col1) {
-                tmpResult.add(m[row2][cuC]);
-                cuC--;
-            }
-            while (cuR != row1) {
-                tmpResult.add(m[cuR][col1]);
-                cuR--;
-            }
+            return tmpResult;
         }
+
+        if (col1 == col2) {
+            for (int i = row1; i &lt;= row2; i++)
+                tmpResult.add(m[i][col1]);
+            return tmpResult;
+        }
+
+        int curR = row1;
+        int curC = col1;
+        while (curC != col2) tmpResult.add(m[row1][curC++]);
+        while (curR != row2) tmpResult.add(m[curR++][col2]);
+        while (curC != col1) tmpResult.add(m[row2][curC--]);
+        while (curR != row1) tmpResult.add(m[curR--][col1]);
 
         return tmpResult;
     }
 }
 </code></pre>
 <h3 id="python">Python</h3>
-<pre><code class="language-python">class PrintMatrixSpiralOrder(object):
-    def spiral_order(self, matrix):
-        row1 = 0
-        col1 = 0
-        row2 = len(matrix) - 1
-        col2 = len(matrix[0]) - 1 if row2 &gt;= 0 and matrix[0] is not None else -1
-
+<pre><code class="language-python">class Solution:
+    def spiralOrder(self, matrix: list) -&gt; list:
         result = []
+        if not matrix or len(matrix) == 0: return result
+        row1, col1 = 0, 0
+        row2, col2 = len(matrix) - 1, len(matrix[0]) - 1
 
-        while row1 &lt;= row2 and col1 &lt;= col2:
-            result.extend(self.print_edge(matrix, row1, col1, row2, col2))
-            row1 += 1
-            col1 += 1
-            row2 -= 1
-            col2 -= 1
+        def get_edge(matrix: list) -&gt; list:
+            if row1 == row2:
+                for i in range(col1, col2 + 1):
+                    result.append(matrix[row1][i])
+                return
+
+            if col1 == col2:
+                for i in range(row1, row2 + 1):
+                    result.append(matrix[i][col1])
+                return
+
+            for i in range(col1, col2): result.append(matrix[row1][i])
+            for i in range(row1, row2): result.append(matrix[i][col2])
+            for i in range(col2, col1, -1): result.append(matrix[row2][i])
+            for i in range(row2, row1, -1): result.append(matrix[i][col1])
+
+        while (row1 &lt;= row2 and col1 &lt;= col2):
+            get_edge(matrix)
+            row1, col1, row2, col2 = row1 + 1, col1 + 1, row2 - 1, col2 - 1
 
         return result
+</code></pre>
+<h3 id="go">Go</h3>
+<pre><code class="language-go">func spiralOrder(matrix [][]int) []int {
+    var result []int
+    if matrix == nil || len(matrix) == 0 {
+        return result
+    }
+    row1, col1 := 0, 0
+    row2, col2 := len(matrix) - 1, len(matrix[0]) - 1
 
-    def print_edge(self, m, row1, col1, row2, col2):
-        tmp_result = []
-        if row1 == row2:
-            for i in range(col1, col2 + 1):
-                tmp_result.append(m[row1][i])
-        elif col1 == col2:
-            for i in range(row1, row2 + 1):
-                tmp_result.append(m[i][col1])
-        else:
-            for i in range(col1, col2):
-                tmp_result.append(m[row1][i])
-            for i in range(row1, row2):
-                tmp_result.append(m[i][col2])
-            for i in range(col2, col1, -1):
-                tmp_result.append(m[row2][i])
-            for i in range(row2, row1, -1):
-                tmp_result.append(m[i][col1])
+    for row1 &lt;= row2 &amp;&amp; col1 &lt;= col2 {
+        result = append(result, getEdge(matrix, row1, col1, row2, col2)...)
+        row1, col1, row2, col2 = row1 + 1, col1 + 1, row2 - 1, col2 - 1
+    }
 
-        return tmp_result
+    return result
+}
+
+func getEdge(m [][]int, row1, col1, row2, col2 int) []int {
+    var tmpResult []int
+    if row1 == row2 {
+        for i := col1; i &lt;= col2; i++ {
+            tmpResult = append(tmpResult, m[row1][i])
+        }
+        return tmpResult
+    }
+    if col1 == col2 {
+        for i := row1; i &lt;= row2; i++ {
+            tmpResult = append(tmpResult, m[i][col1])
+        }
+        return tmpResult
+    }
+
+    for i := col1; i &lt; col2; i++ {
+        tmpResult = append(tmpResult, m[row1][i])
+    }
+    for i := row1; i &lt; row2; i++ {
+        tmpResult = append(tmpResult, m[i][col2])
+    }
+    for i := col2; i &gt; col1; i-- {
+        tmpResult = append(tmpResult, m[row2][i])
+    }
+    for i := row2; i &gt; row1; i-- {
+        tmpResult = append(tmpResult, m[i][col1])
+    }
+
+    return tmpResult
+}
 </code></pre>
 
         </div>
