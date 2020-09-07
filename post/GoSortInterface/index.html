@@ -45,18 +45,11 @@
             <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li>
+<li><a href="#%E9%A2%98%E7%9B%AEleetcode-56">题目(LeetCode #56)</a></li>
+<li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
 <ul>
-<li>
-<ul>
-<li><a href="#%E6%80%9D%E8%B7%AF">思路</a>
-<ul>
-<li><a href="#java">Java</a></li>
-<li><a href="#python">Python</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F">快速排序</a></li>
+<li><a href="#go-%E5%86%85%E7%BD%AE%E6%8E%92%E5%BA%8F">Go 内置排序</a></li>
 </ul>
 </li>
 </ul>
@@ -107,110 +100,155 @@
 <div class="mask" onclick="closeMenu()">
 </div>
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-bold lg:mt-16">拓扑排序算法</h1>
+        <h1 class="text-3xl font-bold lg:mt-16">Go 自定义类型排序</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-06-21 / 3 min read
+          2020-09-07 / 3 min read
         </div>
         
-          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200621184847.png" alt="">
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200814081053.png" alt="">
         
         <div class="post-content yue">
-          <p>在图论中，由一个有向无环图的顶点组成的序列，当且仅当满足下列条件时，才能称为该图的一个<a href="https://zh.wikipedia.org/wiki/%E6%8B%93%E6%92%B2%E6%8E%92%E5%BA%8F">拓扑排序</a>（Topological sorting）：</p>
-<ol>
-<li>序列中包含每个顶点，且每个顶点只出现一次；</li>
-<li>若A在序列中排在B的前面，则在图中不存在从B到A的路径。</li>
-</ol>
-<p>适用范围:</p>
+          <h2 id="题目leetcode-56">题目(<a href="https://leetcode-cn.com/problems/merge-intervals">LeetCode #56</a>)</h2>
+<p>给出一个区间的集合，请合并所有重叠的区间。</p>
+<p><strong>示例 1:</strong></p>
+<blockquote>
+<p><strong>输入:</strong> intervals = [[1, 3], [2, 6], [8, 10], [15, 18]]<br>
+<strong>输出:</strong> [[1, 6], [8, 10], [15, 18]]<br>
+<strong>解释:</strong> 区间 [1, 3] 和 [2, 6] 重叠, 将它们合并为 [1, 6].</p>
+</blockquote>
+<p><strong>示例 2:</strong></p>
+<blockquote>
+<p><strong>输入:</strong> intervals = [[1, 4], [4, 5]]<br>
+<strong>输出:</strong> [[1, 5]]<br>
+<strong>解释:</strong> 区间 [1, 4] 和 [4, 5] 可被视为重叠区间。</p>
+</blockquote>
+<p><strong>提示：</strong> <code>intervals[i][0] &lt;= intervals[i][1]</code></p>
+<h2 id="题解">题解</h2>
 <ul>
-<li>有向图</li>
-<li>有入度为 0 的节点</li>
-<li>图中没有环</li>
+<li>先按照每个区间的左端点进行排序，保证可以合并的区间是连续的。</li>
+<li>遍历区间数组，判断结果集中最后一个区间的右端点与当前数组的左端点的关系：
+<ul>
+<li>若 <code>curInterval[0] &lt; mergedList[-1][1]</code> ，则区间无重合，直接将当前区间放入结果集即可</li>
+<li>若 <code>curInterval[0] &gt;= mergedList[-1][1]</code> ，则区间重合，需更新结果集中最后一个区间的右端点为 <code>max(curInterval[1], mergerdList[-1][1])</code></li>
 </ul>
-<p>拓扑排序常应用于有依赖关系的一组事务之间的排序. 例如有依赖关系的多个模块的编译次序问题等. 假定头图中的 <code>A</code> , <code>B</code> , <code>C</code> , <code>D</code> , <code>K</code> 为待编译的几个模块, 箭头表示依赖关系(如 <code>B</code> , <code>D</code> 依赖于 <code>K</code> ), 经拓扑排序后应输出模块编译顺序, 即 <code>K</code> -&gt; <code>C</code> -&gt; <code>B</code> -&gt; <code>D</code> -&gt; <code>A</code> 或 <code>C</code> -&gt; <code>K</code> -&gt; <code>B</code> -&gt; <code>D</code> -&gt; <code>A</code> ( <code>K</code> 和 <code>C</code> , <code>B</code> 和 <code>D</code> 顺序可互换)</p>
-<h4 id="思路">思路</h4>
-<p>先找到所有入度为 0 的节点并输出, 删除这些节点. 在下一次迭代中, 找到剩余节点中入度为 0 的节点并输出, 直到图中节点全部输出为止.</p>
-<h5 id="java">Java</h5>
-<p>图的结构定义及实现见<a href="https://zcybupt.github.io/post/Graph/">另一篇博客</a></p>
-<pre><code class="language-java">public class TopologySort {
-    public static List&lt;GraphNode&gt; topologySort(Graph graph) {
-        HashMap&lt;GraphNode, Integer&gt; inMap = new HashMap&lt;&gt;();
-        Queue&lt;GraphNode&gt; zeroInQueue = new LinkedList&lt;&gt;();
-        // 取出所有节
-        for (GraphNode node : graph.nodes.values()) {
-            inMap.put(node, node.in);   // 建立节点和其入度的对应关系
-            if (node.in == 0)
-                zeroInQueue.add(node);
-        }
+</li>
+</ul>
+<h3 id="快速排序">快速排序</h3>
+<pre><code class="language-go">func merge(intervals [][]int) [][]int {
+	if intervals == nil || len(intervals) &lt;= 1 {
+		return intervals
+	}
+	quickSort(intervals, 0, len(intervals)-1)
 
-        List&lt;GraphNode&gt; result = new ArrayList&lt;&gt;();
-        while (!zeroInQueue.isEmpty()) {
-            GraphNode cur = zeroInQueue.poll();
-            result.add(cur);
-            // 将入度为 0 的节点的下一层节点的入度减一, 若为 0 则放入 zeroInQueue 中
-            for (GraphNode next : cur.nexts) {
-                inMap.put(next, inMap.get(next) - 1);
-                if (inMap.get(next) == 0) {
-                    zeroInQueue.add(next);
-                }
-            }
-        }
-        return result;
-    }
+	var result [][]int
+	result = append(result, intervals[0])
+	for _, interval := range intervals[1:] {
+		lastInterval := result[len(result)-1]
+		if lastInterval[1] &lt; interval[0] {
+			result = append(result, interval)
+		} else {
+			lastInterval[1] = max(lastInterval[1], interval[1])
+		}
+	}
+
+	return result
+}
+
+func max(a, b int) int {
+	if a &gt; b {
+		return a
+	}
+	return b
+}
+
+func quickSort(nums [][]int, L, R int) {
+	if L &lt; R {
+		pIndex := partition(nums, L, R)
+		quickSort(nums, L, pIndex-1)
+		quickSort(nums, pIndex+1, R)
+	}
+}
+
+func partition(nums [][]int, L, R int) int {
+	P := nums[L]
+	for L != R {
+		for L &lt; R &amp;&amp; nums[R][0] &gt;= P[0] {
+			R--
+		}
+		nums[L] = nums[R]
+		for L &lt; R &amp;&amp; nums[L][0] &lt;= P[0] {
+			L++
+		}
+		nums[R] = nums[L]
+	}
+	nums[L] = P
+
+	return L
 }
 </code></pre>
-<h5 id="python">Python</h5>
-<pre><code class="language-python">def topology_sort(graph):
-    in_dict = dict()
-    zero_in_list = []
+<h3 id="go-内置排序">Go 内置排序</h3>
+<p>调用 <code>sort</code> 包对自定义类型进行排序时，需实现其中的 <code>Less()</code> 、<code>Len()</code> 、<code>Swap()</code> 三个方法。</p>
+<pre><code class="language-go">import &quot;sort&quot;
 
-    for node in graph.nodes.values():
-        in_dict[node] = node.in_degree
-        if node.in_degree == 0:
-            zero_in_list.append(node)
+func merge(intervals [][]int) [][]int {
+	if intervals == nil || len(intervals) &lt;= 1 {
+		return intervals
+	}
+	sort.Sort(intss(intervals))
 
-    result = []
-    while zero_in_list:
-        cur = zero_in_list.pop()
-        result.append(cur)
+	var result [][]int
+	result = append(result, intervals[0])
+	for _, interval := range intervals[1:] {
+		lastInterval := result[len(result)-1]
+		if lastInterval[1] &lt; interval[0] {
+			result = append(result, interval)
+		} else {
+			lastInterval[1] = max(lastInterval[1], interval[1])
+		}
+	}
 
-        for next in cur.nexts:
-            in_dict[next] = in_dict[next] - 1
-            if in_dict[next] == 0:
-                zero_in_list.append(next)
+	return result
+}
 
-    return result
+type intss [][]int
+
+func (s intss) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+
+func (s intss) Less(i, j int) bool {
+	return s[i][0] &lt; s[j][0]
+}
+
+func (s intss) Len() int {
+	return len(s)
+}
+
+func max(a, b int) int {
+	if a &gt; b {
+		return a
+	}
+	return b
+}
 </code></pre>
 
         </div>
 
         
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/oX_1wl8kW/">
-            <span class="flex-auto">图</span>
-          </a>
-        
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/sygsU_q1s/">
-            <span class="flex-auto">算法</span>
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/T217rLi9N/">
+            <span class="flex-auto">Golang</span>
           </a>
         
 
 
         <div class="flex justify-between py-8">
           
-            <div class="prev-post">
-              <a href="https://zcybupt.github.io/post/MinimumSpanningTree/">
-                <h3 class="post-title">
-                  <i class="ri-arrow-left-line"></i>
-                  最小生成树
-                </h3>
-              </a>
-            </div>
-          
 
           
             <div class="next-post">
-              <a href="https://zcybupt.github.io/post/DFS/">
+              <a href="https://zcybupt.github.io/post/Permutations/">
                 <h3 class="post-title">
-                  深度优先遍历
+                  全排列
                   <i class="ri-arrow-right-line"></i>
                 </h3>
               </a>
