@@ -45,12 +45,24 @@
             <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E9%A2%98%E7%9B%AEleetcode-16">题目(LeetCode #16)</a></li>
+<li><a href="#%E5%BA%B7%E6%89%98%E5%B1%95%E5%BC%80">康托展开</a>
+<ul>
+<li><a href="#%E5%AE%9A%E4%B9%89">定义</a></li>
+<li><a href="#%E5%85%AC%E5%BC%8F">公式</a></li>
+<li><a href="#%E8%A7%A3%E9%87%8A">解释</a></li>
+</ul>
+</li>
+<li><a href="#%E9%80%86%E5%BA%B7%E6%89%98%E5%B1%95%E5%BC%80">逆康托展开</a></li>
+<li><a href="#%E4%BE%8B%E9%A2%98leetcode-60">例题(LeetCode #60)</a>
+<ul>
+<li><a href="#%E7%AC%AC-k-%E4%B8%AA%E6%8E%92%E5%88%97">第 k 个排列</a></li>
 <li><a href="#%E9%A2%98%E8%A7%A3">题解</a>
 <ul>
 <li><a href="#java">Java</a></li>
 <li><a href="#python">Python</a></li>
 <li><a href="#go">Go</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -101,147 +113,234 @@
 <div class="mask" onclick="closeMenu()">
 </div>
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-bold lg:mt-16">最接近的三数之和</h1>
+        <h1 class="text-3xl font-bold lg:mt-16">康托展开与逆康托展开</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-08-10 / 3 min read
+          2020-09-10 / 6 min read
         </div>
         
-          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200809191125.png" alt="">
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200910163239.png" alt="">
         
         <div class="post-content yue">
-          <h2 id="题目leetcode-16">题目(<a href="https://leetcode-cn.com/problems/3sum-closest/">LeetCode #16</a>)</h2>
-<p>给定一个包括 <code>n</code> 个整数的数组 <code>nums</code> 和 一个目标值 <code>target</code> 。找出 <code>nums</code> 中的三个整数，使得它们的和与 <code>target</code> 最接近。返回这三个数的和。假定每组输入只存在唯一答案。</p>
-<p><strong>示例：</strong></p>
-<blockquote>
-<p><strong>输入：</strong> nums = [-1,2,1,-4], target = 1</p>
-<p><strong>输出：</strong> 2</p>
-<p><strong>解释：</strong> 与 target 最接近的和是 2 (-1 + 2 + 1 = 2) 。</p>
-</blockquote>
-<p><strong>提示：</strong></p>
-<ul>
-<li>3 &lt;= nums.length &lt;= 10³</li>
-<li>-10³ &lt;= nums[i] &lt;= 10³</li>
-<li>-10<sup>4</sup>&gt; &lt;= target &lt;= 10<sup>4</sup></li>
-</ul>
-<h2 id="题解">题解</h2>
-<p>本题与<a href="https://zcybupt.github.io/post/ThreeSum/">三数之和</a>类似 ，可采用双指针法，差别在于本题可以有重复元素。</p>
-<p>由于处理过程中数组已经过排序，故在遍历数组元素的过程中，若 <code>nums[i] + nums[L] + nums[R] &gt; target</code> ，需将 <code>R</code> 左移，以减小三数和，进而减小其与 <code>target</code> 的差值；若 <code>nums[i] + nums[L] + nums[R] &lt; target</code> ，需将 <code>L</code> 右移，增大三数和来达到相同目的。</p>
-<h3 id="java">Java</h3>
-<pre><code class="language-java">import java.util.Arrays;
+          <h2 id="康托展开">康托展开</h2>
+<h3 id="定义">定义</h3>
+<p>康托展开是一个全排列到一个自然数的双射，常用于构建哈希表时的空间压缩。 康托展开的实质是计算当前排列在所有由小到大全排列中的顺序，因此是可逆的。</p>
+<h3 id="公式">公式</h3>
+<img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200910172307.png" style="zoom:60%;" />
+<p>其中 a<sub>i</sub> 为整数，且 0 ≤ a<sub>i</sub> ≤ i, 1 ≤ i ≤ n .</p>
+<h3 id="解释">解释</h3>
+<p>以 <code>[4, 2, 3, 1]</code> 为例，以 4 为第一位的排列之前的排列的第一位可能为 1、2、3，共 3 种情况，而第 2、3、4 位上的顺序又有 3! 种可能。此时 a<sub>n</sub> = 3，n - 1 = 3, 故第一位为 4 的排列之前共有 18 种排列。以此类推，可计算在第一位为 4，第二位为 2 的情况之前的排列数量，此时比 2 小的只有一个数 1，故 a<sub>n</sub> = 1, n - 2 = 2，故第二项为 2。后续过程类似，由于计算的是当前排列的次序，故还需将结果加 1。</p>
+<pre><code class="language-java">class CantorExpansion {
+    final int[] facts = {1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880};
 
-public class Solution {
-    public int threeSumClosest(int[] nums, int target) {
-        int arrLen = nums.length;
-        if (arrLen &lt; 3) return 0;
+    public int getFactorial(int n) {
+        if (n &lt; 10) return facts[n];
+        return n * getFactorial(n - 1);
+    }
 
-        Arrays.sort(nums);
-        int L, R;
+    public int cantor(int[] nums) {
         int result = 0;
-        int minDiff = Integer.MAX_VALUE;
-        int curDiff, curSum;
-
+        int arrLen = nums.length;
         for (int i = 0; i &lt; arrLen; i++) {
-            L = i + 1;
-            R = arrLen - 1;
-            while (L &lt; R) {
-                curSum = nums[i] + nums[L] + nums[R];
-                if (curSum == target) return curSum;
-                curDiff = Math.abs(curSum - target);
-                if (curDiff &lt; minDiff) {
-                    result = curSum;
-                    minDiff = curDiff;
-                }
-                if (curSum &gt; target) R--;
-                else L++;
+            int cnt = 0;
+            for (int j = i + 1; j &lt; arrLen; j++) {
+                if (nums[i] &gt; nums[j]) cnt++;
             }
+            result += cnt * getFactorial(arrLen - i - 1);
         }
 
-        return result;
+        return result + 1;
+    }
+
+    public static void main(String[] args) {
+        int nums[] = {4, 2, 3, 1};
+        System.out.println(new CantorExpansion().cantor(nums));	// 22
     }
 }
 </code></pre>
-<h3 id="python">Python</h3>
-<pre><code class="language-python">class Solution:
-    def threeSumClosest(self, nums: list, target: int) -&gt; int:
-        list_len = len(nums)
-        if not nums or list_len &lt; 3: return 0
+<h2 id="逆康托展开">逆康托展开</h2>
+<p>因为排列的次序与排列是一一对应的，故可由排列数直接推得排列。</p>
+<p>例如，对数组 <code>[1, 2, 3, 4]</code> 的全排列序列来说，求第 23 个排列：</p>
+<ul>
+<li>首先减去 1 求得该序列前共有 22 种排列</li>
+<li>再用 22 除 (4 - 1)!，商 3 余 4，故这个排列比第一位小的共有 3 个数，故第一位为 4</li>
+<li>用 4 除 (3 - 1)!，商 2 余 0，故剩余的数中比第二位小的数共有 2 个，所以第二位为 3</li>
+<li>用 0 除 (2 - 1)!，商 0 余 0，故剩余的数中比第三位小的数有 0 个，所以第三位为 1</li>
+<li>用 0 除 (1 - 1)!，商 0 余 0，故比第四位小的数有 0 个，所以第四位为仅剩的 2</li>
+</ul>
+<p>所以第 23 个排列为 4312。</p>
+<pre><code class="language-java">class CantorExpansion {
+    final int[] facts = {1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880};
 
-        nums.sort()
-        min_diff = float('inf')
-        result = 0
-
-        for i in range(list_len):
-            l = i + 1
-            r = list_len - 1
-            while l &lt; r:
-                cur_sum = nums[i] + nums[l] + nums[r]
-                if cur_sum == target: return cur_sum
-                cur_diff = abs(cur_sum - target)
-                if cur_diff &lt; min_diff:
-                    result = cur_sum
-                    min_diff = cur_diff
-
-                if cur_sum &gt; target: r -= 1
-                else: l += 1
-
-        return result
-</code></pre>
-<h3 id="go">Go</h3>
-<pre><code class="language-go">package main
-
-import (
-    &quot;math&quot;
-    &quot;sort&quot;
-)
-
-func threeSumClosest(nums []int, target int) int {
-    arrLen := len(nums)
-    if nums == nil || arrLen &lt; 3 {
-        return 0
+    public int getFactorial(int n) {
+        if (n &lt; 10) return facts[n];
+        return n * getFactorial(n - 1);
     }
 
-    sort.Ints(nums)
-    result, curSum, curDiff := 0, 0, 0
-    minDiff := math.MaxInt32
+    public String inverseCantor(int[] nums, int n) {
+        int arrLen = nums.length;
+        char[] result = new char[arrLen];
+        boolean[] isVisited = new boolean[arrLen];
+        n--;
+        for (int i = 0; i &lt; arrLen; i++) {
+            int tmpFact = getFactorial(arrLen - 1 - i);
+            int cnt = n / tmpFact;
+            n %= tmpFact;
+            for (int j = 0; j &lt; arrLen; j++) {
+                if (isVisited[j]) continue;
+                if (cnt-- == 0) {
+                    isVisited[j] = true;
+                    result[i] = (char) (nums[j] + '0');
+                    break;
+                }
+            }
+        }
 
-    for i, v := range nums {
-        L, R := i+1, arrLen-1
-        for L &lt; R {
-            curSum = v + nums[L] + nums[R]
-            if curSum == target {
-                return curSum
-            }
-            curDiff = int(math.Abs(float64(curSum - target)))
-            if curDiff &lt; minDiff {
-                result = curSum
-                minDiff = curDiff
-            }
+        return String.valueOf(result);
+    }
 
-            if curSum &gt; target {
-                R--
-            } else {
-                L++
+    public static void main(String[] args) {
+        int nums[] = {1, 2, 3, 4};
+        System.out.println(new CantorExpansion().inverseCantor(nums, 23)); // 4312
+    }
+}
+</code></pre>
+<h2 id="例题leetcode-60">例题(<a href="https://leetcode-cn.com/problems/permutation-sequence/">LeetCode #60</a>)</h2>
+<h3 id="第-k-个排列">第 k 个排列</h3>
+<p>给出集合 <code>[1,2,3,…,n]</code>，其所有元素共有 n! 种排列。</p>
+<p>按大小顺序列出所有排列情况，并一一标记，当 n = 3 时, 所有排列如下：</p>
+<ol>
+<li>&quot;123&quot;</li>
+<li>&quot;132&quot;</li>
+<li>&quot;213&quot;</li>
+<li>&quot;231&quot;</li>
+<li>&quot;312&quot;</li>
+<li>&quot;321&quot;</li>
+</ol>
+<p>给定 n 和 k，返回第 k 个排列。</p>
+<p><strong>说明：</strong></p>
+<ul>
+<li>给定 n 的范围是 [1, 9]。</li>
+<li>给定 k 的范围是[1,  n!]。</li>
+</ul>
+<p><strong>示例 1:</strong></p>
+<blockquote>
+<p><strong>输入:</strong>  n = 3, k = 3<br>
+<strong>输出:</strong>  &quot;213&quot;</p>
+</blockquote>
+<p><strong>示例 2:</strong></p>
+<blockquote>
+<p><strong>输入:</strong> n = 4, k = 9<br>
+<strong>输出:</strong> &quot;2314&quot;</p>
+</blockquote>
+<h3 id="题解">题解</h3>
+<p>采用逆康托展开直接计算</p>
+<h4 id="java">Java</h4>
+<pre><code class="language-java">class Solution {
+    final int[] facts = {1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880};
+
+    public int getFactorial(int n) {
+        if (n &lt; 10) return facts[n];
+        return n * getFactorial(n - 1);
+    }
+
+    public String getPermutation(int n, int k) {
+        StringBuilder result = new StringBuilder();
+        boolean[] isVisited = new boolean[n];
+        k--;
+        for (int i = 0; i &lt; n; i++) {
+            int tmpFact = getFactorial(n - 1 - i);
+            int cnt = k / tmpFact;
+            k %= tmpFact;
+            for (int j = 0; j &lt; n; j++) {
+                if (isVisited[j]) continue;
+                if (cnt-- == 0) {
+                    isVisited[j] = true;
+                    result.append(j + 1);
+                    break;
+                }
             }
+        }
+
+        return String.valueOf(result);
+    }
+}
+</code></pre>
+<h4 id="python">Python</h4>
+<pre><code class="language-python">class Solution:
+    def __init__(self):
+        self.facts = [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880]
+
+    def get_fact(self, n: int) -&gt; int:
+        if n &lt; 10: return self.facts[n]
+        return n * self.get_fact(n - 1)
+
+    def getPermutation(self, n: int, k: int) -&gt; str:
+        result = []
+        is_visited = [False] * n
+        k -= 1
+        for i in range(n):
+            tmp_fact = self.get_fact(n - 1 - i)
+            cnt = k // tmp_fact
+            k %= tmp_fact
+            for j in range(n):
+                if is_visited[j]: continue
+                if cnt == 0:
+                    is_visited[j] = True
+                    result.append(str(j + 1))
+                    break
+                cnt -= 1
+
+        return ''.join(result)
+</code></pre>
+<h4 id="go">Go</h4>
+<pre><code class="language-go">import (
+    &quot;strconv&quot;
+    &quot;strings&quot;
+)
+
+var facts = []int{1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880}
+
+func getFact(n int) int {
+    if n &lt; 10 {
+        return facts[n]
+    }
+    return n * getFact(n-1)
+}
+
+func getPermutation(n int, k int) string {
+    var result []string
+    isVisited := make([]bool, n)
+    k--
+    for i := 0; i &lt; n; i++ {
+        tmpFact := getFact(n - 1 - i)
+        cnt := k / tmpFact
+        k %= tmpFact
+        for j := 0; j &lt; n; j++ {
+            if isVisited[j] {
+                continue
+            }
+            if cnt == 0 {
+                isVisited[j] = true
+                result = append(result, strconv.Itoa(j+1))
+                break
+            }
+            cnt--
         }
     }
 
-    return result
+    return strings.Join(result, &quot;&quot;)
 }
 </code></pre>
 
         </div>
 
         
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/MZ3hriJa0/">
-            <span class="flex-auto">双指针法</span>
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/Iee5CL41I/">
+            <span class="flex-auto">康托展开</span>
           </a>
         
           <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/zjyfY7MTi/">
             <span class="flex-auto">Medium</span>
-          </a>
-        
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/sygsU_q1s/">
-            <span class="flex-auto">算法</span>
           </a>
         
           <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://zcybupt.github.io/tag/uIoWQi2bzm/">
@@ -252,21 +351,12 @@ func threeSumClosest(nums []int, target int) int {
 
         <div class="flex justify-between py-8">
           
-            <div class="prev-post">
-              <a href="https://zcybupt.github.io/post/RemoveNthNodeFromEndOfList/">
-                <h3 class="post-title">
-                  <i class="ri-arrow-left-line"></i>
-                  删除链表的倒数第N个节点
-                </h3>
-              </a>
-            </div>
-          
 
           
             <div class="next-post">
-              <a href="https://zcybupt.github.io/post/ThreeSum/">
+              <a href="https://zcybupt.github.io/post/GoSortInterface/">
                 <h3 class="post-title">
-                  三数之和
+                  Go 自定义类型排序
                   <i class="ri-arrow-right-line"></i>
                 </h3>
               </a>

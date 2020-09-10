@@ -2,13 +2,231 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zcybupt.github.io</id>
     <title>CODEFANCIER</title>
-    <updated>2020-09-09T09:51:35.808Z</updated>
+    <updated>2020-09-10T13:17:46.983Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zcybupt.github.io"/>
     <link rel="self" href="https://zcybupt.github.io/atom.xml"/>
     <logo>https://zcybupt.github.io/images/avatar.png</logo>
     <icon>https://zcybupt.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, CODEFANCIER</rights>
+    <entry>
+        <title type="html"><![CDATA[康托展开与逆康托展开]]></title>
+        <id>https://zcybupt.github.io/post/CantorExpansion/</id>
+        <link href="https://zcybupt.github.io/post/CantorExpansion/">
+        </link>
+        <updated>2020-09-10T08:24:06.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="康托展开">康托展开</h2>
+<h3 id="定义">定义</h3>
+<p>康托展开是一个全排列到一个自然数的双射，常用于构建哈希表时的空间压缩。 康托展开的实质是计算当前排列在所有由小到大全排列中的顺序，因此是可逆的。</p>
+<h3 id="公式">公式</h3>
+<img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200910172307.png" style="zoom:60%;" />
+<p>其中 a<sub>i</sub> 为整数，且 0 ≤ a<sub>i</sub> ≤ i, 1 ≤ i ≤ n .</p>
+<h3 id="解释">解释</h3>
+<p>以 <code>[4, 2, 3, 1]</code> 为例，以 4 为第一位的排列之前的排列的第一位可能为 1、2、3，共 3 种情况，而第 2、3、4 位上的顺序又有 3! 种可能。此时 a<sub>n</sub> = 3，n - 1 = 3, 故第一位为 4 的排列之前共有 18 种排列。以此类推，可计算在第一位为 4，第二位为 2 的情况之前的排列数量，此时比 2 小的只有一个数 1，故 a<sub>n</sub> = 1, n - 2 = 2，故第二项为 2。后续过程类似，由于计算的是当前排列的次序，故还需将结果加 1。</p>
+<pre><code class="language-java">class CantorExpansion {
+    final int[] facts = {1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880};
+
+    public int getFactorial(int n) {
+        if (n &lt; 10) return facts[n];
+        return n * getFactorial(n - 1);
+    }
+
+    public int cantor(int[] nums) {
+        int result = 0;
+        int arrLen = nums.length;
+        for (int i = 0; i &lt; arrLen; i++) {
+            int cnt = 0;
+            for (int j = i + 1; j &lt; arrLen; j++) {
+                if (nums[i] &gt; nums[j]) cnt++;
+            }
+            result += cnt * getFactorial(arrLen - i - 1);
+        }
+
+        return result + 1;
+    }
+
+    public static void main(String[] args) {
+        int nums[] = {4, 2, 3, 1};
+        System.out.println(new CantorExpansion().cantor(nums));	// 22
+    }
+}
+</code></pre>
+<h2 id="逆康托展开">逆康托展开</h2>
+<p>因为排列的次序与排列是一一对应的，故可由排列数直接推得排列。</p>
+<p>例如，对数组 <code>[1, 2, 3, 4]</code> 的全排列序列来说，求第 23 个排列：</p>
+<ul>
+<li>首先减去 1 求得该序列前共有 22 种排列</li>
+<li>再用 22 除 (4 - 1)!，商 3 余 4，故这个排列比第一位小的共有 3 个数，故第一位为 4</li>
+<li>用 4 除 (3 - 1)!，商 2 余 0，故剩余的数中比第二位小的数共有 2 个，所以第二位为 3</li>
+<li>用 0 除 (2 - 1)!，商 0 余 0，故剩余的数中比第三位小的数有 0 个，所以第三位为 1</li>
+<li>用 0 除 (1 - 1)!，商 0 余 0，故比第四位小的数有 0 个，所以第四位为仅剩的 2</li>
+</ul>
+<p>所以第 23 个排列为 4312。</p>
+<pre><code class="language-java">class CantorExpansion {
+    final int[] facts = {1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880};
+
+    public int getFactorial(int n) {
+        if (n &lt; 10) return facts[n];
+        return n * getFactorial(n - 1);
+    }
+
+    public String inverseCantor(int[] nums, int n) {
+        int arrLen = nums.length;
+        char[] result = new char[arrLen];
+        boolean[] isVisited = new boolean[arrLen];
+        n--;
+        for (int i = 0; i &lt; arrLen; i++) {
+            int tmpFact = getFactorial(arrLen - 1 - i);
+            int cnt = n / tmpFact;
+            n %= tmpFact;
+            for (int j = 0; j &lt; arrLen; j++) {
+                if (isVisited[j]) continue;
+                if (cnt-- == 0) {
+                    isVisited[j] = true;
+                    result[i] = (char) (nums[j] + '0');
+                    break;
+                }
+            }
+        }
+
+        return String.valueOf(result);
+    }
+
+    public static void main(String[] args) {
+        int nums[] = {1, 2, 3, 4};
+        System.out.println(new CantorExpansion().inverseCantor(nums, 23)); // 4312
+    }
+}
+</code></pre>
+<h2 id="例题leetcode-60">例题(<a href="https://leetcode-cn.com/problems/permutation-sequence/">LeetCode #60</a>)</h2>
+<h3 id="第-k-个排列">第 k 个排列</h3>
+<p>给出集合 <code>[1,2,3,…,n]</code>，其所有元素共有 n! 种排列。</p>
+<p>按大小顺序列出所有排列情况，并一一标记，当 n = 3 时, 所有排列如下：</p>
+<ol>
+<li>&quot;123&quot;</li>
+<li>&quot;132&quot;</li>
+<li>&quot;213&quot;</li>
+<li>&quot;231&quot;</li>
+<li>&quot;312&quot;</li>
+<li>&quot;321&quot;</li>
+</ol>
+<p>给定 n 和 k，返回第 k 个排列。</p>
+<p><strong>说明：</strong></p>
+<ul>
+<li>给定 n 的范围是 [1, 9]。</li>
+<li>给定 k 的范围是[1,  n!]。</li>
+</ul>
+<p><strong>示例 1:</strong></p>
+<blockquote>
+<p><strong>输入:</strong>  n = 3, k = 3<br>
+<strong>输出:</strong>  &quot;213&quot;</p>
+</blockquote>
+<p><strong>示例 2:</strong></p>
+<blockquote>
+<p><strong>输入:</strong> n = 4, k = 9<br>
+<strong>输出:</strong> &quot;2314&quot;</p>
+</blockquote>
+<h3 id="题解">题解</h3>
+<p>采用逆康托展开直接计算</p>
+<h4 id="java">Java</h4>
+<pre><code class="language-java">class Solution {
+    final int[] facts = {1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880};
+
+    public int getFactorial(int n) {
+        if (n &lt; 10) return facts[n];
+        return n * getFactorial(n - 1);
+    }
+
+    public String getPermutation(int n, int k) {
+        StringBuilder result = new StringBuilder();
+        boolean[] isVisited = new boolean[n];
+        k--;
+        for (int i = 0; i &lt; n; i++) {
+            int tmpFact = getFactorial(n - 1 - i);
+            int cnt = k / tmpFact;
+            k %= tmpFact;
+            for (int j = 0; j &lt; n; j++) {
+                if (isVisited[j]) continue;
+                if (cnt-- == 0) {
+                    isVisited[j] = true;
+                    result.append(j + 1);
+                    break;
+                }
+            }
+        }
+
+        return String.valueOf(result);
+    }
+}
+</code></pre>
+<h4 id="python">Python</h4>
+<pre><code class="language-python">class Solution:
+    def __init__(self):
+        self.facts = [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880]
+
+    def get_fact(self, n: int) -&gt; int:
+        if n &lt; 10: return self.facts[n]
+        return n * self.get_fact(n - 1)
+
+    def getPermutation(self, n: int, k: int) -&gt; str:
+        result = []
+        is_visited = [False] * n
+        k -= 1
+        for i in range(n):
+            tmp_fact = self.get_fact(n - 1 - i)
+            cnt = k // tmp_fact
+            k %= tmp_fact
+            for j in range(n):
+                if is_visited[j]: continue
+                if cnt == 0:
+                    is_visited[j] = True
+                    result.append(str(j + 1))
+                    break
+                cnt -= 1
+
+        return ''.join(result)
+</code></pre>
+<h4 id="go">Go</h4>
+<pre><code class="language-go">import (
+    &quot;strconv&quot;
+    &quot;strings&quot;
+)
+
+var facts = []int{1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880}
+
+func getFact(n int) int {
+    if n &lt; 10 {
+        return facts[n]
+    }
+    return n * getFact(n-1)
+}
+
+func getPermutation(n int, k int) string {
+    var result []string
+    isVisited := make([]bool, n)
+    k--
+    for i := 0; i &lt; n; i++ {
+        tmpFact := getFact(n - 1 - i)
+        cnt := k / tmpFact
+        k %= tmpFact
+        for j := 0; j &lt; n; j++ {
+            if isVisited[j] {
+                continue
+            }
+            if cnt == 0 {
+                isVisited[j] = true
+                result = append(result, strconv.Itoa(j+1))
+                break
+            }
+            cnt--
+        }
+    }
+
+    return strings.Join(result, &quot;&quot;)
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Go 自定义类型排序]]></title>
         <id>https://zcybupt.github.io/post/GoSortInterface/</id>
@@ -1957,162 +2175,6 @@ func main() {
 		fmt.Printf(&quot;%d &quot;, result.Val)
 		result = result.Next
 	}
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[删除链表的倒数第N个节点]]></title>
-        <id>https://zcybupt.github.io/post/RemoveNthNodeFromEndOfList/</id>
-        <link href="https://zcybupt.github.io/post/RemoveNthNodeFromEndOfList/">
-        </link>
-        <updated>2020-08-11T00:44:03.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="题目leetcode-19">题目(<a href="https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/">LeetCode #19</a>)</h2>
-<p>给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。</p>
-<p><strong>示例：</strong></p>
-<blockquote>
-<p>给定一个链表: <strong>1-&gt;2-&gt;3-&gt;4-&gt;5</strong>, 和 <strong>n = 2</strong>.</p>
-<p>当删除了倒数第二个节点后，链表变为 <strong>1-&gt;2-&gt;3-&gt;5</strong>.</p>
-</blockquote>
-<p><strong>说明：</strong></p>
-<p>给定的 n 保证是有效的。</p>
-<p><strong>进阶：</strong></p>
-<p>你能尝试使用一趟扫描实现吗？</p>
-<h2 id="题解">题解</h2>
-<h3 id="递归法">递归法</h3>
-<p>利用递归的特性，从递归栈底向上累加即为倒数索引。</p>
-<p><code>removeNode</code> 最终返回的值为输入链表的长度，若该返回值与 <code>n</code> 相等，则说明去掉的是第一个节点，此时头节点为 <code>head.next</code> 。</p>
-<h4 id="java">Java</h4>
-<pre><code class="language-java">class ListNode {
-    int val;
-    ListNode next;
-    ListNode(int x) {
-        val = x;
-    }
-}
-
-public class Solution {
-    public ListNode removeNthFromEnd(ListNode head, int n) {
-    	return removeNode(head, n) == n ? head.next : head; 
-    }
-
-    public int removeNode(ListNode node, int n) {
-        if (node.next == null) return 1;
-        int m = removeNode(node.next, n);
-        if (m == n)
-            node.next = node.next.next;
-
-        return m + 1;
-    }
-}
-</code></pre>
-<h4 id="python">Python</h4>
-<pre><code class="language-python">class ListNode:
-    def __init__(self, x):
-        self.val = x
-        self.next = None
-
-class Solution:
-    def removeNthFromEnd(self, head: ListNode, n: int) -&gt; ListNode:
-        return head.next if self.remove_node(head, n) == n else head
-
-    def remove_node(self, head: ListNode, n: int) -&gt; int:
-        if not head.next: return 1
-        m = self.remove_node(head.next, n)
-        if m == n:
-            head.next = head.next.next
-
-        return m + 1
-</code></pre>
-<h4 id="go">Go</h4>
-<pre><code class="language-go">package main
-
-type ListNode struct {
-    Val  int
-    Next *ListNode
-}
-
-func removeNthFromEnd(head *ListNode, n int) *ListNode {
-    if removeNode(head, n) == n {
-        return head.Next
-    } else {
-        return head
-    }
-}
-
-func removeNode(head *ListNode, n int) int {
-    if head.Next == nil {
-        return 1
-    }
-
-    m := removeNode(head.Next, n)
-    if m == n {
-        head.Next = head.Next.Next
-    }
-
-    return m + 1
-}
-</code></pre>
-<h3 id="双指针法">双指针法</h3>
-<p>使用快慢指针来查找索引，快指针先移动 <code>n</code> 个位置，再同时移动两指针，当快指针指向链表的尾节点时，慢指针所指即为倒数第 <code>n</code> 个节点。</p>
-<h4 id="java-2">Java</h4>
-<pre><code class="language-java">class Solution {
-    public ListNode removeNthFromEnd(ListNode head, int n) {
-        if (head == null || head.next == null) return null;
-
-        ListNode fast = head, slow = head;
-        for (int i = 0; i &lt; n; i++)
-            fast = fast.next;
-
-        if (fast == null)
-            return head.next;
-
-        while (fast.next != null) {
-            fast = fast.next;
-            slow = slow.next;
-        }
-
-        slow.next = slow.next.next;
-        return head;
-    }
-}
-</code></pre>
-<h4 id="python-2">Python</h4>
-<pre><code class="language-python">class Solution:
-    def removeNthFromEnd(self, head: ListNode, n: int) -&gt; ListNode:
-        fast, slow = head, head
-        for i in range(n):
-            fast = fast.next
-
-        if not fast: return head.next
-
-        while fast.next:
-            fast = fast.next
-            slow = slow.next
-
-        slow.next = slow.next.next
-
-        return head
-</code></pre>
-<h4 id="go-2">Go</h4>
-<pre><code class="language-go">func removeNthFromEnd(head *ListNode, n int) *ListNode {
-    fast, slow := head, head
-
-    for i := 0; i &lt; n; i++ {
-        fast = fast.Next
-    }
-
-    if fast == nil {
-        return head.Next
-    }
-
-    for fast.Next != nil {
-        fast = fast.Next
-        slow = slow.Next
-    }
-    slow.Next = slow.Next.Next
-
-    return head
 }
 </code></pre>
 ]]></content>
