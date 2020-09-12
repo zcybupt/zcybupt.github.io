@@ -1,686 +1,685 @@
 <html>
-  <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>CODEFANCIER</title>
-<meta name="description" content="" />
-<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1599912764934">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
-
+<link rel="shortcut icon" href="https://zcybupt.github.io/favicon.ico?v=1599913317359">
+<link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.css" rel="stylesheet">
 <link rel="stylesheet" href="https://zcybupt.github.io/styles/main.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/go.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+<!-- DEMO JS -->
+<script src="media/scripts/index.js"></script>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-170272843-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'UA-170272843-1');
-</script>
-
-
-  </head>
-  <body>
-    <div id="app" class="main px-4 flex flex-col lg:flex-row">
-      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
-  <div class="lg:sticky top-0">
-    <div class="sidebar-content">
-      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
-        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
-        <a href="https://zcybupt.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://zcybupt.github.io/images/avatar.png?v=1599912764934" alt="">
-        </a>
-        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">CODEFANCIER</h1>
-      </div>
-      
-        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
-          <p class="my-4 text-gray-600 font-light hidden lg:block">
-            
-          </p>
-          <div class="animated fadeInLeft social-container hidden lg:block" style="animation-delay: 0.6s">
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-          </div>
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <div class="main-content">
+        <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            CODEFANCIER
         </div>
-      
     </div>
-  </div>
-</div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="https://github.com/zcybupt" class="menu gt-a-link" target="_blank">
+                            GitHub
+                        </a>
+                    
+                </div>
+            
+        </div>
+    </div>
+</nav>
 
-<div class="menu-container">
-  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
-  <div>
-    
-      
-        <a href="/" class="menu" style="animation-delay: 0s">
-          首页
-        </a>
-      
-    
-      
-        <a href="/archives" class="menu" style="animation-delay: 0.2s">
-          归档
-        </a>
-      
-    
-      
-        <a href="/tags" class="menu" style="animation-delay: 0.4s">
-          标签
-        </a>
-      
-    
-      
-        <a href="https://github.com/zcybupt" class="menu" style="animation-delay: 0.6000000000000001s" target="_blank">
-          GitHub
-        </a>
-      
-    
-  </div>
-  <div class="site-footer">
-    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
-    <a class="rss" href="https://zcybupt.github.io/atom.xml" target="_blank">RSS</a>
-  </div>
-</div>
-<div class="mask" onclick="closeMenu()">
-</div>
-      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4">
-        <h2 class="text-lg text-gray-700 mb-8">
-          <i class="ri-archive-line"></i> 文章归档
-        </h2>
         
 
-        <div class="archives-container">
-          
-            <h2 class="text-gray-600 py-4 animated fadeIn">
-              <i class="ri-map-pin-time-line"></i>
-              2020
-            </h2>
+<div class="archives-container">
+    
+        <h2 class="year gt-c-cotent-color-first">2020</h2>
+        
             
-              
-                <a href="https://zcybupt.github.io/post/CantorExpansion/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    康托展开与逆康托展开
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-09-10</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/CantorExpansion/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-09-10&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            康托展开与逆康托展开
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/GoSortInterface/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    Go 自定义类型排序
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-09-07</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/Permutations/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    全排列
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-09-01</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/GoSortInterface/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-09-07&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            Go 自定义类型排序
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/CuckooHash/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    原地哈希
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-08-27</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/CombinationSum/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    组合总和
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-08-24</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/Permutations/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-09-01&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            全排列
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/ValidSudoku/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    有效的数独
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-08-21</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/FindFirstAndLastPositionOfElementInSortedArray/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    有序数组查找元素的起止范围
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-08-21</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/CuckooHash/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-08-27&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            原地哈希
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/NextPermutation/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    下一个排列
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-08-18</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/SubstringWithConcatenationOfAllWords/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    串联所有单词的子串
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-08-18</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/CombinationSum/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-08-24&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            组合总和
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/GoHeap/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    Golang堆的实现
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-08-13</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/RemoveNthNodeFromEndOfList/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    删除链表的倒数第N个节点
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-08-11</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/ValidSudoku/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-08-21&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            有效的数独
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/ThreeSumClosest/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    最接近的三数之和
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-08-10</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/ThreeSum/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    三数之和
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-08-09</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/FindFirstAndLastPositionOfElementInSortedArray/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-08-21&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            有序数组查找元素的起止范围
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/StringToIntegerAtoi/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    字符串转换整数（atoi）
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-08-04</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/LengthOfLongestSubstring/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    无重复字符的最长子串
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-08-02</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/NextPermutation/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-08-18&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            下一个排列
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/BinarySearchTree/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    二叉查找树
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-07-28</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/MorrisTraversal/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    Morris遍历
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-07-26</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/SubstringWithConcatenationOfAllWords/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-08-18&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            串联所有单词的子串
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/ShortestPalindrome/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    最短回文串
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-07-22</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/Manacher/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    Manacher算法
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-07-20</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/GoHeap/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-08-13&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            Golang堆的实现
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/SubtreeOfAnotherTree/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    判断子树结构是否相同
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-07-19</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/KMP/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    KMP算法
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-07-18</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/RemoveNthNodeFromEndOfList/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-08-11&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            删除链表的倒数第N个节点
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/BestArrange/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    日程安排问题
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-07-15</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/LexicographicalString/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    最低字典序排列字符串
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-07-13</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/ThreeSumClosest/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-08-10&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            最接近的三数之和
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/SlidingWindowMaximum/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    滑动窗口最大值
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-07-12</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/MaxSumOfSubarray/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    子数组最大累加和
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-07-11</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/ThreeSum/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-08-09&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            三数之和
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/TrappingRainWater/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    接雨水问题
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-07-10</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/Yolov4Deployment/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    无 root 配置 CUDA 10 运行 Yolo v4
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-07-08</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/StringToIntegerAtoi/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-08-04&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            字符串转换整数（atoi）
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/ReverseStackUsingRecursive/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    递归逆序栈
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-07-07</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/CowNumber/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    斐波那契数列的矩阵求法
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-07-04</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/LengthOfLongestSubstring/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-08-02&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            无重复字符的最长子串
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/PrintPermutations/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    字符串的全排列
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-07-02</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/Subsequence/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    打印字符串的子序列
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-06-28</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/BinarySearchTree/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-07-28&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            二叉查找树
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/Hannoi/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    汉诺塔问题
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-06-27</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/Knapsack/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    限重最大值问题
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-06-26</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/MorrisTraversal/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-07-26&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            Morris遍历
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/SumToTarget/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    数组累加得到目标值
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-06-24</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/MinimalPathSum/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    二维数组最小路径和
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-06-24</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/ShortestPalindrome/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-07-22&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            最短回文串
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/MinimumSpanningTree/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    最小生成树
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-06-22</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/TopologySort/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    拓扑排序算法
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-06-21</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/Manacher/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-07-20&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            Manacher算法
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/DFS/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    深度优先遍历
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-06-21</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/BFS/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    广度优先遍历
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-06-20</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/SubtreeOfAnotherTree/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-07-19&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            判断子树结构是否相同
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/Graph/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    图
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-06-20</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/Trie/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    前缀树 🌲
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-06-18</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/KMP/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-07-18&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            KMP算法
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/UnionFind/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    并查集
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-06-17</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/FindPeakElement/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    寻找峰值
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-06-15</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/BestArrange/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-07-15&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            日程安排问题
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/FindSuccessor/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    二叉树结点的中序后继
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-06-14</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/FoldPaper/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    折纸问题
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-06-12</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/LexicographicalString/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-07-13&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            最低字典序排列字符串
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/BinaryTreeTraversal/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    非递归遍历二叉树
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-06-10</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/MaximizedCapital/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    投资最大化问题
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-06-08</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/SlidingWindowMaximum/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-07-12&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            滑动窗口最大值
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/MinimalCost/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    切割金条问题
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-06-08</div>
-              
+        
             
-              
-                <a href="https://zcybupt.github.io/post/MedianFinder/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    随时找到数据流的中位数
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-06-07</div>
-              
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/MaxSumOfSubarray/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-07-11&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            子数组最大累加和
+                        </div>
+                    </a>
+                </article>
             
-              
-                <a href="https://zcybupt.github.io/post/IntersectionOfTwoLinkedLists/" class="post">
-                  <h2 class="inline-block font-bold text-lg post-title animated fadeIn">
-                    链表相交问题
-                  </h2>
-                </a>
-                <div class="text-sm font-light mt-3 mb-6 text-gray-400 animated fadeInDown" style="animation-delay: 0.4s">2020-03-09</div>
-              
+        
             
-          
-        </div>
-
-        <div>
-          <div class="pagination-container animated fadeIn">
-  
-  
-    <a href="https://zcybupt.github.io/archives/page/2" class="page-btn">下一页 <i class="ri-arrow-right-line"></i></a>
-  
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/TrappingRainWater/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-07-10&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            接雨水问题
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/Yolov4Deployment/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-07-08&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            无 root 配置 CUDA 10 运行 Yolo v4
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/ReverseStackUsingRecursive/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-07-07&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            递归逆序栈
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/CowNumber/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-07-04&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            斐波那契数列的矩阵求法
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/PrintPermutations/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-07-02&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            字符串的全排列
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/Subsequence/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-06-28&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            打印字符串的子序列
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/Hannoi/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-06-27&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            汉诺塔问题
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/Knapsack/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-06-26&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            限重最大值问题
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/SumToTarget/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-06-24&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            数组累加得到目标值
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/MinimalPathSum/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-06-24&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            二维数组最小路径和
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/MinimumSpanningTree/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-06-22&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            最小生成树
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/TopologySort/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-06-21&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            拓扑排序算法
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/DFS/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-06-21&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            深度优先遍历
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/BFS/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-06-20&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            广度优先遍历
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/Graph/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-06-20&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            图
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/Trie/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-06-18&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            前缀树 🌲
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/UnionFind/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-06-17&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            并查集
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/FindPeakElement/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-06-15&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            寻找峰值
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/FindSuccessor/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-06-14&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            二叉树结点的中序后继
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/FoldPaper/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-06-12&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            折纸问题
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/BinaryTreeTraversal/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-06-10&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            非递归遍历二叉树
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/MaximizedCapital/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-06-08&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            投资最大化问题
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/MinimalCost/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-06-08&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            切割金条问题
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/MedianFinder/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-06-07&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            随时找到数据流的中位数
+                        </div>
+                    </a>
+                </article>
+            
+        
+            
+                <article class="post">
+                    <a href="https://zcybupt.github.io/post/IntersectionOfTwoLinkedLists/">
+                        <div class="post-title gt-c-content-color-first">
+                            <small><b>2020-03-09&nbsp;&nbsp;·&nbsp;&nbsp;</b></small>
+                            链表相交问题
+                        </div>
+                    </a>
+                </article>
+            
+        
+    
 </div>
 
-        </div>
-      </div>
+        <div class="pagination-container">
+    
+    
+        <a href="https://zcybupt.github.io/archives/page/2" class="prev-page gt-a-link">下一页</a>
+    
+</div>
+
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first"></div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/zcybupt" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
     </div>
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a href="https://zcybupt.github.io/atom.xml" target="_blank">RSS</a>
+</div>
 
-    <script src="https://zcybupt.github.io/media/prism.js"></script>  
 <script>
-
-Prism.highlightAll()
-let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
-
-// This should probably be throttled.
-// Especially because it triggers during smooth scrolling.
-// https://lodash.com/docs/4.17.10#throttle
-// You could do like...
-// window.addEventListener("scroll", () => {
-//    _.throttle(doThatStuff, 100);
-// });
-// Only not doing it here to keep this Pen dependency-free.
-
-window.addEventListener("scroll", event => {
-  let fromTop = window.scrollY;
-
-  mainNavLinks.forEach((link, index) => {
-    let section = document.getElementById(decodeURI(link.hash).substring(1));
-    let nextSection = null
-    if (mainNavLinks[index + 1]) {
-      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-    }
-    if (section.offsetTop <= fromTop) {
-      if (nextSection) {
-        if (nextSection.offsetTop > fromTop) {
-          link.classList.add("current");
-        } else {
-          link.classList.remove("current");    
-        }
-      } else {
-        link.classList.add("current");
-      }
-    } else {
-      link.classList.remove("current");
-    }
-  });
-});
-
-
-document.addEventListener("DOMContentLoaded", function() {
-  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
-
-  if ("IntersectionObserver" in window) {
-    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          let lazyImage = entry.target
-          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
-          lazyImage.classList.remove("lazy")
-          lazyImageObserver.unobserve(lazyImage)
-        }
-      });
-    });
-
-    lazyImages.forEach(function(lazyImage) {
-      lazyImageObserver.observe(lazyImage)
-    })
-  } else {
-    // Possibly fall back to a more compatible method here
-  }
-});
-
-const menuContainer = document.querySelector('.menu-container')
-const menus = document.querySelectorAll('.menu-container .menu')
-const mask = document.querySelector('.mask')
-const contentWrapper = document.querySelector('.content-wrapper')
-const latestArticle = document.querySelector('.latest-article')
-const readMore = document.querySelector('.read-more')
-const indexPage = document.querySelector('.index-page')
-
-const isHome = location.pathname === '/'
-if (latestArticle) {
-  latestArticle.style.display = isHome ? 'block' : 'none'
-  readMore.style.display = isHome ? 'block' : 'none'
-  indexPage.style.display = isHome ? 'none' : 'block'
-}
-
-const openMenu = () => {
-  menuContainer.classList.add('open')
-  menus.forEach(menu => {
-    menu.classList.add('animated', 'fadeInLeft')
-  })
-  mask.classList.add('open')
-  contentWrapper.classList.add('is-second')
-}
-
-const closeMenu = () => {
-  menuContainer.classList.remove('open')
-  menus.forEach(menu => {
-    menu.classList.remove('animated', 'fadeInLeft')
-  })
-  mask.classList.remove('open')
-  contentWrapper.classList.remove('is-second')
-}
+    hljs.initHighlightingOnLoad()
 </script>
-  
-  </body>
+
+    </div>
+</div>
+</body>
 </html>
