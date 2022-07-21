@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zcybupt.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="定义二叉查找树，也称为二叉搜索树、有序二叉树（ordered binary tree）或排序二叉树（sorted binary tree），是指一棵空树或者具有下列性质的二叉树：   若任意节点的左子树不空，则左子树上所有节点的值均小于它的根节点的值；  若任意节点的右子树不空，则右子树上所有节点的值均大于或等于它的根节点的值；  任意节点的左、右子树也分别为二叉查找树；  其优势在于查找、插入的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二叉查找树">
+<meta property="og:url" content="https://zcybupt.github.io/2020/07/28/BinarySearchTree/index.html">
+<meta property="og:site_name" content="Leaky Cauldron">
+<meta property="og:description" content="定义二叉查找树，也称为二叉搜索树、有序二叉树（ordered binary tree）或排序二叉树（sorted binary tree），是指一棵空树或者具有下列性质的二叉树：   若任意节点的左子树不空，则左子树上所有节点的值均小于它的根节点的值；  若任意节点的右子树不空，则右子树上所有节点的值均大于或等于它的根节点的值；  任意节点的左、右子树也分别为二叉查找树；  其优势在于查找、插入的">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200730102431.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200730153412.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200730154437.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200730154935.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200730160504.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200730160537.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200729204357.png">
+<meta property="article:published_time" content="2020-07-28T07:38:11.000Z">
+<meta property="article:modified_time" content="2022-07-20T06:26:20.860Z">
+<meta property="article:author" content="Chunyu">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="树">
+<meta property="article:tag" content="二叉树">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200730102431.png">
+
+<link rel="canonical" href="https://zcybupt.github.io/2020/07/28/BinarySearchTree/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>二叉查找树 | Leaky Cauldron</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Leaky Cauldron</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2020/07/28/BinarySearchTree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Chunyu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leaky Cauldron">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          二叉查找树
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-07-28 15:38:11" itemprop="dateCreated datePublished" datetime="2020-07-28T15:38:11+08:00">2020-07-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-07-20 14:26:20" itemprop="dateModified" datetime="2022-07-20T14:26:20+08:00">2022-07-20</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BA%8C%E5%85%83%E6%90%9C%E5%B0%8B%E6%A8%B9">二叉查找树</a><strong>，也称为</strong>二叉搜索树</strong>、<strong>有序二叉树</strong>（ordered binary tree）或<strong>排序二叉树</strong>（sorted binary tree），是指一棵空树或者具有下列性质的二叉树：</p>
+<ol>
+<li> 若任意节点的左子树不空，则左子树上所有节点的值均小于它的根节点的值；</li>
+<li> 若任意节点的右子树不空，则右子树上所有节点的值均大于或等于它的根节点的值；</li>
+<li> 任意节点的左、右子树也分别为二叉查找树；</li>
+</ol>
+<p>其优势在于查找、插入的时间复杂度较低，理想情况下为 <code>O(logn)</code> 。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="节点定义"><a href="#节点定义" class="headerlink" title="节点定义"></a>节点定义</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Node</span> &#123;</span><br><span class="line">    <span class="type">int</span> value;</span><br><span class="line">    Node parent;</span><br><span class="line">    Node left;</span><br><span class="line">    Node right;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Node</span><span class="params">(<span class="type">int</span> value, Node parent, Node left, Node right)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.value = value;</span><br><span class="line">        <span class="built_in">this</span>.parent = parent;</span><br><span class="line">        <span class="built_in">this</span>.left = left;</span><br><span class="line">        <span class="built_in">this</span>.right = right;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="查找节点"><a href="#查找节点" class="headerlink" title="查找节点"></a>查找节点</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Node <span class="title function_">search</span><span class="params">(<span class="type">int</span> ele)</span> &#123;</span><br><span class="line">    <span class="type">Node</span> <span class="variable">tmp</span> <span class="operator">=</span> root;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (tmp != <span class="literal">null</span> &amp;&amp; tmp.value != ele) &#123;</span><br><span class="line">        <span class="keyword">if</span> (ele &lt; tmp.value) &#123;</span><br><span class="line">            tmp = tmp.left;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            tmp = tmp.right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> tmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="插入节点"><a href="#插入节点" class="headerlink" title="插入节点"></a>插入节点</h3><p>先找到待插入节点的父节点，再插入新节点并返回。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Node <span class="title function_">insert</span><span class="params">(<span class="type">int</span> ele)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (root == <span class="literal">null</span>) &#123;</span><br><span class="line">        root = <span class="keyword">new</span> <span class="title class_">Node</span>(ele, <span class="literal">null</span>, <span class="literal">null</span>, <span class="literal">null</span>);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 找到即将插入元素的父节点</span></span><br><span class="line">    <span class="type">Node</span> <span class="variable">parent</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="type">Node</span> <span class="variable">tmp</span> <span class="operator">=</span> root;</span><br><span class="line">    <span class="keyword">while</span> (tmp != <span class="literal">null</span>) &#123;</span><br><span class="line">        parent = tmp;</span><br><span class="line">        <span class="keyword">if</span> (ele &lt; tmp.value) &#123;</span><br><span class="line">            tmp = tmp.left;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            tmp = tmp.right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">Node</span> <span class="variable">newNode</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Node</span>(ele, parent, <span class="literal">null</span>, <span class="literal">null</span>);</span><br><span class="line">    <span class="keyword">if</span> (parent.value &gt; ele) &#123;</span><br><span class="line">        parent.left = newNode;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        parent.right = newNode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> newNode;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除节点"><a href="#删除节点" class="headerlink" title="删除节点"></a>删除节点</h3><h4 id="替换-移植节点"><a href="#替换-移植节点" class="headerlink" title="替换 / 移植节点"></a>替换 / 移植节点</h4><p>使用 <code>newNode</code> 替换 <code>nodeToReplace</code> ，并返回被替换的节点。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Node <span class="title function_">transplant</span><span class="params">(Node nodeToReplace, Node newNode)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (nodeToReplace.parent == <span class="literal">null</span>) &#123;</span><br><span class="line">        root = newNode;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nodeToReplace == nodeToReplace.parent.left) &#123;</span><br><span class="line">        nodeToReplace.parent.left = newNode;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        nodeToReplace.parent.right = newNode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (newNode != <span class="literal">null</span>) &#123;</span><br><span class="line">        newNode.parent = nodeToReplace.parent;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> newNode;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="找到后继节点"><a href="#找到后继节点" class="headerlink" title="找到后继节点"></a>找到后继节点</h4><p>找到节点的中序后继，即该节点右子树上的最小值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Node <span class="title function_">getMinimum</span><span class="params">(Node node)</span> &#123;</span><br><span class="line">    <span class="keyword">while</span> (node.left != <span class="literal">null</span>) &#123;</span><br><span class="line">        node = node.left;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h4><p>将待删除节点的中序后继移动到待删除节点位置，并调整树的结构</p>
+<ul>
+<li><p>若待删除节点的父节点无左子树或右子树，直接将该节点的右子树或左子树上移即可；</p>
+<p>  <img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200730102431.png"></p>
+</li>
+<li><p>若待删除节点的左右子树均不为空，以下图所示树为例，其中 9 为待删除节点，此时其中序后继 10 与 9 不直接相连</p>
+<p>  <img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200730153412.png"></p>
+<ul>
+<li>  先找到待删除节点的中序后继，在此为 10，即为待删除节点的替换节点，此时该后继不与待删除节点直接相连，先将其子树 11 移至 10 位置。①使 <code>successorNode.right</code> 指向待删除节点 9 的 <code>right</code> ，②使 <code>successorNode.right.parent</code> 指向 10，得到：</li>
+</ul>
+<p>  <img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200730154437.png"></p>
+<ul>
+<li>  再将 <code>successorNode</code> 移到 <code>deleteNode</code> 的位置，并修改其左子树的指向。</li>
+</ul>
+<p>  <img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200730154935.png"></p>
+</li>
+<li><p>若中序后继与待删除节点直接相连，如下图所示：</p>
+<p>  <img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200730160504.png"></p>
+<ul>
+<li>  9 与 12 直接相连，则直接将 12 上移至 9 的位置，并修改 12 的左子树指向即可。</li>
+</ul>
+<p>  <img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200730160537.png"></p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Node <span class="title function_">delete</span><span class="params">(Node deleteNode)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (deleteNode != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="type">Node</span> <span class="variable">nodeToReturn</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (deleteNode.left == <span class="literal">null</span>) &#123;</span><br><span class="line">            nodeToReturn = transplant(deleteNode, deleteNode.right);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (deleteNode.right == <span class="literal">null</span>) &#123;</span><br><span class="line">            nodeToReturn = transplant(deleteNode, deleteNode.left);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="type">Node</span> <span class="variable">successorNode</span> <span class="operator">=</span> getMinimum(deleteNode.right);</span><br><span class="line">            <span class="keyword">if</span> (successorNode.parent != deleteNode) &#123;</span><br><span class="line">                transplant(successorNode, successorNode.right);</span><br><span class="line">                successorNode.right = deleteNode.right;</span><br><span class="line">                successorNode.right.parent = successorNode;</span><br><span class="line">            &#125;</span><br><span class="line">            transplant(deleteNode, successorNode);</span><br><span class="line">            successorNode.left = deleteNode.left;</span><br><span class="line">            successorNode.left.parent = successorNode;</span><br><span class="line">            nodeToReturn = successorNode;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nodeToReturn;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>插入或删除节点过程中如果不及时调整，将使查找效率降低，如将数组 <code>[2, 3, 4, 5, 6]</code> 插入树的过程中，不加调整将得到如下结构，此时查找和插入效率退化至 <code>O(n)</code> 。</p>
+<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200729204357.png"></p>
+<p>为解决查找效率退化的问题，又提出了 AVL 树和红黑树等，可将最坏效率降至 <code>O(logn)</code>。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/zcybupt/rawfiles/blob/master/codes/Java/Code_50_BinarySearchTree.java">完整代码</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+              <a href="/tags/%E6%A0%91/" rel="tag"># 树</a>
+              <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="tag"># 二叉树</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/26/MorrisTraversal/" rel="prev" title="Morris遍历">
+      <i class="fa fa-chevron-left"></i> Morris遍历
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/31/AVL/" rel="next" title="AVL树">
+      AVL树 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8A%82%E7%82%B9%E5%AE%9A%E4%B9%89"><span class="nav-number">2.1.</span> <span class="nav-text">节点定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E6%89%BE%E8%8A%82%E7%82%B9"><span class="nav-number">2.2.</span> <span class="nav-text">查找节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E8%8A%82%E7%82%B9"><span class="nav-number">2.3.</span> <span class="nav-text">插入节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E8%8A%82%E7%82%B9"><span class="nav-number">2.4.</span> <span class="nav-text">删除节点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9B%BF%E6%8D%A2-%E7%A7%BB%E6%A4%8D%E8%8A%82%E7%82%B9"><span class="nav-number">2.4.1.</span> <span class="nav-text">替换 &#x2F; 移植节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%BE%E5%88%B0%E5%90%8E%E7%BB%A7%E8%8A%82%E7%82%B9"><span class="nav-number">2.4.2.</span> <span class="nav-text">找到后继节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4"><span class="nav-number">2.4.3.</span> <span class="nav-text">删除</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%BA%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">缺点</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chunyu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Chunyu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">73</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chunyu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

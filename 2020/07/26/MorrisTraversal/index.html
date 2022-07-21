@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zcybupt.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="原理无论是手动创建栈遍历树还是递归（即调用系统栈）遍历树，其空间复杂度均为 O(N) ，而 Morris 实现了 O(1) 常数空间复杂度的树的遍历。 递归遍历树的过程中，每个节点均被遍历了三次，前中后序取决于打印的位置。 123456789101112131415161718public class RecursiveTraversal &amp;#123;    public static void">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Morris遍历">
+<meta property="og:url" content="https://zcybupt.github.io/2020/07/26/MorrisTraversal/index.html">
+<meta property="og:site_name" content="Leaky Cauldron">
+<meta property="og:description" content="原理无论是手动创建栈遍历树还是递归（即调用系统栈）遍历树，其空间复杂度均为 O(N) ，而 Morris 实现了 O(1) 常数空间复杂度的树的遍历。 递归遍历树的过程中，每个节点均被遍历了三次，前中后序取决于打印的位置。 123456789101112131415161718public class RecursiveTraversal &amp;#123;    public static void">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200727191413.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200727220729.png">
+<meta property="article:published_time" content="2020-07-26T10:20:43.000Z">
+<meta property="article:modified_time" content="2022-07-20T06:26:20.860Z">
+<meta property="article:author" content="Chunyu">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="树">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200727191413.png">
+
+<link rel="canonical" href="https://zcybupt.github.io/2020/07/26/MorrisTraversal/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Morris遍历 | Leaky Cauldron</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Leaky Cauldron</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2020/07/26/MorrisTraversal/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Chunyu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leaky Cauldron">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Morris遍历
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-07-26 18:20:43" itemprop="dateCreated datePublished" datetime="2020-07-26T18:20:43+08:00">2020-07-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-07-20 14:26:20" itemprop="dateModified" datetime="2022-07-20T14:26:20+08:00">2022-07-20</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>无论是手动创建栈遍历树还是递归（即调用系统栈）遍历树，其空间复杂度均为 <code>O(N)</code> ，而 Morris 实现了 <code>O(1)</code> 常数空间复杂度的树的遍历。</p>
+<p>递归遍历树的过程中，每个节点均被遍历了三次，前中后序取决于打印的位置。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RecursiveTraversal</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">recursiveTraverse</span><span class="params">(TreeNode head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 先序遍历</span></span><br><span class="line">        <span class="comment">// System.out.println(head.val);</span></span><br><span class="line"></span><br><span class="line">        recursiveTraverse(head.left);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 中序遍历</span></span><br><span class="line">        <span class="comment">// System.out.println(head.val);</span></span><br><span class="line">        </span><br><span class="line">        recursiveTraverse(head.right);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 后序遍历</span></span><br><span class="line">        <span class="comment">// System.out.println(head.val);</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Morris 遍历实质上是人为地追踪递归过程中遍历位置的变化。其过程如下：</p>
+<p>设 <code>cur</code> 为当前节点。</p>
+<ol>
+<li> 若 <code>cur</code> 无左子树，<code>cur</code> 向右移动</li>
+<li>若 <code>cur</code> 有左子树，找到左子树上最右节点，记为 <code>rightmost</code><ol>
+<li>若 <code>rightmost</code> 的右孩子为 <code>null</code> ，<code>rightmost.right = cur</code> ，<code>cur</code> 向左移动</li>
+<li>若 <code>rightmost</code> 的右孩子为 <code>cur</code> ，<code>rightmost.right = null</code> ，<code>cur</code> 向右移动</li>
+</ol>
+</li>
+</ol>
+<ul>
+<li><p>  若某节点有左子树，则该节点将被遍历两次（即 <code>2.2</code> ），若没有左子树则将被遍历一次；</p>
+</li>
+<li><p>在第二遍历某节点时，当前节点总是该节点左子树的 <code>rightmost</code> 的后继（节点的后继指中序遍历输出结果的后续节点）</p>
+</li>
+<li><p>  通过 <code>rightmost</code> 的右孩子的指向来判断是第一次还是第二次遍历到当前节点。</p>
+</li>
+</ul>
+<p>下图为每一步迭代的结果（从左至右，从上到下），cur代表当前节点，深色节点表示该节点已输出。（图源：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/anniekim/archive/2013/06/15/morristraversal.html">AnnieKim</a>）</p>
+<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200727191413.png"></p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="先序遍历"><a href="#先序遍历" class="headerlink" title="先序遍历"></a>先序遍历</h3><p>第一次到达一个节点时就输出。</p>
+<h4 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">TreeNode</span> &#123;</span><br><span class="line">    <span class="type">int</span> val;</span><br><span class="line">    TreeNode left;</span><br><span class="line">    TreeNode right;</span><br><span class="line"></span><br><span class="line">    TreeNode(<span class="type">int</span> val) &#123;</span><br><span class="line">        <span class="built_in">this</span>.val = val;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MorrisTraversal</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">morrisPreorderTraverse</span><span class="params">(TreeNode head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">TreeNode</span> <span class="variable">cur1</span> <span class="operator">=</span> head;</span><br><span class="line">        <span class="type">TreeNode</span> <span class="variable">cur2</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (cur1 != <span class="literal">null</span>) &#123;</span><br><span class="line">            cur2 = cur1.left;</span><br><span class="line">            <span class="keyword">if</span> (cur2 != <span class="literal">null</span>) &#123;                       <span class="comment">// cur1 有左子树</span></span><br><span class="line">                <span class="keyword">while</span> (cur2.right != <span class="literal">null</span> &amp;&amp; cur2.right != cur1) &#123;</span><br><span class="line">                    cur2 = cur2.right;                <span class="comment">// 左子树上最右节点, 此时 cur2 即为 rightmost</span></span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (cur2.right == <span class="literal">null</span>) &#123;             <span class="comment">// rightmost 的右孩子为空, 此时为第一次遍历当前节点</span></span><br><span class="line">                    cur2.right = cur1;</span><br><span class="line">                    System.out.print(cur1.val + <span class="string">&quot; &quot;</span>); <span class="comment">// 第一次遍历一个节点, 打印该节点</span></span><br><span class="line">                    cur1 = cur1.left;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    cur2.right = <span class="literal">null</span>;                <span class="comment">// rightmost 的右孩子指向 cur1, 此时为第二次遍历当前节点</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                System.out.print(cur1.val + <span class="string">&quot; &quot;</span>);     <span class="comment">// 节点无左子树, 只会遍历一遍, 故直接输出</span></span><br><span class="line">            &#125;</span><br><span class="line">            cur1 = cur1.right;                        <span class="comment">// cur1 无左子树或 rightmost 的右孩子指向 cur1 时</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">TreeNode</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, val=<span class="number">0</span>, left=<span class="literal">None</span>, right=<span class="literal">None</span></span>):</span><br><span class="line">        self.val = val</span><br><span class="line">        self.left = left</span><br><span class="line">        self.right = right</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">morris_preorder_traverse</span>(<span class="params">head: TreeNode</span>) -&gt; <span class="literal">None</span>:</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> head: <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    cur1 = head</span><br><span class="line">    <span class="keyword">while</span> cur1:</span><br><span class="line">        cur2 = cur1.left</span><br><span class="line">        <span class="keyword">if</span> cur2:</span><br><span class="line">            <span class="keyword">while</span> cur2.right <span class="keyword">and</span> cur2.right != cur1:</span><br><span class="line">                cur2 = cur2.right</span><br><span class="line">            <span class="keyword">if</span> cur2.right <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                cur2.right = cur1</span><br><span class="line">                <span class="built_in">print</span>(cur1.val, end=<span class="string">&quot; &quot;</span>)</span><br><span class="line">                cur1 = cur1.left</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                cur2.right = <span class="literal">None</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(cur1.val, end=<span class="string">&quot; &quot;</span>)</span><br><span class="line">        cur1 = cur1.right</span><br></pre></td></tr></table></figure>
+
+<h4 id="Go"><a href="#Go" class="headerlink" title="Go"></a>Go</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> TreeNode <span class="keyword">struct</span> &#123;</span><br><span class="line">	val   <span class="type">int</span></span><br><span class="line">	left  *TreeNode</span><br><span class="line">	right *TreeNode</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">morrisPreorderTraverse</span><span class="params">(head *TreeNode)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> head == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	cur1 := head</span><br><span class="line">	<span class="keyword">var</span> cur2 *TreeNode</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> cur1 != <span class="literal">nil</span> &#123;</span><br><span class="line">		cur2 = cur1.left</span><br><span class="line">		<span class="keyword">if</span> cur2 != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">for</span> cur2.right != <span class="literal">nil</span> &amp;&amp; cur2.right != cur1 &#123;</span><br><span class="line">				cur2 = cur2.right</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> cur2.right == <span class="literal">nil</span> &#123;</span><br><span class="line">				cur2.right = cur1</span><br><span class="line">				fmt.Printf(<span class="string">&quot;%d &quot;</span>, cur1.val)</span><br><span class="line">				cur1 = cur1.left</span><br><span class="line">				<span class="keyword">continue</span></span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				cur2.right = <span class="literal">nil</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			fmt.Printf(<span class="string">&quot;%d &quot;</span>, cur1.val)</span><br><span class="line">		&#125;</span><br><span class="line">		cur1 = cur1.right</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h3><p>有左子树的节点第二次回到该节点时再打印；无左子树的节点只会遍历一次，故直接输出。如下图输出顺序为 <code>2 1 3</code> 。</p>
+<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200727220729.png"></p>
+<p>当前节点无左子树或第二次遍历当前节点（即 <code>rightmost</code> 的右孩子指向 <code>cur1</code>）时均需输出当前节点值，而只有这两种情况需将指针右移，故可理解为只要向右移动就输出。</p>
+<h4 id="Java-1"><a href="#Java-1" class="headerlink" title="Java"></a>Java</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MorrisTraversal</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">morrisInOrderTraverse</span><span class="params">(TreeNode head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">TreeNode</span> <span class="variable">cur1</span> <span class="operator">=</span> head;</span><br><span class="line">        <span class="type">TreeNode</span> <span class="variable">cur2</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (cur1 != <span class="literal">null</span>) &#123;</span><br><span class="line">            cur2 = cur1.left;</span><br><span class="line">            <span class="keyword">if</span> (cur2 != <span class="literal">null</span>) &#123;               <span class="comment">// cur1 有左子树</span></span><br><span class="line">                <span class="keyword">while</span> (cur2.right != <span class="literal">null</span> &amp;&amp; cur2.right != cur1) &#123;</span><br><span class="line">                    cur2 = cur2.right;        <span class="comment">// 左子树上最右节点, 此时 cur2 即为 rightmost</span></span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (cur2.right == <span class="literal">null</span>) &#123;     <span class="comment">// rightmost 的右孩子为空, 此时为第一次遍历当前节点</span></span><br><span class="line">                    cur2.right = cur1;</span><br><span class="line">                    cur1 = cur1.left;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    cur2.right = <span class="literal">null</span>;        <span class="comment">// rightmost 的右孩子指向 cur1, 此时为第二次遍历当前节点</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.print(cur1.val + <span class="string">&quot; &quot;</span>); <span class="comment">// 当前节点无左子树或第二次遍历当前节点</span></span><br><span class="line">            cur1 = cur1.right;                <span class="comment">// cur1 无左子树或 rightmost 的右孩子指向 cur1 时</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Python-1"><a href="#Python-1" class="headerlink" title="Python"></a>Python</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">morris_in_order_traverse</span>(<span class="params">head: TreeNode</span>) -&gt; <span class="literal">None</span>:</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> head: <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    cur1 = head</span><br><span class="line">    <span class="keyword">while</span> cur1:</span><br><span class="line">        cur2 = cur1.left</span><br><span class="line">        <span class="keyword">if</span> cur2:</span><br><span class="line">            <span class="keyword">while</span> cur2.right <span class="keyword">and</span> cur2.right != cur1:</span><br><span class="line">                cur2 = cur2.right</span><br><span class="line">            <span class="keyword">if</span> cur2.right <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                cur2.right = cur1</span><br><span class="line">                cur1 = cur1.left</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                cur2.right = <span class="literal">None</span></span><br><span class="line">        <span class="built_in">print</span>(cur1.val, end=<span class="string">&quot; &quot;</span>)</span><br><span class="line">        cur1 = cur1.right</span><br></pre></td></tr></table></figure>
+
+<h4 id="Go-1"><a href="#Go-1" class="headerlink" title="Go"></a>Go</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">morrisInOrderTraverse</span><span class="params">(head *TreeNode)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> head == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	cur1 := head</span><br><span class="line">	<span class="keyword">var</span> cur2 *TreeNode</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> cur1 != <span class="literal">nil</span> &#123;</span><br><span class="line">		cur2 = cur1.left</span><br><span class="line">		<span class="keyword">if</span> cur2 != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">for</span> cur2.right != <span class="literal">nil</span> &amp;&amp; cur2.right != cur1 &#123;</span><br><span class="line">				cur2 = cur2.right</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> cur2.right == <span class="literal">nil</span> &#123;</span><br><span class="line">				cur2.right = cur1</span><br><span class="line">				cur1 = cur1.left</span><br><span class="line">				<span class="keyword">continue</span></span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				cur2.right = <span class="literal">nil</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;%d &quot;</span>, cur1.val)</span><br><span class="line">		cur1 = cur1.right</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="后序遍历"><a href="#后序遍历" class="headerlink" title="后序遍历"></a>后序遍历</h3><p>第二次遍历到某节点时，逆序打印其左子树的右边界。遍历完后再逆序打印整棵树的右边界即为后序遍历。</p>
+<h4 id="Java-2"><a href="#Java-2" class="headerlink" title="Java"></a>Java</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MorrisTraversal</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">morrisPostOrderTraverse</span><span class="params">(TreeNode head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">TreeNode</span> <span class="variable">cur1</span> <span class="operator">=</span> head;</span><br><span class="line">        <span class="type">TreeNode</span> <span class="variable">cur2</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (cur1 != <span class="literal">null</span>) &#123;</span><br><span class="line">            cur2 = cur1.left;</span><br><span class="line">            <span class="keyword">if</span> (cur2 != <span class="literal">null</span>) &#123;             <span class="comment">// cur1 有左子树</span></span><br><span class="line">                <span class="keyword">while</span> (cur2.right != <span class="literal">null</span> &amp;&amp; cur2.right != cur1) &#123;</span><br><span class="line">                    cur2 = cur2.right;      <span class="comment">// 左子树上最右节点, 此时 cur2 即为 rightmost</span></span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (cur2.right == <span class="literal">null</span>) &#123;   <span class="comment">// rightmost 的右孩子为空, 此时为第一次遍历当前节点</span></span><br><span class="line">                    cur2.right = cur1;</span><br><span class="line">                    cur1 = cur1.left;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    cur2.right = <span class="literal">null</span>;      <span class="comment">// rightmost 的右孩子指向 cur1, 此时为第二次遍历当前节点</span></span><br><span class="line">                    printEdge(cur1.left);   <span class="comment">// 第二次遍历到该节点, 打印左子树的右边界</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            cur1 = cur1.right;              <span class="comment">// cur1 无左子树</span></span><br><span class="line">        &#125;</span><br><span class="line">        printEdge(head);                    <span class="comment">// 打印整棵树的右边界</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">printEdge</span><span class="params">(TreeNode head)</span> &#123;</span><br><span class="line">        <span class="type">TreeNode</span> <span class="variable">tail</span> <span class="operator">=</span> reverseEdge(head);</span><br><span class="line">        <span class="type">TreeNode</span> <span class="variable">cur</span> <span class="operator">=</span> tail;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (cur != <span class="literal">null</span>) &#123;</span><br><span class="line">            System.out.print(cur.val + <span class="string">&quot; &quot;</span>);</span><br><span class="line">            cur = cur.right;</span><br><span class="line">        &#125;</span><br><span class="line">        recursiveTraverse(tail);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> TreeNode <span class="title function_">reverseEdge</span><span class="params">(TreeNode from)</span> &#123;</span><br><span class="line">        <span class="type">TreeNode</span> <span class="variable">pre</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="type">TreeNode</span> <span class="variable">next</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (from != <span class="literal">null</span>) &#123;</span><br><span class="line">            next = from.right;</span><br><span class="line">            from.right = pre;</span><br><span class="line">            pre = from;</span><br><span class="line">            from = next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> pre;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Python-2"><a href="#Python-2" class="headerlink" title="Python"></a>Python</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">morris_post_order_traverse</span>(<span class="params">head: TreeNode</span>) -&gt; <span class="literal">None</span>:</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> head: <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    cur1 = head</span><br><span class="line">    <span class="keyword">while</span> cur1:</span><br><span class="line">        cur2 = cur1.left</span><br><span class="line">        <span class="keyword">if</span> cur2:</span><br><span class="line">            <span class="keyword">while</span> cur2.right <span class="keyword">and</span> cur2.right != cur1:</span><br><span class="line">                cur2 = cur2.right</span><br><span class="line">            <span class="keyword">if</span> cur2.right <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                cur2.right = cur1</span><br><span class="line">                cur1 = cur1.left</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                cur2.right = <span class="literal">None</span></span><br><span class="line">                print_edge(cur1.left)</span><br><span class="line">        cur1 = cur1.right</span><br><span class="line">    print_edge(head)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">print_edge</span>(<span class="params">head: TreeNode</span>) -&gt; <span class="literal">None</span>:</span><br><span class="line">    tail = reverse_edge(head)</span><br><span class="line">    cur = tail</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> cur:</span><br><span class="line">        <span class="built_in">print</span>(cur.val, end=<span class="string">&quot; &quot;</span>)</span><br><span class="line">        cur = cur.right</span><br><span class="line"></span><br><span class="line">    reverse_edge(tail)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">reverse_edge</span>(<span class="params">head: TreeNode</span>) -&gt; TreeNode:</span><br><span class="line">    pre = <span class="literal">None</span></span><br><span class="line">    <span class="keyword">while</span> head:</span><br><span class="line">        rear = head.right</span><br><span class="line">        head.right = pre</span><br><span class="line">        pre = head</span><br><span class="line">        head = rear</span><br><span class="line">    <span class="keyword">return</span> pre</span><br></pre></td></tr></table></figure>
+
+<h4 id="Go-2"><a href="#Go-2" class="headerlink" title="Go"></a>Go</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">morrisPostOrderTraverse</span><span class="params">(head *TreeNode)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> head == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	cur1 := head</span><br><span class="line">	<span class="keyword">var</span> cur2 *TreeNode</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> cur1 != <span class="literal">nil</span> &#123;</span><br><span class="line">		cur2 = cur1.left</span><br><span class="line">		<span class="keyword">if</span> cur2 != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">for</span> cur2.right != <span class="literal">nil</span> &amp;&amp; cur2.right != cur1 &#123;</span><br><span class="line">				cur2 = cur2.right</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> cur2.right == <span class="literal">nil</span> &#123;</span><br><span class="line">				cur2.right = cur1</span><br><span class="line">				cur1 = cur1.left</span><br><span class="line">				<span class="keyword">continue</span></span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				cur2.right = <span class="literal">nil</span></span><br><span class="line">				printEdge(cur1.left)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		cur1 = cur1.right</span><br><span class="line">	&#125;</span><br><span class="line">	printEdge(head)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">printEdge</span><span class="params">(head *TreeNode)</span></span> &#123;</span><br><span class="line">	tail := reverseEdge(head)</span><br><span class="line">	cur := tail</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> cur != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;%d &quot;</span>, cur.val)</span><br><span class="line">		cur = cur.right</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	reverseEdge(tail)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">reverseEdge</span><span class="params">(head *TreeNode)</span></span> *TreeNode &#123;</span><br><span class="line">	<span class="keyword">var</span> pre *TreeNode</span><br><span class="line">	<span class="keyword">for</span> head != <span class="literal">nil</span> &#123;</span><br><span class="line">		next := head.right</span><br><span class="line">		head.right = pre</span><br><span class="line">		pre = head</span><br><span class="line">		head = next</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> pre</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+              <a href="/tags/%E6%A0%91/" rel="tag"># 树</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/23/BFPRT/" rel="prev" title="BFPRT">
+      <i class="fa fa-chevron-left"></i> BFPRT
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/28/BinarySearchTree/" rel="next" title="二叉查找树">
+      二叉查找树 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%88%E5%BA%8F%E9%81%8D%E5%8E%86"><span class="nav-number">2.1.</span> <span class="nav-text">先序遍历</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Java"><span class="nav-number">2.1.1.</span> <span class="nav-text">Java</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Python"><span class="nav-number">2.1.2.</span> <span class="nav-text">Python</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Go"><span class="nav-number">2.1.3.</span> <span class="nav-text">Go</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86"><span class="nav-number">2.2.</span> <span class="nav-text">中序遍历</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Java-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">Java</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Python-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">Python</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Go-1"><span class="nav-number">2.2.3.</span> <span class="nav-text">Go</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86"><span class="nav-number">2.3.</span> <span class="nav-text">后序遍历</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Java-2"><span class="nav-number">2.3.1.</span> <span class="nav-text">Java</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Python-2"><span class="nav-number">2.3.2.</span> <span class="nav-text">Python</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Go-2"><span class="nav-number">2.3.3.</span> <span class="nav-text">Go</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chunyu"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Chunyu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">73</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chunyu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
