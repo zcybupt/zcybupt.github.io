@@ -2831,7 +2831,7 @@
       </tags>
   </entry>
   <entry>
-    <title>无 root 配置 CUDA 10 运行 Yolo v4</title>
+    <title>无 root 配置 CUDA 10 运行 YOLO v4</title>
     <url>/2020/07/08/Yolov4Deployment/</url>
     <content><![CDATA[<h2 id="环境部署"><a href="#环境部署" class="headerlink" title="环境部署"></a>环境部署</h2><p>在无 root 的情况下可将 cuda 安装到自己的目录中, 配置好环境变量即可使用.</p>
 <p>服务器基础信息:</p>
@@ -2882,7 +2882,7 @@
 <p>输出</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nvcc: NVIDIA (R) Cuda compiler driver</span><br><span class="line">Copyright (c) 2005-2018 NVIDIA Corporation</span><br><span class="line">Built on Sat_Aug_25_21:08:01_CDT_2018</span><br><span class="line">Cuda compilation tools, release 10.0, V10.0.130</span><br></pre></td></tr></table></figure>
 
-<h2 id="Yolo-v4-编译"><a href="#Yolo-v4-编译" class="headerlink" title="Yolo v4 编译"></a>Yolo v4 编译</h2><p>项目主页: <a href="https://github.com/AlexeyAB/darknet">https://github.com/AlexeyAB/darknet</a></p>
+<h2 id="YOLO-v4-编译"><a href="#YOLO-v4-编译" class="headerlink" title="YOLO v4 编译"></a>YOLO v4 编译</h2><p>项目主页: <a href="https://github.com/AlexeyAB/darknet">https://github.com/AlexeyAB/darknet</a></p>
 <p>预训练权重: <a href="https://drive.google.com/open?id=1cewMfusmPjYWbrnuJRuKhPMwRe_b9PaT">yolov4.weights</a></p>
 <p>克隆项目</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git <span class="built_in">clone</span> https://github.com/AlexeyAB/darknet.git</span></span><br></pre></td></tr></table></figure>
@@ -2908,7 +2908,7 @@
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">./darknet detector <span class="built_in">test</span> ./cfg/coco.data ./cfg/yolov4.cfg ./yolov4.weights</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200708211444.png"></p>
-<p>Yolo v4 的训练配置方式与 v3 相同, 可参考之前的文章: <a href="https://zcybupt.github.io/post/YoloDeployment">YOLO v3 环境搭建及训练入门指南</a></p>
+<p>YOLO v4 的训练配置方式与 v3 相同, 可参考之前的文章: <a href="https://zcybupt.github.io/post/YOLODeployment">YOLO v3 环境搭建及训练入门指南</a></p>
 ]]></content>
       <tags>
         <tag>深度学习</tag>
