@@ -180,6 +180,100 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2020/07/19/SubtreeOfAnotherTree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Chunyu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leaky Cauldron">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/19/SubtreeOfAnotherTree/" class="post-title-link" itemprop="url">判断子树结构是否相同</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-07-19 17:05:27" itemprop="dateCreated datePublished" datetime="2020-07-19T17:05:27+08:00">2020-07-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-07-20 14:26:20" itemprop="dateModified" datetime="2022-07-20T14:26:20+08:00">2022-07-20</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="题目-LeetCode-572"><a href="#题目-LeetCode-572" class="headerlink" title="题目(LeetCode #572)"></a>题目(<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/subtree-of-another-tree/">LeetCode #572</a>)</h2><p>给定两个非空二叉树 <code>s</code> 和 <code>t</code>，检验 <code>s</code> 中是否包含和 <code>t</code> 具有相同结构和节点值的子树。<code>s</code> 的一个子树包括 <code>s</code> 的一个节点和这个节点的所有子孙。<code>s</code> 也可以看做它自身的一棵子树。</p>
+<p>示例 1:</p>
+<p>给定的树 s:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">    <span class="number">3</span></span><br><span class="line">   / \</span><br><span class="line">  <span class="number">4</span>   <span class="number">5</span></span><br><span class="line"> / \</span><br><span class="line"><span class="number">1</span>   <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<p>给定的树 t：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">  <span class="number">4</span> </span><br><span class="line"> / \</span><br><span class="line"><span class="number">1</span>   <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<p>返回 <strong>true</strong>，因为 t 与 s 的一个子树拥有相同的结构和节点值。</p>
+<p>示例 2:</p>
+<p>给定的树 s：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">    <span class="number">3</span></span><br><span class="line">   / \</span><br><span class="line">  <span class="number">4</span>   <span class="number">5</span></span><br><span class="line"> / \</span><br><span class="line"><span class="number">1</span>   <span class="number">2</span></span><br><span class="line">   /</span><br><span class="line">  <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>给定的树 t：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">  <span class="number">4</span></span><br><span class="line"> / \</span><br><span class="line"><span class="number">1</span>   <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>返回 <strong>false</strong>。</p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p><strong>仅作为KMP的练习，非最优解</strong></p>
+<p>先将两棵树序列化（这里采用先序遍历），再利用 KMP 判断 <code>t</code> 是否为 <code>s</code> 的子串。</p>
+<h3 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">TreeNode</span> &#123;</span><br><span class="line">    <span class="type">int</span> val;</span><br><span class="line">    TreeNode left;</span><br><span class="line">    TreeNode right;</span><br><span class="line"></span><br><span class="line">    TreeNode(<span class="type">int</span> val) &#123;</span><br><span class="line">        <span class="built_in">this</span>.val = val;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Code_45_SubtreeOfAnotherTree</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">getPreorderString</span><span class="params">(TreeNode treeNode)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (treeNode == <span class="literal">null</span>) <span class="keyword">return</span> <span class="string">&quot;#&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">String</span> <span class="variable">tmpResult</span> <span class="operator">=</span> <span class="string">&quot;_&quot;</span> + treeNode.val + <span class="string">&quot;_&quot;</span> + getPreorderString(treeNode.left);</span><br><span class="line">        tmpResult += <span class="string">&quot;_&quot;</span> + getPreorderString(treeNode.right);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> tmpResult;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span>[] getNextTable(String pattern) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> pattern.length();</span><br><span class="line">        <span class="type">int</span> <span class="variable">lp</span> <span class="operator">=</span> -<span class="number">1</span>, rp = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span>[] nextTable = <span class="keyword">new</span> <span class="title class_">int</span>[len];</span><br><span class="line">        nextTable[<span class="number">0</span>] = -<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (rp &lt; len - <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (lp == -<span class="number">1</span> || pattern.charAt(lp) == pattern.charAt(rp)) &#123;</span><br><span class="line">                nextTable[++rp] = ++lp;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                lp = nextTable[lp];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> nextTable;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// KMP</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isSubtree</span><span class="params">(TreeNode s, TreeNode t)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">serializedS</span> <span class="operator">=</span> getPreorderString(s);</span><br><span class="line">        <span class="type">String</span> <span class="variable">serializedT</span> <span class="operator">=</span> getPreorderString(t);</span><br><span class="line">        <span class="type">int</span> <span class="variable">sCur</span> <span class="operator">=</span> <span class="number">0</span>, tCur = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">sLen</span> <span class="operator">=</span> serializedS.length();</span><br><span class="line">        <span class="type">int</span> <span class="variable">tLen</span> <span class="operator">=</span> serializedT.length();</span><br><span class="line">        <span class="type">int</span>[] nextTable = getNextTable(serializedT);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (sCur &lt; sLen &amp;&amp; tCur &lt; tLen) &#123;</span><br><span class="line">            <span class="keyword">if</span> (serializedS.charAt(sCur) == serializedT.charAt(tCur)) &#123;</span><br><span class="line">                sCur++;</span><br><span class="line">                tCur++;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (tCur == <span class="number">0</span>) sCur++;</span><br><span class="line">                <span class="keyword">else</span> tCur = nextTable[tCur];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> tCur == tLen;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">TreeNode</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, val=<span class="number">0</span>, left=<span class="literal">None</span>, right=<span class="literal">None</span></span>):</span><br><span class="line">        self.val = val</span><br><span class="line">        self.left = left</span><br><span class="line">        self.right = right</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SubTreeOfAnotherTree</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get_preorder_string</span>(<span class="params">self, tree_node: TreeNode</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> tree_node: <span class="keyword">return</span> <span class="string">&#x27;#&#x27;</span></span><br><span class="line"></span><br><span class="line">        tmp_str = <span class="string">&#x27;_&#x27;</span> + <span class="built_in">str</span>(tree_node.val) + <span class="string">&#x27;_&#x27;</span> + self.get_preorder_string(tree_node.left)</span><br><span class="line">        tmp_str += <span class="string">&#x27;_&#x27;</span> + self.get_preorder_string(tree_node.right)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> tmp_str</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get_next_table</span>(<span class="params">self, pattern: <span class="built_in">str</span></span>):</span><br><span class="line">        lp, rp = -<span class="number">1</span>, <span class="number">0</span></span><br><span class="line">        length = <span class="built_in">len</span>(pattern)</span><br><span class="line">        next_table = [<span class="number">0</span>] * length</span><br><span class="line">        next_table[<span class="number">0</span>] = -<span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> rp &lt; length - <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">if</span> pattern[lp] == pattern[rp] <span class="keyword">or</span> lp == -<span class="number">1</span>:</span><br><span class="line">                lp += <span class="number">1</span></span><br><span class="line">                rp += <span class="number">1</span></span><br><span class="line">                next_table[rp] = lp</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                lp = next_table[lp]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> next_table</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">isSubtree</span>(<span class="params">self, s: TreeNode, t: TreeNode</span>) -&gt; <span class="built_in">bool</span>:</span><br><span class="line">        serialized_s = self.get_preorder_string(s)</span><br><span class="line">        serialized_t = self.get_preorder_string(t)</span><br><span class="line">        s_len = <span class="built_in">len</span>(serialized_s)</span><br><span class="line">        t_len = <span class="built_in">len</span>(serialized_t)</span><br><span class="line"></span><br><span class="line">        s_cur, t_cur = <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">        next_table = self.get_next_table(serialized_t)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> s_cur &lt; s_len <span class="keyword">and</span> t_cur &lt; t_len:</span><br><span class="line">            <span class="keyword">if</span> serialized_s[s_cur] == serialized_t[t_cur]:</span><br><span class="line">                s_cur += <span class="number">1</span></span><br><span class="line">                t_cur += <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> t_cur == <span class="number">0</span>:</span><br><span class="line">                    s_cur += <span class="number">1</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    t_cur = next_table[t_cur]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> t_cur == t_len</span><br></pre></td></tr></table></figure>
+
+<h3 id="Go"><a href="#Go" class="headerlink" title="Go"></a>Go</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> TreeNode <span class="keyword">struct</span> &#123;</span><br><span class="line">	Val   <span class="type">int</span></span><br><span class="line">	Left  *TreeNode</span><br><span class="line">	Right *TreeNode</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getPreorderString</span><span class="params">(treeNode *TreeNode)</span></span> <span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> treeNode == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;#&quot;</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	tmpStr := <span class="string">&quot;_&quot;</span> + strconv.Itoa(treeNode.Val) + <span class="string">&quot;_&quot;</span> + getPreorderString(treeNode.Left)</span><br><span class="line">	tmpStr += <span class="string">&quot;_&quot;</span> + getPreorderString(treeNode.Right)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> tmpStr</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getNextTable</span><span class="params">(pattern <span class="type">string</span>)</span></span> []<span class="type">int</span> &#123;</span><br><span class="line">	lp, rp := <span class="number">-1</span>, <span class="number">0</span></span><br><span class="line">	length := <span class="built_in">len</span>(pattern)</span><br><span class="line">	nextTable := <span class="built_in">make</span>([]<span class="type">int</span>, length)</span><br><span class="line">	nextTable[<span class="number">0</span>] = <span class="number">-1</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> rp &lt; length<span class="number">-1</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> lp == <span class="number">-1</span> || pattern[lp] == pattern[rp] &#123;</span><br><span class="line">			lp++</span><br><span class="line">			rp++</span><br><span class="line">			nextTable[rp] = lp</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			lp = nextTable[lp]</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> nextTable</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">isSubtree</span><span class="params">(s *TreeNode, t *TreeNode)</span></span> <span class="type">bool</span> &#123;</span><br><span class="line">	serializedS := getPreorderString(s)</span><br><span class="line">	serializedT := getPreorderString(t)</span><br><span class="line">	sCur, tCur := <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">	sLen := <span class="built_in">len</span>(serializedS)</span><br><span class="line">	tLen := <span class="built_in">len</span>(serializedT)</span><br><span class="line">	nextTable := getNextTable(serializedT)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> sCur &lt; sLen &amp;&amp; tCur &lt; tLen &#123;</span><br><span class="line">		<span class="keyword">if</span> serializedS[sCur] == serializedT[tCur] &#123;</span><br><span class="line">			sCur++</span><br><span class="line">			tCur++</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> tCur == <span class="number">0</span> &#123;</span><br><span class="line">				sCur++</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				tCur = nextTable[tCur]</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> tCur == tLen</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="奇淫巧技"><a href="#奇淫巧技" class="headerlink" title="奇淫巧技"></a>奇淫巧技</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/subtree-of-another-tree/comments/384272">LeetCode @洪世贤</a>：<br>  没有什么是 Python 一行解决不了的</p>
+</blockquote>
+<p>Python 的诱惑？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">isSubtree</span>(<span class="params">self, s: TreeNode, t: TreeNode</span>) -&gt; <span class="built_in">bool</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">str</span>(s).find(<span class="built_in">str</span>(t)) != -<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2020/07/18/KMP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -979,79 +1073,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2020/07/02/PrintPermutations/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Chunyu">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Leaky Cauldron">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/02/PrintPermutations/" class="post-title-link" itemprop="url">字符串的全排列</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-07-02 19:54:36" itemprop="dateCreated datePublished" datetime="2020-07-02T19:54:36+08:00">2020-07-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-08-20 08:41:05" itemprop="dateModified" datetime="2022-08-20T08:41:05+08:00">2022-08-20</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><p>打印一个字符串的全部排列</p>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><p>每次递归都将后续字符与当前字符交换, 如第 <code>i</code> 次递归, 将 <code>i</code> 位置之后的字符分别与 <code>i</code> 处字符交换</p>
-<p>若要去重使用集合即可</p>
-<h4 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PrintPermutations</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">printPermutations</span><span class="params">(String str)</span> &#123;</span><br><span class="line">        <span class="type">char</span>[] chars = str.toCharArray();</span><br><span class="line">        process(chars, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">process</span><span class="params">(<span class="type">char</span>[] chars, <span class="type">int</span> i)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (i == chars.length) &#123;</span><br><span class="line">            System.out.println(String.valueOf(chars));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i; j &lt; chars.length; j++) &#123;</span><br><span class="line">            swap(chars, i, j);</span><br><span class="line">            process(chars, i + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">swap</span><span class="params">(<span class="type">char</span>[] chars, <span class="type">int</span> i, <span class="type">int</span> j)</span> &#123;</span><br><span class="line">        <span class="type">char</span> <span class="variable">tmp</span> <span class="operator">=</span> chars[i];</span><br><span class="line">        chars[i] = chars[j];</span><br><span class="line">        chars[j] = tmp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">print_permutations</span>(<span class="params">str_input</span>):</span><br><span class="line">    char_arr = [i <span class="keyword">for</span> i <span class="keyword">in</span> str_input]</span><br><span class="line">    process(char_arr, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">process</span>(<span class="params">char_arr, i</span>):</span><br><span class="line">    arr_len = <span class="built_in">len</span>(char_arr)</span><br><span class="line">    <span class="keyword">if</span> i == arr_len:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;&#x27;</span>.join(char_arr))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i, arr_len):</span><br><span class="line">        char_arr[i], char_arr[j] = char_arr[j], char_arr[i]</span><br><span class="line">        process(char_arr, i + <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-
-<h4 id="Go"><a href="#Go" class="headerlink" title="Go"></a>Go</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">printPermutations</span><span class="params">(input <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">	charArr := []<span class="type">byte</span>(input)</span><br><span class="line">	process(charArr, <span class="number">0</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">process</span><span class="params">(charArr []<span class="type">byte</span>, i <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">	arrLen := <span class="built_in">len</span>(charArr)</span><br><span class="line">	<span class="keyword">if</span> i == arrLen &#123;</span><br><span class="line">		fmt.Println(<span class="type">string</span>(charArr))</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> j := i; j &lt; arrLen; j++ &#123;</span><br><span class="line">		charArr[i], charArr[j] = charArr[j], charArr[i]</span><br><span class="line">		process(charArr, i+<span class="number">1</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1123,14 +1144,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">74</span>
+          <span class="site-state-item-count">75</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">36</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
