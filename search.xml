@@ -3022,7 +3022,7 @@
       </tags>
   </entry>
   <entry>
-    <title>DesignTic-Tac-Toe</title>
+    <title>Design Tic-Tac-Toe</title>
     <url>/2022/08/23/DesignTic-Tac-Toe/</url>
     <content><![CDATA[<h2 id="题目-LeetCode-348"><a href="#题目-LeetCode-348" class="headerlink" title="题目(LeetCode #348)"></a>题目(LeetCode #348)</h2><p>Design a Tic-tac-toe game that is played between two players on a <code>n x n</code> grid.</p>
 <p>You may assume the following rules:</p>
