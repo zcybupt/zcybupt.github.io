@@ -180,6 +180,93 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2020/09/07/GoSortInterface/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Chunyu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leaky Cauldron">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/07/GoSortInterface/" class="post-title-link" itemprop="url">Go 自定义类型排序</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-09-07 19:05:49" itemprop="dateCreated datePublished" datetime="2020-09-07T19:05:49+08:00">2020-09-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-07-20 14:26:20" itemprop="dateModified" datetime="2022-07-20T14:26:20+08:00">2022-07-20</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="题目-LeetCode-56"><a href="#题目-LeetCode-56" class="headerlink" title="题目(LeetCode #56)"></a>题目(<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/merge-intervals">LeetCode #56</a>)</h2><p>给出一个区间的集合，请合并所有重叠的区间。 </p>
+<p><strong>示例 1:</strong></p>
+<blockquote>
+<p><strong>输入:</strong> intervals = [[1, 3], [2, 6], [8, 10], [15, 18]]<br><strong>输出:</strong> [[1, 6], [8, 10], [15, 18]]<br><strong>解释:</strong> 区间 [1, 3] 和 [2, 6] 重叠, 将它们合并为 [1, 6].</p>
+</blockquote>
+<p><strong>示例 2:</strong></p>
+<blockquote>
+<p><strong>输入:</strong> intervals = [[1, 4], [4, 5]]<br><strong>输出:</strong> [[1, 5]]<br><strong>解释:</strong> 区间 [1, 4] 和 [4, 5] 可被视为重叠区间。</p>
+</blockquote>
+<p><strong>提示：</strong> <code>intervals[i][0] &lt;= intervals[i][1]</code></p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><ul>
+<li>  先按照每个区间的左端点进行排序，保证可以合并的区间是连续的。</li>
+<li>遍历区间数组，判断结果集中最后一个区间的右端点与当前数组的左端点的关系：<ul>
+<li>  若 <code>curInterval[0] &lt; mergedList[-1][1]</code> ，则区间无重合，直接将当前区间放入结果集即可</li>
+<li>  若 <code>curInterval[0] &gt;= mergedList[-1][1]</code> ，则区间重合，需更新结果集中最后一个区间的右端点为 <code>max(curInterval[1], mergerdList[-1][1])</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">merge</span><span class="params">(intervals [][]<span class="type">int</span>)</span></span> [][]<span class="type">int</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> intervals == <span class="literal">nil</span> || <span class="built_in">len</span>(intervals) &lt;= <span class="number">1</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> intervals</span><br><span class="line">	&#125;</span><br><span class="line">	quickSort(intervals, <span class="number">0</span>, <span class="built_in">len</span>(intervals)<span class="number">-1</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> result [][]<span class="type">int</span></span><br><span class="line">	result = <span class="built_in">append</span>(result, intervals[<span class="number">0</span>])</span><br><span class="line">	<span class="keyword">for</span> _, interval := <span class="keyword">range</span> intervals[<span class="number">1</span>:] &#123;</span><br><span class="line">		lastInterval := result[<span class="built_in">len</span>(result)<span class="number">-1</span>]</span><br><span class="line">		<span class="keyword">if</span> lastInterval[<span class="number">1</span>] &lt; interval[<span class="number">0</span>] &#123;</span><br><span class="line">			result = <span class="built_in">append</span>(result, interval)</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			lastInterval[<span class="number">1</span>] = max(lastInterval[<span class="number">1</span>], interval[<span class="number">1</span>])</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">max</span><span class="params">(a, b <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> a &gt; b &#123;</span><br><span class="line">		<span class="keyword">return</span> a</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">quickSort</span><span class="params">(nums [][]<span class="type">int</span>, L, R <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> L &lt; R &#123;</span><br><span class="line">		pIndex := partition(nums, L, R)</span><br><span class="line">		quickSort(nums, L, pIndex<span class="number">-1</span>)</span><br><span class="line">		quickSort(nums, pIndex+<span class="number">1</span>, R)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">partition</span><span class="params">(nums [][]<span class="type">int</span>, L, R <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">	P := nums[L]</span><br><span class="line">	<span class="keyword">for</span> L != R &#123;</span><br><span class="line">		<span class="keyword">for</span> L &lt; R &amp;&amp; nums[R][<span class="number">0</span>] &gt;= P[<span class="number">0</span>] &#123;</span><br><span class="line">			R--</span><br><span class="line">		&#125;</span><br><span class="line">		nums[L] = nums[R]</span><br><span class="line">		<span class="keyword">for</span> L &lt; R &amp;&amp; nums[L][<span class="number">0</span>] &lt;= P[<span class="number">0</span>] &#123;</span><br><span class="line">			L++</span><br><span class="line">		&#125;</span><br><span class="line">		nums[R] = nums[L]</span><br><span class="line">	&#125;</span><br><span class="line">	nums[L] = P</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> L</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Go-内置排序"><a href="#Go-内置排序" class="headerlink" title="Go 内置排序"></a>Go 内置排序</h3><p>调用 <code>sort</code> 包对自定义类型进行排序时，需实现其中的 <code>Less()</code> 、<code>Len()</code> 、<code>Swap()</code> 三个方法。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;sort&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">merge</span><span class="params">(intervals [][]<span class="type">int</span>)</span></span> [][]<span class="type">int</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> intervals == <span class="literal">nil</span> || <span class="built_in">len</span>(intervals) &lt;= <span class="number">1</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> intervals</span><br><span class="line">	&#125;</span><br><span class="line">	sort.Sort(intss(intervals))</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> result [][]<span class="type">int</span></span><br><span class="line">	result = <span class="built_in">append</span>(result, intervals[<span class="number">0</span>])</span><br><span class="line">	<span class="keyword">for</span> _, interval := <span class="keyword">range</span> intervals[<span class="number">1</span>:] &#123;</span><br><span class="line">		lastInterval := result[<span class="built_in">len</span>(result)<span class="number">-1</span>]</span><br><span class="line">		<span class="keyword">if</span> lastInterval[<span class="number">1</span>] &lt; interval[<span class="number">0</span>] &#123;</span><br><span class="line">			result = <span class="built_in">append</span>(result, interval)</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			lastInterval[<span class="number">1</span>] = max(lastInterval[<span class="number">1</span>], interval[<span class="number">1</span>])</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> intss [][]<span class="type">int</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s intss)</span></span> Swap(i, j <span class="type">int</span>) &#123;</span><br><span class="line">	s[i], s[j] = s[j], s[i]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s intss)</span></span> Less(i, j <span class="type">int</span>) <span class="type">bool</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> s[i][<span class="number">0</span>] &lt; s[j][<span class="number">0</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s intss)</span></span> Len() <span class="type">int</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">len</span>(s)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">max</span><span class="params">(a, b <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> a &gt; b &#123;</span><br><span class="line">		<span class="keyword">return</span> a</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2020/09/01/Permutations/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1177,91 +1264,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2020/08/10/ThreeSumClosest/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Chunyu">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Leaky Cauldron">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/10/ThreeSumClosest/" class="post-title-link" itemprop="url">最接近的三数之和</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-08-10 09:22:59" itemprop="dateCreated datePublished" datetime="2020-08-10T09:22:59+08:00">2020-08-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-07-20 14:26:20" itemprop="dateModified" datetime="2022-07-20T14:26:20+08:00">2022-07-20</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="题目-LeetCode-16"><a href="#题目-LeetCode-16" class="headerlink" title="题目(LeetCode #16)"></a>题目(<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/3sum-closest/">LeetCode #16</a>)</h2><p>给定一个包括 <code>n</code> 个整数的数组 <code>nums</code> 和 一个目标值 <code>target</code> 。找出 <code>nums</code> 中的三个整数，使得它们的和与 <code>target</code> 最接近。返回这三个数的和。假定每组输入只存在唯一答案。</p>
-<p><strong>示例：</strong></p>
-<blockquote>
-<p><strong>输入：</strong> nums = [-1,2,1,-4], target = 1</p>
-<p><strong>输出：</strong> 2</p>
-<p><strong>解释：</strong> 与 target 最接近的和是 2 (-1 + 2 + 1 = 2) 。</p>
-</blockquote>
-<p><strong>提示：</strong></p>
-<ul>
-<li>  3 &lt;= nums.length &lt;= 10³</li>
-<li>  -10³ &lt;= nums[i] &lt;= 10³</li>
-<li>  -10<sup>4</sup>&gt; &lt;= target &lt;= 10<sup>4</sup></li>
-</ul>
-<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>本题与<a href="https://zcybupt.github.io/post/ThreeSum/">三数之和</a>类似 ，可采用双指针法，差别在于本题可以有重复元素。</p>
-<p>由于处理过程中数组已经过排序，故在遍历数组元素的过程中，若 <code>nums[i] + nums[L] + nums[R] &gt; target</code> ，需将 <code>R</code> 左移，以减小三数和，进而减小其与 <code>target</code> 的差值；若 <code>nums[i] + nums[L] + nums[R] &lt; target</code> ，需将 <code>L</code> 右移，增大三数和来达到相同目的。</p>
-<h3 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">threeSumClosest</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">arrLen</span> <span class="operator">=</span> nums.length;</span><br><span class="line">        <span class="keyword">if</span> (arrLen &lt; <span class="number">3</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        Arrays.sort(nums);</span><br><span class="line">        <span class="type">int</span> L, R;</span><br><span class="line">        <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">minDiff</span> <span class="operator">=</span> Integer.MAX_VALUE;</span><br><span class="line">        <span class="type">int</span> curDiff, curSum;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; arrLen; i++) &#123;</span><br><span class="line">            L = i + <span class="number">1</span>;</span><br><span class="line">            R = arrLen - <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">while</span> (L &lt; R) &#123;</span><br><span class="line">                curSum = nums[i] + nums[L] + nums[R];</span><br><span class="line">                <span class="keyword">if</span> (curSum == target) <span class="keyword">return</span> curSum;</span><br><span class="line">                curDiff = Math.abs(curSum - target);</span><br><span class="line">                <span class="keyword">if</span> (curDiff &lt; minDiff) &#123;</span><br><span class="line">                    result = curSum;</span><br><span class="line">                    minDiff = curDiff;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (curSum &gt; target) R--;</span><br><span class="line">                <span class="keyword">else</span> L++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">threeSumClosest</span>(<span class="params">self, nums: <span class="built_in">list</span>, target: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        list_len = <span class="built_in">len</span>(nums)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> nums <span class="keyword">or</span> list_len &lt; <span class="number">3</span>: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        nums.sort()</span><br><span class="line">        min_diff = <span class="built_in">float</span>(<span class="string">&#x27;inf&#x27;</span>)</span><br><span class="line">        result = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(list_len):</span><br><span class="line">            l = i + <span class="number">1</span></span><br><span class="line">            r = list_len - <span class="number">1</span></span><br><span class="line">            <span class="keyword">while</span> l &lt; r:</span><br><span class="line">                cur_sum = nums[i] + nums[l] + nums[r]</span><br><span class="line">                <span class="keyword">if</span> cur_sum == target: <span class="keyword">return</span> cur_sum</span><br><span class="line">                cur_diff = <span class="built_in">abs</span>(cur_sum - target)</span><br><span class="line">                <span class="keyword">if</span> cur_diff &lt; min_diff:</span><br><span class="line">                    result = cur_sum</span><br><span class="line">                    min_diff = cur_diff</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> cur_sum &gt; target: r -= <span class="number">1</span></span><br><span class="line">                <span class="keyword">else</span>: l += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-
-<h3 id="Go"><a href="#Go" class="headerlink" title="Go"></a>Go</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;math&quot;</span></span><br><span class="line">    <span class="string">&quot;sort&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">threeSumClosest</span><span class="params">(nums []<span class="type">int</span>, target <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">    arrLen := <span class="built_in">len</span>(nums)</span><br><span class="line">    <span class="keyword">if</span> nums == <span class="literal">nil</span> || arrLen &lt; <span class="number">3</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    sort.Ints(nums)</span><br><span class="line">    result, curSum, curDiff := <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">    minDiff := math.MaxInt32</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i, v := <span class="keyword">range</span> nums &#123;</span><br><span class="line">        L, R := i+<span class="number">1</span>, arrLen<span class="number">-1</span></span><br><span class="line">        <span class="keyword">for</span> L &lt; R &#123;</span><br><span class="line">            curSum = v + nums[L] + nums[R]</span><br><span class="line">            <span class="keyword">if</span> curSum == target &#123;</span><br><span class="line">                <span class="keyword">return</span> curSum</span><br><span class="line">            &#125;</span><br><span class="line">            curDiff = <span class="type">int</span>(math.Abs(<span class="type">float64</span>(curSum - target)))</span><br><span class="line">            <span class="keyword">if</span> curDiff &lt; minDiff &#123;</span><br><span class="line">                result = curSum</span><br><span class="line">                minDiff = curDiff</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> curSum &gt; target &#123;</span><br><span class="line">                R--</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                L++</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1333,14 +1335,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">75</span>
+          <span class="site-state-item-count">76</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-count">37</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
