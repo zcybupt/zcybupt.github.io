@@ -3074,8 +3074,9 @@
     <title>Maximum Average Subarray II</title>
     <url>/2022/09/08/MaximumAverageSubarrayII/</url>
     <content><![CDATA[<h2 id="题目-LeetCode-644"><a href="#题目-LeetCode-644" class="headerlink" title="题目(LeetCode #644)"></a>题目(LeetCode #644)</h2><p>Given an array consisting of <code>n</code> integers, find the contiguous subarray whose <strong>length is greater than or equal to</strong> <code>k</code> that has the maximum average value. And you need to output the maximum average value.</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Input:  [<span class="number">1</span>, <span class="number">12</span>, -<span class="number">5</span>, -<span class="number">6</span>, <span class="number">50</span>, <span class="number">3</span>], k = <span class="number">4</span></span><br><span class="line">Output: <span class="number">12.75</span></span><br><span class="line">Explanation:</span><br><span class="line">when length <span class="keyword">is</span> <span class="number">5</span>, maximum average value <span class="keyword">is</span> <span class="number">10.8</span>,</span><br><span class="line">when length <span class="keyword">is</span> <span class="number">6</span>, maximum average value <span class="keyword">is</span> <span class="number">9.16667</span>.</span><br><span class="line">Thus <span class="keyword">return</span> <span class="number">12.75</span>.</span><br></pre></td></tr></table></figure>
-
+<blockquote>
+<p>Input:  [1, 12, -5, -6, 50, 3], k = 4<br>Output: 12.75<br>Explanation:<br>when length is 5, maximum average value is 10.8,<br>when length is 6, maximum average value is 9.16667.<br>Thus return 12.75.</p>
+</blockquote>
 <p><strong>Note:</strong></p>
 <ol>
 <li>1 &lt;= <code>k</code> &lt;= <code>n</code> &lt;= 10,000.</li>
