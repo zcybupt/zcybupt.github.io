@@ -189,6 +189,93 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/09/11/MissingElementinSortedArray/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Chunyu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leaky Cauldron">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/09/11/MissingElementinSortedArray/" class="post-title-link" itemprop="url">MissingElementinSortedArray</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-09-11 19:04:13 / Modified: 23:47:24" itemprop="dateCreated datePublished" datetime="2022-09-11T19:04:13+08:00">2022-09-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="题目-LeetCode-1060"><a href="#题目-LeetCode-1060" class="headerlink" title="题目(LeetCode #1060)"></a>题目(LeetCode #1060)</h2><p>Given a sorted array <code>A</code> of <strong>unique</strong> numbers, find the <code>K-th</code> missing number starting from the leftmost number of the array.</p>
+<blockquote>
+<p><strong>Example 1:</strong><br><strong>Input:</strong> A = [4,7,9,10], K = 1<br><strong>Output:</strong> 5<br><strong>Explanation:</strong><br>The first missing number is 5.</p>
+</blockquote>
+<blockquote>
+<p><strong>Example 2:</strong><br><strong>Input:</strong> A = [4,7,9,10], K = 3<br><strong>Output:</strong> 8<br><strong>Explanation:</strong><br>The missing numbers are [5,6,8,…], hence the third missing number is 8.</p>
+</blockquote>
+<blockquote>
+<p><strong>Example 3:</strong><br><strong>Input:</strong> A = [1,2,4], K = 3<br><strong>Output:</strong> 6<br><strong>Explanation:</strong><br>The missing numbers are [3,5,6,7,…], hence the third missing number is 6.</p>
+</blockquote>
+<p><strong>Note:</strong></p>
+<ol>
+<li>1 &lt;= A.length &lt;= 50000</li>
+<li>1 &lt;= A[i] &lt;= 1e7</li>
+<li>1 &lt;= K &lt;= 1e8</li>
+</ol>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>逐个计算数组中的元素：</p>
+<ol>
+<li><code>k</code> 大于等于数组中最后一个数时, 除了数组中的数全部缺失, 故相当于求以 <code>nums[0]</code> 开始的第 <code>k + n</code> 项；</li>
+<li>若 <code>k</code> 小于数组中最后一个数，则逐个计算数组元素，若元素存在则数组指针右移，若遇到缺失元素则 <code>k--</code>。最终 <code>num + k</code> 即为第 <code>k</code> 个缺失元素。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">missingElement</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums == <span class="literal">null</span> || nums.length == <span class="number">0</span>) <span class="keyword">return</span> k;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> nums.length;</span><br><span class="line">        <span class="keyword">if</span> (k &gt;= nums[n - <span class="number">1</span>]) <span class="keyword">return</span> k + nums[<span class="number">0</span>] + n - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">num</span> <span class="operator">=</span> nums[<span class="number">0</span>];</span><br><span class="line">        <span class="type">int</span> <span class="variable">idx</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (idx &lt; n &amp;&amp; k &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (++num == nums[idx]) idx++;</span><br><span class="line">            <span class="keyword">else</span> k--;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> num + k;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>通过二分查找，找到第 <code>k</code> 个缺失数字之前的值在 <code>nums</code> 中的索引。最终结果为 <code>nums[0] + x + k</code>，其中 <code>x</code> 为第 <code>k</code> 个缺失的数字前在 <code>nums</code> 数组中已经存在的元素个数。</p>
+<p>使用二分法的一个关键问题在于如何缩小查找范围。若第 <code>k</code> 个缺失的数字在 <code>[l, m]</code> 之间，那么可知 <code>nums[m] &gt;= nums[0] + k + m</code>。由此可反推判断条件。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">missingElement</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums == <span class="literal">null</span> || nums.length == <span class="number">0</span>) <span class="keyword">return</span> k;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> <span class="number">0</span>, r = nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">m</span> <span class="operator">=</span> l + (r - l + <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (nums[m] &gt;= nums[<span class="number">0</span>] + k + m) r = m - <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> l = m;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">0</span>] + l + k;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/09/08/MaximumAverageSubarrayII/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -220,7 +307,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-09-09 23:31:52" itemprop="dateModified" datetime="2022-09-09T23:31:52+08:00">2022-09-09</time>
+                <time title="Modified: 2022-09-11 23:13:29" itemprop="dateModified" datetime="2022-09-11T23:13:29+08:00">2022-09-11</time>
               </span>
 
           
@@ -244,7 +331,7 @@
 <li>Elements of the given array will be in range [-10,000, 10,000].</li>
 <li>The answer with the calculation error less than 10<sup>-5</sup> will be accepted.</li>
 </ol>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>本题的技巧性较强，可采用滑动窗口加二分法求解，用猜平均值的方式逼近真实值，实现的关键在于找到二分的条件。对于一个数组来说，其<strong>所有可能的子数组的最大平均值必介于最大值和最小值之间</strong>。取 <code>mid = (min + max) / 2.0</code>，对数组依次求长度大于等于 <code>k</code> 的所有可能的子数组的平均值。若平均值序列中有值大于等于 <code>mid</code>，则最大平均值必位于 <code>[mid, max]</code> 区间（即 <code>l = mid</code>）；若平均值序列中所有值都小于 <code>mid</code>，则最大平均值必位于 <code>[min, mid]</code> 上（即 <code>r = mid</code>）。其中，在计算平均值时，可将计算简化为 x<sub>i</sub> - mid 的和与 0 进行比较。</p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>本题的技巧性较强，可采用滑动窗口加二分法求解，用猜平均值的方式逼近真实值，实现的关键在于找到二分的条件。对于一个数组来说，其<strong>所有可能的子数组的最大平均值必介于最大值和最小值之间</strong>。取 <code>mid = (min + max) / 2.0</code>，对数组依次求长度大于等于 <code>k</code> 的所有可能的子数组的平均值。若平均值序列中有值大于等于 <code>mid</code>，则最大平均值必位于 <code>[mid, max]</code> 区间（即 <code>l = mid</code>）；若平均值序列中所有值都小于 <code>mid</code>，则最大平均值必位于 <code>[min, mid]</code> 上（即 <code>r = mid</code>）。其中，在计算平均值时，可将计算简化为 x<sub>i</sub> - mid 的和与 0 进行比较。</p>
 <img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGoUntitled-2022-08-09-1050.png" style="zoom:60%;" />
 
 <p>另一个 trick 是在计算数组所有可能的平均值时，不必对所有长度大于 <code>k</code> 的子数组再次进行遍历，只需在前 <code>k</code> 个元素和的基础上向右扩增，再减去前几项的和既可得到新的子数组的和。如 <code>k = 4</code>，当滑动窗口中包含 <code>0 ~ 5</code> 六个元素时，如果想得到长度为 5 和 4 的子数组的和，只需分别减去第 <code>0</code> 和第 <code>0 ~ 1</code> 个元素即可。而由于是在 <code>mid</code> 两侧判断是否<strong>存在</strong>子数组满足条件，故直接比较<strong>子数组的最大和</strong>与<strong>最小的前缀和</strong>的大小既可。</p>
@@ -293,10 +380,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2022-08-29 17:12:51 / Modified: 17:44:23" itemprop="dateCreated datePublished" datetime="2022-08-29T17:12:51+08:00">2022-08-29</time>
+              <time title="Created: 2022-08-29 17:12:51" itemprop="dateCreated datePublished" datetime="2022-08-29T17:12:51+08:00">2022-08-29</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-09-11 23:13:46" itemprop="dateModified" datetime="2022-09-11T23:13:46+08:00">2022-09-11</time>
+              </span>
 
           
 
@@ -316,7 +409,7 @@
 
 <p>Note:</p>
 <p>1 &lt;= items.length &lt;= 1000<br>items[i].length == 2<br>The IDs of the students is between 1 to 1000<br>The score of the students is between 1 to 100<br>For each student, there are at least 5 scores</p>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>使用 <code>PriorityQueue</code> 分别保存每个人的分数，若 <code>queue</code> 长度大于 5 则去掉其中最小的分数。</p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>使用 <code>PriorityQueue</code> 分别保存每个人的分数，若 <code>queue</code> 长度大于 5 则去掉其中最小的分数。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[][] highFive(<span class="type">int</span>[][] items) &#123;</span><br><span class="line">        Map&lt;Integer, Queue&lt;Integer&gt;&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span>[] item : items) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">id</span> <span class="operator">=</span> item[<span class="number">0</span>], score = item[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">            Queue&lt;Integer&gt; curQueue = map.get(id);</span><br><span class="line">            <span class="keyword">if</span> (curQueue == <span class="literal">null</span>) &#123;</span><br><span class="line">                curQueue = <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>&lt;&gt;(<span class="number">5</span>);</span><br><span class="line">                map.put(id, curQueue);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            curQueue.add(score);</span><br><span class="line">            <span class="keyword">if</span> (curQueue.size() &gt; <span class="number">5</span>) curQueue.poll();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span>[][] result = <span class="keyword">new</span> <span class="title class_">int</span>[map.size()][<span class="number">2</span>];</span><br><span class="line">        <span class="type">int</span> <span class="variable">idx</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> k : map.keySet()) &#123;</span><br><span class="line">            Queue&lt;Integer&gt; curQueue = map.get(k);</span><br><span class="line">            <span class="type">int</span> <span class="variable">sum</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">while</span> (!curQueue.isEmpty()) sum += curQueue.poll();</span><br><span class="line">            result[idx][<span class="number">0</span>] = k;</span><br><span class="line">            result[idx][<span class="number">1</span>] = sum / <span class="number">5</span>;</span><br><span class="line">            idx++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
@@ -361,10 +454,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2022-08-23 15:47:46 / Modified: 17:37:29" itemprop="dateCreated datePublished" datetime="2022-08-23T15:47:46+08:00">2022-08-23</time>
+              <time title="Created: 2022-08-23 15:47:46" itemprop="dateCreated datePublished" datetime="2022-08-23T15:47:46+08:00">2022-08-23</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-09-11 23:14:17" itemprop="dateModified" datetime="2022-09-11T23:14:17+08:00">2022-09-11</time>
+              </span>
 
           
 
@@ -389,7 +488,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">TicTacToe</span> <span class="variable">toe</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TicTacToe</span>(<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">toe.move(<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>); -&gt; Returns <span class="number">0</span> (no one wins)</span><br><span class="line">|X| | |</span><br><span class="line">| | | |    <span class="comment">// Player 1 makes a move at (0, 0).</span></span><br><span class="line">| | | |</span><br><span class="line"></span><br><span class="line">toe.move(<span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>); -&gt; Returns <span class="number">0</span> (no one wins)</span><br><span class="line">|X| |O|</span><br><span class="line">| | | |    <span class="comment">// Player 2 makes a move at (0, 2).</span></span><br><span class="line">| | | |</span><br><span class="line"></span><br><span class="line">toe.move(<span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>); -&gt; Returns <span class="number">0</span> (no one wins)</span><br><span class="line">|X| |O|</span><br><span class="line">| | | |    <span class="comment">// Player 1 makes a move at (2, 2).</span></span><br><span class="line">| | |X|</span><br><span class="line"></span><br><span class="line">toe.move(<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>); -&gt; Returns <span class="number">0</span> (no one wins)</span><br><span class="line">|X| |O|</span><br><span class="line">| |O| |    <span class="comment">// Player 2 makes a move at (1, 1).</span></span><br><span class="line">| | |X|</span><br><span class="line"></span><br><span class="line">toe.move(<span class="number">2</span>, <span class="number">0</span>, <span class="number">1</span>); -&gt; Returns <span class="number">0</span> (no one wins)</span><br><span class="line">|X| |O|</span><br><span class="line">| |O| |    <span class="comment">// Player 1 makes a move at (2, 0).</span></span><br><span class="line">|X| |X|</span><br><span class="line"></span><br><span class="line">toe.move(<span class="number">1</span>, <span class="number">0</span>, <span class="number">2</span>); -&gt; Returns <span class="number">0</span> (no one wins)</span><br><span class="line">|X| |O|</span><br><span class="line">|O|O| |    <span class="comment">// Player 2 makes a move at (1, 0).</span></span><br><span class="line">|X| |X|</span><br><span class="line"></span><br><span class="line">toe.move(<span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>); -&gt; Returns <span class="number">1</span> (player <span class="number">1</span> wins)</span><br><span class="line">|X| |O|</span><br><span class="line">|O|O| |    <span class="comment">// Player 1 makes a move at (2, 1).</span></span><br><span class="line">|X|X|X|</span><br></pre></td></tr></table></figure>
 
 <p>Follow up:<br>Could you do better than O(n²) per <code>move()</code> operation?</p>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>可使用二维数组分别保存两位选手的每一行、每一列和两条对角线上已放置的棋子数。由于每一步都是有效的且放置于空位，因此无需考虑每一行具体如何放置，记录数量即可，当行、列或对角线上的棋子数达到 <code>n</code> 时即有一方获胜。</p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>可使用二维数组分别保存两位选手的每一行、每一列和两条对角线上已放置的棋子数。由于每一步都是有效的且放置于空位，因此无需考虑每一行具体如何放置，记录数量即可，当行、列或对角线上的棋子数达到 <code>n</code> 时即有一方获胜。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">TicTacToe</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span>[][] rows;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span>[][] cols;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span>[][] diags;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> n;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">TicTacToe</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        rows = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">2</span>][n];</span><br><span class="line">        cols = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">2</span>][n];</span><br><span class="line">        diags = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">2</span>][<span class="number">2</span>];</span><br><span class="line">        <span class="built_in">this</span>.n = n;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">move</span><span class="params">(<span class="type">int</span> row, <span class="type">int</span> col, <span class="type">int</span> player)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">playerIdx</span> <span class="operator">=</span> player - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        rows[playerIdx][row]++;</span><br><span class="line">        <span class="keyword">if</span> (rows[playerIdx][row] == n) <span class="keyword">return</span> player;</span><br><span class="line"></span><br><span class="line">        cols[playerIdx][col]++;</span><br><span class="line">        <span class="keyword">if</span> (cols[playerIdx][col] == n) <span class="keyword">return</span> player;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (row == col) &#123;</span><br><span class="line">            diags[playerIdx][<span class="number">0</span>]++;</span><br><span class="line">            <span class="keyword">if</span> (diags[playerIdx][<span class="number">0</span>] == n) <span class="keyword">return</span> player;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (row + col == n - <span class="number">1</span>) &#123;</span><br><span class="line">            diags[playerIdx][<span class="number">1</span>]++;</span><br><span class="line">            <span class="keyword">if</span> (diags[playerIdx][<span class="number">1</span>] == n) <span class="keyword">return</span> player;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
@@ -436,10 +535,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2022-08-08 14:29:51 / Modified: 18:17:48" itemprop="dateCreated datePublished" datetime="2022-08-08T14:29:51+08:00">2022-08-08</time>
+              <time title="Created: 2022-08-08 14:29:51" itemprop="dateCreated datePublished" datetime="2022-08-08T14:29:51+08:00">2022-08-08</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-09-11 23:14:46" itemprop="dateModified" datetime="2022-09-11T23:14:46+08:00">2022-09-11</time>
+              </span>
 
           
 
@@ -473,7 +578,7 @@
 <blockquote>
 <p>输入：s = “(1+(4+5+2)-3)+(6+8)”<br>输出：23</p>
 </blockquote>
-<h3 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h3><p>保存每个数字前的符号并相加。</p>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><p>保存每个数字前的符号并相加。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">calculate</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> s.length();</span><br><span class="line">        <span class="type">int</span>[] signs = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">        signs[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">sign</span> <span class="operator">=</span> <span class="number">1</span>, result = <span class="number">0</span>, sIdx = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="type">char</span> <span class="variable">cur</span> <span class="operator">=</span> s.charAt(i);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (cur == <span class="string">&#x27;+&#x27;</span>) sign = signs[sIdx];</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (cur == <span class="string">&#x27;-&#x27;</span>) sign = -signs[sIdx];</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (cur == <span class="string">&#x27;(&#x27;</span>) signs[++sIdx] = sign;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (cur == <span class="string">&#x27;)&#x27;</span>) sIdx--;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (isDigit(cur)) &#123;</span><br><span class="line">                <span class="type">long</span> <span class="variable">num</span> <span class="operator">=</span> cur - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">                <span class="keyword">while</span> (i + <span class="number">1</span> &lt; n &amp;&amp; isDigit(s.charAt(i + <span class="number">1</span>)))</span><br><span class="line">                    num = num * <span class="number">10</span> + s.charAt(++i) - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">                result += sign * num;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">isDigit</span><span class="params">(<span class="type">char</span> num)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;0&#x27;</span> &lt;= num &amp;&amp; num &lt;= <span class="string">&#x27;9&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="LeetCode-227"><a href="#LeetCode-227" class="headerlink" title="LeetCode 227"></a>LeetCode 227</h2><p>给你一个字符串表达式 s ，请你实现一个基本计算器来计算并返回它的值。</p>
@@ -492,7 +597,7 @@
 <blockquote>
 <p>输入：s = “ 3+5 / 2 “<br>输出：5</p>
 </blockquote>
-<h3 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution"></a>Solution</h3><p>先遍历计算乘除，再计算加减。</p>
+<h3 id="题解-1"><a href="#题解-1" class="headerlink" title="题解"></a>题解</h3><p>先遍历计算乘除，再计算加减。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">calculate</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        <span class="type">char</span> <span class="variable">sign</span> <span class="operator">=</span> <span class="string">&#x27;+&#x27;</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> s.length(), idx = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span>[] nums = <span class="keyword">new</span> <span class="title class_">int</span>[(len + <span class="number">1</span>) / <span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">            <span class="type">char</span> <span class="variable">cur</span> <span class="operator">=</span> s.charAt(i);</span><br><span class="line">            <span class="keyword">if</span> (cur == <span class="string">&#x27; &#x27;</span>) <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> <span class="variable">num</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span> (isDigit(cur)) &#123;</span><br><span class="line">                num = cur - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">                <span class="keyword">while</span> (i + <span class="number">1</span> &lt; len &amp;&amp; isDigit(s.charAt(i + <span class="number">1</span>)))</span><br><span class="line">                    num = num * <span class="number">10</span> - <span class="string">&#x27;0&#x27;</span> + s.charAt(++i);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">switch</span> (sign) &#123;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&#x27;+&#x27;</span>: nums[idx++] = num; <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&#x27;-&#x27;</span>: nums[idx++] = -num; <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&#x27;*&#x27;</span>: nums[idx - <span class="number">1</span>] *= num; <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&#x27;/&#x27;</span>: nums[idx - <span class="number">1</span>] /= num; <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            sign = cur;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; idx; i++) result += nums[i];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">isDigit</span><span class="params">(<span class="type">char</span> ch)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;0&#x27;</span> &lt;= ch &amp;&amp; ch &lt;= <span class="string">&#x27;9&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="LeetCode-772"><a href="#LeetCode-772" class="headerlink" title="LeetCode 772"></a>LeetCode 772</h2><p>实现一个基本的计算器来计算简单的表达式字符串。</p>
@@ -518,7 +623,7 @@
 <blockquote>
 <p>输入：s = “0”<br>输出：0</p>
 </blockquote>
-<h3 id="Solution-2"><a href="#Solution-2" class="headerlink" title="Solution"></a>Solution</h3><p>去除括号带来的影响，相比于 227，差别仅在于将括号内的字符串递归地计算作为整体进行处理。</p>
+<h3 id="题解-2"><a href="#题解-2" class="headerlink" title="题解"></a>题解</h3><p>去除括号带来的影响，相比于 227，差别仅在于将括号内的字符串递归地计算作为整体进行处理。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">calculate</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        <span class="type">char</span> <span class="variable">sign</span> <span class="operator">=</span> <span class="string">&#x27;+&#x27;</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> s.length(), idx = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span>[] nums = <span class="keyword">new</span> <span class="title class_">int</span>[(len + <span class="number">1</span>) / <span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">            <span class="type">char</span> <span class="variable">cur</span> <span class="operator">=</span> s.charAt(i);</span><br><span class="line">            <span class="keyword">if</span> (cur == <span class="string">&#x27; &#x27;</span>) <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> <span class="variable">num</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span> (isDigit(cur)) &#123;</span><br><span class="line">                num = cur - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">                <span class="keyword">while</span> (i + <span class="number">1</span> &lt; len &amp;&amp; isDigit(s.charAt(i + <span class="number">1</span>)))</span><br><span class="line">                    num = num * <span class="number">10</span> - <span class="string">&#x27;0&#x27;</span> + s.charAt(++i);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (cur == <span class="string">&#x27;(&#x27;</span>) &#123;</span><br><span class="line">                <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> findClosing(s.substring(i));</span><br><span class="line">                num = calculate(s.substring(i + <span class="number">1</span>, i + j));</span><br><span class="line">                i += j;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">switch</span> (sign) &#123;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&#x27;+&#x27;</span>: nums[idx++] = num; <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&#x27;-&#x27;</span>: nums[idx++] = -num; <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&#x27;*&#x27;</span>: nums[idx - <span class="number">1</span>] *= num; <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&#x27;/&#x27;</span>: nums[idx - <span class="number">1</span>] /= num; <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            sign = cur;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; idx; i++) result += nums[i];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">isDigit</span><span class="params">(<span class="type">char</span> ch)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;0&#x27;</span> &lt;= ch &amp;&amp; ch &lt;= <span class="string">&#x27;9&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="title function_">findClosing</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> <span class="number">0</span>, depth = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">char</span> c : s.toCharArray()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (c == <span class="string">&#x27;(&#x27;</span>) depth++;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (c == <span class="string">&#x27;)&#x27;</span>) &#123;</span><br><span class="line">                depth--;</span><br><span class="line">                <span class="keyword">if</span> (depth == <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            len++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> len;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
@@ -936,121 +1041,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2021/07/26/USB-AC57/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Chunyu">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Leaky Cauldron">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/07/26/USB-AC57/" class="post-title-link" itemprop="url">华硕 USB-AC57 / RTL8812BU Ubuntu 20 驱动安装</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2021-07-26 10:49:00" itemprop="dateCreated datePublished" datetime="2021-07-26T10:49:00+08:00">2021-07-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-07-20 14:26:20" itemprop="dateModified" datetime="2022-07-20T14:26:20+08:00">2022-07-20</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="0-系统环境"><a href="#0-系统环境" class="headerlink" title="0. 系统环境"></a>0. 系统环境</h2><p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20210726115851.png"></p>
-<h2 id="1-驱动安装"><a href="#1-驱动安装" class="headerlink" title="1. 驱动安装"></a>1. 驱动安装</h2><p>安装依赖</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install -y dkms git build-essential</span><br></pre></td></tr></table></figure>
-
-<p>下载驱动</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/morrownr/88x2bu.git</span><br></pre></td></tr></table></figure>
-
-<p>编译安装</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd 88x2bu</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ./install-driver.sh</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo reboot</span><br></pre></td></tr></table></figure>
-
-<p>重启后通过 <code>iwconfig</code> 命令查看驱动状态，图中 wlx3c7c3faee542 即为 USB-AC57</p>
-<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20210726115910.png"></p>
-<p>启用网卡</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ifconfig wlx3c7c3faee542 up</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-连接-WiFi"><a href="#2-连接-WiFi" class="headerlink" title="2. 连接 WiFi"></a>2. 连接 WiFi</h2><p>安装 wpasupplicant</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install wpasupplicant</span><br></pre></td></tr></table></figure>
-
-<p>创建 wpasupplicant 配置文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/wpa_supplicant/wpa_supplicant.conf</span><br></pre></td></tr></table></figure>
-
-<p>在其中写入：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">network=&#123;</span><br><span class="line">    ssid=<span class="string">&quot;WiFi名称&quot;</span></span><br><span class="line">    psk=<span class="string">&quot;密码&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>连接</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo wpa_supplicant -i wlx3c7c3faee542 -c /etc/wpa_supplicant/wpa_supplicant.conf -B</span><br></pre></td></tr></table></figure>
-
-<p>使用 DHCP 获取 ip</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dhclient wlx3c7c3faee542</span><br></pre></td></tr></table></figure>
-
-<p>此时即可通过 USB-AC57 连接网络</p>
-<h2 id="3-开机自动连接"><a href="#3-开机自动连接" class="headerlink" title="3. 开机自动连接"></a>3. 开机自动连接</h2><p>编写脚本 <code>conn_wifi.sh</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">WIFINAME=&#x27;wlx3c7c3faee542&#x27;</span><br><span class="line"></span><br><span class="line">ifconfig $WIFINAME up &amp;&amp;</span><br><span class="line">wpa_supplicant -i $WIFINAME -c /etc/wpa_supplicant/wpa_supplicant.conf -B &amp;&amp;</span><br><span class="line">dhclient $WIFINAME</span><br></pre></td></tr></table></figure>
-
-<p>开机时执行该脚本，编辑 <code>/etc/rc.local</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/sh</span></span><br><span class="line"></span><br><span class="line">/bin/sh /home/chunyu/scripts/conn_wifi.sh</span><br><span class="line"></span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
-
-<p>若主机有多个网络连接，需要通过设置默认网关来通过 WiFi 连接网络，脚本改为：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">WIFINAME=&#x27;wlx3c7c3faee542&#x27;</span><br><span class="line"></span><br><span class="line">ifconfig $WIFINAME up &amp;&amp;</span><br><span class="line">wpa_supplicant -i $WIFINAME -c /etc/wpa_supplicant/wpa_supplicant.conf -B &amp;&amp;</span><br><span class="line">dhclient $WIFINAME &amp;&amp;</span><br><span class="line">route del default gw 192.168.3.1 &amp;&amp;</span><br><span class="line">route add default gw 192.168.0.1</span><br></pre></td></tr></table></figure>
-
-<p>其中后两行删除了默认的有线网关，添加了 WiFi 网关，地址需根据本机网络配置</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo route -n</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20210726115925.png"></p>
-<p>如网卡 wlx3c7c3faee542 的 Destination 为 192.168.0.0，则网关地址即为 192.168.0.1</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1122,7 +1112,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">77</span>
+          <span class="site-state-item-count">78</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
