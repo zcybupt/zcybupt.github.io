@@ -3100,7 +3100,7 @@
       </tags>
   </entry>
   <entry>
-    <title>MissingElementinSortedArray</title>
+    <title>Missing Element in Sorted Array</title>
     <url>/2022/09/11/MissingElementinSortedArray/</url>
     <content><![CDATA[<h2 id="题目-LeetCode-1060"><a href="#题目-LeetCode-1060" class="headerlink" title="题目(LeetCode #1060)"></a>题目(LeetCode #1060)</h2><p>Given a sorted array <code>A</code> of <strong>unique</strong> numbers, find the <code>K-th</code> missing number starting from the leftmost number of the array.</p>
 <blockquote>
