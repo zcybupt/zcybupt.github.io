@@ -3139,4 +3139,36 @@
         <tag>二分法</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Longest Repeating Substring</title>
+    <url>/2022/09/12/LongestRepeatingSubstring/</url>
+    <content><![CDATA[<h2 id="题目-LeetCode-1062"><a href="#题目-LeetCode-1062" class="headerlink" title="题目(LeetCode #1062)"></a>题目(LeetCode #1062)</h2><p>Given a string <code>S</code>, find out the length of the longest repeating substring(s). Return <code>0</code> if no repeating substring exists.</p>
+<blockquote>
+<p><strong>Example 1:</strong><br><strong>Input:</strong> “abcd”<br><strong>Output:</strong> 0<br><strong>Explanation:</strong> There is no repeating substring.</p>
+</blockquote>
+<blockquote>
+<p><strong>Example 2:</strong><br><strong>Input:</strong> “abbaba”<br><strong>Output:</strong> 2<br><strong>Explanation:</strong> The longest repeating substrings are “ab” and “ba”, each of which occurs twice.</p>
+</blockquote>
+<blockquote>
+<p><strong>Example 3:</strong><br><strong>Input:</strong> “aabcaabdaab”<br><strong>Output:</strong> 3<br><strong>Explanation:</strong> The longest repeating substring is “aab”, which occurs 3 times.</p>
+</blockquote>
+<blockquote>
+<p><strong>Example 4:</strong><br><strong>Input:</strong> “aaaaa”<br><strong>Output:</strong> 4<br><strong>Explanation:</strong> The longest repeating substring is “aaaa”, which occurs twice.</p>
+</blockquote>
+<p><strong>Note:</strong></p>
+<ol>
+<li>The string <code>S</code> consists of only lowercase English letters from <code>&#39;a&#39;</code> - <code>&#39;z&#39;</code>.</li>
+<li><code>1 &lt;= S.length &lt;= 1500</code></li>
+</ol>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>若 <code>S</code> 中存在长度为 <code>N</code> 的重复字符串，则长度为 <code>N - 1</code> 的重复字符串也必然存在，故可用二分法猜最大长度的方法逼近实际结果。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">longestRepeatingSubstring</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (s == <span class="literal">null</span> || s.length() &lt; <span class="number">2</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> <span class="number">0</span>, r= s.length() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">m</span> <span class="operator">=</span> l + (r - l + <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (exist(s, m)) l = m;</span><br><span class="line">            <span class="keyword">else</span> r = m - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> l;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">exist</span><span class="params">(String s, <span class="type">int</span> m)</span> &#123;</span><br><span class="line">        <span class="comment">/* 存储字符串的 hash 值, 节省空间 */</span></span><br><span class="line">        Set&lt;Integer&gt; set = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt;= s.length() - m; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i + m - <span class="number">1</span>;</span><br><span class="line">            <span class="type">String</span> <span class="variable">sub</span> <span class="operator">=</span> s.substring(i, j + <span class="number">1</span>);</span><br><span class="line">            <span class="type">int</span> <span class="variable">hash</span> <span class="operator">=</span> sub.hashCode();</span><br><span class="line">            <span class="keyword">if</span> (set.contains(hash)) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">else</span> set.add(hash);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>算法</tag>
+        <tag>LeetCode</tag>
+        <tag>Medium</tag>
+        <tag>二分法</tag>
+      </tags>
+  </entry>
 </search>
