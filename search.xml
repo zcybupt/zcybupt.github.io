@@ -3103,14 +3103,17 @@
     <title>Missing Element in Sorted Array</title>
     <url>/2022/09/11/MissingElementinSortedArray/</url>
     <content><![CDATA[<h2 id="题目-LeetCode-1060"><a href="#题目-LeetCode-1060" class="headerlink" title="题目(LeetCode #1060)"></a>题目(LeetCode #1060)</h2><p>Given a sorted array <code>A</code> of <strong>unique</strong> numbers, find the <code>K-th</code> missing number starting from the leftmost number of the array.</p>
+<p>Example 1:</p>
 <blockquote>
-<p><strong>Example 1:</strong><br><strong>Input:</strong> A = [4,7,9,10], K = 1<br><strong>Output:</strong> 5<br><strong>Explanation:</strong><br>The first missing number is 5.</p>
+<p><strong>Input:</strong> A = [4,7,9,10], K = 1<br><strong>Output:</strong> 5<br><strong>Explanation:</strong><br>The first missing number is 5.</p>
 </blockquote>
+<p>Example 2:</p>
 <blockquote>
-<p><strong>Example 2:</strong><br><strong>Input:</strong> A = [4,7,9,10], K = 3<br><strong>Output:</strong> 8<br><strong>Explanation:</strong><br>The missing numbers are [5,6,8,…], hence the third missing number is 8.</p>
+<p><strong>Input:</strong> A = [4,7,9,10], K = 3<br><strong>Output:</strong> 8<br><strong>Explanation:</strong><br>The missing numbers are [5,6,8,…], hence the third missing number is 8.</p>
 </blockquote>
+<p>Example 3:</p>
 <blockquote>
-<p><strong>Example 3:</strong><br><strong>Input:</strong> A = [1,2,4], K = 3<br><strong>Output:</strong> 6<br><strong>Explanation:</strong><br>The missing numbers are [3,5,6,7,…], hence the third missing number is 6.</p>
+<p><strong>Input:</strong> A = [1,2,4], K = 3<br><strong>Output:</strong> 6<br><strong>Explanation:</strong><br>The missing numbers are [3,5,6,7,…], hence the third missing number is 6.</p>
 </blockquote>
 <p><strong>Note:</strong></p>
 <ol>
@@ -3143,17 +3146,21 @@
     <title>Longest Repeating Substring</title>
     <url>/2022/09/12/LongestRepeatingSubstring/</url>
     <content><![CDATA[<h2 id="题目-LeetCode-1062"><a href="#题目-LeetCode-1062" class="headerlink" title="题目(LeetCode #1062)"></a>题目(LeetCode #1062)</h2><p>Given a string <code>S</code>, find out the length of the longest repeating substring(s). Return <code>0</code> if no repeating substring exists.</p>
+<p>Example 1:</p>
 <blockquote>
-<p><strong>Example 1:</strong><br><strong>Input:</strong> “abcd”<br><strong>Output:</strong> 0<br><strong>Explanation:</strong> There is no repeating substring.</p>
+<p><strong>Input:</strong> “abcd”<br><strong>Output:</strong> 0<br><strong>Explanation:</strong> There is no repeating substring.</p>
 </blockquote>
+<p>Example 2:</p>
 <blockquote>
-<p><strong>Example 2:</strong><br><strong>Input:</strong> “abbaba”<br><strong>Output:</strong> 2<br><strong>Explanation:</strong> The longest repeating substrings are “ab” and “ba”, each of which occurs twice.</p>
+<p><strong>Input:</strong> “abbaba”<br><strong>Output:</strong> 2<br><strong>Explanation:</strong> The longest repeating substrings are “ab” and “ba”, each of which occurs twice.</p>
 </blockquote>
+<p>Example 3:</p>
 <blockquote>
-<p><strong>Example 3:</strong><br><strong>Input:</strong> “aabcaabdaab”<br><strong>Output:</strong> 3<br><strong>Explanation:</strong> The longest repeating substring is “aab”, which occurs 3 times.</p>
+<p><strong>Input:</strong> “aabcaabdaab”<br><strong>Output:</strong> 3<br><strong>Explanation:</strong> The longest repeating substring is “aab”, which occurs 3 times.</p>
 </blockquote>
+<p>Example 4:</p>
 <blockquote>
-<p><strong>Example 4:</strong><br><strong>Input:</strong> “aaaaa”<br><strong>Output:</strong> 4<br><strong>Explanation:</strong> The longest repeating substring is “aaaa”, which occurs twice.</p>
+<p><strong>Input:</strong> “aaaaa”<br><strong>Output:</strong> 4<br><strong>Explanation:</strong> The longest repeating substring is “aaaa”, which occurs twice.</p>
 </blockquote>
 <p><strong>Note:</strong></p>
 <ol>
@@ -3162,6 +3169,53 @@
 </ol>
 <h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>若 <code>S</code> 中存在长度为 <code>N</code> 的重复字符串，则长度为 <code>N - 1</code> 的重复字符串也必然存在，故可用二分法猜最大长度的方法逼近实际结果。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">longestRepeatingSubstring</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (s == <span class="literal">null</span> || s.length() &lt; <span class="number">2</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> <span class="number">0</span>, r= s.length() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">m</span> <span class="operator">=</span> l + (r - l + <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (exist(s, m)) l = m;</span><br><span class="line">            <span class="keyword">else</span> r = m - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> l;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">exist</span><span class="params">(String s, <span class="type">int</span> m)</span> &#123;</span><br><span class="line">        <span class="comment">/* 存储字符串的 hash 值, 节省空间 */</span></span><br><span class="line">        Set&lt;Integer&gt; set = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt;= s.length() - m; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i + m - <span class="number">1</span>;</span><br><span class="line">            <span class="type">String</span> <span class="variable">sub</span> <span class="operator">=</span> s.substring(i, j + <span class="number">1</span>);</span><br><span class="line">            <span class="type">int</span> <span class="variable">hash</span> <span class="operator">=</span> sub.hashCode();</span><br><span class="line">            <span class="keyword">if</span> (set.contains(hash)) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">else</span> set.add(hash);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>算法</tag>
+        <tag>LeetCode</tag>
+        <tag>Medium</tag>
+        <tag>二分法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Cutting Ribbons</title>
+    <url>/2022/09/13/CuttingRibbons/</url>
+    <content><![CDATA[<h2 id="题目-LeetCode-1891"><a href="#题目-LeetCode-1891" class="headerlink" title="题目(LeetCode #1891)"></a>题目(LeetCode #1891)</h2><p>You are given an integer array <code>ribbons</code>, where <code>ribbons[i]</code> represents the length of the i<sup>th</sup> ribbon, and an integer <code>k</code>. You may cut any of the ribbons into any number of segments of positive integer lengths, or perform no cuts at all.</p>
+<p>For example, if you have a ribbon of length 4, you can:<br>Keep the ribbon of length 4,<br>Cut it into one ribbon of length 3 and one ribbon of length 1,<br>Cut it into two ribbons of length 2,<br>Cut it into one ribbon of length 2 and two ribbons of length 1, or<br>Cut it into four ribbons of length 1.<br>Your goal is to obtain <code>k</code> ribbons of all the same positive integer length. You are allowed to throw away any excess ribbon as a result of cutting.</p>
+<p>Return the maximum possible positive integer length that you can obtain <code>k</code> ribbons of, or 0 if you cannot obtain <code>k</code> ribbons of the same length.</p>
+<p>Example 1:</p>
+<blockquote>
+<p><strong>Input:</strong> ribbons = [9,7,5], k = 3<br><strong>Output:</strong> 5<br><strong>Explanation:</strong></p>
+<ul>
+<li>Cut the first ribbon to two ribbons, one of length 5 and one of length 4.</li>
+<li>Cut the second ribbon to two ribbons, one of length 5 and one of length 2.</li>
+<li>Keep the third ribbon as it is.</li>
+</ul>
+<p>Now you have 3 ribbons of length 5.</p>
+</blockquote>
+<p>Example 2:</p>
+<blockquote>
+<p><strong>Input:</strong> ribbons = [7,5,9], k = 4<br><strong>Output:</strong> 4<br><strong>Explanation:</strong></p>
+<ul>
+<li>Cut the first ribbon to two ribbons, one of length 4 and one of length 3.</li>
+<li>Cut the second ribbon to two ribbons, one of length 4 and one of length 1.</li>
+<li>Cut the third ribbon to three ribbons, two of length 4 and one of length 1.</li>
+</ul>
+<p>Now you have 4 ribbons of length 4.</p>
+</blockquote>
+<p>Example 3:</p>
+<blockquote>
+<p><strong>Input:</strong> ribbons = [5,7,9], k = 22<br><strong>Output:</strong> 0<br><strong>Explanation:</strong> You cannot obtain k ribbons of the same positive integer length.</p>
+</blockquote>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= ribbons.length &lt;= 105</code></li>
+<li><code>1 &lt;= ribbons[i] &lt;= 105</code></li>
+<li><code>1 &lt;= k &lt;= 109</code></li>
+</ul>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>采用二分法求解，绳子的最小长度为 0，最大长度为绳长最大值。根据当前绳长 <code>m</code> 所能得到的绳子段数总和与 <code>k</code> 进行比较来判断边界是否满足条件。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maxLength</span><span class="params">(<span class="type">int</span>[] ribbons, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (ribbons == <span class="literal">null</span> || ribbons.length == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> <span class="number">0</span>, r = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> ribbon : ribbons) r = Math.max(r, ribbon);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">m</span> <span class="operator">=</span> l + (r - l + <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (check(ribbons, k, m)) l = m;</span><br><span class="line">            <span class="keyword">else</span> r = m - <span class="number">1</span>; </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> l;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">check</span><span class="params">(<span class="type">int</span>[] ribbons, <span class="type">int</span> k, <span class="type">int</span> m)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">sum</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> ribbon : ribbons) sum += ribbon / m;</span><br><span class="line">        <span class="keyword">return</span> sum &gt;= k;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <tags>

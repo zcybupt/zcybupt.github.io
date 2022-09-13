@@ -189,6 +189,120 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2020/07/28/BinarySearchTree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Chunyu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leaky Cauldron">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/28/BinarySearchTree/" class="post-title-link" itemprop="url">二叉查找树</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-07-28 15:38:11" itemprop="dateCreated datePublished" datetime="2020-07-28T15:38:11+08:00">2020-07-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-07-20 14:26:20" itemprop="dateModified" datetime="2022-07-20T14:26:20+08:00">2022-07-20</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BA%8C%E5%85%83%E6%90%9C%E5%B0%8B%E6%A8%B9">二叉查找树</a><strong>，也称为</strong>二叉搜索树</strong>、<strong>有序二叉树</strong>（ordered binary tree）或<strong>排序二叉树</strong>（sorted binary tree），是指一棵空树或者具有下列性质的二叉树：</p>
+<ol>
+<li> 若任意节点的左子树不空，则左子树上所有节点的值均小于它的根节点的值；</li>
+<li> 若任意节点的右子树不空，则右子树上所有节点的值均大于或等于它的根节点的值；</li>
+<li> 任意节点的左、右子树也分别为二叉查找树；</li>
+</ol>
+<p>其优势在于查找、插入的时间复杂度较低，理想情况下为 <code>O(logn)</code> 。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="节点定义"><a href="#节点定义" class="headerlink" title="节点定义"></a>节点定义</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Node</span> &#123;</span><br><span class="line">    <span class="type">int</span> value;</span><br><span class="line">    Node parent;</span><br><span class="line">    Node left;</span><br><span class="line">    Node right;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Node</span><span class="params">(<span class="type">int</span> value, Node parent, Node left, Node right)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.value = value;</span><br><span class="line">        <span class="built_in">this</span>.parent = parent;</span><br><span class="line">        <span class="built_in">this</span>.left = left;</span><br><span class="line">        <span class="built_in">this</span>.right = right;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="查找节点"><a href="#查找节点" class="headerlink" title="查找节点"></a>查找节点</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Node <span class="title function_">search</span><span class="params">(<span class="type">int</span> ele)</span> &#123;</span><br><span class="line">    <span class="type">Node</span> <span class="variable">tmp</span> <span class="operator">=</span> root;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (tmp != <span class="literal">null</span> &amp;&amp; tmp.value != ele) &#123;</span><br><span class="line">        <span class="keyword">if</span> (ele &lt; tmp.value) &#123;</span><br><span class="line">            tmp = tmp.left;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            tmp = tmp.right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> tmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="插入节点"><a href="#插入节点" class="headerlink" title="插入节点"></a>插入节点</h3><p>先找到待插入节点的父节点，再插入新节点并返回。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Node <span class="title function_">insert</span><span class="params">(<span class="type">int</span> ele)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (root == <span class="literal">null</span>) &#123;</span><br><span class="line">        root = <span class="keyword">new</span> <span class="title class_">Node</span>(ele, <span class="literal">null</span>, <span class="literal">null</span>, <span class="literal">null</span>);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 找到即将插入元素的父节点</span></span><br><span class="line">    <span class="type">Node</span> <span class="variable">parent</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="type">Node</span> <span class="variable">tmp</span> <span class="operator">=</span> root;</span><br><span class="line">    <span class="keyword">while</span> (tmp != <span class="literal">null</span>) &#123;</span><br><span class="line">        parent = tmp;</span><br><span class="line">        <span class="keyword">if</span> (ele &lt; tmp.value) &#123;</span><br><span class="line">            tmp = tmp.left;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            tmp = tmp.right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">Node</span> <span class="variable">newNode</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Node</span>(ele, parent, <span class="literal">null</span>, <span class="literal">null</span>);</span><br><span class="line">    <span class="keyword">if</span> (parent.value &gt; ele) &#123;</span><br><span class="line">        parent.left = newNode;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        parent.right = newNode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> newNode;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除节点"><a href="#删除节点" class="headerlink" title="删除节点"></a>删除节点</h3><h4 id="替换-移植节点"><a href="#替换-移植节点" class="headerlink" title="替换 / 移植节点"></a>替换 / 移植节点</h4><p>使用 <code>newNode</code> 替换 <code>nodeToReplace</code> ，并返回被替换的节点。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Node <span class="title function_">transplant</span><span class="params">(Node nodeToReplace, Node newNode)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (nodeToReplace.parent == <span class="literal">null</span>) &#123;</span><br><span class="line">        root = newNode;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nodeToReplace == nodeToReplace.parent.left) &#123;</span><br><span class="line">        nodeToReplace.parent.left = newNode;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        nodeToReplace.parent.right = newNode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (newNode != <span class="literal">null</span>) &#123;</span><br><span class="line">        newNode.parent = nodeToReplace.parent;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> newNode;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="找到后继节点"><a href="#找到后继节点" class="headerlink" title="找到后继节点"></a>找到后继节点</h4><p>找到节点的中序后继，即该节点右子树上的最小值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Node <span class="title function_">getMinimum</span><span class="params">(Node node)</span> &#123;</span><br><span class="line">    <span class="keyword">while</span> (node.left != <span class="literal">null</span>) &#123;</span><br><span class="line">        node = node.left;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h4><p>将待删除节点的中序后继移动到待删除节点位置，并调整树的结构</p>
+<ul>
+<li><p>若待删除节点的父节点无左子树或右子树，直接将该节点的右子树或左子树上移即可；</p>
+<p>  <img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200730102431.png"></p>
+</li>
+<li><p>若待删除节点的左右子树均不为空，以下图所示树为例，其中 9 为待删除节点，此时其中序后继 10 与 9 不直接相连</p>
+<p>  <img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200730153412.png"></p>
+<ul>
+<li>  先找到待删除节点的中序后继，在此为 10，即为待删除节点的替换节点，此时该后继不与待删除节点直接相连，先将其子树 11 移至 10 位置。①使 <code>successorNode.right</code> 指向待删除节点 9 的 <code>right</code> ，②使 <code>successorNode.right.parent</code> 指向 10，得到：</li>
+</ul>
+<p>  <img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200730154437.png"></p>
+<ul>
+<li>  再将 <code>successorNode</code> 移到 <code>deleteNode</code> 的位置，并修改其左子树的指向。</li>
+</ul>
+<p>  <img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200730154935.png"></p>
+</li>
+<li><p>若中序后继与待删除节点直接相连，如下图所示：</p>
+<p>  <img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200730160504.png"></p>
+<ul>
+<li>  9 与 12 直接相连，则直接将 12 上移至 9 的位置，并修改 12 的左子树指向即可。</li>
+</ul>
+<p>  <img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200730160537.png"></p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Node <span class="title function_">delete</span><span class="params">(Node deleteNode)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (deleteNode != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="type">Node</span> <span class="variable">nodeToReturn</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (deleteNode.left == <span class="literal">null</span>) &#123;</span><br><span class="line">            nodeToReturn = transplant(deleteNode, deleteNode.right);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (deleteNode.right == <span class="literal">null</span>) &#123;</span><br><span class="line">            nodeToReturn = transplant(deleteNode, deleteNode.left);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="type">Node</span> <span class="variable">successorNode</span> <span class="operator">=</span> getMinimum(deleteNode.right);</span><br><span class="line">            <span class="keyword">if</span> (successorNode.parent != deleteNode) &#123;</span><br><span class="line">                transplant(successorNode, successorNode.right);</span><br><span class="line">                successorNode.right = deleteNode.right;</span><br><span class="line">                successorNode.right.parent = successorNode;</span><br><span class="line">            &#125;</span><br><span class="line">            transplant(deleteNode, successorNode);</span><br><span class="line">            successorNode.left = deleteNode.left;</span><br><span class="line">            successorNode.left.parent = successorNode;</span><br><span class="line">            nodeToReturn = successorNode;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nodeToReturn;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>插入或删除节点过程中如果不及时调整，将使查找效率降低，如将数组 <code>[2, 3, 4, 5, 6]</code> 插入树的过程中，不加调整将得到如下结构，此时查找和插入效率退化至 <code>O(n)</code> 。</p>
+<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200729204357.png"></p>
+<p>为解决查找效率退化的问题，又提出了 AVL 树和红黑树等，可将最坏效率降至 <code>O(logn)</code>。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/zcybupt/rawfiles/blob/master/codes/Java/Code_50_BinarySearchTree.java">完整代码</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2020/07/26/MorrisTraversal/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -990,87 +1104,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2020/07/11/MaxSumOfSubarray/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Chunyu">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Leaky Cauldron">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/11/MaxSumOfSubarray/" class="post-title-link" itemprop="url">子数组最大累加和</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-07-11 10:37:01" itemprop="dateCreated datePublished" datetime="2020-07-11T10:37:01+08:00">2020-07-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-07-20 14:26:20" itemprop="dateModified" datetime="2022-07-20T14:26:20+08:00">2022-07-20</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="题目-LeetCode-53"><a href="#题目-LeetCode-53" class="headerlink" title="题目(LeetCode #53)"></a>题目(<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/maximum-subarray/submissions/">LeetCode #53</a>)</h2><p>给定一个整数数组 <code>nums</code> ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。</p>
-<p>示例:</p>
-<blockquote>
-<p>  输入: [-2,1,-3,4,-1,2,1,-5,4],<br>  输出: 6<br>  解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。</p>
-</blockquote>
-<h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><p>创建两个变量, <code>current</code> 和 <code>maxSum</code> , 遍历数组, 将每个元素累加到 <code>current</code> 上, 再与 <code>maxSum</code> 比较, 使 <code>maxSum</code> 总保存 <code>current</code> 的最大值, 若累加过程中 <code>current</code> 变为负数, 则手动将其归零, 继续计算.</p>
-<h3 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MaxSumOfSubarray</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">maxSubArray</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums == <span class="literal">null</span> || nums.length == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> <span class="variable">current</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">maxSum</span> <span class="operator">=</span> Integer.MIN_VALUE;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> num : nums) &#123;</span><br><span class="line">            current += num;</span><br><span class="line">            maxSum = Math.max(current, maxSum);</span><br><span class="line">            current = Math.max(current, <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> maxSum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MaxSumOfSubarray</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">maxSubArray</span>(<span class="params">self, nums</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> nums <span class="keyword">or</span> <span class="built_in">len</span>(nums) == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        current = <span class="number">0</span></span><br><span class="line">        max_sum = <span class="built_in">float</span>(<span class="string">&quot;-inf&quot;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">            current += num</span><br><span class="line">            max_sum = <span class="built_in">max</span>(current, max_sum)</span><br><span class="line">            current = <span class="built_in">max</span>(<span class="number">0</span>, current)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> max_sum</span><br></pre></td></tr></table></figure>
-
-<h3 id="Go"><a href="#Go" class="headerlink" title="Go"></a>Go</h3><p>Go 中整型常量可定义如下</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> INT_MAX = <span class="type">int</span>(^<span class="type">uint</span>(<span class="number">0</span>) &gt;&gt; <span class="number">1</span>) 	<span class="comment">// 有符号最大值</span></span><br><span class="line"><span class="keyword">const</span> INT_MIN = ^INT_MAX			<span class="comment">// 有符号最小值</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> UINT_MIN <span class="type">uint</span> = <span class="number">0</span>				<span class="comment">// 无符号最小值, 即为 0</span></span><br><span class="line"><span class="keyword">const</span> UINT_MAX = ^<span class="type">uint</span>(<span class="number">0</span>)			<span class="comment">// 无符号最大值</span></span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">maxSubArray</span><span class="params">(nums []<span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> nums == <span class="literal">nil</span> || <span class="built_in">len</span>(nums) == <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	current := <span class="number">0</span></span><br><span class="line">	maxSum := ^<span class="type">int</span>(^<span class="type">uint</span>(<span class="number">0</span>) &gt;&gt; <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> _, num := <span class="keyword">range</span> nums &#123;</span><br><span class="line">		current += num</span><br><span class="line">		maxSum = max(current, maxSum)</span><br><span class="line">		current = max(<span class="number">0</span>, current)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> maxSum</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">max</span><span class="params">(a, b <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> a &gt; b &#123;</span><br><span class="line">		<span class="keyword">return</span> a</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> b</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">min</span><span class="params">(a, b <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> a &lt; b &#123;</span><br><span class="line">		<span class="keyword">return</span> a</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> b</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1142,7 +1175,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">79</span>
+          <span class="site-state-item-count">80</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

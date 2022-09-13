@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"zcybupt.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="题目(LeetCode #1062)Given a string S, find out the length of the longest repeating substring(s). Return 0 if no repeating substring exists.  Example 1:Input: “abcd”Output: 0Explanation: There is no repe">
+  <meta name="description" content="题目(LeetCode #1062)Given a string S, find out the length of the longest repeating substring(s). Return 0 if no repeating substring exists. Example 1:  Input: “abcd”Output: 0Explanation: There is no rep">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Longest Repeating Substring">
 <meta property="og:url" content="https://zcybupt.github.io/2022/09/12/LongestRepeatingSubstring/index.html">
 <meta property="og:site_name" content="Leaky Cauldron">
-<meta property="og:description" content="题目(LeetCode #1062)Given a string S, find out the length of the longest repeating substring(s). Return 0 if no repeating substring exists.  Example 1:Input: “abcd”Output: 0Explanation: There is no repe">
+<meta property="og:description" content="题目(LeetCode #1062)Given a string S, find out the length of the longest repeating substring(s). Return 0 if no repeating substring exists. Example 1:  Input: “abcd”Output: 0Explanation: There is no rep">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-09-12T02:01:47.000Z">
-<meta property="article:modified_time" content="2022-09-12T14:14:28.640Z">
+<meta property="article:modified_time" content="2022-09-13T02:24:34.332Z">
 <meta property="article:author" content="Chunyu">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="LeetCode">
@@ -220,10 +220,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2022-09-12 10:01:47 / Modified: 22:14:28" itemprop="dateCreated datePublished" datetime="2022-09-12T10:01:47+08:00">2022-09-12</time>
+              <time title="Created: 2022-09-12 10:01:47" itemprop="dateCreated datePublished" datetime="2022-09-12T10:01:47+08:00">2022-09-12</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-09-13 10:24:34" itemprop="dateModified" datetime="2022-09-13T10:24:34+08:00">2022-09-13</time>
+              </span>
 
           
 
@@ -237,17 +243,21 @@
 
       
         <h2 id="题目-LeetCode-1062"><a href="#题目-LeetCode-1062" class="headerlink" title="题目(LeetCode #1062)"></a>题目(LeetCode #1062)</h2><p>Given a string <code>S</code>, find out the length of the longest repeating substring(s). Return <code>0</code> if no repeating substring exists.</p>
+<p>Example 1:</p>
 <blockquote>
-<p><strong>Example 1:</strong><br><strong>Input:</strong> “abcd”<br><strong>Output:</strong> 0<br><strong>Explanation:</strong> There is no repeating substring.</p>
+<p><strong>Input:</strong> “abcd”<br><strong>Output:</strong> 0<br><strong>Explanation:</strong> There is no repeating substring.</p>
 </blockquote>
+<p>Example 2:</p>
 <blockquote>
-<p><strong>Example 2:</strong><br><strong>Input:</strong> “abbaba”<br><strong>Output:</strong> 2<br><strong>Explanation:</strong> The longest repeating substrings are “ab” and “ba”, each of which occurs twice.</p>
+<p><strong>Input:</strong> “abbaba”<br><strong>Output:</strong> 2<br><strong>Explanation:</strong> The longest repeating substrings are “ab” and “ba”, each of which occurs twice.</p>
 </blockquote>
+<p>Example 3:</p>
 <blockquote>
-<p><strong>Example 3:</strong><br><strong>Input:</strong> “aabcaabdaab”<br><strong>Output:</strong> 3<br><strong>Explanation:</strong> The longest repeating substring is “aab”, which occurs 3 times.</p>
+<p><strong>Input:</strong> “aabcaabdaab”<br><strong>Output:</strong> 3<br><strong>Explanation:</strong> The longest repeating substring is “aab”, which occurs 3 times.</p>
 </blockquote>
+<p>Example 4:</p>
 <blockquote>
-<p><strong>Example 4:</strong><br><strong>Input:</strong> “aaaaa”<br><strong>Output:</strong> 4<br><strong>Explanation:</strong> The longest repeating substring is “aaaa”, which occurs twice.</p>
+<p><strong>Input:</strong> “aaaaa”<br><strong>Output:</strong> 4<br><strong>Explanation:</strong> The longest repeating substring is “aaaa”, which occurs twice.</p>
 </blockquote>
 <p><strong>Note:</strong></p>
 <ol>
@@ -281,7 +291,10 @@
     <a href="/2022/09/11/MissingElementinSortedArray/" rel="prev" title="Missing Element in Sorted Array">
       <i class="fa fa-chevron-left"></i> Missing Element in Sorted Array
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/09/13/CuttingRibbons/" rel="next" title="Cutting Ribbons">
+      Cutting Ribbons <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -356,7 +369,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">79</span>
+          <span class="site-state-item-count">80</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

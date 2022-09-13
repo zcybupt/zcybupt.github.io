@@ -20,15 +20,23 @@
     var CONFIG = {"hostname":"zcybupt.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Leaky Cauldron">
-<meta property="og:url" content="https://zcybupt.github.io/tags/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/index.html">
+  <meta name="description" content="题目(LeetCode #1891)You are given an integer array ribbons, where ribbons[i] represents the length of the ith ribbon, and an integer k. You may cut any of the ribbons into any number of segments of posi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cutting Ribbons">
+<meta property="og:url" content="https://zcybupt.github.io/2022/09/13/CuttingRibbons/index.html">
 <meta property="og:site_name" content="Leaky Cauldron">
+<meta property="og:description" content="题目(LeetCode #1891)You are given an integer array ribbons, where ribbons[i] represents the length of the ith ribbon, and an integer k. You may cut any of the ribbons into any number of segments of posi">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-09-13T02:20:16.000Z">
+<meta property="article:modified_time" content="2022-09-13T02:28:47.468Z">
 <meta property="article:author" content="Chunyu">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="LeetCode">
+<meta property="article:tag" content="Medium">
+<meta property="article:tag" content="二分法">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://zcybupt.github.io/tags/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/">
+<link rel="canonical" href="https://zcybupt.github.io/2022/09/13/CuttingRibbons/">
 
 
 <script id="page-configurations">
@@ -36,12 +44,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'en'
   };
 </script>
 
-  <title>Tag: 回溯算法 | Leaky Cauldron</title>
+  <title>Cutting Ribbons | Leaky Cauldron</title>
   
 
 
@@ -183,71 +191,118 @@
         <div class="content-wrap">
           
 
-          <div class="content tag">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">回溯算法
-          <small>Tag</small>
-        </h2>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/09/13/CuttingRibbons/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Chunyu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leaky Cauldron">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Cutting Ribbons
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-09-13 10:20:16 / Modified: 10:28:47" itemprop="dateCreated datePublished" datetime="2022-09-13T10:20:16+08:00">2022-09-13</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2020</span>
-    </div>
+        <h2 id="题目-LeetCode-1891"><a href="#题目-LeetCode-1891" class="headerlink" title="题目(LeetCode #1891)"></a>题目(LeetCode #1891)</h2><p>You are given an integer array <code>ribbons</code>, where <code>ribbons[i]</code> represents the length of the i<sup>th</sup> ribbon, and an integer <code>k</code>. You may cut any of the ribbons into any number of segments of positive integer lengths, or perform no cuts at all.</p>
+<p>For example, if you have a ribbon of length 4, you can:<br>Keep the ribbon of length 4,<br>Cut it into one ribbon of length 3 and one ribbon of length 1,<br>Cut it into two ribbons of length 2,<br>Cut it into one ribbon of length 2 and two ribbons of length 1, or<br>Cut it into four ribbons of length 1.<br>Your goal is to obtain <code>k</code> ribbons of all the same positive integer length. You are allowed to throw away any excess ribbon as a result of cutting.</p>
+<p>Return the maximum possible positive integer length that you can obtain <code>k</code> ribbons of, or 0 if you cannot obtain <code>k</code> ribbons of the same length.</p>
+<p>Example 1:</p>
+<blockquote>
+<p><strong>Input:</strong> ribbons = [9,7,5], k = 3<br><strong>Output:</strong> 5<br><strong>Explanation:</strong></p>
+<ul>
+<li>Cut the first ribbon to two ribbons, one of length 5 and one of length 4.</li>
+<li>Cut the second ribbon to two ribbons, one of length 5 and one of length 2.</li>
+<li>Keep the third ribbon as it is.</li>
+</ul>
+<p>Now you have 3 ribbons of length 5.</p>
+</blockquote>
+<p>Example 2:</p>
+<blockquote>
+<p><strong>Input:</strong> ribbons = [7,5,9], k = 4<br><strong>Output:</strong> 4<br><strong>Explanation:</strong></p>
+<ul>
+<li>Cut the first ribbon to two ribbons, one of length 4 and one of length 3.</li>
+<li>Cut the second ribbon to two ribbons, one of length 4 and one of length 1.</li>
+<li>Cut the third ribbon to three ribbons, two of length 4 and one of length 1.</li>
+</ul>
+<p>Now you have 4 ribbons of length 4.</p>
+</blockquote>
+<p>Example 3:</p>
+<blockquote>
+<p><strong>Input:</strong> ribbons = [5,7,9], k = 22<br><strong>Output:</strong> 0<br><strong>Explanation:</strong> You cannot obtain k ribbons of the same positive integer length.</p>
+</blockquote>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= ribbons.length &lt;= 105</code></li>
+<li><code>1 &lt;= ribbons[i] &lt;= 105</code></li>
+<li><code>1 &lt;= k &lt;= 109</code></li>
+</ul>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>采用二分法求解，绳子的最小长度为 0，最大长度为绳长最大值。根据当前绳长 <code>m</code> 所能得到的绳子段数总和与 <code>k</code> 进行比较来判断边界是否满足条件。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maxLength</span><span class="params">(<span class="type">int</span>[] ribbons, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (ribbons == <span class="literal">null</span> || ribbons.length == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> <span class="number">0</span>, r = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> ribbon : ribbons) r = Math.max(r, ribbon);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">m</span> <span class="operator">=</span> l + (r - l + <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (check(ribbons, k, m)) l = m;</span><br><span class="line">            <span class="keyword">else</span> r = m - <span class="number">1</span>; </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> l;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">check</span><span class="params">(<span class="type">int</span>[] ribbons, <span class="type">int</span> k, <span class="type">int</span> m)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">sum</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> ribbon : ribbons) sum += ribbon / m;</span><br><span class="line">        <span class="keyword">return</span> sum &gt;= k;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-09-01T17:27:10+08:00"
-              content="2020-09-01">
-          09-01
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/09/01/Permutations/" itemprop="url">
-            <span itemprop="name">全排列</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-08-24T11:15:01+08:00"
-              content="2020-08-24">
-          08-24
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/08/24/CombinationSum/" itemprop="url">
-            <span itemprop="name">组合总和</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
 
     </div>
-  </div>
-  
-  
-  
 
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+              <a href="/tags/LeetCode/" rel="tag"># LeetCode</a>
+              <a href="/tags/Medium/" rel="tag"># Medium</a>
+              <a href="/tags/%E4%BA%8C%E5%88%86%E6%B3%95/" rel="tag"># 二分法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/09/12/LongestRepeatingSubstring/" rel="prev" title="Longest Repeating Substring">
+      <i class="fa fa-chevron-left"></i> Longest Repeating Substring
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
 
@@ -300,6 +355,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-LeetCode-1891"><span class="nav-number">1.</span> <span class="nav-text">题目(LeetCode #1891)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E8%A7%A3"><span class="nav-number">2.</span> <span class="nav-text">题解</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
