@@ -20,23 +20,26 @@
     var CONFIG = {"hostname":"zcybupt.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="题目(LeetCode #281)Given two 1d vectors, implement an iterator to return their elements alternately. Example: 12345678Input:v1 &#x3D; [1,2]v2 &#x3D; [3,4,5,6]Output: [1,3,2,4,5,6]Explanation: By calling next repe">
+  <meta name="description" content="题目(LeetCode #277)Suppose you are at a party with n people labeled from 0 to n - 1 and among them, there may exist one celebrity. The definition of a celebrity is that all the other n - 1 people know t">
 <meta property="og:type" content="article">
-<meta property="og:title" content="锯齿迭代器">
-<meta property="og:url" content="https://zcybupt.github.io/2022/01/16/ZigzagIterator/index.html">
+<meta property="og:title" content="Find The Celebrity">
+<meta property="og:url" content="https://zcybupt.github.io/2022/09/16/FindTheCelebrity/index.html">
 <meta property="og:site_name" content="Leaky Cauldron">
-<meta property="og:description" content="题目(LeetCode #281)Given two 1d vectors, implement an iterator to return their elements alternately. Example: 12345678Input:v1 &#x3D; [1,2]v2 &#x3D; [3,4,5,6]Output: [1,3,2,4,5,6]Explanation: By calling next repe">
+<meta property="og:description" content="题目(LeetCode #277)Suppose you are at a party with n people labeled from 0 to n - 1 and among them, there may exist one celebrity. The definition of a celebrity is that all the other n - 1 people know t">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-01-16T08:00:51.000Z">
-<meta property="article:modified_time" content="2022-07-20T06:26:20.864Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/zcybupt/images/master/PicGo20220916202136.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zcybupt/images/master/PicGo20220916202322.png">
+<meta property="article:published_time" content="2022-09-16T12:15:47.000Z">
+<meta property="article:modified_time" content="2022-09-16T12:38:19.694Z">
 <meta property="article:author" content="Chunyu">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="LeetCode">
-<meta property="article:tag" content="队列">
 <meta property="article:tag" content="Medium">
+<meta property="article:tag" content="双指针法">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zcybupt/images/master/PicGo20220916202136.png">
 
-<link rel="canonical" href="https://zcybupt.github.io/2022/01/16/ZigzagIterator/">
+<link rel="canonical" href="https://zcybupt.github.io/2022/09/16/FindTheCelebrity/">
 
 
 <script id="page-configurations">
@@ -49,7 +52,7 @@
   };
 </script>
 
-  <title>锯齿迭代器 | Leaky Cauldron</title>
+  <title>Find The Celebrity | Leaky Cauldron</title>
   
 
 
@@ -198,7 +201,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/01/16/ZigzagIterator/">
+    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/09/16/FindTheCelebrity/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -211,7 +214,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          锯齿迭代器
+          Find The Celebrity
         </h1>
 
         <div class="post-meta">
@@ -220,16 +223,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2022-01-16 16:00:51" itemprop="dateCreated datePublished" datetime="2022-01-16T16:00:51+08:00">2022-01-16</time>
+              <time title="Created: 2022-09-16 20:15:47 / Modified: 20:38:19" itemprop="dateCreated datePublished" datetime="2022-09-16T20:15:47+08:00">2022-09-16</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-07-20 14:26:20" itemprop="dateModified" datetime="2022-07-20T14:26:20+08:00">2022-07-20</time>
-              </span>
 
           
 
@@ -242,20 +239,46 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="题目-LeetCode-281"><a href="#题目-LeetCode-281" class="headerlink" title="题目(LeetCode #281)"></a>题目(LeetCode #281)</h2><p>Given two 1d vectors, implement an iterator to return their elements alternately.</p>
-<p>Example:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Input:</span><br><span class="line">v1 = [<span class="number">1</span>,<span class="number">2</span>]</span><br><span class="line">v2 = [<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line"></span><br><span class="line">Output: [<span class="number">1</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line"></span><br><span class="line">Explanation: By calling <span class="built_in">next</span> repeatedly until hasNext returns false,</span><br><span class="line">             the order of elements returned by <span class="built_in">next</span> should be: [<span class="number">1</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>].</span><br></pre></td></tr></table></figure>
+        <h2 id="题目-LeetCode-277"><a href="#题目-LeetCode-277" class="headerlink" title="题目(LeetCode #277)"></a>题目(LeetCode #277)</h2><p>Suppose you are at a party with <code>n</code> people labeled from <code>0</code> to <code>n - 1</code> and among them, there may exist one celebrity. The definition of a celebrity is that all the other <code>n - 1</code> people know the celebrity, but the celebrity does not know any of them.</p>
+<p>Now you want to find out who the celebrity is or verify that there is not one. The only thing you are allowed to do is ask questions like: “Hi, A. Do you know B?” to get information about whether A knows B. You need to find out the celebrity (or verify there is not one) by asking as few questions as possible (in the asymptotic sense).</p>
+<p>You are given a helper function <code>bool knows(a, b)</code> that tells you whether A knows B. Implement a function <code>int findCelebrity(n)</code>. There will be exactly one celebrity if they are at the party.</p>
+<p>Return the celebrity’s label if there is a celebrity at the party. If there is no celebrity, return <code>-1</code>.</p>
+<p>Example 1:</p>
+<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo20220916202136.png"></p>
+<blockquote>
+<p><strong>Input</strong>: graph = [[1,1,0],[0,1,0],[1,1,1]]<br><strong>Output</strong>: 1<br><strong>Explanation</strong>: There are three persons labeled with 0, 1 and 2. graph[i][j] = 1 means person i knows person j, otherwise graph[i][j] = 0 means person i does not know person j. The celebrity is the person labeled as 1 because both 0 and 2 know him but 1 does not know anybody.</p>
+</blockquote>
+<p>Example 2:</p>
+<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo20220916202322.png"></p>
+<blockquote>
+<p><strong>Input</strong>: graph = [[1,0,1],[1,1,0],[0,1,1]]<br><strong>Output</strong>: -1<br><strong>Explanation</strong>: There is no celebrity.</p>
+</blockquote>
+<p><strong>Constraints</strong>:</p>
+<ul>
+<li>n == graph.length == graph[i].length</li>
+<li>2 &lt;= n &lt;= 100</li>
+<li>graph[i][j] is 0 or 1.</li>
+<li>graph[i][i] == 1</li>
+</ul>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>Celebrity 需要满足两个条件：</p>
+<ol>
+<li>除了他以外的所有人都认识他；</li>
+<li>他不认识其他任何人。</li>
+</ol>
+<p>由此可知：</p>
+<ol>
+<li>如果 <code>knows(i, j)</code> 为真，<code>i</code> 不可能是 Celebrity；</li>
+<li>如果 <code>knows(i, j)</code> 为假，<code>j</code> 不可能是 Celebrity。</li>
+</ol>
+<p>也就是两个人相比较，总能淘汰掉一个人。逐个遍历，依次将剩下的人与下一个人进行比较，即可得到唯一的可能的 Celebrity。</p>
+<p>再从头遍历一遍以确保上述两个条件均满足，若不满足则不存在 Celebrity。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* The knows API is defined in the parent class Relation.</span></span><br><span class="line"><span class="comment">      boolean knows(int a, int b); */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> <span class="keyword">extends</span> <span class="title class_">Relation</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">findCelebrity</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (knows(result, i)) result = i;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i == result) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">if</span> (knows(result, i) || !knows(i, result)) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>Follow up: What if you are given k 1d vectors? How well can your code be extended to such cases?</p>
-<p>Clarification for the follow up question:</p>
-<p>The “Zigzag” order is not clearly defined and is ambiguous for k &gt; 2 cases. If “Zigzag” does not look right to you, replace “Zigzag” with “Cyclic”. For example:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Input:</span><br><span class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>]</span><br><span class="line">[<span class="number">8</span>,<span class="number">9</span>]</span><br><span class="line"></span><br><span class="line">Output: [<span class="number">1</span>,<span class="number">4</span>,<span class="number">8</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">9</span>,<span class="number">3</span>,<span class="number">6</span>,<span class="number">7</span>].</span><br></pre></td></tr></table></figure>
 
-<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>k 为 2 的基础情况时，可使用两个索引 <code>i</code> 和 <code>j</code> 分别标记移动位置，<code>hasNext()</code> 判断两索引是否到达列表尾即可。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ZigzagIterator</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Integer&gt; v1;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Integer&gt; v2;</span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>, j = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ZigzagIterator</span><span class="params">(List&lt;Integer&gt; v1, List&lt;Integer&gt; v2)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.v1 = v1;</span><br><span class="line">        <span class="built_in">this</span>.v2 = v2;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">next</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> i &gt; j ? v2.get(j++) : v1.get(i++);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasNext</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (i &gt;= v1.size()) i = Integer.MAX_VALUE;</span><br><span class="line">        <span class="keyword">if</span> (j &gt;= v2.size()) j = Integer.MAX_VALUE;</span><br><span class="line">        <span class="keyword">return</span> i &lt; v1.size() || j &lt; v2.size();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>Follow up 中 k &gt; 2 时，可使用队列保存各个列表的迭代器。调用 <code>next()</code> 时，依次取出队首迭代器的值，并判断该迭代器是否还有后续元素，若仍有后续元素则将该迭代器重新加入队列中，重复该操作直到队列为空为止。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ZigzagIterator</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Queue&lt;Iterator&lt;Integer&gt;&gt; queue;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ZigzagIterator</span><span class="params">(List&lt;Integer&gt; v1, List&lt;Integer&gt; v2)</span> &#123;</span><br><span class="line">        queue = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">if</span> (!v1.isEmpty()) queue.add(v1.iterator());</span><br><span class="line">        <span class="keyword">if</span> (!v2.isEmpty()) queue.add(v2.iterator());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">next</span><span class="params">()</span> &#123;</span><br><span class="line">        Iterator&lt;Integer&gt; cur = queue.poll();</span><br><span class="line">        <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> cur.next();</span><br><span class="line">        <span class="keyword">if</span> (cur.hasNext()) queue.add(cur);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasNext</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> !queue.isEmpty();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>参考题解: <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-the-celebrity/solution/c-on-by-yuexiwen/">@Xiwen Yue</a></p>
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>与方法一类似，区别仅在于从两端开始比较，两指针相遇之处即为可能的 Celebrity，后续验证过程相同。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* The knows API is defined in the parent class Relation.</span></span><br><span class="line"><span class="comment">      boolean knows(int a, int b); */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> <span class="keyword">extends</span> <span class="title class_">Relation</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">findCelebrity</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> <span class="number">0</span>, r = n - <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (l != r) &#123;</span><br><span class="line">            <span class="keyword">if</span> (knows(l, r)) l++;</span><br><span class="line">            <span class="keyword">else</span> r--;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i == l) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">if</span> (knows(l, i) || !knows(i, l)) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> l;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
     </div>
@@ -268,8 +291,8 @@
           <div class="post-tags">
               <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
               <a href="/tags/LeetCode/" rel="tag"># LeetCode</a>
-              <a href="/tags/%E9%98%9F%E5%88%97/" rel="tag"># 队列</a>
               <a href="/tags/Medium/" rel="tag"># Medium</a>
+              <a href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95/" rel="tag"># 双指针法</a>
           </div>
 
         
@@ -278,13 +301,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/01/15/MovingAverage/" rel="prev" title="数据流中的移动平均值">
-      <i class="fa fa-chevron-left"></i> 数据流中的移动平均值
+    <a href="/2022/09/13/CuttingRibbons/" rel="prev" title="Cutting Ribbons">
+      <i class="fa fa-chevron-left"></i> Cutting Ribbons
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/01/16/FirstUniqueNumber/" rel="next" title="第一个唯一数字">
-      第一个唯一数字 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -343,7 +363,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-LeetCode-281"><span class="nav-number">1.</span> <span class="nav-text">题目(LeetCode #281)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E8%A7%A3"><span class="nav-number">2.</span> <span class="nav-text">题解</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-LeetCode-277"><span class="nav-number">1.</span> <span class="nav-text">题目(LeetCode #277)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E8%A7%A3"><span class="nav-number">2.</span> <span class="nav-text">题解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80"><span class="nav-number">2.1.</span> <span class="nav-text">方法一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C"><span class="nav-number">2.2.</span> <span class="nav-text">方法二</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

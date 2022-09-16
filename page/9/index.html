@@ -20,36 +20,28 @@
     var CONFIG = {"hostname":"zcybupt.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="DarknetDarknet is an open source neural network framework written in C and CUDA. It is fast, easy to install, and supports CPU and GPU computation. For more information see the Darknet project website">
-<meta property="og:type" content="article">
-<meta property="og:title" content="YOLO v3 环境搭建及训练入门指南">
-<meta property="og:url" content="https://zcybupt.github.io/2019/11/22/YoloDeployment/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Leaky Cauldron">
+<meta property="og:url" content="https://zcybupt.github.io/page/9/index.html">
 <meta property="og:site_name" content="Leaky Cauldron">
-<meta property="og:description" content="DarknetDarknet is an open source neural network framework written in C and CUDA. It is fast, easy to install, and supports CPU and GPU computation. For more information see the Darknet project website">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/001.png">
-<meta property="article:published_time" content="2019-11-22T06:29:09.000Z">
-<meta property="article:modified_time" content="2022-07-20T06:26:20.864Z">
 <meta property="article:author" content="Chunyu">
-<meta property="article:tag" content="深度学习">
-<meta property="article:tag" content="计算机视觉">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/001.png">
 
-<link rel="canonical" href="https://zcybupt.github.io/2019/11/22/YoloDeployment/">
+<link rel="canonical" href="https://zcybupt.github.io/page/9/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : false,
-    isPost : true,
+    isHome : true,
+    isPost : false,
     lang   : 'en'
   };
 </script>
 
-  <title>YOLO v3 环境搭建及训练入门指南 | Leaky Cauldron</title>
+  <title>Leaky Cauldron</title>
   
 
 
@@ -191,10 +183,9 @@
         <div class="content-wrap">
           
 
-          <div class="content post posts-expand">
+          <div class="content index posts-expand">
             
-
-    
+      
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
@@ -210,9 +201,10 @@
       <meta itemprop="name" content="Leaky Cauldron">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          YOLO v3 环境搭建及训练入门指南
-        </h1>
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/11/22/YoloDeployment/" class="post-title-link" itemprop="url">YOLO v3 环境搭建及训练入门指南</a>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -242,7 +234,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="Darknet"><a href="#Darknet" class="headerlink" title="Darknet"></a>Darknet</h2><p>Darknet is an open source neural network framework written in C and CUDA. It is fast, easy to install, and supports CPU and GPU computation.</p>
+          <h2 id="Darknet"><a href="#Darknet" class="headerlink" title="Darknet"></a>Darknet</h2><p>Darknet is an open source neural network framework written in C and CUDA. It is fast, easy to install, and supports CPU and GPU computation.</p>
 <p>For more information see the <a target="_blank" rel="noopener" href="http://pjreddie.com/darknet">Darknet project website</a>.</p>
 <h2 id="环境部署"><a href="#环境部署" class="headerlink" title="环境部署"></a>环境部署</h2><h3 id="服务器环境信息"><a href="#服务器环境信息" class="headerlink" title="服务器环境信息"></a>服务器环境信息</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">OS: Ubuntu 16.04</span><br><span class="line">Kernel: x86_64 Linux 4.13.0-38-generic</span><br><span class="line">CPU: Intel Xeon CPU E5-2620 v3 @ 3.2GHz</span><br><span class="line">GPU: 双路 GeForce GTX 1080</span><br><span class="line">RAM: 32 GB</span><br><span class="line">CUDA: 8.0.61</span><br><span class="line">cuDNN: 7.0.5</span><br><span class="line">GCC: 4.9.4</span><br><span class="line">Python: 3.5</span><br></pre></td></tr></table></figure>
 
@@ -365,35 +357,25 @@
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_30071459/article/details/53100791">YOLO(v1)用自己的数据集训练模型</a></p>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p><a target="_blank" rel="noopener" href="https://github.com/zcybupt/rawfiles/tree/master/IGARSS_codes">IGARSS 代码及配置文件打包</a></p>
 
+      
     </div>
 
     
     
     
-
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag"># 深度学习</a>
-              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" rel="tag"># 计算机视觉</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item"></div>
-      <div class="post-nav-item">
-    <a href="/2020/01/08/SortAlgorithms/" rel="next" title="排序算法汇总">
-      排序算法汇总 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
+        <div class="post-eof"></div>
       </footer>
-    
   </article>
   
   
   
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span>
+  </nav>
 
 
 
@@ -445,7 +427,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Darknet"><span class="nav-number">1.</span> <span class="nav-text">Darknet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2"><span class="nav-number">2.</span> <span class="nav-text">环境部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E4%BF%A1%E6%81%AF"><span class="nav-number">2.1.</span> <span class="nav-text">服务器环境信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CUDA-%E5%8F%8A-cuDNN-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="nav-number">2.2.</span> <span class="nav-text">CUDA 及 cuDNN 环境配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91"><span class="nav-number">2.3.</span> <span class="nav-text">编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E6%98%AF%E5%90%A6%E9%85%8D%E7%BD%AE%E6%88%90%E5%8A%9F"><span class="nav-number">2.4.</span> <span class="nav-text">验证是否配置成功</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83"><span class="nav-number">3.</span> <span class="nav-text">训练</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86%E6%A0%87%E6%B3%A8%E8%BD%AC%E6%8D%A2"><span class="nav-number">3.1.</span> <span class="nav-text">数据集标注转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E8%AE%AD%E7%BB%83%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">3.2.</span> <span class="nav-text">准备训练配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83-1"><span class="nav-number">3.3.</span> <span class="nav-text">训练</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%84%E4%BC%B0"><span class="nav-number">4.</span> <span class="nav-text">评估</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E6%A3%80%E6%B5%8B%E7%BB%93%E6%9E%9C"><span class="nav-number">4.1.</span> <span class="nav-text">生成检测结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97-mAP"><span class="nav-number">4.2.</span> <span class="nav-text">计算 mAP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E5%AE%83%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text">其它参考资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E8%AE%B0"><span class="nav-number">6.</span> <span class="nav-text">后记</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

@@ -3225,4 +3225,56 @@
         <tag>二分法</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Find The Celebrity</title>
+    <url>/2022/09/16/FindTheCelebrity/</url>
+    <content><![CDATA[<h2 id="题目-LeetCode-277"><a href="#题目-LeetCode-277" class="headerlink" title="题目(LeetCode #277)"></a>题目(LeetCode #277)</h2><p>Suppose you are at a party with <code>n</code> people labeled from <code>0</code> to <code>n - 1</code> and among them, there may exist one celebrity. The definition of a celebrity is that all the other <code>n - 1</code> people know the celebrity, but the celebrity does not know any of them.</p>
+<p>Now you want to find out who the celebrity is or verify that there is not one. The only thing you are allowed to do is ask questions like: “Hi, A. Do you know B?” to get information about whether A knows B. You need to find out the celebrity (or verify there is not one) by asking as few questions as possible (in the asymptotic sense).</p>
+<p>You are given a helper function <code>bool knows(a, b)</code> that tells you whether A knows B. Implement a function <code>int findCelebrity(n)</code>. There will be exactly one celebrity if they are at the party.</p>
+<p>Return the celebrity’s label if there is a celebrity at the party. If there is no celebrity, return <code>-1</code>.</p>
+<p>Example 1:</p>
+<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo20220916202136.png"></p>
+<blockquote>
+<p><strong>Input</strong>: graph = [[1,1,0],[0,1,0],[1,1,1]]<br><strong>Output</strong>: 1<br><strong>Explanation</strong>: There are three persons labeled with 0, 1 and 2. graph[i][j] = 1 means person i knows person j, otherwise graph[i][j] = 0 means person i does not know person j. The celebrity is the person labeled as 1 because both 0 and 2 know him but 1 does not know anybody.</p>
+</blockquote>
+<p>Example 2:</p>
+<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo20220916202322.png"></p>
+<blockquote>
+<p><strong>Input</strong>: graph = [[1,0,1],[1,1,0],[0,1,1]]<br><strong>Output</strong>: -1<br><strong>Explanation</strong>: There is no celebrity.</p>
+</blockquote>
+<p><strong>Constraints</strong>:</p>
+<ul>
+<li>n == graph.length == graph[i].length</li>
+<li>2 &lt;= n &lt;= 100</li>
+<li>graph[i][j] is 0 or 1.</li>
+<li>graph[i][i] == 1</li>
+</ul>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>Celebrity 需要满足两个条件：</p>
+<ol>
+<li>除了他以外的所有人都认识他；</li>
+<li>他不认识其他任何人。</li>
+</ol>
+<p>由此可知：</p>
+<ol>
+<li>如果 <code>knows(i, j)</code> 为真，<code>i</code> 不可能是 Celebrity；</li>
+<li>如果 <code>knows(i, j)</code> 为假，<code>j</code> 不可能是 Celebrity。</li>
+</ol>
+<p>也就是两个人相比较，总能淘汰掉一个人。逐个遍历，依次将剩下的人与下一个人进行比较，即可得到唯一的可能的 Celebrity。</p>
+<p>再从头遍历一遍以确保上述两个条件均满足，若不满足则不存在 Celebrity。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* The knows API is defined in the parent class Relation.</span></span><br><span class="line"><span class="comment">      boolean knows(int a, int b); */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> <span class="keyword">extends</span> <span class="title class_">Relation</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">findCelebrity</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (knows(result, i)) result = i;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i == result) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">if</span> (knows(result, i) || !knows(i, result)) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>参考题解: <a href="https://leetcode.cn/problems/find-the-celebrity/solution/c-on-by-yuexiwen/">@Xiwen Yue</a></p>
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>与方法一类似，区别仅在于从两端开始比较，两指针相遇之处即为可能的 Celebrity，后续验证过程相同。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* The knows API is defined in the parent class Relation.</span></span><br><span class="line"><span class="comment">      boolean knows(int a, int b); */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> <span class="keyword">extends</span> <span class="title class_">Relation</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">findCelebrity</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> <span class="number">0</span>, r = n - <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (l != r) &#123;</span><br><span class="line">            <span class="keyword">if</span> (knows(l, r)) l++;</span><br><span class="line">            <span class="keyword">else</span> r--;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i == l) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">if</span> (knows(l, i) || !knows(i, l)) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> l;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>算法</tag>
+        <tag>LeetCode</tag>
+        <tag>Medium</tag>
+        <tag>双指针法</tag>
+      </tags>
+  </entry>
 </search>
