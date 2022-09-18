@@ -3277,4 +3277,32 @@
         <tag>双指针法</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Longest Substring with At Most K Distinct Characters</title>
+    <url>/2022/09/17/LongestSubstringwithAtMostKDistinctCharacters/</url>
+    <content><![CDATA[<h2 id="题目-LeetCode-340"><a href="#题目-LeetCode-340" class="headerlink" title="题目(LeetCode #340)"></a>题目(LeetCode #340)</h2><p>Given a string <code>s</code> and an integer <code>k</code>, return the length of the longest substring of <code>s</code> that contains at most <code>k</code> distinct characters.</p>
+<p>Example 1:</p>
+<blockquote>
+<p><strong>Input</strong>: s = “eceba”, k = 2<br><strong>Output</strong>: 3<br><strong>Explanation</strong>: The substring is “ece” with length 3.</p>
+</blockquote>
+<p>Example 2:</p>
+<blockquote>
+<p>Input: s = “aa”, k = 1<br>Output: 2<br>Explanation: The substring is “aa” with length 2.</p>
+</blockquote>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= s.length &lt;= 5 * 104</code></li>
+<li><code>0 &lt;= k &lt;= 50</code></li>
+</ul>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>使用滑动窗口遍历字符串，统计窗口内不同字符的数量。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">lengthOfLongestSubstringKDistinct</span><span class="params">(String s, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (k == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">char</span>[] chArr = s.toCharArray();</span><br><span class="line">        <span class="type">int</span>[] freqArr = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">128</span>]; <span class="comment">// 没有限定是小写英文字母</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> s.length();</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> <span class="number">0</span>, r = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>, result = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (r &lt; n) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">cIdx</span> <span class="operator">=</span> chArr[r] - <span class="string">&#x27;!&#x27;</span>;</span><br><span class="line">            freqArr[cIdx]++;</span><br><span class="line">            <span class="keyword">if</span> (freqArr[cIdx] == <span class="number">1</span>) count++;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (count &gt; k) &#123;</span><br><span class="line">                <span class="type">int</span> <span class="variable">tIdx</span> <span class="operator">=</span> chArr[l++] - <span class="string">&#x27;!&#x27;</span>;</span><br><span class="line">                freqArr[tIdx]--;</span><br><span class="line">                <span class="keyword">if</span> (freqArr[tIdx] == <span class="number">0</span>) count--;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            result = Math.max(result, r - l + <span class="number">1</span>);</span><br><span class="line">            r++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>算法</tag>
+        <tag>LeetCode</tag>
+        <tag>Medium</tag>
+        <tag>双指针法</tag>
+      </tags>
+  </entry>
 </search>

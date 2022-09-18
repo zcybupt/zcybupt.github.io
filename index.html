@@ -189,6 +189,87 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/09/17/LongestSubstringwithAtMostKDistinctCharacters/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Chunyu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leaky Cauldron">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/09/17/LongestSubstringwithAtMostKDistinctCharacters/" class="post-title-link" itemprop="url">Longest Substring with At Most K Distinct Characters</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-09-17 16:15:36" itemprop="dateCreated datePublished" datetime="2022-09-17T16:15:36+08:00">2022-09-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-09-18 21:13:11" itemprop="dateModified" datetime="2022-09-18T21:13:11+08:00">2022-09-18</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="题目-LeetCode-340"><a href="#题目-LeetCode-340" class="headerlink" title="题目(LeetCode #340)"></a>题目(LeetCode #340)</h2><p>Given a string <code>s</code> and an integer <code>k</code>, return the length of the longest substring of <code>s</code> that contains at most <code>k</code> distinct characters.</p>
+<p>Example 1:</p>
+<blockquote>
+<p><strong>Input</strong>: s = “eceba”, k = 2<br><strong>Output</strong>: 3<br><strong>Explanation</strong>: The substring is “ece” with length 3.</p>
+</blockquote>
+<p>Example 2:</p>
+<blockquote>
+<p>Input: s = “aa”, k = 1<br>Output: 2<br>Explanation: The substring is “aa” with length 2.</p>
+</blockquote>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= s.length &lt;= 5 * 104</code></li>
+<li><code>0 &lt;= k &lt;= 50</code></li>
+</ul>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>使用滑动窗口遍历字符串，统计窗口内不同字符的数量。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">lengthOfLongestSubstringKDistinct</span><span class="params">(String s, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (k == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">char</span>[] chArr = s.toCharArray();</span><br><span class="line">        <span class="type">int</span>[] freqArr = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">128</span>]; <span class="comment">// 没有限定是小写英文字母</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> s.length();</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> <span class="number">0</span>, r = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>, result = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (r &lt; n) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">cIdx</span> <span class="operator">=</span> chArr[r] - <span class="string">&#x27;!&#x27;</span>;</span><br><span class="line">            freqArr[cIdx]++;</span><br><span class="line">            <span class="keyword">if</span> (freqArr[cIdx] == <span class="number">1</span>) count++;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (count &gt; k) &#123;</span><br><span class="line">                <span class="type">int</span> <span class="variable">tIdx</span> <span class="operator">=</span> chArr[l++] - <span class="string">&#x27;!&#x27;</span>;</span><br><span class="line">                freqArr[tIdx]--;</span><br><span class="line">                <span class="keyword">if</span> (freqArr[tIdx] == <span class="number">0</span>) count--;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            result = Math.max(result, r - l + <span class="number">1</span>);</span><br><span class="line">            r++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/09/16/FindTheCelebrity/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1021,83 +1102,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/01/19/HitCounter/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Chunyu">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Leaky Cauldron">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/01/19/HitCounter/" class="post-title-link" itemprop="url">点击计数器</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2022-01-19 21:50:53" itemprop="dateCreated datePublished" datetime="2022-01-19T21:50:53+08:00">2022-01-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-07-20 14:26:20" itemprop="dateModified" datetime="2022-07-20T14:26:20+08:00">2022-07-20</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="题目-LeetCode-362"><a href="#题目-LeetCode-362" class="headerlink" title="题目(LeetCode #362)"></a>题目(LeetCode #362)</h2><p>Design a hit counter which counts the number of hits received in the past 5 minutes.</p>
-<p>Each function accepts a timestamp parameter (in seconds granularity) and you may assume that calls are being made to the system in chronological order (ie, the timestamp is monotonically increasing). You may assume that the earliest timestamp starts at 1.</p>
-<p>It is possible that several hits arrive roughly at the same time.</p>
-<p>Example:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">HitCounter counter = new HitCounter();</span><br><span class="line"></span><br><span class="line">// hit at timestamp <span class="number">1.</span></span><br><span class="line">counter.hit(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">// hit at timestamp <span class="number">2.</span></span><br><span class="line">counter.hit(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">// hit at timestamp <span class="number">3.</span></span><br><span class="line">counter.hit(<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">// get hits at timestamp <span class="number">4</span>, should <span class="keyword">return</span> <span class="number">3.</span></span><br><span class="line">counter.getHits(<span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">// hit at timestamp <span class="number">300.</span></span><br><span class="line">counter.hit(<span class="number">300</span>);</span><br><span class="line"></span><br><span class="line">// get hits at timestamp <span class="number">300</span>, should <span class="keyword">return</span> <span class="number">4.</span></span><br><span class="line">counter.getHits(<span class="number">300</span>);</span><br><span class="line"></span><br><span class="line">// get hits at timestamp <span class="number">301</span>, should <span class="keyword">return</span> <span class="number">3.</span></span><br><span class="line">counter.getHits(<span class="number">301</span>); </span><br></pre></td></tr></table></figure>
-
-<p>Follow up:<br>What if the number of hits per second could be very large? Does your design scale?</p>
-<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><h3 id="解法一"><a href="#解法一" class="headerlink" title="解法一"></a>解法一</h3><p>使用队列保存所有的 timestamp，获取点击数时将所有与当前时间戳相距 5 分钟以上的元素弹出，返回剩余队列长度即可。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">HitCounter</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Queue&lt;Integer&gt; queue;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">HitCounter</span><span class="params">()</span> &#123;</span><br><span class="line">        queue = <span class="keyword">new</span> <span class="title class_">ArrayDeque</span>&lt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">hit</span><span class="params">(<span class="type">int</span> timestamp)</span> &#123;</span><br><span class="line">        queue.add(timestamp);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getHits</span><span class="params">(<span class="type">int</span> timestamp)</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (!queue.isEmpty() &amp;&amp; timestamp - queue.peek() &gt;= <span class="number">300</span>)</span><br><span class="line">            queue.poll();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> queue.size();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="解法二"><a href="#解法二" class="headerlink" title="解法二"></a>解法二</h3><p>对于 follow up 中的情况，可使用两个数组分别保存时间戳和点击次数，每次调用 hit 时将时间戳对 300 取余得到对应的索引，若该索引对应的时间戳与当前输入不同，则说明已超过 5 分钟。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">HitCounter</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span>[] times, hits;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">HitCounter</span><span class="params">()</span> &#123;</span><br><span class="line">        times = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">300</span>];</span><br><span class="line">        hits = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">300</span>];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">hit</span><span class="params">(<span class="type">int</span> timestamp)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">idx</span> <span class="operator">=</span> timestamp % <span class="number">300</span>;</span><br><span class="line">        <span class="keyword">if</span> (times[idx] != timestamp) &#123;</span><br><span class="line">            times[idx] = timestamp;</span><br><span class="line">            hits[idx] = <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            hits[idx]++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getHits</span><span class="params">(<span class="type">int</span> timestamp)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">cnt</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">300</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (timestamp - times[i] &lt; <span class="number">300</span>) &#123;</span><br><span class="line">                cnt += hits[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> cnt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1169,7 +1173,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">81</span>
+          <span class="site-state-item-count">82</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
