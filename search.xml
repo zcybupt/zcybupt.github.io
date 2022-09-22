@@ -3305,4 +3305,34 @@
         <tag>双指针法</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Binary Tree Vertical Order Traversal</title>
+    <url>/2022/09/21/BinaryTreeVerticalOrderTraversal/</url>
+    <content><![CDATA[<h2 id="题目-LeetCode-314"><a href="#题目-LeetCode-314" class="headerlink" title="题目(LeetCode #314)"></a>题目(LeetCode #314)</h2><p>Given the <code>root</code> of a binary tree, return <em><strong>the vertical order traversal</strong></em> of its nodes’ values. (i.e., from top to bottom, column by column).</p>
+<p>If two nodes are in the same row and column, the order should be from <strong>left to right</strong>.</p>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20220921215632.png"></p>
+<blockquote>
+<p><strong>Input</strong>: root = [3,9,20,null,null,15,7]<br><strong>Output</strong>: [[9],[3,15],[20],[7]]</p>
+</blockquote>
+<p><strong>Example 2:</strong></p>
+<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20220921215848.png"></p>
+<blockquote>
+<p><strong>Input</strong>: root = [3,9,8,4,0,1,7]<br><strong>Output</strong>: [[4],[9],[3,0,1],[8],[7]]</p>
+</blockquote>
+<p><strong>Example 3</strong></p>
+<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20220921215955.png"></p>
+<blockquote>
+<p><strong>Input</strong>: root = [3,9,8,4,0,1,7,null,null,null,2,5]<br><strong>Output</strong>: [[4],[9,5],[3,0,1],[8,2],[7]]</p>
+</blockquote>
+<p><strong>Constraints</strong>:</p>
+<ul>
+<li>The number of nodes in the tree is in the range <code>[0, 100]</code>.</li>
+<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
+</ul>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>分别保存每个节点相对 <code>root</code> 节点的偏移层数，即每访问一次左子树就对其父节点偏移层数减 1，每访问一次右子树就加 1。在返回的 <code>List</code> 中按层数从小到大排序即可。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; <span class="title function_">verticalOrder</span><span class="params">(TreeNode root)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用 TreeMap 保证按 key 排序</span></span><br><span class="line">        Map&lt;Integer, List&lt;Integer&gt;&gt; res = <span class="keyword">new</span> <span class="title class_">TreeMap</span>&lt;&gt;();</span><br><span class="line">        Map&lt;TreeNode, Integer&gt; nodeMap = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        nodeMap.put(root, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        Queue&lt;TreeNode&gt; queue = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">        queue.add(root);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (!queue.isEmpty()) &#123;</span><br><span class="line">            <span class="type">TreeNode</span> <span class="variable">curNode</span> <span class="operator">=</span> queue.poll();</span><br><span class="line">            <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> nodeMap.get(curNode);</span><br><span class="line"></span><br><span class="line">            res.computeIfAbsent(i, k -&gt; <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;()).add(curNode.val);</span><br><span class="line">            <span class="keyword">if</span> (curNode.left != <span class="literal">null</span>) &#123;</span><br><span class="line">                queue.add(curNode.left);</span><br><span class="line">                nodeMap.put(curNode.left, i - <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (curNode.right != <span class="literal">null</span>) &#123;</span><br><span class="line">                queue.add(curNode.right);</span><br><span class="line">                nodeMap.put(curNode.right, i + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(res.values());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+  </entry>
 </search>
