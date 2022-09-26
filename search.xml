@@ -2624,7 +2624,8 @@
 <li>  <code>isSameSet</code>：判断两元素是否属于同一集合</li>
 </ul>
 <p>并查集中的元素类似单链表中的结点, 其指针指向该节点的父结点, 集合的代表结点的指针指向它本身.</p>
-<p>在合并两个两个集合的过程中, 一般将小的集合挂载大集合的代表结点之后. 如头图中的两个集合合并, <code>4</code> 将挂在 <code>2</code> 下, 新集合的代表结点即为 <code>2</code>.</p>
+<p>在合并两个两个集合的过程中, 一般将小的集合挂载大集合的代表结点之后. 如下图中的两个集合合并, <code>4</code> 将挂在 <code>2</code> 下, 新集合的代表结点即为 <code>2</code>.</p>
+<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200617163238.png"></p>
 <p>在查询 (执行 <code>isSameSet</code> 方法) 的过程中, 只需判断两结点所在集合的代表结点是否相同即可判断是否为同一集合. </p>
 <p>查询或合并集合时, 若集合未经整理, 即包含多层结点 ( 如<code>3-&gt;1-&gt;5-&gt;2</code> ), 需整理为如图中的仅有两层的形式, 以减少下次查询的操作数.</p>
 <h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><h5 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h5><p>使用 HashMap 来表示结点之间的关系, (key, value) 即表示 key 的父节点是 value. 用另一个 HashMap 来存各储代表结点和集合大小, 若某结点不是代表结点, 则该节点的 size 信息无效.</p>
@@ -3387,5 +3388,10 @@
         <tag>BFS</tag>
         <tag>DFS</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>NumberOfConnectedComponentsInAnUndirectedGraph</title>
+    <url>/2022/09/24/NumberOfConnectedComponentsInAnUndirectedGraph/</url>
+    <content><![CDATA[]]></content>
   </entry>
 </search>

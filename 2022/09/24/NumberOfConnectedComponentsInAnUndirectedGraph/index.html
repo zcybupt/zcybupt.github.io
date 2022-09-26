@@ -20,22 +20,17 @@
     var CONFIG = {"hostname":"zcybupt.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="题目给定一个字符串类型的数组 strs , 找到一种拼接方式, 使得把所有字符串拼接起来之后形成的字符串具有最低的字典序. 题解不可通过将各个数组元素按字典序排列再拼接的方式来解, 如对数组 [&#39;b&#39;, &#39;ba&#39;] 来说, 若按元素字典序来排列将得到 bba , 而实际上该结果并没有 bab 小, 故这种做法不可取. 本题应比较 str1 + str2 和 str2">
-<meta property="og:type" content="article">
-<meta property="og:title" content="最低字典序排列字符串">
-<meta property="og:url" content="https://zcybupt.github.io/2020/07/13/LexicographicalString/index.html">
+  <meta property="og:type" content="article">
+<meta property="og:title" content="NumberOfConnectedComponentsInAnUndirectedGraph">
+<meta property="og:url" content="https://zcybupt.github.io/2022/09/24/NumberOfConnectedComponentsInAnUndirectedGraph/index.html">
 <meta property="og:site_name" content="Leaky Cauldron">
-<meta property="og:description" content="题目给定一个字符串类型的数组 strs , 找到一种拼接方式, 使得把所有字符串拼接起来之后形成的字符串具有最低的字典序. 题解不可通过将各个数组元素按字典序排列再拼接的方式来解, 如对数组 [&#39;b&#39;, &#39;ba&#39;] 来说, 若按元素字典序来排列将得到 bba , 而实际上该结果并没有 bab 小, 故这种做法不可取. 本题应比较 str1 + str2 和 str2">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-07-13T10:29:49.000Z">
-<meta property="article:modified_time" content="2022-07-20T06:26:20.860Z">
+<meta property="article:published_time" content="2022-09-24T15:03:34.000Z">
+<meta property="article:modified_time" content="2022-09-24T15:03:34.044Z">
 <meta property="article:author" content="Chunyu">
-<meta property="article:tag" content="算法">
-<meta property="article:tag" content="贪心问题">
-<meta property="article:tag" content="字典序">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://zcybupt.github.io/2020/07/13/LexicographicalString/">
+<link rel="canonical" href="https://zcybupt.github.io/2022/09/24/NumberOfConnectedComponentsInAnUndirectedGraph/">
 
 
 <script id="page-configurations">
@@ -48,7 +43,7 @@
   };
 </script>
 
-  <title>最低字典序排列字符串 | Leaky Cauldron</title>
+  <title>NumberOfConnectedComponentsInAnUndirectedGraph | Leaky Cauldron</title>
   
 
 
@@ -197,7 +192,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2020/07/13/LexicographicalString/">
+    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/09/24/NumberOfConnectedComponentsInAnUndirectedGraph/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -210,7 +205,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          最低字典序排列字符串
+          NumberOfConnectedComponentsInAnUndirectedGraph
         </h1>
 
         <div class="post-meta">
@@ -220,15 +215,8 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-07-13 18:29:49" itemprop="dateCreated datePublished" datetime="2020-07-13T18:29:49+08:00">2020-07-13</time>
+              <time title="Created: 2022-09-24 23:03:34" itemprop="dateCreated datePublished" datetime="2022-09-24T23:03:34+08:00">2022-09-24</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-07-20 14:26:20" itemprop="dateModified" datetime="2022-07-20T14:26:20+08:00">2022-07-20</time>
-              </span>
 
           
 
@@ -241,17 +229,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个字符串类型的数组 <code>strs</code> , 找到一种拼接方式, 使得把所有字符串拼接起来之后形成的字符串具有最低的字典序.</p>
-<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>不可通过将各个数组元素按字典序排列再拼接的方式来解, 如对数组 <code>[&#39;b&#39;, &#39;ba&#39;]</code> 来说, 若按元素字典序来排列将得到 <code>bba</code> , 而实际上该结果并没有 <code>bab</code> 小, 故这种做法不可取.</p>
-<p>本题应比较 <code>str1 + str2</code> 和 <code>str2 + str1</code> 的字典序大小, 以此为标准重写比较函数, 排序后拼接即可.</p>
-<h3 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LowestLexicography</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">lowestString</span><span class="params">(String[] strs)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (strs == <span class="literal">null</span> || strs.length == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Arrays.sort(strs, (a, b) -&gt; (a + b).compareTo(b + a));</span><br><span class="line"></span><br><span class="line">        <span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span> (String str : strs) &#123;</span><br><span class="line">            result += str;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><p>以冒泡排序为例</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_lowest_lexicography</span>(<span class="params">strings</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(strings)):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(strings) - <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> strings[j] + strings[j + <span class="number">1</span>] &gt; strings[j + <span class="number">1</span>] + strings[j]:</span><br><span class="line">                strings[j], strings[j + <span class="number">1</span>] = strings[j + <span class="number">1</span>], strings[j]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&quot;</span>.join(strings)</span><br></pre></td></tr></table></figure>
-
-<h3 id="Go"><a href="#Go" class="headerlink" title="Go"></a>Go</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">func getLowestLexicography(strs []string) string &#123;</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="built_in">len</span>(strs); i++ &#123;</span><br><span class="line">		<span class="keyword">for</span> j := <span class="number">0</span>; j &lt; <span class="built_in">len</span>(strs)-<span class="number">1</span>; j++ &#123;</span><br><span class="line">			<span class="keyword">if</span> strs[j]+strs[j+<span class="number">1</span>] &gt; strs[j+<span class="number">1</span>]+strs[j] &#123;</span><br><span class="line">				strs[j], strs[j+<span class="number">1</span>] = strs[j+<span class="number">1</span>], strs[j]</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> strings.Join(strs, <span class="string">&quot;&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
+        
     </div>
 
     
@@ -259,11 +237,6 @@
     
 
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
-              <a href="/tags/%E8%B4%AA%E5%BF%83%E9%97%AE%E9%A2%98/" rel="tag"># 贪心问题</a>
-              <a href="/tags/%E5%AD%97%E5%85%B8%E5%BA%8F/" rel="tag"># 字典序</a>
-          </div>
 
         
 
@@ -271,13 +244,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/07/12/SlidingWindowMaximum/" rel="prev" title="滑动窗口最大值">
-      <i class="fa fa-chevron-left"></i> 滑动窗口最大值
+    <a href="/2022/09/23/TheMaze/" rel="prev" title="迷宫">
+      <i class="fa fa-chevron-left"></i> 迷宫
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/07/15/BestArrange/" rel="next" title="日程安排问题">
-      日程安排问题 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -336,7 +306,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E8%A7%A3"><span class="nav-number">2.</span> <span class="nav-text">题解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java"><span class="nav-number">2.1.</span> <span class="nav-text">Java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python"><span class="nav-number">2.2.</span> <span class="nav-text">Python</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go"><span class="nav-number">2.3.</span> <span class="nav-text">Go</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
