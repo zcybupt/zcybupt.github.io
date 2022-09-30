@@ -27,12 +27,14 @@
 <meta property="og:site_name" content="Leaky Cauldron">
 <meta property="og:description" content="在图论中，由一个有向无环图的顶点组成的序列，当且仅当满足下列条件时，才能称为该图的一个拓扑排序（Topological sorting）：  序列中包含每个顶点，且每个顶点只出现一次； 若A在序列中排在B的前面，则在图中不存在从B到A的路径。  适用范围:    有向图   有入度为 0 的节点   图中没有环  拓扑排序常应用于有依赖关系的一组事务之间的排序. 例如有依赖关系的多个模块的编译次序">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200621184847.png">
 <meta property="article:published_time" content="2020-06-21T10:45:38.000Z">
-<meta property="article:modified_time" content="2022-07-20T06:26:20.864Z">
+<meta property="article:modified_time" content="2022-09-30T12:38:16.688Z">
 <meta property="article:author" content="Chunyu">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="图">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200621184847.png">
 
 <link rel="canonical" href="https://zcybupt.github.io/2020/06/21/TopologySort/">
 
@@ -226,7 +228,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-07-20 14:26:20" itemprop="dateModified" datetime="2022-07-20T14:26:20+08:00">2022-07-20</time>
+                <time title="Modified: 2022-09-30 20:38:16" itemprop="dateModified" datetime="2022-09-30T20:38:16+08:00">2022-09-30</time>
               </span>
 
           
@@ -251,7 +253,8 @@
 <li>  有入度为 0 的节点</li>
 <li>  图中没有环</li>
 </ul>
-<p>拓扑排序常应用于有依赖关系的一组事务之间的排序. 例如有依赖关系的多个模块的编译次序问题等. 假定头图中的 <code>A</code> , <code>B</code> , <code>C</code> , <code>D</code> , <code>K</code> 为待编译的几个模块, 箭头表示依赖关系(如 <code>B</code> , <code>D</code> 依赖于 <code>K</code> ), 经拓扑排序后应输出模块编译顺序, 即 <code>K</code> -&gt; <code>C</code> -&gt; <code>B</code> -&gt; <code>D</code> -&gt; <code>A</code> 或 <code>C</code> -&gt; <code>K</code> -&gt; <code>B</code> -&gt; <code>D</code> -&gt; <code>A</code> ( <code>K</code> 和 <code>C</code> , <code>B</code> 和 <code>D</code> 顺序可互换)</p>
+<p>拓扑排序常应用于有依赖关系的一组事务之间的排序. 例如有依赖关系的多个模块的编译次序问题等. 假定下图中的 <code>A</code> , <code>B</code> , <code>C</code> , <code>D</code> , <code>K</code> 为待编译的几个模块, 箭头表示依赖关系(如 <code>B</code> , <code>D</code> 依赖于 <code>K</code> ), 经拓扑排序后应输出模块编译顺序, 即 <code>K</code> -&gt; <code>C</code> -&gt; <code>B</code> -&gt; <code>D</code> -&gt; <code>A</code> 或 <code>C</code> -&gt; <code>K</code> -&gt; <code>B</code> -&gt; <code>D</code> -&gt; <code>A</code> ( <code>K</code> 和 <code>C</code> , <code>B</code> 和 <code>D</code> 顺序可互换)</p>
+<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20200621184847.png"></p>
 <h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>先找到所有入度为 0 的节点并输出, 删除这些节点. 在下一次迭代中, 找到剩余节点中入度为 0 的节点并输出, 直到图中节点全部输出为止.</p>
 <h5 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h5><p>图的结构定义及实现见<a href="https://zcybupt.github.io/post/Graph/">另一篇博客</a></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TopologySort</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;GraphNode&gt; <span class="title function_">topologySort</span><span class="params">(Graph graph)</span> &#123;</span><br><span class="line">        HashMap&lt;GraphNode, Integer&gt; inMap = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        Queue&lt;GraphNode&gt; zeroInQueue = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">        <span class="comment">// 取出所有节</span></span><br><span class="line">        <span class="keyword">for</span> (GraphNode node : graph.nodes.values()) &#123;</span><br><span class="line">            inMap.put(node, node.in);   <span class="comment">// 建立节点和其入度的对应关系</span></span><br><span class="line">            <span class="keyword">if</span> (node.in == <span class="number">0</span>)</span><br><span class="line">                zeroInQueue.add(node);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        List&lt;GraphNode&gt; result = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">while</span> (!zeroInQueue.isEmpty()) &#123;</span><br><span class="line">            <span class="type">GraphNode</span> <span class="variable">cur</span> <span class="operator">=</span> zeroInQueue.poll();</span><br><span class="line">            result.add(cur);</span><br><span class="line">            <span class="comment">// 将入度为 0 的节点的下一层节点的入度减一, 若为 0 则放入 zeroInQueue 中</span></span><br><span class="line">            <span class="keyword">for</span> (GraphNode next : cur.nexts) &#123;</span><br><span class="line">                inMap.put(next, inMap.get(next) - <span class="number">1</span>);</span><br><span class="line">                <span class="keyword">if</span> (inMap.get(next) == <span class="number">0</span>) &#123;</span><br><span class="line">                    zeroInQueue.add(next);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
