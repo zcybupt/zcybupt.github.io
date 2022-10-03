@@ -3430,4 +3430,20 @@
         <tag>DFS</tag>
       </tags>
   </entry>
+  <entry>
+    <title>二叉树的最近公共祖先系列问题</title>
+    <url>/2022/10/02/LowestCommonAncestorOfABinaryTree/</url>
+    <content><![CDATA[<h2 id="LeetCode-235"><a href="#LeetCode-235" class="headerlink" title="LeetCode #235"></a><a href="https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-search-tree/">LeetCode #235</a></h2><p>二叉搜索树的最近公共祖先</p>
+<h2 id="LeetCode-236"><a href="#LeetCode-236" class="headerlink" title="LeetCode #236"></a><a href="https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/">LeetCode #236</a></h2><p>二叉树的最近公共祖先</p>
+<h2 id="LeetCode-1644"><a href="#LeetCode-1644" class="headerlink" title="LeetCode #1644"></a><a href="https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree-ii/">LeetCode #1644</a></h2><p>二叉树的最近公共祖先 II</p>
+<h2 id="LeetCode-1650"><a href="#LeetCode-1650" class="headerlink" title="LeetCode #1650"></a><a href="https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree-iii/">LeetCode #1650</a></h2><p>二叉树的最近公共祖先 III</p>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+        <tag>树</tag>
+        <tag>LeetCode</tag>
+        <tag>Medium</tag>
+        <tag>DFS</tag>
+      </tags>
+  </entry>
 </search>
