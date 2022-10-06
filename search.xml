@@ -3543,7 +3543,7 @@
       </tags>
   </entry>
   <entry>
-    <title>CloneBinaryTreeWithRandomPointer</title>
+    <title>克隆含随机指针的二叉树</title>
     <url>/2022/10/06/CloneBinaryTreeWithRandomPointer/</url>
     <content><![CDATA[<h2 id="题目-LeetCode-1485"><a href="#题目-LeetCode-1485" class="headerlink" title="题目(LeetCode #1485)"></a>题目(LeetCode #1485)</h2><p>给你一个二叉树，树中每个节点都含有一个附加的随机指针，该指针可以指向树中的任何节点或者指向空（<code>null</code>）。</p>
 <p>请返回该树的 <strong>深拷贝</strong> 。</p>
