@@ -3542,4 +3542,55 @@
         <tag>DFS</tag>
       </tags>
   </entry>
+  <entry>
+    <title>CloneBinaryTreeWithRandomPointer</title>
+    <url>/2022/10/06/CloneBinaryTreeWithRandomPointer/</url>
+    <content><![CDATA[<h2 id="题目-LeetCode-1485"><a href="#题目-LeetCode-1485" class="headerlink" title="题目(LeetCode #1485)"></a>题目(LeetCode #1485)</h2><p>给你一个二叉树，树中每个节点都含有一个附加的随机指针，该指针可以指向树中的任何节点或者指向空（<code>null</code>）。</p>
+<p>请返回该树的 <strong>深拷贝</strong> 。</p>
+<p>该树的输入/输出形式与普通二叉树相同，每个节点都用 <code>[val, random_index]</code> 表示：</p>
+<ul>
+<li><code>val</code>：表示 <code>Node.val</code> 的整数</li>
+<li><code>random_index</code>：随机指针指向的节点（在输入的树数组中）的下标；如果未指向任何节点，则为 <code>null</code> 。<br>该树以 <code>Node</code> 类的形式给出，而你需要以 <code>NodeCopy</code> 类的形式返回克隆得到的树。<code>NodeCopy</code> 类和 <code>Node</code> 类定义一致。</li>
+</ul>
+<p><strong>示例1：</strong></p>
+<img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo_2022/20221006114558.png" style="zoom:67%;" />
+
+<blockquote>
+<p><strong>输入：</strong>root = [[1,null],null,[4,3],[7,0]]<br><strong>输出：</strong>[[1,null],null,[4,3],[7,0]]<br><strong>解释：</strong>初始二叉树为 [1,null,4,7] 。<br>节点 1 的随机指针指向 null，所以表示为 [1, null] 。<br>节点 4 的随机指针指向 7，所以表示为 [4, 3] 其中 3 是树数组中节点 7 对应的下标。<br>节点 7 的随机指针指向 1，所以表示为 [7, 0] 其中 0 是树数组中节点 1 对应的下标。</p>
+</blockquote>
+<p><strong>示例2：</strong></p>
+<img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo_2022/20221006114659.png" style="zoom:67%;" />
+
+<blockquote>
+<p><strong>输入：</strong>root = [[1,4],null,[1,0],null,[1,5],[1,5]]<br><strong>输出：</strong>[[1,4],null,[1,0],null,[1,5],[1,5]]<br><strong>解释：</strong>节点的随机指针可以指向它自身。</p>
+</blockquote>
+<p><strong>示例3：</strong></p>
+<img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo_2022/20221006114752.png" style="zoom:67%;" />
+
+<blockquote>
+<p><strong>输入：</strong>root = [[1,6],[2,5],[3,4],[4,3],[5,2],[6,1],[7,0]]<br><strong>输出：</strong>[[1,6],[2,5],[3,4],[4,3],[5,2],[6,1],[7,0]]</p>
+</blockquote>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>tree</code> 中节点数目范围是 <code>[0, 1000]</code></li>
+<li>每个节点的值的范围是 <code>[1, 10^6]</code></li>
+</ul>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>本题与 <a href="https://leetcode.cn/problems/copy-list-with-random-pointer/">复制带随机指针的链表</a> 类似，可先根据左右子树通过 DFS 复制树结构，同时使用 Map 保存原节点和克隆节点的关系，再遍历 Map 创建 random 指针即可。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Map&lt;Node, NodeCopy&gt; nodeMap;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> NodeCopy <span class="title function_">copyRandomBinaryTree</span><span class="params">(Node root)</span> &#123;</span><br><span class="line">        nodeMap = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="type">NodeCopy</span> <span class="variable">rootCopy</span> <span class="operator">=</span> dfs(root);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (Map.Entry&lt;Node, NodeCopy&gt; entry : nodeMap.entrySet()) &#123;</span><br><span class="line">            <span class="type">Node</span> <span class="variable">node</span> <span class="operator">=</span> entry.getKey();</span><br><span class="line">            <span class="type">NodeCopy</span> <span class="variable">nodeCopy</span> <span class="operator">=</span> entry.getValue();</span><br><span class="line"></span><br><span class="line">            nodeCopy.random = nodeMap.get(node.random);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> rootCopy;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> NodeCopy <span class="title function_">dfs</span><span class="params">(Node root)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (nodeMap.containsKey(root)) <span class="keyword">return</span> nodeMap.get(root);</span><br><span class="line"></span><br><span class="line">        <span class="type">NodeCopy</span> <span class="variable">rootCopy</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">NodeCopy</span>(root.val);</span><br><span class="line">        rootCopy.left = dfs(root.left);</span><br><span class="line">        rootCopy.right = dfs(root.right);</span><br><span class="line">        nodeMap.put(root, rootCopy);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> rootCopy;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也可直接通过 DFS 递归地复制 random 指针，通过 Map 保存已经复制过的节点，避免栈溢出。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Map&lt;Node, NodeCopy&gt; nodeMap;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> NodeCopy <span class="title function_">copyRandomBinaryTree</span><span class="params">(Node root)</span> &#123;</span><br><span class="line">        nodeMap = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">return</span> dfs(root);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> NodeCopy <span class="title function_">dfs</span><span class="params">(Node root)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (nodeMap.containsKey(root)) <span class="keyword">return</span> nodeMap.get(root);</span><br><span class="line"></span><br><span class="line">        <span class="type">NodeCopy</span> <span class="variable">rootCopy</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">NodeCopy</span>(root.val);</span><br><span class="line">        nodeMap.put(root, rootCopy); <span class="comment">// 创建 rootCopy 后立即放入 map 中，以下三个 dfs 要用到，否则会栈溢出</span></span><br><span class="line">        rootCopy.left = dfs(root.left);</span><br><span class="line">        rootCopy.right = dfs(root.right);</span><br><span class="line">        rootCopy.random = dfs(root.random);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> rootCopy;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可简化为如下形式：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Map&lt;Node, NodeCopy&gt; nodeMap = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> NodeCopy <span class="title function_">copyRandomBinaryTree</span><span class="params">(Node root)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (nodeMap.containsKey(root)) <span class="keyword">return</span> nodeMap.get(root);</span><br><span class="line"></span><br><span class="line">        <span class="type">NodeCopy</span> <span class="variable">rootCopy</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">NodeCopy</span>(root.val);</span><br><span class="line">        nodeMap.put(root, rootCopy);</span><br><span class="line">        rootCopy.left = copyRandomBinaryTree(root.left);</span><br><span class="line">        rootCopy.right = copyRandomBinaryTree(root.right);</span><br><span class="line">        rootCopy.random = copyRandomBinaryTree(root.random);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> rootCopy;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>算法</tag>
+        <tag>树</tag>
+        <tag>LeetCode</tag>
+        <tag>Medium</tag>
+        <tag>DFS</tag>
+      </tags>
+  </entry>
 </search>
