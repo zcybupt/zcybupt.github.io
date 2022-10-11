@@ -189,6 +189,121 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2021/07/26/USB-AC57/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Chunyu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leaky Cauldron">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/07/26/USB-AC57/" class="post-title-link" itemprop="url">华硕 USB-AC57 / RTL8812BU Ubuntu 20 驱动安装</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-07-26 10:49:00" itemprop="dateCreated datePublished" datetime="2021-07-26T10:49:00+08:00">2021-07-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-07-20 14:26:20" itemprop="dateModified" datetime="2022-07-20T14:26:20+08:00">2022-07-20</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="0-系统环境"><a href="#0-系统环境" class="headerlink" title="0. 系统环境"></a>0. 系统环境</h2><p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20210726115851.png"></p>
+<h2 id="1-驱动安装"><a href="#1-驱动安装" class="headerlink" title="1. 驱动安装"></a>1. 驱动安装</h2><p>安装依赖</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install -y dkms git build-essential</span><br></pre></td></tr></table></figure>
+
+<p>下载驱动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/morrownr/88x2bu.git</span><br></pre></td></tr></table></figure>
+
+<p>编译安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd 88x2bu</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ./install-driver.sh</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo reboot</span><br></pre></td></tr></table></figure>
+
+<p>重启后通过 <code>iwconfig</code> 命令查看驱动状态，图中 wlx3c7c3faee542 即为 USB-AC57</p>
+<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20210726115910.png"></p>
+<p>启用网卡</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ifconfig wlx3c7c3faee542 up</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-连接-WiFi"><a href="#2-连接-WiFi" class="headerlink" title="2. 连接 WiFi"></a>2. 连接 WiFi</h2><p>安装 wpasupplicant</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install wpasupplicant</span><br></pre></td></tr></table></figure>
+
+<p>创建 wpasupplicant 配置文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/wpa_supplicant/wpa_supplicant.conf</span><br></pre></td></tr></table></figure>
+
+<p>在其中写入：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">network=&#123;</span><br><span class="line">    ssid=<span class="string">&quot;WiFi名称&quot;</span></span><br><span class="line">    psk=<span class="string">&quot;密码&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>连接</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo wpa_supplicant -i wlx3c7c3faee542 -c /etc/wpa_supplicant/wpa_supplicant.conf -B</span><br></pre></td></tr></table></figure>
+
+<p>使用 DHCP 获取 ip</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dhclient wlx3c7c3faee542</span><br></pre></td></tr></table></figure>
+
+<p>此时即可通过 USB-AC57 连接网络</p>
+<h2 id="3-开机自动连接"><a href="#3-开机自动连接" class="headerlink" title="3. 开机自动连接"></a>3. 开机自动连接</h2><p>编写脚本 <code>conn_wifi.sh</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">WIFINAME=&#x27;wlx3c7c3faee542&#x27;</span><br><span class="line"></span><br><span class="line">ifconfig $WIFINAME up &amp;&amp;</span><br><span class="line">wpa_supplicant -i $WIFINAME -c /etc/wpa_supplicant/wpa_supplicant.conf -B &amp;&amp;</span><br><span class="line">dhclient $WIFINAME</span><br></pre></td></tr></table></figure>
+
+<p>开机时执行该脚本，编辑 <code>/etc/rc.local</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/sh</span></span><br><span class="line"></span><br><span class="line">/bin/sh /home/chunyu/scripts/conn_wifi.sh</span><br><span class="line"></span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
+
+<p>若主机有多个网络连接，需要通过设置默认网关来通过 WiFi 连接网络，脚本改为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">WIFINAME=&#x27;wlx3c7c3faee542&#x27;</span><br><span class="line"></span><br><span class="line">ifconfig $WIFINAME up &amp;&amp;</span><br><span class="line">wpa_supplicant -i $WIFINAME -c /etc/wpa_supplicant/wpa_supplicant.conf -B &amp;&amp;</span><br><span class="line">dhclient $WIFINAME &amp;&amp;</span><br><span class="line">route del default gw 192.168.3.1 &amp;&amp;</span><br><span class="line">route add default gw 192.168.0.1</span><br></pre></td></tr></table></figure>
+
+<p>其中后两行删除了默认的有线网关，添加了 WiFi 网关，地址需根据本机网络配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo route -n</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20210726115925.png"></p>
+<p>如网卡 wlx3c7c3faee542 的 Destination 为 192.168.0.0，则网关地址即为 192.168.0.1</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2020/09/10/CantorExpansion/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1214,88 +1329,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2020/08/13/GoHeap/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Chunyu">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Leaky Cauldron">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/13/GoHeap/" class="post-title-link" itemprop="url">Golang堆的实现</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-08-13 21:19:55" itemprop="dateCreated datePublished" datetime="2020-08-13T21:19:55+08:00">2020-08-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-07-20 14:26:20" itemprop="dateModified" datetime="2022-07-20T14:26:20+08:00">2022-07-20</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="堆的使用"><a href="#堆的使用" class="headerlink" title="堆的使用"></a>堆的使用</h2><p>Golang 中没有给出堆的具体实现，仅提供了标准容器库 <code>container/heap</code> ，需手动实现。</p>
-<p>heap 接口定义如下</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Interface <span class="keyword">interface</span> &#123;</span><br><span class="line">	sort.Interface</span><br><span class="line">	Push(x <span class="keyword">interface</span>&#123;&#125;) <span class="comment">// add x as element Len()</span></span><br><span class="line">	Pop() <span class="keyword">interface</span>&#123;&#125;   <span class="comment">// remove and return element Len() - 1.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>该接口同时继承了 <code>sort.Interface</code> ，定义如下</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Interface <span class="keyword">interface</span> &#123;</span><br><span class="line">	<span class="comment">// Len is the number of elements in the collection.</span></span><br><span class="line">	Len() <span class="type">int</span></span><br><span class="line">	<span class="comment">// Less reports whether the element with</span></span><br><span class="line">	<span class="comment">// index i should sort before the element with index j.</span></span><br><span class="line">	Less(i, j <span class="type">int</span>) <span class="type">bool</span></span><br><span class="line">	<span class="comment">// Swap swaps the elements with indexes i and j.</span></span><br><span class="line">	Swap(i, j <span class="type">int</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>故创建堆时需实现 <code>Len()</code> 、<code>Less(i, j int)</code> 、<code>Swap(i, j int)</code> 、<code>Push(x interface&#123;&#125;)</code> 、<code>Pop()</code> 五个方法。</p>
-<p>向堆中插入节点时，堆会自动调整结构，Golang 中始终保持最后一个元素为堆顶，故 Pop 时返回<strong>最后一个节点</strong>并删除即可。</p>
-<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;container/heap&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;math/rand&quot;</span></span><br><span class="line">	<span class="string">&quot;strconv&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Person <span class="keyword">struct</span> &#123;</span><br><span class="line">	Name <span class="type">string</span></span><br><span class="line">	Age  <span class="type">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> PersonHeap []Person</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(ph PersonHeap)</span></span> Len() <span class="type">int</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">len</span>(ph)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(ph PersonHeap)</span></span> Swap(i, j <span class="type">int</span>) &#123;</span><br><span class="line">	ph[i], ph[j] = ph[j], ph[i]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(ph PersonHeap)</span></span> Less(i, j <span class="type">int</span>) <span class="type">bool</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> ph[i].Age &lt; ph[j].Age <span class="comment">// 大根堆</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(ph *PersonHeap)</span></span> Push(p <span class="keyword">interface</span>&#123;&#125;) &#123;</span><br><span class="line">	*ph = <span class="built_in">append</span>(*ph, p.(Person))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(ph *PersonHeap)</span></span> Pop() <span class="keyword">interface</span>&#123;&#125; &#123;</span><br><span class="line">	n := <span class="built_in">len</span>(*ph)</span><br><span class="line">	result := (*ph)[n<span class="number">-1</span>]</span><br><span class="line">	*ph = (*ph)[:n<span class="number">-1</span>]</span><br><span class="line">	<span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	rand.Seed(time.Now().Unix())</span><br><span class="line">	hp := &amp;PersonHeap&#123;&#125;</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">6</span>; i++ &#123;</span><br><span class="line">		*hp = <span class="built_in">append</span>(*hp, Person&#123;<span class="string">&quot;p&quot;</span> + strconv.Itoa(i), rand.Intn(<span class="number">50</span>)&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Printf(<span class="string">&quot;原始切片: %#v\n&quot;</span>, hp)</span><br><span class="line"></span><br><span class="line">	heap.Init(hp)</span><br><span class="line"></span><br><span class="line">	fmt.Printf(<span class="string">&quot;堆: %#v\n&quot;</span>, hp)</span><br><span class="line"></span><br><span class="line">	fmt.Println(hp.Pop())</span><br><span class="line">	heap.Push(hp, Person&#123;<span class="string">&quot;newP&quot;</span>, <span class="number">30</span>&#125;)</span><br><span class="line"></span><br><span class="line">	fmt.Printf(<span class="string">&quot;%#v\n&quot;</span>, hp)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="例题-LeetCode-23"><a href="#例题-LeetCode-23" class="headerlink" title="例题(LeetCode #23)"></a>例题(<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/merge-k-sorted-lists/">LeetCode #23</a>)</h2><p>合并 k 个排序链表，返回合并后的排序链表。请分析和描述算法的复杂度。</p>
-<p><strong>示例:</strong></p>
-<blockquote>
-<p>输入:<br>[<br>&emsp;&emsp;1-&gt;4-&gt;5,<br>&emsp;&emsp;1-&gt;3-&gt;4,<br>&emsp;&emsp;2-&gt;6<br>]<br>输出: 1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4-&gt;5-&gt;6</p>
-</blockquote>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;container/heap&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> ListNode <span class="keyword">struct</span> &#123;</span><br><span class="line">	Val  <span class="type">int</span></span><br><span class="line">	Next *ListNode</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> PriorityQueue []*ListNode</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(pq PriorityQueue)</span></span> Len() <span class="type">int</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">len</span>(pq)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(pq PriorityQueue)</span></span> Less(i, j <span class="type">int</span>) <span class="type">bool</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> pq[i].Val &lt; pq[j].Val</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(pq *PriorityQueue)</span></span> Swap(i, j <span class="type">int</span>) &#123;</span><br><span class="line">	(*pq)[i].Val, (*pq)[j].Val = (*pq)[j].Val, (*pq)[i].Val</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(pq *PriorityQueue)</span></span> Push(x <span class="keyword">interface</span>&#123;&#125;) &#123;</span><br><span class="line">	*pq = <span class="built_in">append</span>(*pq, x.(*ListNode))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(pq *PriorityQueue)</span></span> Pop() <span class="keyword">interface</span>&#123;&#125; &#123;</span><br><span class="line">	result := (*pq)[<span class="built_in">len</span>(*pq)<span class="number">-1</span>]</span><br><span class="line">	*pq = (*pq)[:<span class="built_in">len</span>(*pq)<span class="number">-1</span>]</span><br><span class="line">	<span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">mergeKLists</span><span class="params">(lists []*ListNode)</span></span> *ListNode &#123;</span><br><span class="line">	<span class="keyword">if</span> lists == <span class="literal">nil</span> || <span class="built_in">len</span>(lists) == <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	dummyHead := &amp;ListNode&#123;<span class="number">0</span>, <span class="literal">nil</span>&#125;</span><br><span class="line">	curNode := dummyHead</span><br><span class="line">	<span class="keyword">var</span> pq PriorityQueue</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> _, list := <span class="keyword">range</span> lists &#123;</span><br><span class="line">		tmp := list</span><br><span class="line">		<span class="keyword">for</span> tmp != <span class="literal">nil</span> &#123;</span><br><span class="line">			heap.Push(&amp;pq, tmp)</span><br><span class="line">			tmp = tmp.Next</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> <span class="built_in">len</span>(pq) != <span class="number">0</span> &#123;</span><br><span class="line">		curNode.Next = heap.Pop(&amp;pq).(*ListNode)</span><br><span class="line">		curNode = curNode.Next</span><br><span class="line">	&#125;</span><br><span class="line">	curNode.Next = <span class="literal">nil</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> dummyHead.Next</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	l1 := &amp;ListNode&#123;<span class="number">1</span>, <span class="literal">nil</span>&#125;</span><br><span class="line">	l1.Next = &amp;ListNode&#123;<span class="number">4</span>, <span class="literal">nil</span>&#125;</span><br><span class="line">	l1.Next.Next = &amp;ListNode&#123;<span class="number">5</span>, <span class="literal">nil</span>&#125;</span><br><span class="line"></span><br><span class="line">	l2 := &amp;ListNode&#123;<span class="number">1</span>, <span class="literal">nil</span>&#125;</span><br><span class="line">	l2.Next = &amp;ListNode&#123;<span class="number">3</span>, <span class="literal">nil</span>&#125;</span><br><span class="line">	l2.Next.Next = &amp;ListNode&#123;<span class="number">4</span>, <span class="literal">nil</span>&#125;</span><br><span class="line"></span><br><span class="line">	l3 := &amp;ListNode&#123;<span class="number">2</span>, <span class="literal">nil</span>&#125;</span><br><span class="line">	l3.Next = &amp;ListNode&#123;<span class="number">6</span>, <span class="literal">nil</span>&#125;</span><br><span class="line"></span><br><span class="line">	lists := []*ListNode&#123;l1, l2, l3&#125;</span><br><span class="line"></span><br><span class="line">	result := mergeKLists(lists)</span><br><span class="line">	<span class="keyword">for</span> result != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;%d &quot;</span>, result.Val)</span><br><span class="line">		result = result.Next</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1367,7 +1400,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-count">88</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

@@ -189,6 +189,102 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/09/11/MissingElementinSortedArray/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Chunyu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leaky Cauldron">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/09/11/MissingElementinSortedArray/" class="post-title-link" itemprop="url">Missing Element in Sorted Array</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-09-11 19:04:13" itemprop="dateCreated datePublished" datetime="2022-09-11T19:04:13+08:00">2022-09-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-09-13 10:24:57" itemprop="dateModified" datetime="2022-09-13T10:24:57+08:00">2022-09-13</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="题目-LeetCode-1060"><a href="#题目-LeetCode-1060" class="headerlink" title="题目(LeetCode #1060)"></a>题目(LeetCode #1060)</h2><p>Given a sorted array <code>A</code> of <strong>unique</strong> numbers, find the <code>K-th</code> missing number starting from the leftmost number of the array.</p>
+<p>Example 1:</p>
+<blockquote>
+<p><strong>Input:</strong> A = [4,7,9,10], K = 1<br><strong>Output:</strong> 5<br><strong>Explanation:</strong><br>The first missing number is 5.</p>
+</blockquote>
+<p>Example 2:</p>
+<blockquote>
+<p><strong>Input:</strong> A = [4,7,9,10], K = 3<br><strong>Output:</strong> 8<br><strong>Explanation:</strong><br>The missing numbers are [5,6,8,…], hence the third missing number is 8.</p>
+</blockquote>
+<p>Example 3:</p>
+<blockquote>
+<p><strong>Input:</strong> A = [1,2,4], K = 3<br><strong>Output:</strong> 6<br><strong>Explanation:</strong><br>The missing numbers are [3,5,6,7,…], hence the third missing number is 6.</p>
+</blockquote>
+<p><strong>Note:</strong></p>
+<ol>
+<li>1 &lt;= A.length &lt;= 50000</li>
+<li>1 &lt;= A[i] &lt;= 1e7</li>
+<li>1 &lt;= K &lt;= 1e8</li>
+</ol>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>逐个计算数组中的元素：</p>
+<ol>
+<li><code>k</code> 大于等于数组中最后一个数时, 除了数组中的数全部缺失, 故相当于求以 <code>nums[0]</code> 开始的第 <code>k + n</code> 项；</li>
+<li>若 <code>k</code> 小于数组中最后一个数，则逐个计算数组元素，若元素存在则数组指针右移，若遇到缺失元素则 <code>k--</code>。最终 <code>num + k</code> 即为第 <code>k</code> 个缺失元素。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">missingElement</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums == <span class="literal">null</span> || nums.length == <span class="number">0</span>) <span class="keyword">return</span> k;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> nums.length;</span><br><span class="line">        <span class="keyword">if</span> (k &gt;= nums[n - <span class="number">1</span>]) <span class="keyword">return</span> k + nums[<span class="number">0</span>] + n - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">num</span> <span class="operator">=</span> nums[<span class="number">0</span>];</span><br><span class="line">        <span class="type">int</span> <span class="variable">idx</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (idx &lt; n &amp;&amp; k &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (++num == nums[idx]) idx++;</span><br><span class="line">            <span class="keyword">else</span> k--;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> num + k;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>通过二分查找，找到第 <code>k</code> 个缺失数字之前的值在 <code>nums</code> 中的索引。最终结果为 <code>nums[0] + x + k</code>，其中 <code>x</code> 为第 <code>k</code> 个缺失的数字前在 <code>nums</code> 数组中已经存在的元素个数。</p>
+<p>使用二分法的一个关键问题在于如何缩小查找范围。若第 <code>k</code> 个缺失的数字在 <code>[l, m]</code> 之间，那么可知 <code>nums[m] &gt;= nums[0] + k + m</code>。由此可反推判断条件。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">missingElement</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums == <span class="literal">null</span> || nums.length == <span class="number">0</span>) <span class="keyword">return</span> k;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> <span class="number">0</span>, r = nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">m</span> <span class="operator">=</span> l + (r - l + <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (nums[m] &gt;= nums[<span class="number">0</span>] + k + m) r = m - <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> l = m;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">0</span>] + l + k;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/09/08/MaximumAverageSubarrayII/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -954,121 +1050,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2021/07/26/USB-AC57/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Chunyu">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Leaky Cauldron">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/07/26/USB-AC57/" class="post-title-link" itemprop="url">华硕 USB-AC57 / RTL8812BU Ubuntu 20 驱动安装</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2021-07-26 10:49:00" itemprop="dateCreated datePublished" datetime="2021-07-26T10:49:00+08:00">2021-07-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-07-20 14:26:20" itemprop="dateModified" datetime="2022-07-20T14:26:20+08:00">2022-07-20</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="0-系统环境"><a href="#0-系统环境" class="headerlink" title="0. 系统环境"></a>0. 系统环境</h2><p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20210726115851.png"></p>
-<h2 id="1-驱动安装"><a href="#1-驱动安装" class="headerlink" title="1. 驱动安装"></a>1. 驱动安装</h2><p>安装依赖</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install -y dkms git build-essential</span><br></pre></td></tr></table></figure>
-
-<p>下载驱动</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/morrownr/88x2bu.git</span><br></pre></td></tr></table></figure>
-
-<p>编译安装</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd 88x2bu</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ./install-driver.sh</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo reboot</span><br></pre></td></tr></table></figure>
-
-<p>重启后通过 <code>iwconfig</code> 命令查看驱动状态，图中 wlx3c7c3faee542 即为 USB-AC57</p>
-<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20210726115910.png"></p>
-<p>启用网卡</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ifconfig wlx3c7c3faee542 up</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-连接-WiFi"><a href="#2-连接-WiFi" class="headerlink" title="2. 连接 WiFi"></a>2. 连接 WiFi</h2><p>安装 wpasupplicant</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install wpasupplicant</span><br></pre></td></tr></table></figure>
-
-<p>创建 wpasupplicant 配置文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/wpa_supplicant/wpa_supplicant.conf</span><br></pre></td></tr></table></figure>
-
-<p>在其中写入：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">network=&#123;</span><br><span class="line">    ssid=<span class="string">&quot;WiFi名称&quot;</span></span><br><span class="line">    psk=<span class="string">&quot;密码&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>连接</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo wpa_supplicant -i wlx3c7c3faee542 -c /etc/wpa_supplicant/wpa_supplicant.conf -B</span><br></pre></td></tr></table></figure>
-
-<p>使用 DHCP 获取 ip</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dhclient wlx3c7c3faee542</span><br></pre></td></tr></table></figure>
-
-<p>此时即可通过 USB-AC57 连接网络</p>
-<h2 id="3-开机自动连接"><a href="#3-开机自动连接" class="headerlink" title="3. 开机自动连接"></a>3. 开机自动连接</h2><p>编写脚本 <code>conn_wifi.sh</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">WIFINAME=&#x27;wlx3c7c3faee542&#x27;</span><br><span class="line"></span><br><span class="line">ifconfig $WIFINAME up &amp;&amp;</span><br><span class="line">wpa_supplicant -i $WIFINAME -c /etc/wpa_supplicant/wpa_supplicant.conf -B &amp;&amp;</span><br><span class="line">dhclient $WIFINAME</span><br></pre></td></tr></table></figure>
-
-<p>开机时执行该脚本，编辑 <code>/etc/rc.local</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/sh</span></span><br><span class="line"></span><br><span class="line">/bin/sh /home/chunyu/scripts/conn_wifi.sh</span><br><span class="line"></span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
-
-<p>若主机有多个网络连接，需要通过设置默认网关来通过 WiFi 连接网络，脚本改为：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">WIFINAME=&#x27;wlx3c7c3faee542&#x27;</span><br><span class="line"></span><br><span class="line">ifconfig $WIFINAME up &amp;&amp;</span><br><span class="line">wpa_supplicant -i $WIFINAME -c /etc/wpa_supplicant/wpa_supplicant.conf -B &amp;&amp;</span><br><span class="line">dhclient $WIFINAME &amp;&amp;</span><br><span class="line">route del default gw 192.168.3.1 &amp;&amp;</span><br><span class="line">route add default gw 192.168.0.1</span><br></pre></td></tr></table></figure>
-
-<p>其中后两行删除了默认的有线网关，添加了 WiFi 网关，地址需根据本机网络配置</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo route -n</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20210726115925.png"></p>
-<p>如网卡 wlx3c7c3faee542 的 Destination 为 192.168.0.0，则网关地址即为 192.168.0.1</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1140,7 +1121,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-count">88</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
