@@ -189,6 +189,75 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/10/14/ClosestBinarySearchTreeValue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Chunyu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leaky Cauldron">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/10/14/ClosestBinarySearchTreeValue/" class="post-title-link" itemprop="url">最接近的二叉搜索树值</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-10-14 18:13:44 / Modified: 18:18:35" itemprop="dateCreated datePublished" datetime="2022-10-14T18:13:44+08:00">2022-10-14</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="题目-LeetCode-270"><a href="#题目-LeetCode-270" class="headerlink" title="题目(LeetCode #270)"></a>题目(LeetCode #270)</h2><p>给定一个不为空的二叉搜索树和一个目标值 <code>target</code>，请在该二叉搜索树中找到最接近目标值 <code>target</code> 的数值。</p>
+<p><strong>注意：</strong></p>
+<p>给定的目标值 <code>target</code> 是一个浮点数<br>题目保证在该二叉搜索树中只会存在一个最接近目标值的数</p>
+<p><strong>示例：</strong></p>
+<blockquote>
+<p><strong>输入:</strong> root = [4,2,5,1,3]，目标值 target = 3.714286</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">       4</span><br><span class="line">      / \</span><br><span class="line">    2   5</span><br><span class="line">  / \</span><br><span class="line">1   3</span><br></pre></td></tr></table></figure>
+<p><strong>输出:</strong> 4</p>
+</blockquote>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">closestValue</span><span class="params">(TreeNode root, <span class="type">double</span> target)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span> Integer.MAX_VALUE;</span><br><span class="line"></span><br><span class="line">        <span class="type">double</span> <span class="variable">diff</span> <span class="operator">=</span> Math.abs(root.val - target);</span><br><span class="line">        <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> closestValue(root.left, target);</span><br><span class="line">        <span class="keyword">if</span> (Math.abs(left - target) &lt; diff) <span class="keyword">return</span> left;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">right</span> <span class="operator">=</span> closestValue(root.right, target);</span><br><span class="line">        <span class="keyword">if</span> (Math.abs(right - target) &lt; diff) <span class="keyword">return</span> right;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> root.val;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/10/09/AllNodesDistanceKInBinaryTree/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1055,95 +1124,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/09/12/LongestRepeatingSubstring/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Chunyu">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Leaky Cauldron">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/09/12/LongestRepeatingSubstring/" class="post-title-link" itemprop="url">Longest Repeating Substring</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2022-09-12 10:01:47" itemprop="dateCreated datePublished" datetime="2022-09-12T10:01:47+08:00">2022-09-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-09-13 10:24:34" itemprop="dateModified" datetime="2022-09-13T10:24:34+08:00">2022-09-13</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="题目-LeetCode-1062"><a href="#题目-LeetCode-1062" class="headerlink" title="题目(LeetCode #1062)"></a>题目(LeetCode #1062)</h2><p>Given a string <code>S</code>, find out the length of the longest repeating substring(s). Return <code>0</code> if no repeating substring exists.</p>
-<p>Example 1:</p>
-<blockquote>
-<p><strong>Input:</strong> “abcd”<br><strong>Output:</strong> 0<br><strong>Explanation:</strong> There is no repeating substring.</p>
-</blockquote>
-<p>Example 2:</p>
-<blockquote>
-<p><strong>Input:</strong> “abbaba”<br><strong>Output:</strong> 2<br><strong>Explanation:</strong> The longest repeating substrings are “ab” and “ba”, each of which occurs twice.</p>
-</blockquote>
-<p>Example 3:</p>
-<blockquote>
-<p><strong>Input:</strong> “aabcaabdaab”<br><strong>Output:</strong> 3<br><strong>Explanation:</strong> The longest repeating substring is “aab”, which occurs 3 times.</p>
-</blockquote>
-<p>Example 4:</p>
-<blockquote>
-<p><strong>Input:</strong> “aaaaa”<br><strong>Output:</strong> 4<br><strong>Explanation:</strong> The longest repeating substring is “aaaa”, which occurs twice.</p>
-</blockquote>
-<p><strong>Note:</strong></p>
-<ol>
-<li>The string <code>S</code> consists of only lowercase English letters from <code>&#39;a&#39;</code> - <code>&#39;z&#39;</code>.</li>
-<li><code>1 &lt;= S.length &lt;= 1500</code></li>
-</ol>
-<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>若 <code>S</code> 中存在长度为 <code>N</code> 的重复字符串，则长度为 <code>N - 1</code> 的重复字符串也必然存在，故可用二分法猜最大长度的方法逼近实际结果。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">longestRepeatingSubstring</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (s == <span class="literal">null</span> || s.length() &lt; <span class="number">2</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> <span class="number">0</span>, r= s.length() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">m</span> <span class="operator">=</span> l + (r - l + <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (exist(s, m)) l = m;</span><br><span class="line">            <span class="keyword">else</span> r = m - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> l;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">exist</span><span class="params">(String s, <span class="type">int</span> m)</span> &#123;</span><br><span class="line">        <span class="comment">/* 存储字符串的 hash 值, 节省空间 */</span></span><br><span class="line">        Set&lt;Integer&gt; set = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt;= s.length() - m; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i + m - <span class="number">1</span>;</span><br><span class="line">            <span class="type">String</span> <span class="variable">sub</span> <span class="operator">=</span> s.substring(i, j + <span class="number">1</span>);</span><br><span class="line">            <span class="type">int</span> <span class="variable">hash</span> <span class="operator">=</span> sub.hashCode();</span><br><span class="line">            <span class="keyword">if</span> (set.contains(hash)) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">else</span> set.add(hash);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1215,7 +1195,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">88</span>
+          <span class="site-state-item-count">89</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
