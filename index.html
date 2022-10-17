@@ -189,6 +189,89 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/10/17/LargestBSTSubtree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Chunyu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leaky Cauldron">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/10/17/LargestBSTSubtree/" class="post-title-link" itemprop="url">最大 BST 子树</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-10-17 22:39:16 / Modified: 22:44:00" itemprop="dateCreated datePublished" datetime="2022-10-17T22:39:16+08:00">2022-10-17</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="题目-LeetCode-333"><a href="#题目-LeetCode-333" class="headerlink" title="题目(LeetCode #333)"></a>题目(LeetCode #333)</h2><p>给定一个二叉树，找到其中最大的二叉搜索树（BST）子树，并返回该子树的大小。其中，最大指的是子树节点数最多的。</p>
+<p><strong>二叉搜索树（BST）</strong>中的所有节点都具备以下属性：</p>
+<ul>
+<li>左子树的值小于其父（根）节点的值。</li>
+<li>右子树的值大于其父（根）节点的值。</li>
+</ul>
+<p><strong>注意：</strong>子树必须包含其所有后代。</p>
+<p><strong>示例 1：</strong></p>
+<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20221017224152.png"></p>
+<blockquote>
+<p>输入：root = [10,5,15,1,8,null,7]<br>输出：3<br>解释：本例中最大的 BST 子树是高亮显示的子树。返回值是子树的大小，即 3 。</p>
+</blockquote>
+<p><strong>示例 2：</strong></p>
+<blockquote>
+<p>输入：root = [4,2,7,2,3,5,null,2,null,null,null,null,null,1]<br>输出：2</p>
+</blockquote>
+<p><strong>提示：</strong></p>
+<ul>
+<li>树上节点数目的范围是 <code>[0, 104]</code></li>
+<li><code>-10^4 &lt;= Node.val &lt;= 10^4</code></li>
+</ul>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">largestBSTSubtree</span><span class="params">(TreeNode root)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE)) <span class="keyword">return</span> countNodes(root);</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> largestBSTSubtree(root.left);</span><br><span class="line">        <span class="type">int</span> <span class="variable">r</span> <span class="operator">=</span> largestBSTSubtree(root.right);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Math.max(l, r);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">isBST</span><span class="params">(TreeNode node, <span class="type">int</span> low, <span class="type">int</span> high)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (node == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span> (node.val &lt;= low || node.val &gt;= high) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> isBST(node.left, low, node.val) &amp;&amp; isBST(node.right, node.val, high);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="title function_">countNodes</span><span class="params">(TreeNode root)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span> + countNodes(root.left) + countNodes(root.right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/10/14/ClosestBinarySearchTreeValue/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1073,100 +1156,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/09/13/CuttingRibbons/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Chunyu">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Leaky Cauldron">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/09/13/CuttingRibbons/" class="post-title-link" itemprop="url">Cutting Ribbons</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-09-13 10:20:16 / Modified: 10:28:47" itemprop="dateCreated datePublished" datetime="2022-09-13T10:20:16+08:00">2022-09-13</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="题目-LeetCode-1891"><a href="#题目-LeetCode-1891" class="headerlink" title="题目(LeetCode #1891)"></a>题目(LeetCode #1891)</h2><p>You are given an integer array <code>ribbons</code>, where <code>ribbons[i]</code> represents the length of the i<sup>th</sup> ribbon, and an integer <code>k</code>. You may cut any of the ribbons into any number of segments of positive integer lengths, or perform no cuts at all.</p>
-<p>For example, if you have a ribbon of length 4, you can:<br>Keep the ribbon of length 4,<br>Cut it into one ribbon of length 3 and one ribbon of length 1,<br>Cut it into two ribbons of length 2,<br>Cut it into one ribbon of length 2 and two ribbons of length 1, or<br>Cut it into four ribbons of length 1.<br>Your goal is to obtain <code>k</code> ribbons of all the same positive integer length. You are allowed to throw away any excess ribbon as a result of cutting.</p>
-<p>Return the maximum possible positive integer length that you can obtain <code>k</code> ribbons of, or 0 if you cannot obtain <code>k</code> ribbons of the same length.</p>
-<p>Example 1:</p>
-<blockquote>
-<p><strong>Input:</strong> ribbons = [9,7,5], k = 3<br><strong>Output:</strong> 5<br><strong>Explanation:</strong></p>
-<ul>
-<li>Cut the first ribbon to two ribbons, one of length 5 and one of length 4.</li>
-<li>Cut the second ribbon to two ribbons, one of length 5 and one of length 2.</li>
-<li>Keep the third ribbon as it is.</li>
-</ul>
-<p>Now you have 3 ribbons of length 5.</p>
-</blockquote>
-<p>Example 2:</p>
-<blockquote>
-<p><strong>Input:</strong> ribbons = [7,5,9], k = 4<br><strong>Output:</strong> 4<br><strong>Explanation:</strong></p>
-<ul>
-<li>Cut the first ribbon to two ribbons, one of length 4 and one of length 3.</li>
-<li>Cut the second ribbon to two ribbons, one of length 4 and one of length 1.</li>
-<li>Cut the third ribbon to three ribbons, two of length 4 and one of length 1.</li>
-</ul>
-<p>Now you have 4 ribbons of length 4.</p>
-</blockquote>
-<p>Example 3:</p>
-<blockquote>
-<p><strong>Input:</strong> ribbons = [5,7,9], k = 22<br><strong>Output:</strong> 0<br><strong>Explanation:</strong> You cannot obtain k ribbons of the same positive integer length.</p>
-</blockquote>
-<p><strong>Constraints:</strong></p>
-<ul>
-<li><code>1 &lt;= ribbons.length &lt;= 105</code></li>
-<li><code>1 &lt;= ribbons[i] &lt;= 105</code></li>
-<li><code>1 &lt;= k &lt;= 109</code></li>
-</ul>
-<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>采用二分法求解，绳子的最小长度为 0，最大长度为绳长最大值。根据当前绳长 <code>m</code> 所能得到的绳子段数总和与 <code>k</code> 进行比较来判断边界是否满足条件。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maxLength</span><span class="params">(<span class="type">int</span>[] ribbons, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (ribbons == <span class="literal">null</span> || ribbons.length == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> <span class="number">0</span>, r = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> ribbon : ribbons) r = Math.max(r, ribbon);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">m</span> <span class="operator">=</span> l + (r - l + <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (check(ribbons, k, m)) l = m;</span><br><span class="line">            <span class="keyword">else</span> r = m - <span class="number">1</span>; </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> l;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">check</span><span class="params">(<span class="type">int</span>[] ribbons, <span class="type">int</span> k, <span class="type">int</span> m)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">sum</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> ribbon : ribbons) sum += ribbon / m;</span><br><span class="line">        <span class="keyword">return</span> sum &gt;= k;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1238,7 +1227,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">89</span>
+          <span class="site-state-item-count">90</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

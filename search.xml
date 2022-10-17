@@ -3665,4 +3665,41 @@
         <tag>DFS</tag>
       </tags>
   </entry>
+  <entry>
+    <title>最大 BST 子树</title>
+    <url>/2022/10/17/LargestBSTSubtree/</url>
+    <content><![CDATA[<h2 id="题目-LeetCode-333"><a href="#题目-LeetCode-333" class="headerlink" title="题目(LeetCode #333)"></a>题目(LeetCode #333)</h2><p>给定一个二叉树，找到其中最大的二叉搜索树（BST）子树，并返回该子树的大小。其中，最大指的是子树节点数最多的。</p>
+<p><strong>二叉搜索树（BST）</strong>中的所有节点都具备以下属性：</p>
+<ul>
+<li>左子树的值小于其父（根）节点的值。</li>
+<li>右子树的值大于其父（根）节点的值。</li>
+</ul>
+<p><strong>注意：</strong>子树必须包含其所有后代。</p>
+<p><strong>示例 1：</strong></p>
+<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20221017224152.png"></p>
+<blockquote>
+<p>输入：root = [10,5,15,1,8,null,7]<br>输出：3<br>解释：本例中最大的 BST 子树是高亮显示的子树。返回值是子树的大小，即 3 。</p>
+</blockquote>
+<p><strong>示例 2：</strong></p>
+<blockquote>
+<p>输入：root = [4,2,7,2,3,5,null,2,null,null,null,null,null,1]<br>输出：2</p>
+</blockquote>
+<p><strong>提示：</strong></p>
+<ul>
+<li>树上节点数目的范围是 <code>[0, 104]</code></li>
+<li><code>-10^4 &lt;= Node.val &lt;= 10^4</code></li>
+</ul>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">largestBSTSubtree</span><span class="params">(TreeNode root)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE)) <span class="keyword">return</span> countNodes(root);</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> largestBSTSubtree(root.left);</span><br><span class="line">        <span class="type">int</span> <span class="variable">r</span> <span class="operator">=</span> largestBSTSubtree(root.right);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Math.max(l, r);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">isBST</span><span class="params">(TreeNode node, <span class="type">int</span> low, <span class="type">int</span> high)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (node == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span> (node.val &lt;= low || node.val &gt;= high) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> isBST(node.left, low, node.val) &amp;&amp; isBST(node.right, node.val, high);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="title function_">countNodes</span><span class="params">(TreeNode root)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span> + countNodes(root.left) + countNodes(root.right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <tags>
+        <tag>算法</tag>
+        <tag>树</tag>
+        <tag>LeetCode</tag>
+        <tag>Medium</tag>
+        <tag>DFS</tag>
+      </tags>
+  </entry>
 </search>
