@@ -3702,4 +3702,16 @@
         <tag>DFS</tag>
       </tags>
   </entry>
+  <entry>
+    <title>二叉搜索树中的中序后继</title>
+    <url>/2022/10/18/InorderSuccessorInBST/</url>
+    <content><![CDATA[]]></content>
+      <tags>
+        <tag>算法</tag>
+        <tag>树</tag>
+        <tag>LeetCode</tag>
+        <tag>Medium</tag>
+        <tag>DFS</tag>
+      </tags>
+  </entry>
 </search>

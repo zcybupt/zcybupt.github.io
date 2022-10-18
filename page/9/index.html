@@ -189,6 +189,80 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2020/03/01/IsPalindrome/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Chunyu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leaky Cauldron">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/01/IsPalindrome/" class="post-title-link" itemprop="url">判断一个链表是否为回文结构</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-03-01 10:15:08" itemprop="dateCreated datePublished" datetime="2020-03-01T10:15:08+08:00">2020-03-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-07-20 14:26:20" itemprop="dateModified" datetime="2022-07-20T14:26:20+08:00">2022-07-20</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="题目-LeetCode-234"><a href="#题目-LeetCode-234" class="headerlink" title="题目 LeetCode # 234"></a>题目 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/palindrome-linked-list/">LeetCode # 234</a></h2><p>判断一个链表是否为回文结构</p>
+<p>例如:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> -&gt; <span class="number">2</span> -&gt; <span class="number">1</span> 返回 true</span><br><span class="line"></span><br><span class="line"><span class="number">1</span> -&gt; <span class="number">3</span> -&gt;<span class="number">3</span> -&gt; <span class="number">1</span> 返回 true</span><br><span class="line"></span><br><span class="line"><span class="number">1</span> -&gt; <span class="number">2</span> -&gt; <span class="number">3</span> 返回 false</span><br></pre></td></tr></table></figure>
+
+<h3 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h3><p>时间复杂度 <code>O(N)</code> , <strong>空间复杂度 <code>O(1)</code></strong></p>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><p>若不考虑空间复杂度, 可将所有元素存入栈中, 边出栈边比较即可, 此时空间复杂度为 <code>O(N)</code> ; 也可先 <a href="https://zcybupt.github.io/post/MiddleNode/">利用快慢指针找到中间指针</a> , 再将中间指针后的部分存入栈中, 出栈时与链表前半部分比较, 此时空间占用为 <code>N/2</code> , 空间复杂度仍为 <code>O(N)</code> . 若要实现空间复杂度 <code>O(1)</code> , 可考虑先利用快慢指针找到中间结点, 后将中间结点后的结点的指针方向反向, 即可实现由链表尾向中间结点的遍历, 之后还原链表结构即可. 链表逆序过程中需注意边界, 前半部分最后一个元素和逆序后的后半部分的最后一个元素的 <code>next</code> 均需置空, 否则遍历时很容易死循环.</p>
+<h4 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ListNode</span> &#123;</span><br><span class="line">    <span class="type">int</span> val;</span><br><span class="line">    ListNode next;</span><br><span class="line"></span><br><span class="line">    ListNode(<span class="type">int</span> x) &#123;</span><br><span class="line">        val = x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">IsPalindrome</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> ListNode <span class="title function_">middleNode</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">null</span> || head.next == <span class="literal">null</span>)</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line"></span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">fastPointer</span> <span class="operator">=</span> head;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">slowPointer</span> <span class="operator">=</span> head;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (fastPointer != <span class="literal">null</span> &amp;&amp; fastPointer.next != <span class="literal">null</span>) &#123;</span><br><span class="line">            fastPointer = fastPointer.next.next;</span><br><span class="line">            slowPointer = slowPointer.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> slowPointer;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isPalindrome</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">null</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>; <span class="comment">// LeetCode 测试用例中输入为[]时要求返回true, 很沙雕</span></span><br><span class="line"></span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">middleNode</span> <span class="operator">=</span> middleNode(head);</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">tailNode</span> <span class="operator">=</span> reversePointer(middleNode);</span><br><span class="line"></span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">leftPointer</span> <span class="operator">=</span> head;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">rightPointer</span> <span class="operator">=</span> tailNode;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (leftPointer != <span class="literal">null</span> &amp;&amp; rightPointer != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (leftPointer.val != rightPointer.val) &#123;</span><br><span class="line">                reversePointer(rightPointer);</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            leftPointer = leftPointer.next;</span><br><span class="line">            rightPointer = rightPointer.next;</span><br><span class="line">        &#125;</span><br><span class="line">        reversePointer(tailNode);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> ListNode <span class="title function_">reversePointer</span><span class="params">(ListNode startNode)</span> &#123;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">slow</span> <span class="operator">=</span> startNode;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">fast</span> <span class="operator">=</span> slow.next;</span><br><span class="line">        slow.next = <span class="literal">null</span>;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">tmp</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">while</span> (fast != <span class="literal">null</span>) &#123;</span><br><span class="line">            tmp = fast.next;</span><br><span class="line">            fast.next = slow;</span><br><span class="line">            slow = fast;</span><br><span class="line">            fast = tmp;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        startNode.next = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> slow;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">IsPalindrome</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">middle_node</span>(<span class="params">self, head</span>):</span><br><span class="line">        slow = fast = head</span><br><span class="line">        <span class="keyword">while</span> fast <span class="keyword">and</span> fast.<span class="built_in">next</span>:</span><br><span class="line">            fast = fast.<span class="built_in">next</span>.<span class="built_in">next</span></span><br><span class="line">            slow = slow.<span class="built_in">next</span></span><br><span class="line">        <span class="keyword">return</span> slow</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">reverse_pointer</span>(<span class="params">self, start_node</span>):</span><br><span class="line">        slow = start_node</span><br><span class="line">        fast = start_node.<span class="built_in">next</span></span><br><span class="line">        slow.<span class="built_in">next</span> = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> fast:</span><br><span class="line">            tmp = fast.<span class="built_in">next</span></span><br><span class="line">            fast.<span class="built_in">next</span> = slow</span><br><span class="line">            slow = fast</span><br><span class="line">            fast = tmp</span><br><span class="line"></span><br><span class="line">        start_node.<span class="built_in">next</span> = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> slow</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">is_palindrome</span>(<span class="params">self, head</span>):</span><br><span class="line">        <span class="keyword">if</span> head <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">        middle_node = self.middle_node(head)</span><br><span class="line">        tail_node = self.reverse_pointer(middle_node)</span><br><span class="line"></span><br><span class="line">        left_pointer = head</span><br><span class="line">        right_pointer = tail_node</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> left_pointer <span class="keyword">and</span> right_pointer:</span><br><span class="line">            <span class="keyword">if</span> left_pointer.val != right_pointer.val:</span><br><span class="line">                self.reverse_pointer(right_pointer)</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">            left_pointer = left_pointer.<span class="built_in">next</span></span><br><span class="line">            right_pointer = right_pointer.<span class="built_in">next</span></span><br><span class="line"></span><br><span class="line">        self.reverse_pointer(tail_node)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2020/03/01/MiddleNode/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1144,196 +1218,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2019/11/22/YoloDeployment/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Chunyu">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Leaky Cauldron">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/11/22/YoloDeployment/" class="post-title-link" itemprop="url">YOLO v3 环境搭建及训练入门指南</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-11-22 14:29:09" itemprop="dateCreated datePublished" datetime="2019-11-22T14:29:09+08:00">2019-11-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-07-20 14:26:20" itemprop="dateModified" datetime="2022-07-20T14:26:20+08:00">2022-07-20</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Darknet"><a href="#Darknet" class="headerlink" title="Darknet"></a>Darknet</h2><p>Darknet is an open source neural network framework written in C and CUDA. It is fast, easy to install, and supports CPU and GPU computation.</p>
-<p>For more information see the <a target="_blank" rel="noopener" href="http://pjreddie.com/darknet">Darknet project website</a>.</p>
-<h2 id="环境部署"><a href="#环境部署" class="headerlink" title="环境部署"></a>环境部署</h2><h3 id="服务器环境信息"><a href="#服务器环境信息" class="headerlink" title="服务器环境信息"></a>服务器环境信息</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">OS: Ubuntu 16.04</span><br><span class="line">Kernel: x86_64 Linux 4.13.0-38-generic</span><br><span class="line">CPU: Intel Xeon CPU E5-2620 v3 @ 3.2GHz</span><br><span class="line">GPU: 双路 GeForce GTX 1080</span><br><span class="line">RAM: 32 GB</span><br><span class="line">CUDA: 8.0.61</span><br><span class="line">cuDNN: 7.0.5</span><br><span class="line">GCC: 4.9.4</span><br><span class="line">Python: 3.5</span><br></pre></td></tr></table></figure>
-
-<h3 id="CUDA-及-cuDNN-环境配置"><a href="#CUDA-及-cuDNN-环境配置" class="headerlink" title="CUDA 及 cuDNN 环境配置"></a>CUDA 及 cuDNN 环境配置</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi ~/.bashrc</span><br></pre></td></tr></table></figure>
-
-
-<p>追加以下内容:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">export PATH=/usr/local/cuda-8.0/bin:$PATH</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">服务器环境 cuDNN 配置可能存在问题, 故自行配置如下路径</span></span><br><span class="line">export LD_LIBRARY_PATH=/path/to/your/cudnn-lib-files:$LD_LIBRARY_PATH</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">例: <span class="built_in">export</span> LD_LIBRARY_PATH=/server_space/zhaoym/cuda/tmp:<span class="variable">$LD_LIBRARY_PATH</span></span></span><br></pre></td></tr></table></figure>
-
-<p>使配置生效:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
-
-<h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><p>克隆官方代码</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/pjreddie/darknet</span><br></pre></td></tr></table></figure>
-
-<p>切换到 darknet 目录, 修改 Makefile</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd darknet</span><br><span class="line">vi Makefile</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">GPU=1  </span><br><span class="line">CUDNN=1  </span><br><span class="line">OPENCV=0 # 若需检测视频等, 则修改为 1, OpenCV 配置方法略</span><br><span class="line">. . . . . . .</span><br><span class="line">COMMON+= -DGPU -I/usr/local/cuda/include/ # 需根据服务器 CUDA 安装路径修改  </span><br><span class="line">CFLAGS+= -DGPU  </span><br><span class="line">LDFLAGS+= -L/usr/local/cuda/lib64 -lcuda -lcudart -lcublas -lcurand   # 需根据 cuDNN 路径修改</span><br><span class="line"></span><br><span class="line">例:   </span><br><span class="line">COMMON+= -DGPU -I/usr/local/cuda-8.0/include/  </span><br><span class="line">LDFLAGS+= -L/server_space/zhaoym/cuda/tmp -lcuda -lcudart -lcublas -lcurand</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make    # 编译</span><br></pre></td></tr></table></figure>
-
-<p>若编译失败需执行 make clean, 修改后重新 make 即可</p>
-<h3 id="验证是否配置成功"><a href="#验证是否配置成功" class="headerlink" title="验证是否配置成功"></a>验证是否配置成功</h3><p>下载官方预训练权重</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://pjreddie.com/media/files/yolov3.weights</span><br></pre></td></tr></table></figure>
-
-<p>修改配置文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi cfg/yolov3.cfg</span><br></pre></td></tr></table></figure>
-
-<p>进行如下修改后保存退出</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[net]</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Testing</span></span><br><span class="line">batch=1             # 取消注释</span><br><span class="line">subdivisions=1      # 取消注释</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Training</span>      </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">batch=64          <span class="comment"># 注释掉</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">subdivisions=16   <span class="comment"># 注释掉</span></span></span><br></pre></td></tr></table></figure>
-
-<p>检测测试</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./darknet detect cfg/yolov3.cfg yolov3.weights data/dog.jpg</span><br></pre></td></tr></table></figure>
-
-<p>输出如下</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">layer     filters    size              input                output</span><br><span class="line">    0 conv     32  3 x 3 / 1   416 x 416 x   3   -&gt;   416 x 416 x  32  0.299 BFLOPs</span><br><span class="line">    1 conv     64  3 x 3 / 2   416 x 416 x  32   -&gt;   208 x 208 x  64  1.595 BFLOPs</span><br><span class="line">    .......</span><br><span class="line">  105 conv    255  1 x 1 / 1    52 x  52 x 256   -&gt;    52 x  52 x 255  0.353 BFLOPs</span><br><span class="line">  106 detection</span><br><span class="line">truth_thresh: Using default &#x27;1.000000&#x27;</span><br><span class="line">Loading weights from yolov3.weights...Done!</span><br><span class="line">data/dog.jpg: Predicted in 0.029329 seconds.</span><br><span class="line">dog: 99%</span><br><span class="line">truck: 93%</span><br><span class="line">bicycle: 99%</span><br></pre></td></tr></table></figure>
-
-<p>标注图片在项目根目录下, 名为 <code>predictions.png</code></p>
-<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/001.png"></p>
-<h2 id="训练"><a href="#训练" class="headerlink" title="训练"></a>训练</h2><p>下面以在<a target="_blank" rel="noopener" href="http://jiong.tea.ac.cn/people/JunweiHan/NWPUVHR10dataset.html">西工大遥感数据集</a>上训练模型为例演示如何训练自己的数据</p>
-<h3 id="数据集标注转换"><a href="#数据集标注转换" class="headerlink" title="数据集标注转换"></a>数据集标注转换</h3><p>下载数据集并放到 darknet 目录下, 解压并将文件夹中的空格替换</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">unrar x NWPU\ VHR-10\ dataset.rar</span><br><span class="line">mv NWPU\ VHR-10\ dataset NWPU_VHR-10_dataset</span><br><span class="line">cd NWPU_VHR-10_dataset</span><br><span class="line">mv ground\ truth ground_truth</span><br><span class="line">mv positive\ image\ set positive_image_set</span><br></pre></td></tr></table></figure>
-
-<p>转换标注, 代码见 <a target="_blank" rel="noopener" href="https://github.com/zcybupt/rawfiles/blob/master/codes/nwpu_vhr_label.py">Github</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip install numpy opencv-python scikit-image pillow    # 安装所需 Python 库</span><br><span class="line">mkdir labels</span><br><span class="line">python nwpu_vhr_label.py</span><br></pre></td></tr></table></figure>
-
-<p>输出如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">492     # 训练集数量</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">158     # 测试集数量</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">650     # 图片总数</span><br></pre></td></tr></table></figure>
-
-<p>输出文件有 <code>tran.txt</code>, <code>val.txt</code> 以及 <code>labels</code> 文件夹下的 650 个转换后的标注</p>
-<p>darknet 默认标注文件与图片在同一目录, 故需将 <code>labels</code>文件夹下的 txt 复制到 <code>positive_image_set</code> 中</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp labels/*.txt positive_image_set</span><br></pre></td></tr></table></figure>
-
-<h3 id="准备训练配置文件"><a href="#准备训练配置文件" class="headerlink" title="准备训练配置文件"></a>准备训练配置文件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd ..</span><br><span class="line">mkdir 0913_NWPU_v3</span><br><span class="line">cd 0913_NWPU_v3</span><br><span class="line">mkdir backup</span><br><span class="line">cp ../cfg/yolov3-voc.cfg ./</span><br><span class="line">cp ../NWPU_VHR-10_dataset/*.txt ./</span><br></pre></td></tr></table></figure>
-
-<p>创建 <code>NWPU.data</code> 文件并写入以下内容</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">classes= 10</span><br><span class="line">train  = 0913_NWPU_v3/train.txt</span><br><span class="line">valid  = 0913_NWPU_v3/val.txt</span><br><span class="line">names  = 0913_NWPU_v3/NWPU.names</span><br><span class="line">backup = 0913_NWPU_v3/backup/</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>classes                类别数量<br>train                    训练集文件列表<br>valid                    验证集文件列表<br>names                类别名称文件<br>backup               权重存放目录</p>
-</blockquote>
-<p>创建 <code>NWPU.names</code> 文件并写入以下内容</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">aeroplane</span><br><span class="line">ship</span><br><span class="line">storage_tank</span><br><span class="line">baseball_diamond</span><br><span class="line">tennis_court</span><br><span class="line">basketball_court</span><br><span class="line">ground_track_field</span><br><span class="line">harbor</span><br><span class="line">bridge</span><br><span class="line">vehicle</span><br></pre></td></tr></table></figure>
-
-<p>修改 <code>yolov3-voc.cfg</code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[net]</span><br><span class="line"># Testing</span><br><span class="line"># batch=1           # 注释掉</span><br><span class="line"># subdivisions=1    # 注释掉</span><br><span class="line">#Training</span><br><span class="line">batch=64            # 取消注释</span><br><span class="line">subdivisions=16     # 取消注释</span><br><span class="line">......</span><br><span class="line"># 605, 689, 773 行的 filters</span><br><span class="line">filters=45          # (4个位置 + 1个objectness + C个类别) * 3, 只改 [yolo] 层上一层中的filters</span><br><span class="line"># 611, 695, 779 行的 classes</span><br><span class="line">classes=10          # 类别数</span><br></pre></td></tr></table></figure>
-
-<h3 id="训练-1"><a href="#训练-1" class="headerlink" title="训练"></a>训练</h3><p>下载预训练文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ..</span><br><span class="line">wget https://pjreddie.com/media/files/darknet53.conv.74</span><br></pre></td></tr></table></figure>
-
-<p>开始训练</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./darknet detector train 0913_NWPU_v3/voc.data 0913_NWPU_v3/yolov3-voc.cfg darknet53.conv.74 -gpus 0,1</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>-gpus 指定训练使用的 GPU, 这里使用了第 0 块和第 1 块显卡</p>
-</blockquote>
-<p>输出</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">layer     filters    size              input                output</span><br><span class="line">    0 conv     32  3 x 3 / 1   416 x 416 x   3   -&gt;   416 x 416 x  32  0.299 BFLOPs</span><br><span class="line">    1 conv     64  3 x 3 / 2   416 x 416 x  32   -&gt;   208 x 208 x  64  1.595 BFLOPs</span><br><span class="line">    2 conv     32  1 x 1 / 1   208 x 208 x  64   -&gt;   208 x 208 x  32  0.177 BFLOPs</span><br><span class="line">    ......</span><br><span class="line">  105 conv     45  1 x 1 / 1    52 x  52 x 256   -&gt;    52 x  52 x  45  0.062 BFLOPs</span><br><span class="line">  106 yolo</span><br><span class="line">Loading weights from darknet53.conv.74...Done!</span><br><span class="line">Learning Rate: 0.001, Momentum: 0.9, Decay: 0.0005</span><br><span class="line">Resizing</span><br><span class="line">320</span><br><span class="line">Loaded: 0.000029 seconds</span><br><span class="line">Region 82 Avg IOU: -nan, Class: -nan, Obj: -nan, No Obj: 0.539972, .5R: -nan, .75R: -nan,  count: 0</span><br><span class="line">Region 94 Avg IOU: 0.527418, Class: 0.748367, Obj: 0.665674, No Obj: 0.590720, .5R: 1.000000, .75R: 0.000000,  count: 1</span><br><span class="line">Region 106 Avg IOU: 0.204739, Class: 0.530762, Obj: 0.475587, No Obj: 0.427459, .5R: 0.142857, .75R: 0.000000,  count: 42</span><br><span class="line">Region 82 Avg IOU: 0.334140, Class: 0.682158, Obj: 0.326366, No Obj: 0.540248, .5R: 0.000000, .75R: 0.000000,  count: 1</span><br><span class="line">Region 94 Avg IOU: 0.279358, Class: 0.548496, Obj: 0.595618, No Obj: 0.589648, .5R: 0.333333, .75R: 0.166667,  count: 6</span><br><span class="line">Region 106 Avg IOU: 0.175368, Class: 0.478585, Obj: 0.391913, No Obj: 0.430448, .5R: 0.000000, .75R: 0.000000,  count: 9</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
-
-<p><strong>注:</strong></p>
-<ol>
-<li><p><code>yolov3-voc.cfg</code> 配置文件中的 <code>batch</code> 和 <code>subdivisions</code> 需根据 GPU 显存大小修改, 若显存较小, 应相应地减小 <code>batch</code> 增大 <code>subdivisions</code></p>
-</li>
-<li><p>查看显存占用可用 <code>nvidia-smi</code>, 输出如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Wed Mar 13 15:36:29 2019       </span><br><span class="line">+-----------------------------------------------------------------------------+</span><br><span class="line">| NVIDIA-SMI 384.111                Driver Version: 384.111                   |</span><br><span class="line">|-------------------------------+----------------------+----------------------+</span><br><span class="line">| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |</span><br><span class="line">| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |</span><br><span class="line">|===============================+======================+======================|</span><br><span class="line">|   0  GeForce GTX 1080    Off  | 00000000:02:00.0 Off |                  N/A |</span><br><span class="line">| 59%   83C    P2   104W / 180W |   2729MiB /  8112MiB |     93%      Default |</span><br><span class="line">+-------------------------------+----------------------+----------------------+</span><br><span class="line">|   1  GeForce GTX 1080    Off  | 00000000:03:00.0 Off |                  N/A |</span><br><span class="line">| 54%   81C    P2   133W / 180W |   6861MiB /  8114MiB |     18%      Default |</span><br><span class="line">+-------------------------------+----------------------+----------------------+                                                                            </span><br><span class="line">+-----------------------------------------------------------------------------+</span><br><span class="line">| Processes:                                                       GPU Memory |</span><br><span class="line">|  GPU       PID   Type   Process name                             Usage      |</span><br><span class="line">|=============================================================================|</span><br><span class="line">|    0     28529      C   python                                      2719MiB |</span><br><span class="line">|    1      2040      C   python3                                     6851MiB |</span><br><span class="line">+-----------------------------------------------------------------------------+</span><br></pre></td></tr></table></figure></li>
-<li><p>如果输出中全都是 <code>-nan</code>, <code>count</code> 全为 <code>0</code> 问题很有可能在数据集上</p>
-</li>
-<li><p>官方代码默认前 <code>1000</code>次, 每 <code>100</code> 次保存一次权重；<code>1000</code> 次之后每 <code>10000</code> 次保存一次权重, 可在 <code>examples/detector.c</code> 的 <code>130</code> 及 <code>138</code> 行自行修改, 重新编译即可生效</p>
-</li>
-<li><p>若训练中途停止, 将训练命令中的 <code>darknet53.conv.74</code> 改为已得到的最新的权重的路径即可继续训练</p>
-</li>
-<li><p>训练输出日志含义见<a target="_blank" rel="noopener" href="https://blog.csdn.net/gzj2013/article/details/82285511">此文</a></p>
-</li>
-<li><p>保存训练日志到文件追加 <code>tee</code> 命令, 例如</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./darknet detector train 0913_NWPU_v3/voc.data 0913_NWPU_v3/yolov3-voc.cfg darknet53.conv.74 -gpus 0,1 | tee -a 0913_train.log</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="评估"><a href="#评估" class="headerlink" title="评估"></a>评估</h2><h3 id="生成检测结果"><a href="#生成检测结果" class="headerlink" title="生成检测结果"></a>生成检测结果</h3><p>修改 <code>yolov3-voc.cfg</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[net]</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Testing</span></span><br><span class="line">batch=1             # 取消注释</span><br><span class="line">subdivisions=1      # 取消注释</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Training</span>      </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">batch=64          <span class="comment"># 注释掉</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">subdivisions=16   <span class="comment"># 注释掉</span></span></span><br></pre></td></tr></table></figure>
-
-<p>使用 valid 命令，将验证集结果批量生成</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./darknet detector valid 0913_NWPU_v3/NWPU.data 0913_NWPU_v3/yolov3-voc.cfg 0913_NWPU_v3/backup/yolov3-voc_10500.weights</span><br></pre></td></tr></table></figure>
-
-<p>输出如下</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">results: Using default &#x27;results&#x27;</span><br><span class="line">layer     filters    size              input                output</span><br><span class="line">    0 conv     32  3 x 3 / 1   416 x 416 x   3   -&gt;   416 x 416 x  32  0.299 BFLOPs</span><br><span class="line">    1 conv     64  3 x 3 / 2   416 x 416 x  32   -&gt;   208 x 208 x  64  1.595 BFLOPs</span><br><span class="line">    2 conv     32  1 x 1 / 1   208 x 208 x  64   -&gt;   208 x 208 x  32  0.177 BFLOPs</span><br><span class="line">    ......</span><br><span class="line">  105 conv     45  1 x 1 / 1    52 x  52 x 256   -&gt;    52 x  52 x  45  0.062 BFLOPs</span><br><span class="line">  106 yolo</span><br><span class="line">Loading weights from 0913_NWPU_v3/backup/yolov3-voc_10500.weights...Done!</span><br><span class="line">Learning Rate: 0.001, Momentum: 0.9, Decay: 0.0005</span><br><span class="line">eval: Using default &#x27;voc&#x27;</span><br><span class="line">4</span><br><span class="line">8</span><br><span class="line">12</span><br><span class="line">......</span><br><span class="line">160</span><br><span class="line">Total Detection Time: 14.854030 Seconds</span><br></pre></td></tr></table></figure>
-
-<p>输出文件均保存在 <code>results</code> 目录下</p>
-<h3 id="计算-mAP"><a href="#计算-mAP" class="headerlink" title="计算 mAP"></a>计算 mAP</h3><p>将西工大数据集转换为 VOC 格式, 代码: <a target="_blank" rel="noopener" href="https://github.com/zcybupt/rawfiles/blob/master/codes/nwpu2voc/nwpu2voc.py">nwpu2voc.py</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd NWPU_VHR-10_dataset</span><br><span class="line">python nwpu2voc.py  # 将 nwpu2voc.py 放到 NWPU_VHR-10_dataset 目录下</span><br></pre></td></tr></table></figure>
-
-<p>下载 <a target="_blank" rel="noopener" href="https://github.com/zcybupt/rawfiles/blob/master/codes/voc%E8%AF%84%E4%BC%B0/reval_voc.py">reval_voc.py</a> 和 <a target="_blank" rel="noopener" href="https://github.com/zcybupt/rawfiles/blob/master/codes/voc%E8%AF%84%E4%BC%B0/voc_eval.py">voc_eval.py</a>, 以下代码需在 <code>Python2</code> 环境下运行并预先装好 <code>numpy</code>, 推荐用 <code>Miniconda</code> 管理 Python 环境</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ..</span><br><span class="line">python reval_voc.py --voc_dir NWPU_VHR-10_dataset/VOCdevkit --year 2007 --image_set test --class ./0913_NWPU_v3/NWPU.names ./valid_results</span><br></pre></td></tr></table></figure>
-
-<p>输出如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Evaluating detections</span><br><span class="line">VOC07 metric? Yes</span><br><span class="line">AP for aeroplane = 0.9949</span><br><span class="line">AP for ship = 0.8182</span><br><span class="line">AP for storage_tank = 0.8013</span><br><span class="line">AP for baseball_diamond = 0.9827</span><br><span class="line">AP for tennis_court = 0.8040</span><br><span class="line">AP for basketball_court = 0.8182</span><br><span class="line">AP for ground_track_field = 0.9947</span><br><span class="line">AP for harbor = 0.7442</span><br><span class="line">AP for bridge = 0.8961</span><br><span class="line">AP for vehicle = 0.8689</span><br><span class="line">Mean AP = 0.8723</span><br><span class="line"></span><br><span class="line">--------------------------------------------------------------</span><br><span class="line">Results computed with the **unofficial** Python eval code.</span><br><span class="line">Results should be very close to the official MATLAB eval code.</span><br><span class="line">-- Thanks, The Management</span><br><span class="line">--------------------------------------------------------------</span><br></pre></td></tr></table></figure>
-
-<p>更多信息参见 <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/7ae10c8f7d77">Darknet 评估训练好的网络的性能</a></p>
-<h2 id="其它参考资料"><a href="#其它参考资料" class="headerlink" title="其它参考资料"></a>其它参考资料</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/35490655">DarkNet-YOLOv3 训练自己的数据集 Ubuntu16.04+cuda8.0</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/mieleizhi0522/article/details/79989754">YOLOv3批量测试图片并保存在自定义文件夹下</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_30071459/article/details/53100791">YOLO(v1)用自己的数据集训练模型</a></p>
-<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p><a target="_blank" rel="noopener" href="https://github.com/zcybupt/rawfiles/tree/master/IGARSS_codes">IGARSS 代码及配置文件打包</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span>
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1401,7 +1289,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-count">91</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

@@ -189,6 +189,105 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/09/16/FindTheCelebrity/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Chunyu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leaky Cauldron">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/09/16/FindTheCelebrity/" class="post-title-link" itemprop="url">Find The Celebrity</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-09-16 20:15:47 / Modified: 20:38:19" itemprop="dateCreated datePublished" datetime="2022-09-16T20:15:47+08:00">2022-09-16</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="题目-LeetCode-277"><a href="#题目-LeetCode-277" class="headerlink" title="题目(LeetCode #277)"></a>题目(LeetCode #277)</h2><p>Suppose you are at a party with <code>n</code> people labeled from <code>0</code> to <code>n - 1</code> and among them, there may exist one celebrity. The definition of a celebrity is that all the other <code>n - 1</code> people know the celebrity, but the celebrity does not know any of them.</p>
+<p>Now you want to find out who the celebrity is or verify that there is not one. The only thing you are allowed to do is ask questions like: “Hi, A. Do you know B?” to get information about whether A knows B. You need to find out the celebrity (or verify there is not one) by asking as few questions as possible (in the asymptotic sense).</p>
+<p>You are given a helper function <code>bool knows(a, b)</code> that tells you whether A knows B. Implement a function <code>int findCelebrity(n)</code>. There will be exactly one celebrity if they are at the party.</p>
+<p>Return the celebrity’s label if there is a celebrity at the party. If there is no celebrity, return <code>-1</code>.</p>
+<p>Example 1:</p>
+<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo20220916202136.png"></p>
+<blockquote>
+<p><strong>Input</strong>: graph = [[1,1,0],[0,1,0],[1,1,1]]<br><strong>Output</strong>: 1<br><strong>Explanation</strong>: There are three persons labeled with 0, 1 and 2. graph[i][j] = 1 means person i knows person j, otherwise graph[i][j] = 0 means person i does not know person j. The celebrity is the person labeled as 1 because both 0 and 2 know him but 1 does not know anybody.</p>
+</blockquote>
+<p>Example 2:</p>
+<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo20220916202322.png"></p>
+<blockquote>
+<p><strong>Input</strong>: graph = [[1,0,1],[1,1,0],[0,1,1]]<br><strong>Output</strong>: -1<br><strong>Explanation</strong>: There is no celebrity.</p>
+</blockquote>
+<p><strong>Constraints</strong>:</p>
+<ul>
+<li>n == graph.length == graph[i].length</li>
+<li>2 &lt;= n &lt;= 100</li>
+<li>graph[i][j] is 0 or 1.</li>
+<li>graph[i][i] == 1</li>
+</ul>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>Celebrity 需要满足两个条件：</p>
+<ol>
+<li>除了他以外的所有人都认识他；</li>
+<li>他不认识其他任何人。</li>
+</ol>
+<p>由此可知：</p>
+<ol>
+<li>如果 <code>knows(i, j)</code> 为真，<code>i</code> 不可能是 Celebrity；</li>
+<li>如果 <code>knows(i, j)</code> 为假，<code>j</code> 不可能是 Celebrity。</li>
+</ol>
+<p>也就是两个人相比较，总能淘汰掉一个人。逐个遍历，依次将剩下的人与下一个人进行比较，即可得到唯一的可能的 Celebrity。</p>
+<p>再从头遍历一遍以确保上述两个条件均满足，若不满足则不存在 Celebrity。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* The knows API is defined in the parent class Relation.</span></span><br><span class="line"><span class="comment">      boolean knows(int a, int b); */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> <span class="keyword">extends</span> <span class="title class_">Relation</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">findCelebrity</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (knows(result, i)) result = i;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i == result) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">if</span> (knows(result, i) || !knows(i, result)) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>参考题解: <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-the-celebrity/solution/c-on-by-yuexiwen/">@Xiwen Yue</a></p>
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>与方法一类似，区别仅在于从两端开始比较，两指针相遇之处即为可能的 Celebrity，后续验证过程相同。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* The knows API is defined in the parent class Relation.</span></span><br><span class="line"><span class="comment">      boolean knows(int a, int b); */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> <span class="keyword">extends</span> <span class="title class_">Relation</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">findCelebrity</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> <span class="number">0</span>, r = n - <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (l != r) &#123;</span><br><span class="line">            <span class="keyword">if</span> (knows(l, r)) l++;</span><br><span class="line">            <span class="keyword">else</span> r--;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i == l) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">if</span> (knows(l, i) || !knows(i, l)) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> l;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/09/13/CuttingRibbons/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -999,94 +1098,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/01/16/FirstUniqueNumber/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Chunyu">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Leaky Cauldron">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/01/16/FirstUniqueNumber/" class="post-title-link" itemprop="url">第一个唯一数字</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2022-01-16 18:57:07" itemprop="dateCreated datePublished" datetime="2022-01-16T18:57:07+08:00">2022-01-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-07-20 14:26:20" itemprop="dateModified" datetime="2022-07-20T14:26:20+08:00">2022-07-20</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="题目-LeetCode-1429"><a href="#题目-LeetCode-1429" class="headerlink" title="题目(LeetCode #1429)"></a>题目(LeetCode #1429)</h2><p>You have a queue of integers, you need to retrieve the first unique integer in the queue.</p>
-<p>Implement the <code>FirstUnique</code> class:</p>
-<ul>
-<li><code>FirstUnique(int[] nums)</code> Initializes the object with the numbers in the queue.</li>
-<li><code>int showFirstUnique()</code> returns the value of <strong>the first unique</strong> integer of the queue, and returns <strong>-1</strong> if there is no such integer.</li>
-<li><code>void add(int value)</code> insert value to the queue.</li>
-</ul>
-<p><strong>Example 1:</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Input: </span><br><span class="line">[<span class="string">&quot;FirstUnique&quot;</span>,<span class="string">&quot;showFirstUnique&quot;</span>,<span class="string">&quot;add&quot;</span>,<span class="string">&quot;showFirstUnique&quot;</span>,<span class="string">&quot;add&quot;</span>,<span class="string">&quot;showFirstUnique&quot;</span>,<span class="string">&quot;add&quot;</span>,<span class="string">&quot;showFirstUnique&quot;</span>]</span><br><span class="line">[[[<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>]],[],[<span class="number">5</span>],[],[<span class="number">2</span>],[],[<span class="number">3</span>],[]]</span><br><span class="line">Output: [null,<span class="number">2</span>,null,<span class="number">2</span>,null,<span class="number">3</span>,null,-<span class="number">1</span>] </span><br><span class="line">Explanation:</span><br><span class="line">FirstUnique firstUnique = new FirstUnique([<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>]);</span><br><span class="line">firstUnique.showFirstUnique(); // <span class="keyword">return</span> <span class="number">2</span> </span><br><span class="line">firstUnique.add(<span class="number">5</span>);            // the queue <span class="keyword">is</span> now [<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">5</span>] </span><br><span class="line">firstUnique.showFirstUnique(); // <span class="keyword">return</span> <span class="number">2</span> </span><br><span class="line">firstUnique.add(<span class="number">2</span>);            // the queue <span class="keyword">is</span> now [<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">5</span>,<span class="number">2</span>] </span><br><span class="line">firstUnique.showFirstUnique(); // <span class="keyword">return</span> <span class="number">3</span> </span><br><span class="line">firstUnique.add(<span class="number">3</span>);            // the queue <span class="keyword">is</span> now [<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">5</span>,<span class="number">2</span>,<span class="number">3</span>] </span><br><span class="line">firstUnique.showFirstUnique(); // <span class="keyword">return</span> -<span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>Example 2:</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Input: </span><br><span class="line">[<span class="string">&quot;FirstUnique&quot;</span>,<span class="string">&quot;showFirstUnique&quot;</span>,<span class="string">&quot;add&quot;</span>,<span class="string">&quot;add&quot;</span>,<span class="string">&quot;add&quot;</span>,<span class="string">&quot;add&quot;</span>,<span class="string">&quot;add&quot;</span>,<span class="string">&quot;showFirstUnique&quot;</span>]</span><br><span class="line">[[[<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>]],[],[<span class="number">7</span>],[<span class="number">3</span>],[<span class="number">3</span>],[<span class="number">7</span>],[<span class="number">17</span>],[]]</span><br><span class="line">Output: </span><br><span class="line">[null,-<span class="number">1</span>,null,null,null,null,null,<span class="number">17</span>]</span><br><span class="line">Explanation: </span><br><span class="line">FirstUnique firstUnique = new FirstUnique([<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>]); </span><br><span class="line">firstUnique.showFirstUnique(); // <span class="keyword">return</span> -<span class="number">1</span> </span><br><span class="line">firstUnique.add(<span class="number">7</span>);            // the queue <span class="keyword">is</span> now [<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>] </span><br><span class="line">firstUnique.add(<span class="number">3</span>);            // the queue <span class="keyword">is</span> now [<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">3</span>] </span><br><span class="line">firstUnique.add(<span class="number">3</span>);            // the queue <span class="keyword">is</span> now [<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">3</span>,<span class="number">3</span>] </span><br><span class="line">firstUnique.add(<span class="number">7</span>);            // the queue <span class="keyword">is</span> now [<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="number">7</span>] </span><br><span class="line">firstUnique.add(<span class="number">17</span>);           // the queue <span class="keyword">is</span> now [<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="number">7</span>,<span class="number">17</span>] </span><br><span class="line">firstUnique.showFirstUnique(); // <span class="keyword">return</span> <span class="number">17</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>Example 3:</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Input: </span><br><span class="line">[<span class="string">&quot;FirstUnique&quot;</span>,<span class="string">&quot;showFirstUnique&quot;</span>,<span class="string">&quot;add&quot;</span>,<span class="string">&quot;showFirstUnique&quot;</span>]</span><br><span class="line">[[[<span class="number">809</span>]],[],[<span class="number">809</span>],[]]</span><br><span class="line">Output: </span><br><span class="line">[null,<span class="number">809</span>,null,-<span class="number">1</span>] </span><br><span class="line">Explanation:</span><br><span class="line">FirstUnique firstUnique = new FirstUnique([<span class="number">809</span>]); </span><br><span class="line">firstUnique.showFirstUnique(); // <span class="keyword">return</span> <span class="number">809</span> </span><br><span class="line">firstUnique.add(<span class="number">809</span>);          // the queue <span class="keyword">is</span> now [<span class="number">809</span>,<span class="number">809</span>] </span><br><span class="line">firstUnique.showFirstUnique(); // <span class="keyword">return</span> -<span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p><strong>方法一：</strong>可以使用队列保存输入的所有数字，并创建一个 Map 来保存各数字的出现次数，执行 <code>add</code> 时直接将新元素添加至队尾；执行 <code>firstUnique</code> 时从队首逐个判断是否唯一，若不唯一则弹出该元素，直到找到第一个唯一的元素为止。这种方法时间和空间复杂度都是 <code>O(n)</code>，可能需要弹出很多元素才能找到结果。</p>
-<p><strong>方法二：</strong>创建一个队列保存输入的数字，并使用一个 Set 保存所有数字，添加元素时先判断该数字是否已经出现过，若出现过则从队列中移除该元素。时间和空间复杂度仍都为 <code>O(n)</code>，<code>firstUnique</code> 操作的时间复杂度降为 <code>O(1)</code>，但 <code>add</code> 操作最坏情况下仍为 <code>O(n)</code>。该解法中的队列可改用 <code>LinkedHashSet</code>，进一步降低 <code>add</code> 时移除重复元素的复杂度。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">FirstUnique</span> &#123;</span><br><span class="line">    Set&lt;Integer&gt; unique = <span class="keyword">new</span> <span class="title class_">LinkedHashSet</span>&lt;&gt;();</span><br><span class="line">    Set&lt;Integer&gt; all = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">FirstUnique</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> num : nums) add(num);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">(<span class="type">int</span> num)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (all.add(num)) unique.add(num);</span><br><span class="line">        <span class="keyword">else</span> unique.remove(num);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">showFirstUnique</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> unique.isEmpty() ? -<span class="number">1</span> : unique.iterator().next();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1154,7 +1169,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-count">91</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
