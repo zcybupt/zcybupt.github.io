@@ -189,6 +189,80 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2020/07/13/LexicographicalString/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Chunyu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leaky Cauldron">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/13/LexicographicalString/" class="post-title-link" itemprop="url">最低字典序排列字符串</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-07-13 18:29:49" itemprop="dateCreated datePublished" datetime="2020-07-13T18:29:49+08:00">2020-07-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-07-20 14:26:20" itemprop="dateModified" datetime="2022-07-20T14:26:20+08:00">2022-07-20</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个字符串类型的数组 <code>strs</code> , 找到一种拼接方式, 使得把所有字符串拼接起来之后形成的字符串具有最低的字典序.</p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>不可通过将各个数组元素按字典序排列再拼接的方式来解, 如对数组 <code>[&#39;b&#39;, &#39;ba&#39;]</code> 来说, 若按元素字典序来排列将得到 <code>bba</code> , 而实际上该结果并没有 <code>bab</code> 小, 故这种做法不可取.</p>
+<p>本题应比较 <code>str1 + str2</code> 和 <code>str2 + str1</code> 的字典序大小, 以此为标准重写比较函数, 排序后拼接即可.</p>
+<h3 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LowestLexicography</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">lowestString</span><span class="params">(String[] strs)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (strs == <span class="literal">null</span> || strs.length == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Arrays.sort(strs, (a, b) -&gt; (a + b).compareTo(b + a));</span><br><span class="line"></span><br><span class="line">        <span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span> (String str : strs) &#123;</span><br><span class="line">            result += str;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><p>以冒泡排序为例</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_lowest_lexicography</span>(<span class="params">strings</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(strings)):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(strings) - <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> strings[j] + strings[j + <span class="number">1</span>] &gt; strings[j + <span class="number">1</span>] + strings[j]:</span><br><span class="line">                strings[j], strings[j + <span class="number">1</span>] = strings[j + <span class="number">1</span>], strings[j]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&quot;</span>.join(strings)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Go"><a href="#Go" class="headerlink" title="Go"></a>Go</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">func getLowestLexicography(strs []string) string &#123;</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="built_in">len</span>(strs); i++ &#123;</span><br><span class="line">		<span class="keyword">for</span> j := <span class="number">0</span>; j &lt; <span class="built_in">len</span>(strs)-<span class="number">1</span>; j++ &#123;</span><br><span class="line">			<span class="keyword">if</span> strs[j]+strs[j+<span class="number">1</span>] &gt; strs[j+<span class="number">1</span>]+strs[j] &#123;</span><br><span class="line">				strs[j], strs[j+<span class="number">1</span>] = strs[j+<span class="number">1</span>], strs[j]</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> strings.Join(strs, <span class="string">&quot;&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2020/07/12/SlidingWindowMaximum/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -974,93 +1048,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2020/06/26/Knapsack/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Chunyu">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Leaky Cauldron">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/26/Knapsack/" class="post-title-link" itemprop="url">限重最大值问题</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-06-26 19:37:58" itemprop="dateCreated datePublished" datetime="2020-06-26T19:37:58+08:00">2020-06-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-07-20 14:26:20" itemprop="dateModified" datetime="2022-07-20T14:26:20+08:00">2022-07-20</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><p>给定两个数组 <code>w</code> 和 <code>v</code> ，两个数组长度相等，<code>w[i]</code> 表示第i件商品的 重量，<code>v[i]</code> 表示第i件商品的价值。 再给定一个整数 <code>bag</code> ，要求你挑选商品的重量加起来一定不能超过 <code>bag</code> ，返回满足这个条件下，你能获得的最大价值。</p>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><p>解法类似<a href="https://zcybupt.github.io/post/SumToTarget/">上一篇博客</a></p>
-<h4 id="暴力递归"><a href="#暴力递归" class="headerlink" title="暴力递归"></a>暴力递归</h4><p>穷举所有可能的结果, 迭代过程中判断累计重量 <code>acc_weight</code> 是否超过 <code>bag</code> , 若超过则返回 <code>Integer.MIN_VALUE</code> , 相当于直接舍弃该分支. 另一个迭代的基础条件为当 <code>i</code> 达到 <code>w.length</code> 时, 返回 <code>0</code> , 因为第 <code>i</code> 次递归的返回值为当前商品的价值 <code>v[i]</code> 加上后续商品的价值与只有后续商品价值二者中的较大者, <code>i</code> 等于 <code>w.length</code> 时, 没有后续商品, 故直接返回 <code>0</code> .</p>
-<h5 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Knapsack</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">maxValue</span><span class="params">(<span class="type">int</span>[] w, <span class="type">int</span>[] v, <span class="type">int</span> i, <span class="type">int</span> accWeight, <span class="type">int</span> bag)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (accWeight &gt; bag) &#123;</span><br><span class="line">            <span class="keyword">return</span> Integer.MIN_VALUE;   <span class="comment">// 重量超过 bag, 舍弃</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (i == w.length) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Math.max(</span><br><span class="line">                maxValue(w, v, i + <span class="number">1</span>, accWeight, bag),</span><br><span class="line">                v[i] + maxValue(w, v, i + <span class="number">1</span>, accWeight + w[i], bag)</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span>[] w = &#123;<span class="number">3</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">7</span>&#125;;</span><br><span class="line">        <span class="type">int</span>[] v = &#123;<span class="number">5</span>, <span class="number">6</span>, <span class="number">3</span>, <span class="number">19</span>&#125;;</span><br><span class="line">        <span class="type">int</span> <span class="variable">bag</span> <span class="operator">=</span> <span class="number">11</span>;</span><br><span class="line"></span><br><span class="line">        System.out.println(maxValue(w, v, <span class="number">0</span>, <span class="number">0</span>, bag));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">max_value</span>(<span class="params">w, v, i, acc_weight, bag</span>):</span><br><span class="line">    <span class="keyword">if</span> acc_weight &gt; bag: <span class="keyword">return</span> <span class="built_in">float</span>(<span class="string">&#x27;-inf&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> i == <span class="built_in">len</span>(w): <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">max</span>(</span><br><span class="line">        max_value(w, v, i + <span class="number">1</span>, acc_weight, bag),</span><br><span class="line">        v[i] + max_value(w, v, i + <span class="number">1</span>, acc_weight + w[i], bag)</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
-
-<h4 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h4><p>此类<strong>无后效性</strong>的递归问题均可转化为动态递归.</p>
-<h5 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h5><ol>
-<li> 分析可变参数, 求出表空间</li>
-<li> 确定最终状态</li>
-<li> 根据 base case 确定初始状态</li>
-<li> 分析一个普遍位置的依赖关系</li>
-<li> 根据依赖顺序, 逆序求出整张表</li>
-</ol>
-<h5 id="Java-1"><a href="#Java-1" class="headerlink" title="Java"></a>Java</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public <span class="keyword">class</span> <span class="title class_">Knapsack</span> &#123;</span><br><span class="line">    public static <span class="built_in">int</span> maxValue(<span class="built_in">int</span>[] w, <span class="built_in">int</span>[] v, <span class="built_in">int</span> bag) &#123;</span><br><span class="line">        <span class="built_in">int</span>[][] dp = new <span class="built_in">int</span>[w.length + <span class="number">1</span>][bag + <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt;= bag; i++) &#123;</span><br><span class="line">            dp[w.length][i] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = w.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">int</span> j = bag; j &gt;= <span class="number">0</span>; j--) &#123;</span><br><span class="line">                dp[i][j] = dp[i + <span class="number">1</span>][j];</span><br><span class="line">                <span class="keyword">if</span> (j + w[i] &lt;= bag)</span><br><span class="line">                    dp[i][j] = Math.<span class="built_in">max</span>(</span><br><span class="line">                            dp[i + <span class="number">1</span>][j],</span><br><span class="line">                            dp[i + <span class="number">1</span>][j + w[i]] + v[i]</span><br><span class="line">                    );</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">0</span>][<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="Python-1"><a href="#Python-1" class="headerlink" title="Python"></a>Python</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">max_value</span>(<span class="params">w, v, bag</span>):</span><br><span class="line">    dp = [[<span class="number">0</span>] * (bag + <span class="number">1</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(w) + <span class="number">1</span>)]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(w) - <span class="number">1</span>, -<span class="number">1</span>, -<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(bag, -<span class="number">1</span>, -<span class="number">1</span>):</span><br><span class="line">            dp[i][j] = dp[i + <span class="number">1</span>][j]</span><br><span class="line">            <span class="keyword">if</span> j + w[i] &lt;= bag:</span><br><span class="line">                dp[i][j] = <span class="built_in">max</span>(</span><br><span class="line">                    dp[i + <span class="number">1</span>][j],</span><br><span class="line">                    dp[i + <span class="number">1</span>][j + w[i]] + v[i]</span><br><span class="line">                )</span><br><span class="line">                </span><br><span class="line">    <span class="keyword">return</span> dp[<span class="number">0</span>][<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1132,7 +1119,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-count">92</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
