@@ -189,6 +189,104 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/09/23/TheMaze/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Chunyu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leaky Cauldron">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/09/23/TheMaze/" class="post-title-link" itemprop="url">迷宫</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-09-23 21:31:34" itemprop="dateCreated datePublished" datetime="2022-09-23T21:31:34+08:00">2022-09-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-09-24 22:43:59" itemprop="dateModified" datetime="2022-09-24T22:43:59+08:00">2022-09-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="题目-LeetCode-490"><a href="#题目-LeetCode-490" class="headerlink" title="题目(LeetCode #490)"></a>题目(LeetCode #490)</h2><p>由空地（用 <code>0</code> 表示）和墙（用 <code>1</code> 表示）组成的迷宫 <code>maze</code> 中有一个球。球可以途经空地向 <strong>上、下、左、右</strong> 四个方向滚动，且在遇到墙壁前不会停止滚动。当球停下时，可以选择向下一个方向滚动。<br>给你一个大小为 <code>m x n</code> 的迷宫 <code>maze</code> ，以及球的初始位置 <code>start</code> 和目的地 <code>destination</code> ，其中 start = [start<sub>row</sub>, start<sub>col</sub>] 且 destination = [destination<sub>row</sub>, destination<sub>col</sub>] 。请你判断球能否在目的地停下：如果可以，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
+<p>你可以 <strong>假定迷宫的边缘都是墙壁</strong>（参考示例）。</p>
+<p><strong>示例1：</strong></p>
+<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20220923214511.png"></p>
+<blockquote>
+<p><strong>输入：</strong>maze = [[0,0,1,0,0],[0,0,0,0,0],[0,0,0,1,0],[1,1,0,1,1],[0,0,0,0,0]], start = [0,4], destination = [4,4]<br><strong>输出：</strong>true<br><strong>解释：</strong>一种可能的路径是 : 左 -&gt; 下 -&gt; 左 -&gt; 下 -&gt; 右 -&gt; 下 -&gt; 右。</p>
+</blockquote>
+<p><strong>示例2：</strong></p>
+<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20220923214603.png"></p>
+<blockquote>
+<p>输入：maze = [[0,0,1,0,0],[0,0,0,0,0],[0,0,0,1,0],[1,1,0,1,1],[0,0,0,0,0]], start = [0,4], destination = [3,2]<br>输出：false<br>解释：不存在能够使球停在目的地的路径。注意，球可以经过目的地，但无法在那里停驻。</p>
+</blockquote>
+<p><strong>示例3：</strong></p>
+<blockquote>
+<p><strong>输入：</strong>maze = [[0,0,0,0,0],[1,1,0,0,1],[0,0,0,0,0],[0,1,0,0,1],[0,1,0,0,0]], start = [4,3], destination = [0,1]<br><strong>输出：</strong>false</p>
+</blockquote>
+<p>提示：</p>
+<ul>
+<li><code>m == maze.length</code></li>
+<li><code>n == maze[i].length</code></li>
+<li><code>1 &lt;= m, n &lt;= 100</code></li>
+<li><code>maze[i][j]</code> is <code>0</code> or <code>1</code></li>
+<li><code>start.length == 2</code></li>
+<li><code>destination.length == 2</code></li>
+<li>0 &lt;= start<sub>row</sub>, destination<sub>row</sub> &lt;= m</li>
+<li>0 &lt;= start<sub>col</sub>, destination<sub>col</sub> &lt;= n</li>
+<li>球和目的地都在空地上，且初始时它们不在同一位置</li>
+<li>迷宫 <strong>至少包括 2 块空地</strong></li>
+</ul>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>本题可采用 <code>BFS</code> 或 <code>DFS</code> 求解，与岛屿问题不同的是，小球只有在碰到墙壁时才能停止并更改方向。</p>
+<h3 id="BFS"><a href="#BFS" class="headerlink" title="BFS"></a>BFS</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasPath</span><span class="params">(<span class="type">int</span>[][] maze, <span class="type">int</span>[] start, <span class="type">int</span>[] destination)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (maze == <span class="literal">null</span> || maze.length == <span class="number">0</span> || maze[<span class="number">0</span>].length == <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">m</span> <span class="operator">=</span> maze.length, n = maze[<span class="number">0</span>].length;</span><br><span class="line"></span><br><span class="line">        Deque&lt;<span class="type">int</span>[]&gt; queue = <span class="keyword">new</span> <span class="title class_">ArrayDeque</span>&lt;&gt;();</span><br><span class="line">        queue.add(start);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (!queue.isEmpty()) &#123;</span><br><span class="line">            <span class="type">int</span>[] cur = queue.poll();</span><br><span class="line">            <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> cur[<span class="number">0</span>], j = cur[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (maze[i][j] == <span class="number">2</span>) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">if</span> (i == destination[<span class="number">0</span>] &amp;&amp; j == destination[<span class="number">1</span>]) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            maze[i][j] = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> j - <span class="number">1</span>, r = j + <span class="number">1</span>, u = i - <span class="number">1</span>, d = i + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">while</span> (l &gt;= <span class="number">0</span> &amp;&amp; maze[i][l] != <span class="number">1</span>) l--;</span><br><span class="line">            <span class="keyword">if</span> (maze[i][l + <span class="number">1</span>] != <span class="number">2</span>) queue.add(<span class="keyword">new</span> <span class="title class_">int</span>[]&#123;i, l + <span class="number">1</span>&#125;);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (r &lt; n &amp;&amp; maze[i][r] != <span class="number">1</span>) r++;</span><br><span class="line">            <span class="keyword">if</span> (maze[i][r - <span class="number">1</span>] != <span class="number">2</span>) queue.add(<span class="keyword">new</span> <span class="title class_">int</span>[]&#123;i, r - <span class="number">1</span>&#125;);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (u &gt;= <span class="number">0</span> &amp;&amp; maze[u][j] != <span class="number">1</span>) u--;</span><br><span class="line">            <span class="keyword">if</span> (maze[u + <span class="number">1</span>][j] != <span class="number">2</span>) queue.add(<span class="keyword">new</span> <span class="title class_">int</span>[]&#123;u + <span class="number">1</span>, j&#125;);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (d &lt; m &amp;&amp; maze[d][j] != <span class="number">1</span>) d++;</span><br><span class="line">            <span class="keyword">if</span> (maze[d - <span class="number">1</span>][j] != <span class="number">2</span>) queue.add(<span class="keyword">new</span> <span class="title class_">int</span>[]&#123;d - <span class="number">1</span>, j&#125;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="DFS"><a href="#DFS" class="headerlink" title="DFS"></a>DFS</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span>[][] maze;</span><br><span class="line">    <span class="type">int</span>[] destination;</span><br><span class="line">    <span class="type">int</span> m, n;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasPath</span><span class="params">(<span class="type">int</span>[][] maze, <span class="type">int</span>[] start, <span class="type">int</span>[] destination)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (maze == <span class="literal">null</span> || maze.length == <span class="number">0</span> || maze[<span class="number">0</span>].length == <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">this</span>.maze = maze;</span><br><span class="line">        <span class="built_in">this</span>.destination = destination;</span><br><span class="line">        m = maze.length;</span><br><span class="line">        n = maze[<span class="number">0</span>].length;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> dfs(start[<span class="number">0</span>], start[<span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">dfs</span><span class="params">(<span class="type">int</span> i, <span class="type">int</span> j)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; <span class="number">0</span> || i &gt;= m || j &lt; <span class="number">0</span> || j &gt;= n || maze[i][j] != <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (i == destination[<span class="number">0</span>] &amp;&amp; j == destination[<span class="number">1</span>]) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        maze[i][j] = <span class="number">2</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> j - <span class="number">1</span>, r = j + <span class="number">1</span>, u = i - <span class="number">1</span>, d = i + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (l &gt;= <span class="number">0</span> &amp;&amp; maze[i][l] != <span class="number">1</span>) l--;</span><br><span class="line">        <span class="keyword">if</span> (dfs(i, l + <span class="number">1</span>)) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (r &lt; n &amp;&amp; maze[i][r] != <span class="number">1</span>) r++;</span><br><span class="line">        <span class="keyword">if</span> (dfs(i, r - <span class="number">1</span>)) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (u &gt;= <span class="number">0</span> &amp;&amp; maze[u][j] != <span class="number">1</span>) u--;</span><br><span class="line">        <span class="keyword">if</span> (dfs(u + <span class="number">1</span>, j)) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (d &lt; m &amp;&amp; maze[d][j] != <span class="number">1</span>) d++;</span><br><span class="line">        <span class="keyword">if</span> (dfs(d - <span class="number">1</span>, j)) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/09/21/BinaryTreeVerticalOrderTraversal/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -969,139 +1067,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/08/08/BasicCalculator/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Chunyu">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Leaky Cauldron">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/08/BasicCalculator/" class="post-title-link" itemprop="url">基本计算器</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2022-08-08 14:29:51" itemprop="dateCreated datePublished" datetime="2022-08-08T14:29:51+08:00">2022-08-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-09-11 23:14:46" itemprop="dateModified" datetime="2022-09-11T23:14:46+08:00">2022-09-11</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><code>Basic Calculator</code> 系列在 <code>LeetCode</code> 上有三道：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/basic-calculator">LeetCode 224. Basic Calculator</a> 只含加减和括号；</li>
-<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/basic-calculator-ii/">LeetCode 227. Basic Calculator II</a> 只含加减乘除不含括号；</li>
-<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/basic-calculator-iii/">LeetCode 772. Basic Calculator III</a> 加减乘除和括号都有。</li>
-</ul>
-<p>这类题目重点在于解决运算的优先级问题，需要将数字和运算符按优先级依次处理以得到正确结果。</p>
-<h2 id="LeetCode-224"><a href="#LeetCode-224" class="headerlink" title="LeetCode 224"></a>LeetCode 224</h2><p>给你一个字符串表达式 s ，请你实现一个基本计算器来计算并返回它的值。</p>
-<p>注意:不允许使用任何将字符串作为数学表达式计算的内置函数，比如 eval() 。</p>
-<p>示例 1：</p>
-<blockquote>
-<p>输入：s = “1 + 1”<br>输出：2</p>
-</blockquote>
-<p>示例 2：</p>
-<blockquote>
-<p>输入：s = “ 2-1 + 2 “<br>输出：3</p>
-</blockquote>
-<p>示例 3：</p>
-<blockquote>
-<p>输入：s = “(1+(4+5+2)-3)+(6+8)”<br>输出：23</p>
-</blockquote>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><p>保存每个数字前的符号并相加。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">calculate</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> s.length();</span><br><span class="line">        <span class="type">int</span>[] signs = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">        signs[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">sign</span> <span class="operator">=</span> <span class="number">1</span>, result = <span class="number">0</span>, sIdx = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="type">char</span> <span class="variable">cur</span> <span class="operator">=</span> s.charAt(i);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (cur == <span class="string">&#x27;+&#x27;</span>) sign = signs[sIdx];</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (cur == <span class="string">&#x27;-&#x27;</span>) sign = -signs[sIdx];</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (cur == <span class="string">&#x27;(&#x27;</span>) signs[++sIdx] = sign;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (cur == <span class="string">&#x27;)&#x27;</span>) sIdx--;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (isDigit(cur)) &#123;</span><br><span class="line">                <span class="type">long</span> <span class="variable">num</span> <span class="operator">=</span> cur - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">                <span class="keyword">while</span> (i + <span class="number">1</span> &lt; n &amp;&amp; isDigit(s.charAt(i + <span class="number">1</span>)))</span><br><span class="line">                    num = num * <span class="number">10</span> + s.charAt(++i) - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">                result += sign * num;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">isDigit</span><span class="params">(<span class="type">char</span> num)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;0&#x27;</span> &lt;= num &amp;&amp; num &lt;= <span class="string">&#x27;9&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="LeetCode-227"><a href="#LeetCode-227" class="headerlink" title="LeetCode 227"></a>LeetCode 227</h2><p>给你一个字符串表达式 s ，请你实现一个基本计算器来计算并返回它的值。</p>
-<p>整数除法仅保留整数部分。</p>
-<p>你可以假设给定的表达式总是有效的。所有中间结果将在 [-231, 231 - 1] 的范围内。</p>
-<p>注意：不允许使用任何将字符串作为数学表达式计算的内置函数，比如 eval() 。</p>
-<p>示例 1：</p>
-<blockquote>
-<p>输入：s = “3+2*2”<br>输出：7</p>
-</blockquote>
-<p>示例 2：</p>
-<blockquote>
-<p>输入：s = “ 3/2 “<br>输出：1</p>
-</blockquote>
-<p>示例 3：</p>
-<blockquote>
-<p>输入：s = “ 3+5 / 2 “<br>输出：5</p>
-</blockquote>
-<h3 id="题解-1"><a href="#题解-1" class="headerlink" title="题解"></a>题解</h3><p>先遍历计算乘除，再计算加减。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">calculate</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        <span class="type">char</span> <span class="variable">sign</span> <span class="operator">=</span> <span class="string">&#x27;+&#x27;</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> s.length(), idx = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span>[] nums = <span class="keyword">new</span> <span class="title class_">int</span>[(len + <span class="number">1</span>) / <span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">            <span class="type">char</span> <span class="variable">cur</span> <span class="operator">=</span> s.charAt(i);</span><br><span class="line">            <span class="keyword">if</span> (cur == <span class="string">&#x27; &#x27;</span>) <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> <span class="variable">num</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span> (isDigit(cur)) &#123;</span><br><span class="line">                num = cur - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">                <span class="keyword">while</span> (i + <span class="number">1</span> &lt; len &amp;&amp; isDigit(s.charAt(i + <span class="number">1</span>)))</span><br><span class="line">                    num = num * <span class="number">10</span> - <span class="string">&#x27;0&#x27;</span> + s.charAt(++i);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">switch</span> (sign) &#123;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&#x27;+&#x27;</span>: nums[idx++] = num; <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&#x27;-&#x27;</span>: nums[idx++] = -num; <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&#x27;*&#x27;</span>: nums[idx - <span class="number">1</span>] *= num; <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&#x27;/&#x27;</span>: nums[idx - <span class="number">1</span>] /= num; <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            sign = cur;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; idx; i++) result += nums[i];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">isDigit</span><span class="params">(<span class="type">char</span> ch)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;0&#x27;</span> &lt;= ch &amp;&amp; ch &lt;= <span class="string">&#x27;9&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="LeetCode-772"><a href="#LeetCode-772" class="headerlink" title="LeetCode 772"></a>LeetCode 772</h2><p>实现一个基本的计算器来计算简单的表达式字符串。</p>
-<p>表达式字符串只包含非负整数，算符 +、-、*、/ ，左括号 ( 和右括号 ) 。整数除法需要 向下截断 。</p>
-<p>你可以假定给定的表达式总是有效的。所有的中间结果的范围为 [-231, 231 - 1] 。</p>
-<p>示例 1：</p>
-<blockquote>
-<p>输入：s = “1 + 1”<br>输出：2</p>
-</blockquote>
-<p>示例 2：</p>
-<blockquote>
-<p>输入：s = “6 - 4 / 2”<br>输出：4</p>
-</blockquote>
-<p>示例 3：</p>
-<blockquote>
-<p>输入：s = “2 * ( 5 + 5 * 2 ) / 3 + ( 6 / 2 + 8 )”<br>输出：21</p>
-</blockquote>
-<p>示例 4：</p>
-<blockquote>
-<p>输入：s = “( 2 + 6 * 3 + 5 - 3 * 14 / 7 + 2 ) * 5 ) + 3”<br>输出：-12</p>
-</blockquote>
-<p>示例 5：</p>
-<blockquote>
-<p>输入：s = “0”<br>输出：0</p>
-</blockquote>
-<h3 id="题解-2"><a href="#题解-2" class="headerlink" title="题解"></a>题解</h3><p>去除括号带来的影响，相比于 227，差别仅在于将括号内的字符串递归地计算作为整体进行处理。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">calculate</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        <span class="type">char</span> <span class="variable">sign</span> <span class="operator">=</span> <span class="string">&#x27;+&#x27;</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> s.length(), idx = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span>[] nums = <span class="keyword">new</span> <span class="title class_">int</span>[(len + <span class="number">1</span>) / <span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">            <span class="type">char</span> <span class="variable">cur</span> <span class="operator">=</span> s.charAt(i);</span><br><span class="line">            <span class="keyword">if</span> (cur == <span class="string">&#x27; &#x27;</span>) <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> <span class="variable">num</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span> (isDigit(cur)) &#123;</span><br><span class="line">                num = cur - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">                <span class="keyword">while</span> (i + <span class="number">1</span> &lt; len &amp;&amp; isDigit(s.charAt(i + <span class="number">1</span>)))</span><br><span class="line">                    num = num * <span class="number">10</span> - <span class="string">&#x27;0&#x27;</span> + s.charAt(++i);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (cur == <span class="string">&#x27;(&#x27;</span>) &#123;</span><br><span class="line">                <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> findClosing(s.substring(i));</span><br><span class="line">                num = calculate(s.substring(i + <span class="number">1</span>, i + j));</span><br><span class="line">                i += j;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">switch</span> (sign) &#123;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&#x27;+&#x27;</span>: nums[idx++] = num; <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&#x27;-&#x27;</span>: nums[idx++] = -num; <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&#x27;*&#x27;</span>: nums[idx - <span class="number">1</span>] *= num; <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&#x27;/&#x27;</span>: nums[idx - <span class="number">1</span>] /= num; <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            sign = cur;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; idx; i++) result += nums[i];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">isDigit</span><span class="params">(<span class="type">char</span> ch)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;0&#x27;</span> &lt;= ch &amp;&amp; ch &lt;= <span class="string">&#x27;9&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="title function_">findClosing</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> <span class="number">0</span>, depth = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">char</span> c : s.toCharArray()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (c == <span class="string">&#x27;(&#x27;</span>) depth++;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (c == <span class="string">&#x27;)&#x27;</span>) &#123;</span><br><span class="line">                depth--;</span><br><span class="line">                <span class="keyword">if</span> (depth == <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            len++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> len;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1173,7 +1138,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">93</span>
+          <span class="site-state-item-count">94</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

@@ -189,6 +189,90 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/11/10/BraceExpansion/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Chunyu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leaky Cauldron">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/11/10/BraceExpansion/" class="post-title-link" itemprop="url">BraceExpansion</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-11-10 22:33:08 / Modified: 22:36:43" itemprop="dateCreated datePublished" datetime="2022-11-10T22:33:08+08:00">2022-11-10</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="题目-LeetCode-1087"><a href="#题目-LeetCode-1087" class="headerlink" title="题目(LeetCode #1087)"></a>题目(LeetCode #1087)</h2><p><strong>花括号展开</strong></p>
+<p>给定一个表示单词列表的字符串 <code>s</code> 。单词中的每个字母都有一个或多个选项。</p>
+<ul>
+<li>如果有一个选项，则字母按原样表示。</li>
+<li>如果有多个选项，则用大括号分隔选项。例如, <code>&quot;&#123;a,b,c&#125;&quot;</code> 表示选项 <code>[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]</code> 。</li>
+</ul>
+<p>例如，如果 <code>s = &quot;a&#123;b,c&#125;&quot;</code> ，第一个字符总是 <code>&#39;a&#39;</code> ，但第二个字符可以是 <code>&#39;b&#39;</code> 或 <code>&#39;c&#39;</code> 。原来的列表是 <code>[&quot;ab&quot;, &quot;ac&quot;]</code> 。</p>
+<p>请你 <strong>按字典顺序</strong> ，返回所有以这种方式形成的单词。</p>
+<p><strong>示例1：</strong></p>
+<blockquote>
+<p>输入：s = “{a,b}c{d,e}f”<br>输出：[“acdf”,”acef”,”bcdf”,”bcef”]</p>
+</blockquote>
+<p><strong>示例2：</strong></p>
+<blockquote>
+<p>输入：s = “abcd”<br>输出：[“abcd”]</p>
+</blockquote>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= S.length &lt;= 50</code></li>
+<li><code>s</code> 由括号 <code>&#39;&#123;&#125;&#39;</code> , <code>&#39;,&#39;</code> 和小写英文字母组成。</li>
+<li><code>s</code> 保证是一个有效的输入。</li>
+<li>没有嵌套的大括号。</li>
+<li>在一对连续的左括号和右括号内的所有字符都是不同的。</li>
+</ul>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">char</span>[] sArr;</span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; result; <span class="comment">// 用 List 存再排序比直接用 TreeSet 要快</span></span><br><span class="line">    <span class="keyword">private</span> StringBuilder builder;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String[] expand(String s) &#123;</span><br><span class="line">        sArr = s.toCharArray();</span><br><span class="line">        result = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        builder = <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line"></span><br><span class="line">        dfs(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        Collections.sort(result);</span><br><span class="line">        <span class="keyword">return</span> result.toArray(<span class="keyword">new</span> <span class="title class_">String</span>[<span class="number">0</span>]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">dfs</span><span class="params">(<span class="type">int</span> idx)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (idx == sArr.length) &#123;</span><br><span class="line">            result.add(builder.toString());</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (sArr[idx] == <span class="string">&#x27;&#123;&#x27;</span>) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">rIdx</span> <span class="operator">=</span> ++idx;</span><br><span class="line">            <span class="keyword">while</span> (rIdx &lt; sArr.length &amp;&amp; sArr[rIdx] != <span class="string">&#x27;&#125;&#x27;</span>) rIdx++;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> idx; i &lt; rIdx; i++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (sArr[i] == <span class="string">&#x27;,&#x27;</span>) <span class="keyword">continue</span>;</span><br><span class="line">                builder.append(sArr[i]);</span><br><span class="line">                dfs(rIdx + <span class="number">1</span>);</span><br><span class="line">                builder.deleteCharAt(builder.length() - <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            builder.append(sArr[idx]);</span><br><span class="line">            dfs(idx + <span class="number">1</span>);</span><br><span class="line">            builder.deleteCharAt(builder.length() - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/10/24/WordPattern/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1175,104 +1259,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zcybupt.github.io/2022/09/23/TheMaze/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Chunyu">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Leaky Cauldron">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/09/23/TheMaze/" class="post-title-link" itemprop="url">迷宫</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2022-09-23 21:31:34" itemprop="dateCreated datePublished" datetime="2022-09-23T21:31:34+08:00">2022-09-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-09-24 22:43:59" itemprop="dateModified" datetime="2022-09-24T22:43:59+08:00">2022-09-24</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="题目-LeetCode-490"><a href="#题目-LeetCode-490" class="headerlink" title="题目(LeetCode #490)"></a>题目(LeetCode #490)</h2><p>由空地（用 <code>0</code> 表示）和墙（用 <code>1</code> 表示）组成的迷宫 <code>maze</code> 中有一个球。球可以途经空地向 <strong>上、下、左、右</strong> 四个方向滚动，且在遇到墙壁前不会停止滚动。当球停下时，可以选择向下一个方向滚动。<br>给你一个大小为 <code>m x n</code> 的迷宫 <code>maze</code> ，以及球的初始位置 <code>start</code> 和目的地 <code>destination</code> ，其中 start = [start<sub>row</sub>, start<sub>col</sub>] 且 destination = [destination<sub>row</sub>, destination<sub>col</sub>] 。请你判断球能否在目的地停下：如果可以，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
-<p>你可以 <strong>假定迷宫的边缘都是墙壁</strong>（参考示例）。</p>
-<p><strong>示例1：</strong></p>
-<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20220923214511.png"></p>
-<blockquote>
-<p><strong>输入：</strong>maze = [[0,0,1,0,0],[0,0,0,0,0],[0,0,0,1,0],[1,1,0,1,1],[0,0,0,0,0]], start = [0,4], destination = [4,4]<br><strong>输出：</strong>true<br><strong>解释：</strong>一种可能的路径是 : 左 -&gt; 下 -&gt; 左 -&gt; 下 -&gt; 右 -&gt; 下 -&gt; 右。</p>
-</blockquote>
-<p><strong>示例2：</strong></p>
-<p><img src="https://raw.githubusercontent.com/zcybupt/images/master/PicGo/20220923214603.png"></p>
-<blockquote>
-<p>输入：maze = [[0,0,1,0,0],[0,0,0,0,0],[0,0,0,1,0],[1,1,0,1,1],[0,0,0,0,0]], start = [0,4], destination = [3,2]<br>输出：false<br>解释：不存在能够使球停在目的地的路径。注意，球可以经过目的地，但无法在那里停驻。</p>
-</blockquote>
-<p><strong>示例3：</strong></p>
-<blockquote>
-<p><strong>输入：</strong>maze = [[0,0,0,0,0],[1,1,0,0,1],[0,0,0,0,0],[0,1,0,0,1],[0,1,0,0,0]], start = [4,3], destination = [0,1]<br><strong>输出：</strong>false</p>
-</blockquote>
-<p>提示：</p>
-<ul>
-<li><code>m == maze.length</code></li>
-<li><code>n == maze[i].length</code></li>
-<li><code>1 &lt;= m, n &lt;= 100</code></li>
-<li><code>maze[i][j]</code> is <code>0</code> or <code>1</code></li>
-<li><code>start.length == 2</code></li>
-<li><code>destination.length == 2</code></li>
-<li>0 &lt;= start<sub>row</sub>, destination<sub>row</sub> &lt;= m</li>
-<li>0 &lt;= start<sub>col</sub>, destination<sub>col</sub> &lt;= n</li>
-<li>球和目的地都在空地上，且初始时它们不在同一位置</li>
-<li>迷宫 <strong>至少包括 2 块空地</strong></li>
-</ul>
-<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>本题可采用 <code>BFS</code> 或 <code>DFS</code> 求解，与岛屿问题不同的是，小球只有在碰到墙壁时才能停止并更改方向。</p>
-<h3 id="BFS"><a href="#BFS" class="headerlink" title="BFS"></a>BFS</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasPath</span><span class="params">(<span class="type">int</span>[][] maze, <span class="type">int</span>[] start, <span class="type">int</span>[] destination)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (maze == <span class="literal">null</span> || maze.length == <span class="number">0</span> || maze[<span class="number">0</span>].length == <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">m</span> <span class="operator">=</span> maze.length, n = maze[<span class="number">0</span>].length;</span><br><span class="line"></span><br><span class="line">        Deque&lt;<span class="type">int</span>[]&gt; queue = <span class="keyword">new</span> <span class="title class_">ArrayDeque</span>&lt;&gt;();</span><br><span class="line">        queue.add(start);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (!queue.isEmpty()) &#123;</span><br><span class="line">            <span class="type">int</span>[] cur = queue.poll();</span><br><span class="line">            <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> cur[<span class="number">0</span>], j = cur[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (maze[i][j] == <span class="number">2</span>) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">if</span> (i == destination[<span class="number">0</span>] &amp;&amp; j == destination[<span class="number">1</span>]) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            maze[i][j] = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> j - <span class="number">1</span>, r = j + <span class="number">1</span>, u = i - <span class="number">1</span>, d = i + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">while</span> (l &gt;= <span class="number">0</span> &amp;&amp; maze[i][l] != <span class="number">1</span>) l--;</span><br><span class="line">            <span class="keyword">if</span> (maze[i][l + <span class="number">1</span>] != <span class="number">2</span>) queue.add(<span class="keyword">new</span> <span class="title class_">int</span>[]&#123;i, l + <span class="number">1</span>&#125;);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (r &lt; n &amp;&amp; maze[i][r] != <span class="number">1</span>) r++;</span><br><span class="line">            <span class="keyword">if</span> (maze[i][r - <span class="number">1</span>] != <span class="number">2</span>) queue.add(<span class="keyword">new</span> <span class="title class_">int</span>[]&#123;i, r - <span class="number">1</span>&#125;);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (u &gt;= <span class="number">0</span> &amp;&amp; maze[u][j] != <span class="number">1</span>) u--;</span><br><span class="line">            <span class="keyword">if</span> (maze[u + <span class="number">1</span>][j] != <span class="number">2</span>) queue.add(<span class="keyword">new</span> <span class="title class_">int</span>[]&#123;u + <span class="number">1</span>, j&#125;);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (d &lt; m &amp;&amp; maze[d][j] != <span class="number">1</span>) d++;</span><br><span class="line">            <span class="keyword">if</span> (maze[d - <span class="number">1</span>][j] != <span class="number">2</span>) queue.add(<span class="keyword">new</span> <span class="title class_">int</span>[]&#123;d - <span class="number">1</span>, j&#125;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="DFS"><a href="#DFS" class="headerlink" title="DFS"></a>DFS</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span>[][] maze;</span><br><span class="line">    <span class="type">int</span>[] destination;</span><br><span class="line">    <span class="type">int</span> m, n;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasPath</span><span class="params">(<span class="type">int</span>[][] maze, <span class="type">int</span>[] start, <span class="type">int</span>[] destination)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (maze == <span class="literal">null</span> || maze.length == <span class="number">0</span> || maze[<span class="number">0</span>].length == <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">this</span>.maze = maze;</span><br><span class="line">        <span class="built_in">this</span>.destination = destination;</span><br><span class="line">        m = maze.length;</span><br><span class="line">        n = maze[<span class="number">0</span>].length;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> dfs(start[<span class="number">0</span>], start[<span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">dfs</span><span class="params">(<span class="type">int</span> i, <span class="type">int</span> j)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; <span class="number">0</span> || i &gt;= m || j &lt; <span class="number">0</span> || j &gt;= n || maze[i][j] != <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (i == destination[<span class="number">0</span>] &amp;&amp; j == destination[<span class="number">1</span>]) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        maze[i][j] = <span class="number">2</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> j - <span class="number">1</span>, r = j + <span class="number">1</span>, u = i - <span class="number">1</span>, d = i + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (l &gt;= <span class="number">0</span> &amp;&amp; maze[i][l] != <span class="number">1</span>) l--;</span><br><span class="line">        <span class="keyword">if</span> (dfs(i, l + <span class="number">1</span>)) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (r &lt; n &amp;&amp; maze[i][r] != <span class="number">1</span>) r++;</span><br><span class="line">        <span class="keyword">if</span> (dfs(i, r - <span class="number">1</span>)) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (u &gt;= <span class="number">0</span> &amp;&amp; maze[u][j] != <span class="number">1</span>) u--;</span><br><span class="line">        <span class="keyword">if</span> (dfs(u + <span class="number">1</span>, j)) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (d &lt; m &amp;&amp; maze[d][j] != <span class="number">1</span>) d++;</span><br><span class="line">        <span class="keyword">if</span> (dfs(d - <span class="number">1</span>, j)) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1344,7 +1330,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">93</span>
+          <span class="site-state-item-count">94</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
