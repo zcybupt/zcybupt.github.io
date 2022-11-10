@@ -3932,7 +3932,7 @@
       </tags>
   </entry>
   <entry>
-    <title>BraceExpansion</title>
+    <title>花括号展开</title>
     <url>/2022/11/10/BraceExpansion/</url>
     <content><![CDATA[<h2 id="题目-LeetCode-1087"><a href="#题目-LeetCode-1087" class="headerlink" title="题目(LeetCode #1087)"></a>题目(LeetCode #1087)</h2><p><strong>花括号展开</strong></p>
 <p>给定一个表示单词列表的字符串 <code>s</code> 。单词中的每个字母都有一个或多个选项。</p>
